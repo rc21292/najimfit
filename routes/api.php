@@ -21,7 +21,7 @@ Route::middleware('auth:api')->group(function () {
 	});
 	Route::post('/get-questions', 'Api\QuestionController@getquestions')->name('getquestions.api');
 
-	Route::post('/save-package', 'Api\AuthController@selectpackage')->name('selectpackage.api');
+	Route::post('/save-order', 'Api\AuthController@selectpackage')->name('selectpackage.api');
 
 	Route::post('/get-answers', 'Api\QuestionController@getclientanswers')->name('getclientanswers.api');
 

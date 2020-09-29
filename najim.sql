@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2020 at 02:46 PM
+-- Generation Time: Sep 28, 2020 at 03:41 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.2.32
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `package_id` int(255) NOT NULL,
+  `quantity` int(255) DEFAULT NULL,
+  `subtotal` int(255) DEFAULT NULL,
+  `coupon` varchar(255) DEFAULT NULL,
+  `discount` int(255) DEFAULT NULL,
+  `total` int(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `client_id`, `package_id`, `quantity`, `subtotal`, `coupon`, `discount`, `total`) VALUES
+(2, 4, 2, 1, 299, 'JUNKIE20', 250, 49);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `clients`
 --
 
@@ -32,7 +56,7 @@ CREATE TABLE `clients` (
   `firstname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `package_id` bigint(20) DEFAULT NULL,
   `validity` date DEFAULT NULL,
@@ -49,10 +73,11 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `firstname`, `lastname`, `phone`, `gender`, `email`, `package_id`, `validity`, `email_verified_at`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Johnas', 'White', '9876543210', 'female', 'johnas@gmail.com', 3, '2020-09-09', NULL, '$2y$10$ueyA6oJKNLV/mtkpX8K2WOBm8Q/hcvOwkzfVSgA1QxXnUP7bF7Xby', 'on', NULL, '2020-08-17 09:19:23', '2020-08-27 14:00:56'),
+(1, 'Johnas', 'White', '9876543210', 'female', 'johnas@gmail.com', 3, '2020-10-25', NULL, '$2y$10$ueyA6oJKNLV/mtkpX8K2WOBm8Q/hcvOwkzfVSgA1QxXnUP7bF7Xby', 'on', NULL, '2020-08-17 09:19:23', '2020-09-24 21:19:53'),
 (2, 'Alena', 'Finch', '9876543212', 'male', 'alena@gmail.com', NULL, NULL, NULL, '$2y$10$lg7Z6FwRPnkr0f8cEmnEqO6T8AWQFBR1sJtW.XbebYJgNJ.2dHZvK', 'on', NULL, '2020-08-17 10:14:51', '2020-08-17 10:14:51'),
 (3, 'Chantale', 'Reynolds', '9854763214', 'female', 'chantale@gmail.com', NULL, NULL, NULL, '$2y$10$lJEET22WD3WjIWy/2UoDjeZi18poCY2UAzQ4gSB1HlBYuchebeDWG', 'on', NULL, '2020-08-27 13:55:53', '2020-08-27 13:55:53'),
-(4, 'Zephr', 'Warren', '9547863214', 'female', 'zephr@gmail.com', NULL, NULL, NULL, '$2y$10$PV2bXaD1x.AYTm/NTYRJH.4KgCqbRYttzSZHEuk/rGGVSWmcK7/Fi', 'on', NULL, '2020-08-31 23:15:14', '2020-08-31 23:15:14');
+(4, 'Zephr', 'Warren', '9547863214', 'female', 'zephr@gmail.com', 2, '2020-10-18', NULL, '$2y$10$PV2bXaD1x.AYTm/NTYRJH.4KgCqbRYttzSZHEuk/rGGVSWmcK7/Fi', 'on', NULL, '2020-08-31 23:15:14', '2020-09-28 07:55:21'),
+(5, 'Demo', 'User1', '9000000001', 'female', 'demouser1@gmail.com', NULL, NULL, NULL, '$2y$10$tgYhw5opEUZ6fuLVfT.Mze2zYLqj2vQWxOjtSUgkd8UyoVBPdYe0G', 'on', NULL, '2020-09-23 14:11:30', '2020-09-23 14:27:41');
 
 -- --------------------------------------------------------
 
@@ -73,8 +98,7 @@ CREATE TABLE `client_answers` (
 --
 
 INSERT INTO `client_answers` (`id`, `client_id`, `question_id`, `answer`, `created_at`) VALUES
-(1, 1, 1, 'Baharain', '2020-09-01 10:45:46'),
-(2, 1, 2, 'Manama', '2020-09-01 10:45:46'),
+(2, 1, 2, 'Africa', '2020-09-01 10:45:46'),
 (3, 1, 3, '16 November 1992', '2020-09-01 10:45:46'),
 (4, 1, 5, 'Yes I am Married', '2020-09-01 10:45:46'),
 (5, 1, 9, '80 kg', '2020-09-01 10:45:46'),
@@ -114,7 +138,8 @@ INSERT INTO `client_answers` (`id`, `client_id`, `question_id`, `answer`, `creat
 (39, 3, 15, '20 cm', '2020-09-01 10:45:46'),
 (40, 3, 16, 'Arthritis', '2020-09-01 10:45:46'),
 (41, 3, 21, 'Yes i Take Medication', '2020-09-01 10:45:46'),
-(42, 3, 22, 'Tamaflex', '2020-09-01 10:51:57');
+(42, 3, 22, 'Tamaflex', '2020-09-01 10:51:57'),
+(43, 1, 1, 'Baharain', '2020-09-27 14:54:34');
 
 -- --------------------------------------------------------
 
@@ -140,6 +165,36 @@ CREATE TABLE `client_tables` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `calorie_range` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` int(11) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `code` varchar(20) NOT NULL,
+  `package_id` int(11) NOT NULL,
+  `type` char(1) NOT NULL,
+  `discount` decimal(15,2) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'on',
+  `used_by` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `name`, `code`, `package_id`, `type`, `discount`, `date_start`, `date_end`, `status`, `used_by`, `created_at`, `updated_at`) VALUES
+(7, 'Freaky Discount', 'FREAK20', 1, 'F', '100.00', '2020-09-28', '2020-10-28', 'off', NULL, '2020-09-28 10:12:59', NULL),
+(8, 'Junkie Discount', 'JUNKIE20', 2, 'F', '250.00', '2020-10-28', '2020-11-28', 'on', NULL, '2020-09-28 10:14:36', NULL),
+(9, 'Forger Discount', 'FORGER20', 3, 'F', '325.00', '2020-08-28', '2020-09-28', 'on', NULL, '2020-09-28 10:15:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -382,8 +437,13 @@ CREATE TABLE `oauth_access_tokens` (
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('00732818c8f51aab6ab7f518eff75b4e3cfc5755a3781b35f272df0c4d079b06df266e0133f461ea', 2, 1, 'Laravel Password Grant Client', '[]', 0, '2020-08-17 10:14:52', '2020-08-17 10:14:52', '2021-08-17 15:44:52'),
+('6c9e6f834597354b6e74d35b056e57d0dcc1d43b7c073820f3f921915a6c4cf47409aecd1dd4068d', 1, 1, 'Laravel Password Grant Client', '[]', 0, '2020-09-26 07:56:58', '2020-09-26 07:56:58', '2021-09-26 13:26:58'),
+('6f9d32b63b2dc80859d6002e8a180d887439d5679b47b9ec40a23bd6f819421910e055f3c2ff20b5', 4, 1, 'Laravel Password Grant Client', '[]', 0, '2020-09-28 06:05:24', '2020-09-28 06:05:24', '2021-09-28 11:35:24'),
 ('8daaa0d00c9c5e877b0e574cb7178f068b094bd6d252329db8de84b1d31cae47f812d3b869b3cc26', 1, 1, 'Laravel Password Grant Client', '[]', 1, '2020-08-17 09:29:21', '2020-08-17 09:29:21', '2021-08-17 14:59:21'),
-('cfab23a35bc01fe74322cdb86ce12028f8d538769e5f782c76a3baae7a93412d83eeb6599bd1db07', 1, 1, 'Laravel Password Grant Client', '[]', 0, '2020-08-17 09:19:23', '2020-08-17 09:19:23', '2021-08-17 14:49:23');
+('aeeaccb51bb008ee6988d3df8d4b45e96e42a6389e43d27222a404bd8a05b2bbbebb7f530baeff6f', 5, 1, 'Laravel Password Grant Client', '[]', 0, '2020-09-23 14:11:36', '2020-09-23 14:11:36', '2021-09-23 19:41:36'),
+('c2a8bda55f0bad9482c7e5a24da2ec9493e0d91b4b3780b02ec7b292193c9b00221b9d11deb74d2b', 1, 1, 'Laravel Password Grant Client', '[]', 0, '2020-09-24 21:01:28', '2020-09-24 21:01:28', '2021-09-25 02:31:28'),
+('cfab23a35bc01fe74322cdb86ce12028f8d538769e5f782c76a3baae7a93412d83eeb6599bd1db07', 1, 1, 'Laravel Password Grant Client', '[]', 0, '2020-08-17 09:19:23', '2020-08-17 09:19:23', '2021-08-17 14:49:23'),
+('ebaca7553179509efa2c30eda8addfa6ece8ebacadd8e25a1a3b4928068ccf7b27dd56f617e85057', 1, 1, 'Laravel Password Grant Client', '[]', 0, '2020-09-24 21:29:24', '2020-09-24 21:29:24', '2021-09-25 02:59:24');
 
 -- --------------------------------------------------------
 
@@ -477,6 +537,7 @@ CREATE TABLE `packages` (
   `target` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'on',
+  `image` varchar(12225) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -485,10 +546,10 @@ CREATE TABLE `packages` (
 -- Dumping data for table `packages`
 --
 
-INSERT INTO `packages` (`id`, `name`, `includes`, `sort`, `price`, `validity`, `target`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Fitness Freaks', 'both', 1, 499.00, 30, 'This is for those who like challenges and face them head on like a beast', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\n\r\nLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\r\n\r\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'on', '2020-08-19 01:02:28', '2020-08-19 01:28:24'),
-(2, 'Fitnes Junkie', 'both', 2, 499.00, 20, 'This is for those who live the gym life, can\'t stand to miss working out for even a day, a structured exercise for every day of the week.', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\n\r\nLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\r\n\r\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'on', '2020-08-19 01:32:34', '2020-08-19 01:32:34'),
-(3, 'Fitness Forger', 'workout', 3, 199.00, 15, 'Shaping your body is your first Goal. However time constraints does not allow you to workout to the max, here are some exercises you can do any time of day.', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\n\r\nLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\r\n\r\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 'on', '2020-08-19 01:37:15', '2020-08-19 01:37:15');
+INSERT INTO `packages` (`id`, `name`, `includes`, `sort`, `price`, `validity`, `target`, `description`, `status`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'Fitness Freaks', 'both', 1, 499.00, 30, 'This is for those who like challenges and face them head on like a beast', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\n\r\nLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\r\n\r\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'on', '16009576871.jpg', '2020-08-19 01:02:28', '2020-09-24 08:58:09'),
+(2, 'Fitnes Junkie', 'both', 2, 299.00, 20, 'This is for those who live the gym life, can\'t stand to miss working out for even a day, a structured exercise for every day of the week.', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\n\r\nLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\r\n\r\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'on', '1600959216download.png', '2020-08-19 01:32:34', '2020-09-24 09:23:36'),
+(3, 'Fitness Forger', 'workout', 3, 199.00, 15, 'Shaping your body is your first Goal. However time constraints does not allow you to workout to the max, here are some exercises you can do any time of day.', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\n\r\nLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\r\n\r\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 'on', '1600959300165_Forge-Fitness-adjusted.jpg', '2020-08-19 01:37:15', '2020-09-24 09:25:00');
 
 -- --------------------------------------------------------
 
@@ -688,6 +749,28 @@ INSERT INTO `tables` (`id`, `name`, `sort`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transactions`
+--
+
+CREATE TABLE `transactions` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `package_id` int(11) NOT NULL,
+  `transaction_id` varchar(350) DEFAULT NULL,
+  `amount` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `client_id`, `package_id`, `transaction_id`, `amount`, `created_at`) VALUES
+(1, 4, 2, 'najim102020', '49', '2020-09-28 13:25:22');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -748,6 +831,12 @@ INSERT INTO `workout_categories` (`id`, `name`, `sort`, `created_at`, `updated_a
 --
 
 --
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `clients`
 --
 ALTER TABLE `clients`
@@ -765,6 +854,12 @@ ALTER TABLE `client_answers`
 -- Indexes for table `client_tables`
 --
 ALTER TABLE `client_tables`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -895,6 +990,12 @@ ALTER TABLE `tables`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -912,22 +1013,34 @@ ALTER TABLE `workout_categories`
 --
 
 --
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `client_answers`
 --
 ALTER TABLE `client_answers`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `client_tables`
 --
 ALTER TABLE `client_tables`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `exercises`
@@ -1006,6 +1119,12 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `tables`
   MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
