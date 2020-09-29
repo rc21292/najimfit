@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +34,9 @@ Route::post('get-food-info','TableController@foodinfo')->name('food-info');
 // Renew Table Nutritionist-wise
 Route::resource('renew-table','RenewTableController');
 Route::get('all-renew-clients','RenewTableController@allclients')->name('all-renew-clients');
-Route::post('renew-table/set-session','RenewTableController@setsession')->name('set-table-session');
-Route::get('diet-template-renew','RenewTableController@diettemplate')->name('diet-template');
-Route::post('renew-food-info','RenewTableController@foodinfo')->name('food-info');
+Route::post('renew-table/set-session','RenewTableController@setsession')->name('set-renewtable-session');
+Route::get('diet-template-renew/{id}','RenewTableController@diettemplate')->name('edit-diet-template');
+Route::post('renew-food-info','RenewTableController@foodinfo')->name('renew-food-info');
 
 // Clients Route
 Route::resource('clients','ClientsController');

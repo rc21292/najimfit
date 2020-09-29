@@ -140,7 +140,6 @@
 							<div class="ms-panel-body float-right">
 								<button type="button" class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
 								<button type="button" class="btn btn-square btn-danger has-icon"><i class="flaticon-alert-1"></i> Consult Team</button>
-								<button type="button" class="btn btn-square btn-warning has-icon"><i class="flaticon-alert"></i> Send Client Details</button>
 							</div>
 						</div>
 

@@ -7,7 +7,7 @@
 	<div class="col-md-12">
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
-				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
+				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home{{$selected_meal->table_id}}</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Diet template</li>
 			</ol>
 			<a href="{{ url()->previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>
@@ -42,13 +42,14 @@
 				<div class="row">
 					<div class="col-md-9">
 						<h5 class="pb-4">Diet Template - {{ $table }}</h5>
-						<form class="needs-validation clearfix" method="POST" action="{{route('assign-table.store')}}" novalidate="">
+						<form class="needs-validation clearfix" method="POST" action="{{route('renew-table.update',$selected_meal->id)}}" novalidate="">
 							@csrf
+							{{ method_field('PUT') }}
 							<div class="form-row">
 								<div class="col-xl-3 col-md-12 mb-3">
 									<label for="calories">Calories</label>
 									<div class="input-group">
-										<input type="text" class="form-control" id="calories" name="calories" placeholder="Calories" required="">
+										<input type="text" class="form-control" id="calories" name="calories" placeholder="Calories" value="{{$selected_meal->calories}}"required="">
 										<div class="invalid-feedback">
 											Please provide Calories
 										</div>
@@ -57,7 +58,7 @@
 								<div class="col-xl-3 col-md-12 mb-3">
 									<label for="carbs">Carbs</label>
 									<div class="input-group">
-										<input type="text" class="form-control" id="carbs" name="carbs" placeholder="Carbs" required="">
+										<input type="text" class="form-control" id="carbs" name="carbs" placeholder="Carbs" value="{{$selected_meal->carbs}}"required="">
 										<div class="invalid-feedback">
 											Please provide Carbs
 										</div>
@@ -67,7 +68,7 @@
 								<div class="col-xl-3 col-md-12 mb-3">
 									<label for="carbs">Fat</label>
 									<div class="input-group">
-										<input type="text" class="form-control" id="fat" name="fat" placeholder="Fat" required="">
+										<input type="text" class="form-control" id="fat" name="fat" placeholder="Fat"value="{{$selected_meal->fat}}" required="">
 										<div class="invalid-feedback">
 											Please provide Fat
 										</div>
@@ -76,7 +77,7 @@
 								<div class="col-xl-3 col-md-12 mb-3">
 									<label for="protein">Protein</label>
 									<div class="input-group">
-										<input type="text" class="form-control" id="protein" name="protein" placeholder="Protein" required="">
+										<input type="text" class="form-control" id="protein" name="protein" placeholder="Protein" value="{{$selected_meal->protein}}"required="">
 										<div class="invalid-feedback">
 											Please provide Protein
 										</div>
@@ -88,7 +89,7 @@
 										<select class="form-control" id="breakfast" name="breakfast" required="">
 											<option value="">Select Breakfast</option>
 											@foreach($breakfasts as $breakfast)
-											<option value="{{$breakfast->id}}">{{$breakfast->food}}</option>
+											<option value="{{$breakfast->id}}" @if($selected_meal->breakfast == $breakfast->id) selected @endif>{{$breakfast->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -102,7 +103,7 @@
 										<select class="form-control" id="snack1" name="snack1" required="">
 											<option value="">Select Snack 1</option>
 											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}">{{$snack->food}}</option>
+											<option value="{{$snack->id}}" @if($selected_meal->snacks1 == $snack->id) selected @endif>{{$snack->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -116,7 +117,7 @@
 										<select class="form-control" id="lunch" name="lunch" required="">
 											<option value="">Select Lunch</option>
 											@foreach($lunchs as $lunch)
-											<option value="{{$lunch->id}}">{{$lunch->food}}</option>
+											<option value="{{$lunch->id}}" @if($selected_meal->lunch == $lunch->id) selected @endif>{{$lunch->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -130,7 +131,7 @@
 										<select class="form-control" id="snack2" name="snack2" required="">
 											<option value="">Select Snack 2</option>
 											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}">{{$snack->food}}</option>
+											<option value="{{$snack->id}}" @if($selected_meal->snacks2 == $snack->id) selected @endif>{{$snack->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -144,7 +145,7 @@
 										<select class="form-control" id="dinner" name="dinner" required="">
 											<option value="">Select Dinner</option>
 											@foreach($dinners as $dinner)
-											<option value="{{$dinner->id}}">{{$dinner->food}}</option>
+											<option value="{{$dinner->id}}" @if($selected_meal->dinner == $dinner->id) selected @endif>{{$dinner->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -158,7 +159,7 @@
 										<select class="form-control" id="snack3" name="snack3" required="">
 											<option value="">Select Snack 3</option>
 											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}">{{$snack->food}}</option>
+											<option value="{{$snack->id}}" @if($selected_meal->snacks3 == $snack->id) selected @endif>{{$snack->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">

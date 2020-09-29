@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Admin;
 
@@ -81,7 +81,7 @@ class RenewTableController extends Controller
      */
     public function edit($id)
     {
-        $selected_table = ClientTable::where('client_id',$id)->first();
+        $selected_table= ClientTable::where('client_id',$id)->first();
         Session::put('table_id',$selected_table->table_id);
         Session::put('range',$selected_table->calorie_range);
         $tables = TableCategory::all();
@@ -103,7 +103,24 @@ class RenewTableController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $clientmeal = ClientTable::find($id);
+        $clientmeal->calories = $request->calories;
+        $clientmeal->carbs = $request->carbs;
+        $clientmeal->fat = $request->fat;
+        $clientmeal->protein = $request->protein;
+        $clientmeal->client_id = Session::get('client');
+        $clientmeal->table_id = Session::get('table_id');
+        $clientmeal->breakfast = $request->breakfast;
+        $clientmeal->snacks1 = $request->snack1;
+        $clientmeal->lunch = $request->lunch;
+        $clientmeal->snacks2 = $request->snack2;
+        $clientmeal->dinner = $request->dinner;
+        $clientmeal->snacks3 = $request->snack3;
+        $clientmeal->calorie_range = Session::get('range');
+        $clientmeal->save();
+
+        DB::table('nutritionist_clients')->where('client_id',Session::get('client'))->update(['table_status'=>'posted']);
+        return redirect()->route('renew-table.index');
     }
 
     /**
@@ -132,9 +149,12 @@ class RenewTableController extends Controller
         Session::put('client', $request->client);
         Session::put('range', $request->range);
     }
-    public function diettemplate(){
+    public function diettemplate($id){
+
         $client_id = Session::get('client');
         $client = Client::find($client_id);
+        $selected_meal = ClientTable::find($id); 
+
         $answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$client_id)->get();
         $weight = DB::table('client_answers')->where('client_id',$client_id)->where('question_id',9)->value('answer');
         $height = DB::table('client_answers')->where('client_id',$client_id)->where('question_id',10)->value('answer');
@@ -152,7 +172,7 @@ class RenewTableController extends Controller
             $days = 0;
         }
 
-        return view('backend.admin.tables.template',compact('client','answers','weight','height','table','breakfasts','snacks','lunchs','dinners','days'))->with('no', 1);
+        return view('backend.admin.renewtables.template',compact('selected_meal','client','answers','weight','height','table','breakfasts','snacks','lunchs','dinners','days'))->with('no', 1);
     }
     
     public function foodinfo(Request $request){

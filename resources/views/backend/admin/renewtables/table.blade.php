@@ -137,10 +137,12 @@
 								</div>
 							</div>
 
-							<div class="ms-panel-body float-right">
+							<div class="ms-panel-body float-left">
 								<button type="button" class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
 								<button type="button" class="btn btn-square btn-danger has-icon"><i class="flaticon-alert-1"></i> Consult Team</button>
-								<button type="button" class="btn btn-square btn-warning has-icon"><i class="flaticon-alert"></i> Send Client Details</button>
+							</div>
+							<div class="ms-panel-body float-right">
+								<button type="button" onclick="window.location.href='{{ route('edit-diet-template',$selected_table->id) }}' " class="btn btn-square btn-warning has-icon"><i class="flaticon-alert"></i> Edit Meal</button>
 							</div>
 						</div>
 
@@ -175,7 +177,7 @@
 							}
 						});
 						jQuery.ajax({
-							url: "{{ route('set-table-session') }}",
+							url: "{{ route('set-renewtable-session') }}",
 							method: 'post',
 							data: {
 								range: range,
@@ -183,7 +185,7 @@
 								client: client_id
 							},
 							success: function(result){
-								window.location = '{{ route('diet-template') }}';
+								window.location = '{{ route('edit-diet-template',$selected_table->id) }}';
 							}
 						});
 					}
