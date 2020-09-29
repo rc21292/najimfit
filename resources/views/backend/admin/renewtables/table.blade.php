@@ -19,7 +19,7 @@
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
 				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item"><a href="{{route('assign-table.index')}}">Nutritionist</a></li>
+				<li class="breadcrumb-item"><a href="{{route('renew-table.index')}}">Nutritionist</a></li>
 				<li class="breadcrumb-item"><a href="{{url()->previous()}}">Client List</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Assign Table</li>
 			</ol>
