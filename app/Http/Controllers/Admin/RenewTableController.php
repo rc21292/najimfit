@@ -108,7 +108,7 @@ class RenewTableController extends Controller
         $clientmeal->carbs = $request->carbs;
         $clientmeal->fat = $request->fat;
         $clientmeal->protein = $request->protein;
-        $clientmeal->client_id = Session::get('client');
+        $clientmeal->client_id = $clientmeal->client_id;
         $clientmeal->table_id = Session::get('table_id');
         $clientmeal->breakfast = $request->breakfast;
         $clientmeal->snacks1 = $request->snack1;
@@ -120,7 +120,8 @@ class RenewTableController extends Controller
         $clientmeal->save();
 
         DB::table('nutritionist_clients')->where('client_id',Session::get('client'))->update(['table_status'=>'posted']);
-        return redirect()->route('renew-table.index');
+        return redirect()->route('renew-table.index')->with('success','Table Renewed successfully');
+       ;
     }
 
     /**
@@ -151,20 +152,20 @@ class RenewTableController extends Controller
     }
     public function diettemplate($id){
 
-        $client_id = Session::get('client');
-        $client = Client::find($client_id);
         $selected_meal = ClientTable::find($id); 
+        
+        $client = Client::find($selected_meal->client_id);
 
-        $answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$client_id)->get();
-        $weight = DB::table('client_answers')->where('client_id',$client_id)->where('question_id',9)->value('answer');
-        $height = DB::table('client_answers')->where('client_id',$client_id)->where('question_id',10)->value('answer');
+        $answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$client->id)->get();
+        $weight = DB::table('client_answers')->where('client_id',$client->id)->where('question_id',9)->value('answer');
+        $height = DB::table('client_answers')->where('client_id',$client->id)->where('question_id',10)->value('answer');
         $table_id = Session::get('table_id');
         $table =TableCategory::find($table_id)->name;
         $breakfasts = Meal::where('table_id',$table_id)->where('type','breakfast')->get();
         $snacks = Meal::where('table_id',$table_id)->where('type','snacks')->get();
         $dinners = Meal::where('table_id',$table_id)->where('type','dinner')->get();
         $lunchs = Meal::where('table_id',$table_id)->where('type','lunch')->get();
-        $client_package = Client::find($client_id)->select('validity','package_id')->first();
+        $client_package = Client::find($client->id)->select('validity','package_id')->first();
         $today = date("Y-m-d");
         if($client_package->validity >= $today){
             $days = Package::where('id', $client_package->package_id)->value('validity');

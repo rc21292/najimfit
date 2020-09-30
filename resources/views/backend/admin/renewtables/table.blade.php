@@ -142,7 +142,7 @@
 								<button type="button" class="btn btn-square btn-danger has-icon"><i class="flaticon-alert-1"></i> Consult Team</button>
 							</div>
 							<div class="ms-panel-body float-right">
-								<button type="button" onclick="window.location.href='{{ route('edit-diet-template',$selected_table->id) }}' " class="btn btn-square btn-warning has-icon"><i class="flaticon-alert"></i> Edit Meal</button>
+								<button type="button" onclick="window.location.href='{{ route('edit-diet-template',$selected_table->id) }}' " class="btn btn-square btn-warning has-icon"><i class="flaticon-alert"></i> Edit Current Meal</button>
 							</div>
 						</div>
 

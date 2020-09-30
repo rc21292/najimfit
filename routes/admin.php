@@ -40,6 +40,7 @@ Route::post('renew-food-info','RenewTableController@foodinfo')->name('renew-food
 
 // Clients Route
 Route::resource('clients','ClientsController');
+Route::resource('client-full-profile','ClientProfileController');
 Route::post('meal-delete-image/{meal}', 'ClientsController@deleteimage')->name('meal-image-delete');
 // Exercise Route
 Route::resource('exercise','Features\ExerciseController');

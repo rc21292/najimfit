@@ -5,7 +5,7 @@
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
 				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item"><a href="{{ route('clients.index')}}">Question List</a></li>
+				<li class="breadcrumb-item"><a href="{{ route('clients.index')}}">Client List</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Edit Client</li>
 			</ol>
 		</nav>
@@ -13,7 +13,7 @@
 	<div class="col-xl-8 col-md-12">
 		<div class="ms-panel ms-panel-fh">
 			<div class="ms-panel-header">
-				<h6>Package Form</h6>
+				<h6>Edit Client - {{$client->firstname}} {{$client->lastname}}</h6>
 			</div>
 			<div class="ms-panel-body">
 				<form class="needs-validation clearfix" method="POST" action="{{route('clients.update',$client->id)}}" novalidate>
