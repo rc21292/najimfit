@@ -40,17 +40,17 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('assign-workout.index')}}">
           <span><i class="fa fa-burn"></i>Assign Workouts</span>
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('assign-table.index')}}">
           <span><i class="fa fa-sync"></i>Renewed Workouts</span>
         </a>
       </li>
       <li class="menu-item">
-        <a href="{{route('clients.index')}}">
+        <a href="{{route('renew-workout.index')}}">
           <span><i class="far fa-user-circle"></i>Clients</span>
         </a>
       </li>

@@ -38,6 +38,20 @@ Route::post('renew-table/set-session','RenewTableController@setsession')->name('
 Route::get('diet-template-renew/{id}','RenewTableController@diettemplate')->name('edit-diet-template');
 Route::post('renew-food-info','RenewTableController@foodinfo')->name('renew-food-info');
 
+// Assign Workout Nutritionist-wise
+Route::resource('assign-workout','WorkoutController');
+Route::get('all-clients','WorkoutController@allclients')->name('allclients');
+Route::post('assign-workout/set-session','WorkoutController@setsession')->name('set-workout-session');
+Route::get('workout-template','WorkoutController@workouttemplate')->name('workout-template');
+Route::post('get-workout-info','WorkoutController@workoutinfo')->name('workout-info');
+
+// Renew Workout Nutritionist-wise
+Route::resource('renew-workout','RenewWorkoutController');
+Route::get('all-renew-clients','RenewWorkoutController@allclients')->name('all-renew-clients');
+Route::post('renew-workout/set-session','RenewWorkoutController@setsession')->name('set-renewtable-session');
+Route::get('workout-template-renew/{id}','RenewWorkoutController@workoouttemplate')->name('edit-workoout-template');
+Route::post('renew-workout-info','RenewWorkoutController@workoutinfo')->name('renew-food-info');
+
 // Clients Route
 Route::resource('clients','ClientsController');
 Route::resource('client-full-profile','ClientProfileController');
