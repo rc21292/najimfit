@@ -12,11 +12,16 @@ Route::resource('roles','RoleController');
 Route::resource('users','UserController');
 // Questions Route
 Route::resource('question','Features\QuestionController');
+Route::post('question-delete-image/{question}', 'Features\QuestionController@deleteimage')->name('question-image-delete');
+
 // Package Route
 Route::resource('package','Features\PackageController');
 Route::post('package-delete-image/{package}', 'Features\PackageController@deleteimage')->name('package-image-delete');
 // Workout Category Route
 Route::resource('workout-category','Features\WorkoutCategoryController');
+
+// Question Category Route
+Route::resource('question-category','Features\QuestionCategoryController');
 // Table Category Route
 Route::resource('tables','Features\Meals\TableController');
 // Meals Route
@@ -40,14 +45,14 @@ Route::post('renew-food-info','RenewTableController@foodinfo')->name('renew-food
 
 // Assign Workout Nutritionist-wise
 Route::resource('assign-workout','WorkoutController');
-Route::get('all-clients','WorkoutController@allclients')->name('allclients');
+Route::get('due-workout-clients','WorkoutController@allclients')->name('allworkoutclients');
 Route::post('assign-workout/set-session','WorkoutController@setsession')->name('set-workout-session');
 Route::get('workout-template','WorkoutController@workouttemplate')->name('workout-template');
 Route::post('get-workout-info','WorkoutController@workoutinfo')->name('workout-info');
 
 // Renew Workout Nutritionist-wise
 Route::resource('renew-workout','RenewWorkoutController');
-Route::get('all-renew-clients','RenewWorkoutController@allclients')->name('all-renew-clients');
+Route::get('all-renew-workout-clients','RenewWorkoutController@allclients')->name('all-renew-workout-clients');
 Route::post('renew-workout/set-session','RenewWorkoutController@setsession')->name('set-renewtable-session');
 Route::get('workout-template-renew/{id}','RenewWorkoutController@workoouttemplate')->name('edit-workoout-template');
 Route::post('renew-workout-info','RenewWorkoutController@workoutinfo')->name('renew-food-info');

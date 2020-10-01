@@ -8,17 +8,17 @@
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
 				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item"><a href="{{route('assign-table.index')}}">Nutritionist</a></li>
+				<li class="breadcrumb-item"><a href="{{route('assign-workout.index')}}">Nutritionist</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Client List</li>
 			</ol>
-			<a href="{{route('renew-table.index')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
+			<a href="{{route('assign-workout.index')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-md-12">
 		<div class="ms-panel">
 			<div class="ms-panel-header">
-				<h6>Clients with Renewal Tables</h6>
+				<h6>Clients with Due Workouts</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
@@ -34,7 +34,7 @@
 	var dataSet18 = [
 	@foreach($clients as $client)
 	[
-	"{{ $no++}}" ,"<a href='{{route('assign-table.edit',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a>", "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-light btnpro'>Labels</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-danger btnpro'>Actions</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-info btnpro'>Send Note</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
+	"{{ $no++}}" ,"<a href='{{route('assign-workout.edit',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a>", "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-light btnpro'>Labels</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-danger btnpro'>Actions</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-info btnpro'>Send Note</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
 	@endforeach
 	];
 

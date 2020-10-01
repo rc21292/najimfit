@@ -63,7 +63,7 @@ class AuthController extends Controller
 				'validity'  => $row->validity.' days',
 				'target'  => $row->target,
 				'description' => $row->description,
-				'image' =>'http://127.0.0.1:8000/uploads/packages/'.$row->image,
+				'image' =>'https://tegdarco.com/uploads/packages/'.$row->image,
 
 			);            
 		}

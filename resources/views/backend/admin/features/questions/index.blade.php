@@ -5,13 +5,20 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-		<nav aria-label="breadcrumb " class="ms-panel-custom">
-			<ol class="breadcrumb pl-0">
-				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Question List</li>
-			</ol>
-			<a href="{{route('question.create')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-plus"></i></a>
-		</nav>
+		<div class="row">
+			<div class="col-sm-8">
+				<nav aria-label="breadcrumb " class="ms-panel-custom">
+					<ol class="breadcrumb pl-0">
+						<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Question List</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="col-sm-4" style="padding-left: 80px;">
+				<a href="{{route('question-category.index')}}" class="btn btn-square btn-danger mb-2"><i class="fas fa-list"></i> Categories</a>
+				<a href="{{route('question.create')}}" class="btn btn-square btn-primary mb-2"><i class="fas fa-plus"></i>  Add Question</a>
+			</div>
+		</div>
 		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-md-12">

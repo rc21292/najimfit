@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Question;
-use App\Models\WorkputCategory;
+use App\Models\WorkoutCategory;
 use App\Models\Exercise;
 use App\Models\Package;
 use App\Models\ClientWorkout;
@@ -62,7 +62,14 @@ class WorkoutController extends Controller
      */
     public function show($id)
     {
-        //
+          $clients = DB::table('nutritionist_clients')
+        ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
+        ->join('clients','clients.id','=','nutritionist_clients.client_id')
+        ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
+        ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.workout_status','due')
+        ->get();
+
+        return view('backend.admin.workout.client',compact('clients'))->with('no', 1);
     }
 
     /**
@@ -73,7 +80,14 @@ class WorkoutController extends Controller
      */
     public function edit($id)
     {
-        //
+        $workouts = WorkoutCategory::all();
+        $exercises = Exercise::all();
+        $answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$id)->get();
+        $client = Client::find($id);
+        $weight = DB::table('client_answers')->where('client_id',$id)->where('question_id',9)->value('answer');
+
+        $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
+        return view('backend.admin.workout.table',compact('client','weight','height','workouts','answers','exercises'));
     }
 
     /**
@@ -98,7 +112,7 @@ class WorkoutController extends Controller
     {
         //
     }
-    
+
     public function allclients(){
         $clients = DB::table('nutritionist_clients')
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
@@ -118,5 +132,23 @@ class WorkoutController extends Controller
 
     public function workoutinfo(Request $request){
 
+    }
+
+    public function getexercisesbycategory(Request $request){
+        if($request->get('query'))
+        {
+            $query = $request->get('query');
+            $data = DB::table('exercises')
+            ->where('id', 'query')
+            ->get();
+            $output = '<select class="form-control"  name="exercise" id="exercise" required="">';
+            foreach($data as $row)
+            {
+                $output .= '
+                <option value="'.$row->id.'">'.$row->name.'</option> ';
+            }
+            $output .= '</select>';
+            echo $output;
+        }
     }
 }

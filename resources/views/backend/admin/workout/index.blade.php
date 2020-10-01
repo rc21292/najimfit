@@ -8,7 +8,7 @@
 		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-xl-3 col-md-6">
-		<a href="{{ route('allclients') }}">
+		<a href="{{ route('allworkoutclients') }}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<div class="ms-panel-body media">
 					<i class="material-icons">person</i>
@@ -22,7 +22,7 @@
 	</div>
 	@foreach($users as $user)
 	<div class="col-xl-3 col-md-6">
-		<a href="{{route('assign-table.show',$user->id)}}">
+		<a href="{{route('assign-workout.show',$user->id)}}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<span class="msg-count">{{ $user->clients_count }}</span>
 				<div class="ms-panel-body media">

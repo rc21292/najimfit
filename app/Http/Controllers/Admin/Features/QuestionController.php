@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin\Features;
 
 use App\Http\Controllers\Controller;
 use App\Models\Question;
+use App\Models\QuestionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use File;
 
 class QuestionController extends Controller
 {
@@ -29,7 +31,8 @@ class QuestionController extends Controller
     {
         $last_record = Question::orderBy('sort', 'desc')->first();
         $sort = $last_record->sort + 1;
-        return view('backend.admin.features.questions.create',compact('sort'));
+        $categories = QuestionCategory::all();
+        return view('backend.admin.features.questions.create',compact('sort','categories'));
     }
 
     /**
@@ -40,8 +43,25 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $new_question = Question::create($input);
+        if ($request->has('image')) {
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $destinationPath = public_path().'/uploads/questions/';
+            $file->move($destinationPath,$file->getClientOriginalName());
+
+        }
+        $question = new Question;
+        if ($request->has('image')) {
+            $question->image = $name;
+        }
+        if (isset($request->unit)) {
+            $question->unit = $request->unit;
+        }
+        $question->category = $request->category;
+        $question->gender = $request->gender;
+        $question->sort = $request->sort;
+        $question->question = $request->question;
+        $question->save();
         return redirect()->route('question.index')->with(['success'=>'Question Saved Successfully!']);
     }
 
@@ -64,7 +84,8 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        return view('backend.admin.features.questions.edit', compact('question'));
+        $categories = QuestionCategory::all();
+        return view('backend.admin.features.questions.edit', compact('question','categories'));
     }
 
     /**
@@ -76,6 +97,20 @@ class QuestionController extends Controller
      */
     public function update(Request $request, Question $question)
     {
+        if ($request->has('image')) {
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $destinationPath = public_path().'/uploads/questions/';
+            $file->move($destinationPath,$file->getClientOriginalName());
+
+        }
+        if ($request->has('image')) {
+            $question->image = $name;
+        }
+        if (isset($request->unit)) {
+            $question->unit = $request->unit;
+        }
+        $question->category = $request->category;
         $question->gender = $request->gender;
         $question->sort = $request->sort;
         $question->question = $request->question;
@@ -93,5 +128,13 @@ class QuestionController extends Controller
     {
         $question->delete();
         return redirect()->route('question.index')->with(['warning'=>'Question Deleted Successfully!']);
+    }
+
+    public function deleteimage(Question $question)
+    {
+        $image = public_path('uploads/questions/'.$question->image);
+        File::delete($image);
+        $question->update(['image' => null]);
+        return response()->json(["success"=>'deleted']);
     }
 }

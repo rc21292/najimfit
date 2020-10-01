@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $table = "questions";
-    protected $fillable = ['gender', 'sort','question'];
+    protected $fillable = ['gender', 'sort','question','category','image','unit'];
     public $timestamps = true;
 }

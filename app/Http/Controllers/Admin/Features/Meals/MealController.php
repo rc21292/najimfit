@@ -122,7 +122,9 @@ class MealController extends Controller
         $meal->fat = $request->fat;
         $meal->protein = $request->protein;
         $meal->sort = $request->sort;
+        if ($request->has('image')) {
         $meal->image = $name;
+    }
         if ($request->has('status')) {
 
             $meal->status = $request->status;
