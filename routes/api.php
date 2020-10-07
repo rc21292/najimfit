@@ -1,4 +1,4 @@
-<?php
+<?php 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +19,9 @@ Route::middleware('auth:api')->group(function () {
 	Route::get('/user', function (Request $request) {
 		return $request->user();
 	});
+
+	Route::post('/select-gender', 'Api\AuthController@selectgender')->name('selectgender.api');
+
 	Route::post('/get-questions', 'Api\QuestionController@getquestions')->name('getquestions.api');
 
 	Route::post('/save-order', 'Api\AuthController@selectpackage')->name('selectpackage.api');
@@ -46,6 +49,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 	Route::get('/get-packages', 'Api\AuthController@getpackages')->name('getpackages.api');
 	Route::post('/login', 'Api\AuthController@login')->name('login.api');
 	Route::post('/register','Api\AuthController@register')->name('register.api');
+   
+    //Forget Password routes
+	Route::post('create', 'Api\PasswordResetController@create');
+    Route::get('password/find/{token}', 'Api\PasswordResetController@find');
+    Route::post('reset', 'Api\PasswordResetController@reset');
 
     //
 

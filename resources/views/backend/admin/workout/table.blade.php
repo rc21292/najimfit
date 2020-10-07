@@ -12,6 +12,8 @@
 <!-- Bootstrap theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/css/themes/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
 @endsection
 @section('content')
 <div class="row">
@@ -70,7 +72,7 @@
 								</div>
 							</div>
 							<div class="pt-5 workoutdiv" style="display: none;">
-								<h6>Select Exercise</h6>
+								{{-- <h6>Select Exercise</h6>
 								<div class="col-xl-4 col-md-12">
 									<label for="Exercise">Exercise</label>
 									<div class="input-group">
@@ -81,6 +83,34 @@
 										</select>
 										<div class="invalid-feedback">
 											Please select a Exercise.
+										</div>
+									</div>
+								</div> --}}
+								<div class="col-xl-12 col-md-12">
+									<div class="ms-panel ms-panel-fh">
+										<div class="ms-panel-header">
+											<h6>Day Wise Workout Table</h6>
+										</div>
+										<div class="ms-panel-body">
+											<div class="table">
+												<table id="days" class="table thead-primary">
+													<thead>
+														<tr>
+															<th scope="col">Day :ex(1,2)</th>
+															<th scope="col">Select Exrecises</th>
+															<th scope="col">Add Days</th>
+															
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<th scope="row"></th>
+															<td></td>
+															<td class="text-center"><button type="button" onclick="adddays();" data-toggle="tooltip" title="Add Option Value" class="ms-btn-icon btn-square btn-danger"><i class="fa fa-plus-circle"></i></button></td></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -138,5 +168,22 @@
 				});
 			});
 		</script>
-		<a
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+		<script type="text/javascript">
+			var days_row = 0;
+			function adddays() {
+				html = '<tr id="day-row' + days_row + '">';
+				html += '  <th scope="row"><input type="text" name="day[' + days_row + '][day]" value="" placeholder="Day" class="form-control col-sm-3" required/></td>';
+				html += '  <td class="text-right"><select name="day[' + days_row + '][exercises][]" value="" placeholder="Exercise Name" class="exercises form-control" required multiple="multiple">@foreach($exercises as $exercise)<option value="{{$exercise->id}}">{{$exercise->name}}</option>@endforeach</select></td>';
+				html += '  <td class="text-center"><button type="button" onclick="$(\'#day-row' + days_row + '\').remove();" data-toggle="tooltip" title="remove" class="ms-btn-icon btn-square btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+				html += '</tr>';
+
+				$('#days tbody').append(html);
+				$('.exercises').select2();
+				days_row++;
+			}           
+
+		</script>
+
 		@endpush

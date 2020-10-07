@@ -21,10 +21,10 @@ class CartController extends Controller
 	public function getcart(){
 		$user_id = Auth::Client()->id;
 		if(DB::table('cart')->where('client_id', $user_id)->exists()){
-		$cart = DB::table('cart')->join('packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description')->where('client_id', $user_id)->get();
-		$response = ['success' =>Session::get('total')];
+		$cart = DB::table('cart')->join('packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description',DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
+		$response = $cart;
 		}else{
-		$response = ['success' => Session::get('total')];
+		$response = $cart;
 		}
 		return $response;
 	}
