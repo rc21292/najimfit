@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Client;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use DB;
+use Hash;
 
 class RenewWorkoutController extends Controller
 {
@@ -12,6 +17,7 @@ class RenewWorkoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         $total_clients = Client::count();

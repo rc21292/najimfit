@@ -13,6 +13,7 @@ use App\Models\Package;
 use Carbon\Carbon;
 use DB;
 use Session;
+use PragmaRX\Countries\Package\Countries;
 class AuthController extends Controller
 {
 	public function register (Request $request) {
@@ -127,4 +128,16 @@ class AuthController extends Controller
 		$response = ['message' => 'You have been successfully logged out!'];
 		return response($response, 200);
 	}
+
+	public function getcountryflags(){
+		$countries= Countries::all()->pluck('currencies','flag.svg')->toArray();
+		$response = ['success' => $countries];
+        return response($response, 200);
+	}
+
+	public function terms(){
+		
+	}
+
+
 }

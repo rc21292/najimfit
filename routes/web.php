@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use PragmaRX\Countries\Package\Countries;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/countries', function () {
+	$countries= Countries::all()->pluck('currencies','flag.svg')->toArray();
+echo "<hr /><h1>DEBUG</h1><pre>";
+print_r($countries);
+echo "</pre>";
+die();
+;
+    
 });
 
 Auth::routes();
