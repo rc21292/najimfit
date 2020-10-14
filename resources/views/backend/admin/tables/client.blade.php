@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('head')
 <link href="{{asset('backend/assets/css/datatables.min.css')}}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
 <div class="row">
@@ -28,13 +29,33 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title text-center">Client Actions</h3>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="ms-panel-body">
+                  <a href="#" class="btn btn-block btn-primary">Request immediate response from nutritionist</a>
+                  <a href="#" class="btn btn-block btn-warning">Defer Client</a>
+                  <a href="#" class="btn btn-block btn-success">Defer Chat</a>
+                  <a href="#" class="btn btn-block btn-danger">Block Client from speaking</a>
+                  <a href="#" class="btn btn-block btn-light">Block Nutritionist from replying</a>
+                </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 @push('scripts')
 <script>
 	var dataSet18 = [
 	@foreach($clients as $client)
 	[
-	"{{ $no++}}" ,"<a href='{{route('assign-table.edit',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a>", "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-light btnpro'>Labels</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-danger btnpro'>Actions</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-info btnpro'>Send Note</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
+	"{{ $no++}}" ,"<a href='{{route('assign-table.edit',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a>", "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='javascript:' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('clients.edit',$client->id)}}' class='btn btn-info btnpro'>Send Note</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
 	@endforeach
 	];
 
@@ -73,5 +94,20 @@
 			}
 		});
 	}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2();
+	});
+</script>
+<script type="text/javascript">
+	$('#myModal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) 
+		var client_id = button.data('client')  
+		var modal = $(this)
+		modal.find('.modal-body #client').val(client_id);
+	})
 </script>
 @endpush

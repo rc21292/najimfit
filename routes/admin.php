@@ -43,7 +43,7 @@ Route::get('all-renew-clients','RenewTableController@allclients')->name('all-ren
 Route::post('renew-table/set-session','RenewTableController@setsession')->name('set-renewtable-session');
 Route::get('diet-template-renew/{id}','RenewTableController@diettemplate')->name('edit-diet-template');
 Route::post('renew-food-info','RenewTableController@foodinfo')->name('renew-food-info');
-
+Route::resource('labels','LabelController');
 // Assign Workout Nutritionist-wise
 Route::resource('assign-workout','WorkoutController');
 Route::get('due-workout-clients','WorkoutController@allclients')->name('allworkoutclients');
