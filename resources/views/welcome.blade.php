@@ -105,7 +105,7 @@
 
     <div class="content">
       <div class="title m-b-md">
-        NAJIM FIT
+        TEGDARCO
       </div>
     </div>
   </div>

@@ -37,17 +37,27 @@
 			<ol class="breadcrumb pl-0">
 				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
 				<li class="breadcrumb-item"><a href="{{ route('package.index')}}">Package List</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Add Package</li>
+				<li class="breadcrumb-item active" aria-current="page">Edit Package</li>
 			</ol>
 		</nav>
 	</div>
-	<div class="col-xl-8 col-md-12">
-		<div class="ms-panel ms-panel-fh">
+
+		<!-- Nav tabs -->
+
+		<div class="ms-panel ms-panel-fh" style="width: 100%">
 			<div class="ms-panel-header">
 				<h6>Package Form</h6>
 			</div>
-			<div class="ms-panel-body">
-				<form class="needs-validation clearfix" method="POST" action="{{route('package.update',$package)}}" enctype="multipart/form-data">
+
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><span class="bfh-languages" data-language="en_US" data-flags="true"></span>English</a></li>
+				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arabic</a></li>
+			</ul>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="home"><div class="col-xl-8 col-md-12">
+					<div class="ms-panel-body">
+						<form class="needs-validation clearfix" method="POST" id="package" action="{{route('package.update',$package)}}" enctype="multipart/form-data">
 					@csrf
 					{{ method_field('PUT') }}
 					<div class="form-row">
@@ -141,9 +151,50 @@
 						</div>					
 					</div>
 					<button class="btn btn-primary float-right" type="submit">Save</button>
-				</form>
+				
+					</div>
+				</div>
 			</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				<div class="col-xl-8 col-md-12">
+					<div class="ms-panel ms-panel-fh">
+						<div class="ms-panel-body">
+							<div class="form-row">
+								<div class="col-md-12">
+									<label for="name_arabic">Package Name</label>
+									<div class="input-group">
+										<input type="text" dir="rtl" id="name_arabic" name="name_arabic" dir="rtl" class="form-control" placeholder="اسم الحزمة" value="{{$package->name_arabic}}">
+										<div class="invalid-feedback">
+											Please Enter a Name.
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="targets_arabic">Package Targets</label>
+									<div class="input-group">
+										<textarea rows="5" id="targets_arabic" dir="rtl" name="target_arabic" class="form-control" placeholder="Write about those people for whom this Package is adviced.">{{$package->target_arabic}}</textarea>
+										<div class="invalid-feedback" >
+											Please Write about those people for whom this Package is adviced.
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="description_arabic">Package Description</label>
+									<div class="input-group">
+										<textarea rows="8" id="description_arabic" dir="rtl" name="description_arabic" class="form-control" placeholder="Write about Package.">{{$package->description_arabic}}</textarea>
+										<div class="invalid-feedback">
+											Please Write about Package.
+										</div>
+									</div>
+								</div>		
+							</div>
+							<button class="btn btn-primary float-right" type="submit" form="package">Save</button>
+						</form>
+					</div>
+				</div>
+			</div></div>
 		</div>
+
 	</div>
 </div>
 @endsection

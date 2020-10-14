@@ -50,7 +50,9 @@ class PackageController extends Controller
             $profileimage->save(public_path('uploads/packages/'.$path),100);
 
         }
+        if ($request->has('image')) {
         $input['image'] = $request->$path;
+    }
         $new_package = Package::create($input);
         return redirect()->route('package.index')->with(['success'=>'Package Saved Successfully!']);
     }
@@ -86,6 +88,7 @@ class PackageController extends Controller
      */
     public function update(Request $request, Package $package)
     {
+
         if ($request->has('image')) {
 
             $file = $request->file('image');
@@ -111,6 +114,17 @@ class PackageController extends Controller
         $package->target = $request->target;
 
         $package->description = $request->description;
+
+        if(isset($request->description)){
+        $package->name_arabic = $request->name_arabic;
+        }
+        if(isset($request->target_arabic)){
+        $package->target_arabic = $request->target_arabic;
+        }
+        if(isset($request->description_arabic)){
+        $package->description_arabic = $request->description_arabic;
+        }
+
 
         if ($request->has('status')) {
 

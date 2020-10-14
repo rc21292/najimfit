@@ -61,6 +61,9 @@ class QuestionController extends Controller
         $question->gender = $request->gender;
         $question->sort = $request->sort;
         $question->question = $request->question;
+        if(isset($request->question_arabic)){
+        $question->question_arabic = $request->question_arabic;
+        }
         $question->save();
         return redirect()->route('question.index')->with(['success'=>'Question Saved Successfully!']);
     }
@@ -114,6 +117,9 @@ class QuestionController extends Controller
         $question->gender = $request->gender;
         $question->sort = $request->sort;
         $question->question = $request->question;
+        if(isset($request->question_arabic)){
+        $question->question_arabic = $request->question_arabic;
+        }
         $question->save();
         return redirect()->route('question.index')->with(['success'=>'Question Updated Successfully!']);
     }

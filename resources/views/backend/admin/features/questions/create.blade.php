@@ -76,9 +76,19 @@
 						
 
 						<div class="col-md-12">
-							<label for="question">Question</label>
+							<label for="question">Question(in English)</label>
 							<div class="input-group">
 								<textarea rows="5" id="question" name="question" class="form-control" placeholder="Question" required></textarea>
+								<div class="invalid-feedback">
+									Please Enter a Question.
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<label for="question_arabic">Question(in Arabic)</label>
+							<div class="input-group">
+								<textarea rows="5" id="question_arabic" dir="rtl" name="question_arabic" class="form-control" placeholder="Question(in Arabic)"></textarea>
 								<div class="invalid-feedback">
 									Please Enter a Question.
 								</div>

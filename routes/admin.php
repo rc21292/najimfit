@@ -29,6 +29,7 @@ Route::resource('meals','Features\Meals\MealController');
 // Coupons Route
 Route::resource('coupons','CouponController');
 Route::post('meal-delete-image/{meal}', 'Features\Meals\MealController@deleteimage')->name('meal-image-delete');
+Route::resource('terms-and-conditions','TermsController');
 // Assign Table Nutritionist-wise
 Route::resource('assign-table','TableController');
 Route::get('all-clients','TableController@allclients')->name('allclients');

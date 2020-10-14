@@ -13,6 +13,7 @@ use App\Models\Package;
 use Carbon\Carbon;
 use DB;
 use Session;
+use App\Models\Term;
 use PragmaRX\Countries\Package\Countries;
 class AuthController extends Controller
 {
@@ -59,11 +60,11 @@ class AuthController extends Controller
 			$allpackages[] = array(
 
 				'id'  => $row->id,
-				'name'  => $row->name,
+				'name'  => $request->language == "arabic" ? $row->name_arabic : $row->name,
 				'price'  => $row->price,
 				'validity'  => $row->validity.' days',
-				'target'  => $row->target,
-				'description' => $row->description,
+				'target'  => $request->language == "arabic" ? $row->target_arabic : $row->target,
+				'description' => $request->language == "arabic" ? $row->description_arabic : $row->description,
 				'image' =>'https://tegdarco.com/uploads/packages/'.$row->image,
 
 			);            
@@ -130,13 +131,15 @@ class AuthController extends Controller
 	}
 
 	public function getcountryflags(){
-		$countries= Countries::all()->pluck('currencies','flag.svg')->toArray();
+		$countries= Countries::all()->pluck('currencies','flag.emoji')->toArray();
 		$response = ['success' => $countries];
-        return response($response, 200);
+		return response($response, 200);
 	}
 
 	public function terms(){
-		
+		$term = Term::first();
+		$response = ['success' => $term];
+        return response($response, 200);
 	}
 
 
