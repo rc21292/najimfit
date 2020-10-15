@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function () {
     // our routes to be protected will go in here
-	Route::get('/user', function (Request $request) {
-		return $request->user();
-	});
+	Route::get('/user', 'Api\AuthController@getuserdetails');
 
 	Route::post('/select-gender', 'Api\AuthController@selectgender')->name('selectgender.api');
 

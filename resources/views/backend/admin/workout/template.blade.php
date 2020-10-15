@@ -41,134 +41,73 @@
 			<div class="ms-panel-body">
 				<div class="row">
 					<div class="col-md-9">
-						<h5 class="pb-4">Diet Template - {{ $table }}</h5>
-						<form class="needs-validation clearfix" method="POST" action="{{route('assign-table.store')}}" novalidate="">
+						<form class="needs-validation clearfix" method="POST" action="" novalidate="">
 							@csrf
-							<div class="form-row">
-								<div class="col-xl-3 col-md-12 mb-3">
-									<label for="calories">Calories</label>
-									<div class="input-group">
-										<input type="text" class="form-control" id="calories" name="calories" placeholder="Calories" required="">
-										<div class="invalid-feedback">
-											Please provide Calories
+							<div class="ms-panel ms-panel-fh">
+								<div class="ms-panel-header">
+									<div class="row">
+										<div class="col-sm-9">
+											<h6>Select Reps and Sets</h6>
+										</div>
+										<div class="col-sm-3">
+											<a href="{{route('assign-workout.edit',$client->id)}}" class="btn btn-info has-icon"><i class="flaticon-information"></i>Add Exercises</a>
 										</div>
 									</div>
 								</div>
-								<div class="col-xl-3 col-md-12 mb-3">
-									<label for="carbs">Carbs</label>
-									<div class="input-group">
-										<input type="text" class="form-control" id="carbs" name="carbs" placeholder="Carbs" required="">
-										<div class="invalid-feedback">
-											Please provide Carbs
+								<div class="ms-panel-body">
+									<ul class="nav nav-tabs tabs-bordered d-flex nav-justified mb-4" role="tablist">
+										@php
+										$no_control=1;
+										@endphp
+										@for ($i = 0; $i < $no_days; $i++)
+										<li role="presentation"><a href="#tab{{$no_control}}" @if($no_control==1)class="active show" @endif aria-controls="tab1"  role="tab" data-toggle="tab" aria-selected="false"> Day {{$no_control}} </a></li>
+										@php
+										$no_control++;
+										@endphp
+										@endfor
+									</ul>
+									<div class="tab-content">
+										@php
+										$no_tab=1;
+										@endphp
+										@for ($i = 0; $i < $no_days; $i++)
+										<div role="tabpanel" @if($no_tab == 1) class="tab-pane active show fade in" @else class="tab-pane fade in" @endif  id="tab{{$no_tab}}">
+											<div class="ms-panel">
+												<div class="ms-panel-header">
+													<h6>Day {{$no_tab}}</h6>
+												</div>
+												<div class="ms-panel-body">
+													<div class="table-responsive">
+														<table class="table table-hover thead-primary">
+															<thead>
+																<tr>
+																	<th scope="col">Exercise</th>
+																	<th scope="col">Sets</th>
+																	<th scope="col">Reps</th>
+																	<th scope="col">Action</th>
+																</tr>
+															</thead>
+															<tbody>
+																@foreach($workouts as $workout)
+																@if($workout->day == $no_tab)
+																<tr>
+																	<td><a href="{{route('workout-info',$workout->exercise)}}" disabled class="btn btn-pill btn-light" style="margin: auto">{{$workout->name}}</a></td>
+																	<td><input type="number" name="day[{{$no_tab}}]sets" class="form-control" required></td>
+																	<td><input type="number" name="day[{{$no_tab}}]reps" class="form-control" required></td>
+																	<td><a href="javascript:" onclick="submitform(2);"><i class="far fa-trash-alt ms-text-danger"></i></a><form id="delete-form2" action="{{route('assign-workout.destroy',$workout->id)}}" method="POST"><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form></td>
+																</tr>
+																@endif
+																@endforeach
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
 										</div>
-									</div>
-								</div>
-								<br>
-								<div class="col-xl-3 col-md-12 mb-3">
-									<label for="carbs">Fat</label>
-									<div class="input-group">
-										<input type="text" class="form-control" id="fat" name="fat" placeholder="Fat" required="">
-										<div class="invalid-feedback">
-											Please provide Fat
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-3 col-md-12 mb-3">
-									<label for="protein">Protein</label>
-									<div class="input-group">
-										<input type="text" class="form-control" id="protein" name="protein" placeholder="Protein" required="">
-										<div class="invalid-feedback">
-											Please provide Protein
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="breakfast">Select Breakfast</label>
-									<div class="input-group">
-										<select class="form-control" id="breakfast" name="breakfast" required="">
-											<option value="">Select Breakfast</option>
-											@foreach($breakfasts as $breakfast)
-											<option value="{{$breakfast->id}}">{{$breakfast->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Breakfast
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="snack1">Select Snack 1</label>
-									<div class="input-group">
-										<select class="form-control" id="snack1" name="snack1" required="">
-											<option value="">Select Snack 1</option>
-											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}">{{$snack->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Snack 1
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="lunch">Select Lunch</label>
-									<div class="input-group">
-										<select class="form-control" id="lunch" name="lunch" required="">
-											<option value="">Select Lunch</option>
-											@foreach($lunchs as $lunch)
-											<option value="{{$lunch->id}}">{{$lunch->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Lunch
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="snack2">Select Snack 2</label>
-									<div class="input-group">
-										<select class="form-control" id="snack2" name="snack2" required="">
-											<option value="">Select Snack 2</option>
-											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}">{{$snack->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Snack 2
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="dinner">Select Dinner</label>
-									<div class="input-group">
-										<select class="form-control" id="dinner" name="dinner" required="">
-											<option value="">Select Dinner</option>
-											@foreach($dinners as $dinner)
-											<option value="{{$dinner->id}}">{{$dinner->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Dinner
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="snack3">Select Snack 3</label>
-									<div class="input-group">
-										<select class="form-control" id="snack3" name="snack3" required="">
-											<option value="">Select Snack 3</option>
-											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}">{{$snack->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Snack 3
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<div class="input-group">
-										<input type="button" class="btn btn-light" name="calculate" value="Calculate Nutrients">
+										@php
+										$no_tab++;
+										@endphp
+										@endfor
 									</div>
 								</div>
 							</div>
@@ -193,6 +132,7 @@
 	</div>
 	@endsection
 	@push('scripts')
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script type="text/javascript">
 		$("input[name='calculate']").on("click", function(){
 			var breakfast = $('#breakfast :selected').val();
@@ -230,5 +170,21 @@
 				}
 			});
 		});
+	</script>
+	<script type="text/javascript">
+		function submitform(no){
+			swal({
+				title: "Are you sure?",
+				text: "Once deleted, you will not be able to recover this!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+			.then((willDelete) => {
+				if (willDelete) {
+					document.getElementById('delete-form'+no).submit();
+				}
+			});
+		}
 	</script>
 	@endpush

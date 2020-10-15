@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app') 
 @section('head')
 <link href="{{asset('backend/assets/css/datatables.min.css')}}" rel="stylesheet">
 <!-- JavaScript -->
@@ -72,20 +72,9 @@
 								</div>
 							</div>
 							<div class="pt-5 workoutdiv" style="display: none;">
-								{{-- <h6>Select Exercise</h6>
-								<div class="col-xl-4 col-md-12">
-									<label for="Exercise">Exercise</label>
-									<div class="input-group">
-										<select class="form-control"  name="exercise" id="exercise" required="">
-											@foreach($exercises as $exercise)
-											<option value="">01</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please select a Exercise.
-										</div>
-									</div>
-								</div> --}}
+								<form method="post" action="{{route('assign-workout.store')}}">
+									@csrf
+									<input type="hidden" name="client_id" value="{{ $client->id }}">
 								<div class="col-xl-12 col-md-12">
 									<div class="ms-panel ms-panel-fh">
 										<div class="ms-panel-header">
@@ -106,7 +95,7 @@
 														<tr>
 															<th scope="row"></th>
 															<td></td>
-															<td class="text-center"><button type="button" onclick="adddays();" data-toggle="tooltip" title="Add Option Value" class="ms-btn-icon btn-square btn-danger"><i class="fa fa-plus-circle"></i></button></td></td>
+															<td class="text-center"><button type="button" onclick="adddays();" data-toggle="tooltip" title="Add Option Value" class="btn btn-danger"><i class="fa fa-plus"></i></button></td></td>
 														</tr>
 													</tbody>
 												</table>
@@ -114,6 +103,13 @@
 										</div>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<button class="btn btn-primary float-right" type="submit">Save</button>
+									</div>
+									
+								</div>
+							</form>
 							</div>
 
 							<div class="ms-panel-body float-right">
@@ -143,28 +139,6 @@
 					var workout = $(this).val()
 					var client_id = {{ $client->id }}
 					$('.workoutdiv').show();
-					// if(table == null){
-					// 	alertify.set('notifier','position', 'top-center');
-					// 	alertify.error('Please Select Workout');
-					// }else{
-					// 	$.ajaxSetup({
-					// 		headers: {
-					// 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					// 		}
-					// 	});
-					// 	jQuery.ajax({
-					// 		url: "{{ route('set-workout-session') }}",
-					// 		method: 'post',
-					// 		data: {
-					// 			range: range,
-					// 			table: table,
-					// 			client: client_id
-					// 		},
-					// 		success: function(result){
-					// 			window.location = '{{ route('workout-template') }}';
-					// 		}
-					// 	});
-					// }
 				});
 			});
 		</script>
@@ -174,8 +148,8 @@
 			var days_row = 0;
 			function adddays() {
 				html = '<tr id="day-row' + days_row + '">';
-				html += '  <th scope="row"><input type="text" name="day[' + days_row + '][day]" value="" placeholder="Day" class="form-control col-sm-3" required/></td>';
-				html += '  <td class="text-right"><select name="day[' + days_row + '][exercises][]" value="" placeholder="Exercise Name" class="exercises form-control" required multiple="multiple">@foreach($exercises as $exercise)<option value="{{$exercise->id}}">{{$exercise->name}}</option>@endforeach</select></td>';
+				html += '  <th scope="row"><input type="text" name="days[' + days_row + '][day]" value="" placeholder="Day" class="form-control col-sm-3" required/></td>';
+				html += '  <td class="text-right"><select name="days[' + days_row + '][exercises][]" value="" placeholder="Exercise Name" class="exercises form-control" required multiple="multiple">@foreach($exercises as $exercise)<option value="{{$exercise->id}}">{{$exercise->name}}</option>@endforeach</select></td>';
 				html += '  <td class="text-center"><button type="button" onclick="$(\'#day-row' + days_row + '\').remove();" data-toggle="tooltip" title="remove" class="ms-btn-icon btn-square btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 				html += '</tr>';
 

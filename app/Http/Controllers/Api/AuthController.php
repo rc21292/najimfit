@@ -139,7 +139,23 @@ class AuthController extends Controller
 	public function terms(){
 		$term = Term::first();
 		$response = ['success' => $term];
-        return response($response, 200);
+		return response($response, 200);
+	}
+	public function getuserdetails(){
+		$client = Client::find(Auth::Client()->id);
+		$validity = Package::where('id', $client->package_id)->value('validity');
+		$client_details[]=array(
+			'id'=>$client->id,
+			'firstname'=>$client->firstname,
+			'lastname'=>$client->lastname,
+			'gender'=>$client->gender,
+			'email'=>$client->email,
+			'phone'=>$client->phone,
+			'added_on'=>$client->created_at,
+			'package_status'  => isset($client->validity) ? ($client->validity >= Carbon::now() ? 'You already have an active package. Current Package is Valid Upto '.$client->validity : 'Package Expired') :'No Package Purchased',
+		);
+		$response = ['success' => $client_details];
+		return response($response, 200);
 	}
 
 

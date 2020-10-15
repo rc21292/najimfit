@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Admin;
 
@@ -51,8 +51,22 @@ class WorkoutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       DB::table('client_workouts')->where('client_id',$request->client_id)->delete();
+       foreach($request->days as $key => $value){
+        foreach($value['exercises'] as $newkey => $exercise){
+            $workout = new ClientWorkout;
+            $workout->client_id = $request->client_id;
+            $workout->day = $value['day'];
+            $workout->exercise = $exercise;
+            $workout->save();
+        } 
     }
+
+    return redirect()->route('workout-template',$request->client_id);
+
+
+
+}
 
     /**
      * Display the specified resource.
@@ -62,15 +76,15 @@ class WorkoutController extends Controller
      */
     public function show($id)
     {
-          $clients = DB::table('nutritionist_clients')
-        ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
-        ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-        ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.workout_status','due')
-        ->get();
+      $clients = DB::table('nutritionist_clients')
+      ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
+      ->join('clients','clients.id','=','nutritionist_clients.client_id')
+      ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
+      ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.workout_status','due')
+      ->get();
 
-        return view('backend.admin.workout.client',compact('clients'))->with('no', 1);
-    }
+      return view('backend.admin.workout.client',compact('clients'))->with('no', 1);
+  }
 
     /**
      * Show the form for editing the specified resource.
@@ -80,6 +94,7 @@ class WorkoutController extends Controller
      */
     public function edit($id)
     {
+        Session::put('client_id', $id);
         $workouts = WorkoutCategory::all();
         $exercises = Exercise::all();
         $answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$id)->get();
@@ -110,7 +125,8 @@ class WorkoutController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('client_workouts')->where('id',$id)->delete();
+        return redirect()->back();
     }
 
     public function allclients(){
@@ -127,11 +143,22 @@ class WorkoutController extends Controller
     }
 
     public function workouttemplate($id){
+        $no_days = ClientWorkout::where('client_id',$id)->max('day');
 
+        $exercises = Exercise::all();
+        $answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$id)->get();
+        $client = Client::find($id);
+        $weight = DB::table('client_answers')->where('client_id',$id)->where('question_id',9)->value('answer');
+
+        $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
+        $workouts = DB::table('client_workouts')->join('exercises','exercises.id','=','client_workouts.exercise')->select('exercises.*','exercises.id as exercise_id','client_workouts.*')->where('client_id',$id)->get();
+        return view('backend.admin.workout.template',compact('client','weight','height','answers','exercises','no_days','workouts'));
     }
 
-    public function workoutinfo(Request $request){
-
+    public function workoutinfo($id){
+        $categories = WorkoutCategory::all();
+        $exercise = Exercise::where('id',$id)->first();
+        return view('backend.admin.workout.workout',compact('exercise','categories'));
     }
 
     public function getexercisesbycategory(Request $request){
