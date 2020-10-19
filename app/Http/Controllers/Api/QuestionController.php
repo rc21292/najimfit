@@ -11,19 +11,31 @@ use Auth;
 use App\Models\Client;
 use App\Models\Package;
 use App\Models\Question;
+use App\Models\QuestionCategory;
 use Carbon\Carbon;
 use DB;
 
 class QuestionController extends Controller
 {
 	public function getquestions(Request $request){
+		
+		$string = 'both';
 		$gender = Auth::Client()->gender;
 		if($gender == 'female'){
-			$questions = Question::whereIn('gender',['both', $request->gender])->orderBy('sort','asc')->select('id','question')->get();
+		$gender = Auth::Client()->gender;
+			$QuestionCategory= QuestionCategory::with(['questions' => function($query){
+				$query->whereIn('questions.gender',['both', Auth::Client()->gender]);
+			}])
+			->get();
+			$questions = Question::whereIn('gender',['both', Auth::Client()->gender])->orderBy('sort','asc')->select('id','question')->get();
 		}else{
-			$questions = Question::whereIn('gender','both')->get();
+			$gender = Auth::Client()->gender;
+			$QuestionCategory= QuestionCategory::with(['questions' => function($query){
+				$query->where('questions.gender','=','both');
+			}])
+			->get();
 		}
-		$response = ['success' => $questions];
+		$response = ['success' => $QuestionCategory];
 		return response($response, 200);
 	}
 
@@ -39,11 +51,11 @@ class QuestionController extends Controller
 				if (DB::table('client_answers')->where(['client_id'=>$user_id,'question_id'=>$key])->exists()) {
 
 					DB::table('client_answers')->where(['client_id'=>$user_id,'question_id'=>$key])->update(['answer' => $value]);
-				
+
 				}else{
 
 					DB::table('client_answers')->insert(['client_id' => $user_id, 'question_id' => $key, 'answer' => $value]);
-				
+
 				}
 			}
 		}

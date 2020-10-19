@@ -50,6 +50,7 @@ Route::get('due-workout-clients','WorkoutController@allclients')->name('allworko
 Route::post('assign-workout/set-session','WorkoutController@setsession')->name('set-workout-session');
 Route::get('workout-template/{id}','WorkoutController@workouttemplate')->name('workout-template');
 Route::get('get-workout-info/{id}','WorkoutController@workoutinfo')->name('workout-info');
+Route::post('assign-workout-template','WorkoutController@assigntemplate')->name('assign-workout-template');
 
 // Renew Workout Nutritionist-wise
 Route::resource('renew-workout','RenewWorkoutController');

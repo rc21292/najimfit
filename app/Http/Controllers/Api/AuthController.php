@@ -144,6 +144,7 @@ class AuthController extends Controller
 	public function getuserdetails(){
 		$client = Client::find(Auth::Client()->id);
 		$validity = Package::where('id', $client->package_id)->value('validity');
+		$client->package_validity = isset($client->validity) ? ($client->validity >= Carbon::now() ? 'You already have an active package. Current Package is Valid Upto '.$client->validity : 'Package Expired') :'No Package Purchased';
 		$client_details[]=array(
 			'id'=>$client->id,
 			'firstname'=>$client->firstname,
@@ -154,7 +155,7 @@ class AuthController extends Controller
 			'added_on'=>$client->created_at,
 			'package_status'  => isset($client->validity) ? ($client->validity >= Carbon::now() ? 'You already have an active package. Current Package is Valid Upto '.$client->validity : 'Package Expired') :'No Package Purchased',
 		);
-		$response = ['success' => $client_details];
+		$response = ['success' => $client];
 		return response($response, 200);
 	}
 

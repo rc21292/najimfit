@@ -178,4 +178,7 @@ class WorkoutController extends Controller
             echo $output;
         }
     }
+    public function assigntemplate(Request $request){
+        return $request->all();
+    }
 }
