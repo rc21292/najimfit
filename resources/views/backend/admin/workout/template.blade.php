@@ -67,40 +67,37 @@
 										@endfor
 									</ul>
 									<div class="tab-content">
-										<form id="workout" method="POST" action="{{route('assign-workout-template')}}">
-											@csrf
-											
-											@php
-											$no_tab=1;
-											@endphp
-											@for ($i = 0; $i < $no_days; $i++)
-											<div role="tabpanel" @if($no_tab == 1) class="tab-pane active show fade in" @else class="tab-pane fade in" @endif  id="tab{{$no_tab}}">
-												<div class="ms-panel">
-													<div class="ms-panel-header">
-														<h6>Day {{$no_tab}}</h6>
-													</div>
-													<div class="ms-panel-body">
-														<div class="table-responsive">
-															<table class="table table-hover thead-primary">
-																<thead>
-																	<tr>
-																		<th scope="col">Exercise</th>
-																		<th scope="col">Sets</th>
-																		<th scope="col">Reps</th>
-																		<th scope="col">Action</th>
-																	</tr>
-																</thead>
-																<tbody>
-																	@foreach($workouts as $workout)
-																	@if($workout->day == $no_tab)
-																	<tr>
-																		<td><a href="{{route('workout-info',$workout->exercise)}}" disabled class="btn btn-pill btn-light" style="margin: auto">{{$workout->name}}</a></td>
-																		<td><input type="number" name="day[{{$no_tab}}]sets" class="form-control" required></td>
-																		<td><input type="number" name="day[{{$no_tab}}]reps" class="form-control" required></td>
-																		{{-- <td><a href="javascript:" onclick="submitform(2);"><i class="far fa-trash-alt ms-text-danger"></i></a><form id="delete-form2" action="{{route('assign-workout.destroy',$workout->id)}}" method="POST"><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form></td> --}}
-																	</tr>
-																	@endif
-																	@endforeach
+										@php
+										$no_tab=1;
+										@endphp
+										@for ($i = 0; $i < $no_days; $i++)
+										<div role="tabpanel" @if($no_tab == 1) class="tab-pane active show fade in" @else class="tab-pane fade in" @endif  id="tab{{$no_tab}}">
+											<div class="ms-panel">
+												<div class="ms-panel-header">
+													<h6>Day {{$no_tab}}</h6>
+												</div>
+												<div class="ms-panel-body">
+													<div class="table-responsive">
+														<table class="table table-hover thead-primary">
+															<thead>
+																<tr>
+																	<th scope="col">Exercise</th>
+																	<th scope="col">Sets</th>
+																	<th scope="col">Reps</th>
+																	<th scope="col">Action</th>
+																</tr>
+															</thead>
+															<tbody>
+																@foreach($workouts as $workout)
+																@if($workout->day == $no_tab)
+																<tr>
+																	<td><a href="{{route('workout-info',$workout->exercise)}}" disabled class="btn btn-pill btn-light" style="margin: auto">{{$workout->name}}</a></td>
+																	<td><input type="number" name="day[{{$no_tab}}]sets" class="form-control" required></td>
+																	<td><input type="number" name="day[{{$no_tab}}]reps" class="form-control" required></td>
+																	<td><a href="javascript:" onclick="submitform(2);"><i class="far fa-trash-alt ms-text-danger"></i></a><form id="delete-form2" action="{{route('assign-workout.destroy',$workout->id)}}" method="POST"><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form></td>
+																</tr>
+																@endif
+																@endforeach
 															</tbody>
 														</table>
 													</div>
@@ -111,14 +108,13 @@
 										$no_tab++;
 										@endphp
 										@endfor
-																</form>
 									</div>
 								</div>
 							</div>
 							<div class="ms-panel-body float-right">
 								<button type="button" class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
 								<button type="button" class="btn btn-square btn-danger has-icon"><i class="flaticon-alert-1"></i> Consult Team</button>
-								<input type="submit" class="btn btn-square btn-warning has-icon" name="submit" form="workout" value="Send to Client"/>
+								<input type="submit" class="btn btn-square btn-warning has-icon" name="submit" value="Send to Client"/>
 							</div>
 						</form>
 					</div>
