@@ -14,7 +14,6 @@ use Carbon\Carbon;
 use DB;
 use Session;
 use App\Models\Term;
-use PragmaRX\Countries\Package\Countries;
 class AuthController extends Controller
 {
 	public function register (Request $request) {
@@ -89,7 +88,7 @@ class AuthController extends Controller
 
 			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
 
-			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => Session::get('total') ]);
+			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 			$response = ['success' => 'This package has been assigned to you..!'];
 		}
 
@@ -145,16 +144,12 @@ class AuthController extends Controller
 		$client = Client::find(Auth::Client()->id);
 		$validity = Package::where('id', $client->package_id)->value('validity');
 		$client->package_validity = isset($client->validity) ? ($client->validity >= Carbon::now() ? 'You already have an active package. Current Package is Valid Upto '.$client->validity : 'Package Expired') :'No Package Purchased';
-		$client_details[]=array(
-			'id'=>$client->id,
-			'firstname'=>$client->firstname,
-			'lastname'=>$client->lastname,
-			'gender'=>$client->gender,
-			'email'=>$client->email,
-			'phone'=>$client->phone,
-			'added_on'=>$client->created_at,
-			'package_status'  => isset($client->validity) ? ($client->validity >= Carbon::now() ? 'You already have an active package. Current Package is Valid Upto '.$client->validity : 'Package Expired') :'No Package Purchased',
-		);
+		$answers = DB::table('client_answers')->where('client_id',Auth::Client()->id)->exists();
+		if($answers){
+			$client->answers = 1;
+		}else{
+		$client->answers = 0;
+		}
 		$response = ['success' => $client];
 		return response($response, 200);
 	}

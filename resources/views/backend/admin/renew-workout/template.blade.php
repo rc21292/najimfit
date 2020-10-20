@@ -41,7 +41,7 @@
 			<div class="ms-panel-body">
 				<div class="row">
 					<div class="col-md-9">
-						<form class="needs-validation clearfix" method="POST" action="{{route('assign-workout-template')}}" novalidate="">
+						<form class="needs-validation clearfix" method="POST" action="{{route('reassign-workout-template')}}" novalidate="">
 							@csrf
 							<div class="ms-panel ms-panel-fh">
 								<div class="ms-panel-header">
@@ -50,7 +50,7 @@
 											<h6>Select Reps and Sets</h6>
 										</div>
 										<div class="col-sm-3">
-											<a href="{{route('assign-workout.edit',$client->id)}}" class="btn btn-info has-icon"><i class="flaticon-information"></i>Add Exercises</a>
+											<a href="{{route('renew-workout.edit',$client->id)}}" class="btn btn-info has-icon"><i class="flaticon-information"></i>Add Exercises</a>
 										</div>
 									</div>
 								</div>

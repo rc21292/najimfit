@@ -60,6 +60,15 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-md-12">
+							<label for="name_arabic">Exercise Name(in Arabic)</label>
+							<div class="input-group">
+								<input type="text" id="name_arabic" name="name_arabic" class="form-control" placeholder="اسم التمرين" dir="rtl" value="{{ $exercise->name_arabic }}">
+								<div class="invalid-feedback">
+									Please Enter a Name.
+								</div>
+							</div>
+						</div>
 						<div class="col-xl-6 col-md-12 mb-3">
 							<label for="category">Exercise Category</label>
 							<div class="input-group">
@@ -110,6 +119,15 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-md-12">
+							<label for="description_arabic">Exercise Description(in Arabic)</label>
+							<div class="input-group">
+								<textarea rows="8" id="description_arabic" name="description_arabic" class="form-control" placeholder="اكتب عن التمرين" dir="rtl">{{ $exercise->description_arabic }}</textarea>
+								<div class="invalid-feedback">
+									Please Write about Exercise.
+								</div>
+							</div>
+						</div>	
 						<div class="col-md-12">
 							<label for="video">Exercise Video</label>
 							<div class="input-group">

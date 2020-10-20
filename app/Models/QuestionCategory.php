@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionCategory extends Model
 {
     protected $table = "question_categories";
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name', 'name_arabic','description', 'description_arabic'];
     public $timestamps = false;
 
     public function questions(){

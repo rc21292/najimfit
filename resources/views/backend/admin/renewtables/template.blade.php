@@ -180,56 +180,59 @@
 							</div>
 						</form>
 					</div>
-					<div class="col-md-3" style="border: 1px dotted #00ff08;">
+					<div class="col-sm-3" style="border: 1px dotted #00ff08;">
 						<h5 class="text-center pb-3">Questionnaire</h5>
-						@foreach($answers as $answer)
-						<p>Q: {{ $answer->question }} <p>
-							<p>A: {{ $answer->answer }} </p>
-							@endforeach
-						</div>
+						@forelse($answers as $answer)
+						<p>Q: {{ $answer->question }} </p>
+						<p>A: {{ $answer->answer }} </p>
+						@empty
+						<p class="text-center"><strong>Not Answered</strong></p>
+
+						@endforelse
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	@endsection
-	@push('scripts')
-	<script type="text/javascript">
-		$("input[name='calculate']").on("click", function(){
-			var breakfast = $('#breakfast :selected').val();
-			var snack1 = $('#snack1 :selected').val();
-			var lunch = $('#lunch :selected').val();
-			var snack2 = $('#snack2 :selected').val();
-			var dinner = $('#dinner :selected').val();
-			var snack3 = $('#snack3 :selected').val();
-			$.ajaxSetup({
+</div>
+@endsection
+@push('scripts')
+<script type="text/javascript">
+	$("input[name='calculate']").on("click", function(){
+		var breakfast = $('#breakfast :selected').val();
+		var snack1 = $('#snack1 :selected').val();
+		var lunch = $('#lunch :selected').val();
+		var snack2 = $('#snack2 :selected').val();
+		var dinner = $('#dinner :selected').val();
+		var snack3 = $('#snack3 :selected').val();
+		$.ajaxSetup({
 
-				headers: {
+			headers: {
 
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 
-				}
+			}
 
-			});
-
-			jQuery.ajax({
-				url: "{{ route('food-info') }}",
-				method: 'post',
-				data: {
-					breakfast: breakfast,
-					snack1: snack1,
-					lunch: lunch,
-					snack2: snack2,
-					dinner: dinner,
-					snack3: snack3
-				},
-				success: function(result){
-					$('#calories').val(result.calories);
-					$('#carbs').val(result.carbs);
-					$('#fat').val(result.fat);
-					$('#protein').val(result.protein);
-				}
-			});
 		});
-	</script>
-	@endpush
+
+		jQuery.ajax({
+			url: "{{ route('food-info') }}",
+			method: 'post',
+			data: {
+				breakfast: breakfast,
+				snack1: snack1,
+				lunch: lunch,
+				snack2: snack2,
+				dinner: dinner,
+				snack3: snack3
+			},
+			success: function(result){
+				$('#calories').val(result.calories);
+				$('#carbs').val(result.carbs);
+				$('#fat').val(result.fat);
+				$('#protein').val(result.protein);
+			}
+		});
+	});
+</script>
+@endpush

@@ -72,7 +72,7 @@
 								</div>
 							</div>
 							<div class="pt-5 workoutdiv" style="display: none;">
-								<form method="post" action="{{route('assign-workout.store')}}">
+								<form method="post" action="{{route('renew-workout.store')}}">
 									@csrf
 									<input type="hidden" name="client_id" value="{{ $client->id }}">
 									<div class="col-xl-12 col-md-12">
@@ -198,7 +198,22 @@
 		}           
 
 	</script>
-	<script type="text/javascript">$('.exercises').select2();</script>
+	<script type="text/javascript"><!--
+		var facility_row = 0;
+
+		function addImage() {
+			html = '<tr id="facility-row' + facility_row + '">';
+			html += '  <td class="text-right"><input type="text" name="facility[' + facility_row + '][facility_val]" value="" placeholder="Sub value" class="form-control" /></td>';
+			html += '  <td class="text-center"><button type="button" onclick="$(\'#facility-row' + facility_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+			html += '</tr>';
+
+			$('#facilities tbody').append(html);
+
+			facility_row++;
+		}
+
+		//--></script>
+		<script type="text/javascript">$('.exercises').select2();</script>
 
 
-	@endpush
+		@endpush

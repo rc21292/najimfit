@@ -60,6 +60,7 @@ class ExerciseController extends Controller
 
         $exercise = new Exercise;
         $exercise->name = $request->name;
+        $exercise->name_arabic = $request->name_arabic;
         $exercise->category = $request->category;
         $exercise->sort = $request->sort;
         $exercise->image = $name;
@@ -69,6 +70,7 @@ class ExerciseController extends Controller
         $exercise->time = $request->time;
         $exercise->calories = $request->calories;
         $exercise->description = $request->description;
+        $exercise->description_arabic = $request->description_arabic;
 
         $exercise->save();
         return redirect()->route('exercise.index')->with(['success'=>'Exercise Saved Successfully!']);
@@ -117,6 +119,8 @@ class ExerciseController extends Controller
         }
 
         $exercise->name = $request->name;
+        $exercise->name_arabic = $request->name_arabic;
+ $exercise->description_arabic = $request->description_arabic;
         $exercise->category = $request->category;
         $exercise->sort = $request->sort;
         if ($request->has('image')) {

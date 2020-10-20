@@ -40,6 +40,9 @@ Route::middleware('auth:api')->group(function () {
 	Route::get('/terms', 'Api\AuthController@terms')->name('terms.api');
 
 	Route::post('/update-cart', 'Api\CartController@updatecart')->name('updatecart.api');
+
+	Route::post('/get-workouts', 'Api\WorkoutController@getworkouts')->name('getworkout.api');
+	Route::post('/get-workout-details', 'Api\WorkoutController@getexercisedetails')->name('getexercisedetails.api');
 });
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {

@@ -46,12 +46,22 @@
 					<div class="ms-form-group has-icon">
 						<label>Name</label>
 						<input type="text" placeholder="Category Name" class="form-control" name="name" value="">
-						<i class="fa fa-list"></i>
+						
+					</div>
+					<div class="ms-form-group has-icon">
+						<label>Name(in Arabic)</label>
+						<input type="text" placeholder="Category Name" class="form-control" name="name_arabic" value="" dir="rtl">
+					
 					</div>
 					<div class="ms-form-group has-icon">
 						<label>Description</label>
 						<textarea class="form-control" name="description" value=""></textarea>
-						<i class="fa fa-sort"></i>
+					
+					</div>
+					<div class="ms-form-group has-icon">
+						<label>Description(in Arabic)</label>
+						<textarea class="form-control" name="description_arabic" value="" dir="rtl"></textarea>
+					
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -79,12 +89,18 @@
 					<div class="ms-form-group has-icon">
 						<label>Name</label>
 						<input type="text" placeholder="Category Name" id="name" class="form-control" name="name" value="">
-						<i class="fa fa-list"></i>
+					</div>
+					<div class="ms-form-group has-icon">
+						<label>Name(in Arabic)</label>
+						<input type="text" placeholder="Category Name" id="name_arabic" class="form-control" name="name_arabic" value="" dir="rtl">
 					</div>
 					<div class="ms-form-group has-icon">
 						<label>Description</label>
 						<textarea class="form-control" id="description" name="description" value=""></textarea>
-						<i class="fa fa-sort"></i>
+					</div>
+					<div class="ms-form-group has-icon">
+						<label>Description(in Arabic)</label>
+						<textarea class="form-control" id="description_arabic" name="description_arabic" dir="rtl" value="" ></textarea>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -100,7 +116,7 @@
 <script>
 	var dataSet12 = [
 	@foreach($categories as $category)
-	[ "{{ $no++ }}" ,"{{ $category->name }}","{{ $category->description }}", "<a data-name='{{$category->name}}' data-description='{{$category->description}}' data-catid='{{$category->id}}' data-toggle='modal' data-target='#edit'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('question-category.destroy',$category)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	[ "{{ $no++ }}" ,"{{ $category->name }}","{{ $category->description }}", "<a data-name='{{$category->name}}' data-name_arabic='{{$category->name_arabic}}' data-description_arabic='{{$category->description_arabic}}' data-description='{{$category->description}}' data-catid='{{$category->id}}' data-toggle='modal' data-target='#edit'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('question-category.destroy',$category)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
 	@endforeach
 	];
 	var tablequestion = $('#data-table-12').DataTable( {
@@ -143,11 +159,15 @@
   $('#edit').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) 
       var name = button.data('name') 
-      var sort = button.data('description') 
+      var name_arabic = button.data('name_arabic') 
+      var description = button.data('description') 
+      var description_arabic = button.data('description_arabic') 
       var cat_id = button.data('catid') 
       var modal = $(this)
       modal.find('.modal-body #name').val(name);
-      modal.find('.modal-body #description').val(sort);
+       modal.find('.modal-body #name_arabic').val(name_arabic);
+      modal.find('.modal-body #description').val(description);
+       modal.find('.modal-body #description_arabic').val(description_arabic);
       modal.find('.modal-body #cat_id').val(cat_id);
 })
 </script>

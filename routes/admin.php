@@ -55,9 +55,8 @@ Route::post('assign-workout-template','WorkoutController@assigntemplate')->name(
 // Renew Workout Nutritionist-wise
 Route::resource('renew-workout','RenewWorkoutController');
 Route::get('all-renew-workout-clients','RenewWorkoutController@allclients')->name('all-renew-workout-clients');
-Route::post('renew-workout/set-session','RenewWorkoutController@setsession')->name('set-renewtable-session');
-Route::get('workout-template-renew/{id}','RenewWorkoutController@workoouttemplate')->name('edit-workoout-template');
-Route::post('renew-workout-info','RenewWorkoutController@workoutinfo')->name('renew-food-info');
+Route::post('renew-workout-template','RenewWorkoutController@renewtemplate')->name('reassign-workout-template');
+Route::get('renew-workout-template/{id}','RenewWorkoutController@workouttemplate')->name('renew-workout-template');
 
 // Clients Route
 Route::resource('clients','ClientsController');

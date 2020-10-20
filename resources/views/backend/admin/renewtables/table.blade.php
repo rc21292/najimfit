@@ -148,48 +148,51 @@
 
 						<div class="col-sm-3" style="border: 1px dotted #00ff08;">
 							<h5 class="text-center pb-3">Questionnaire</h5>
-							@foreach($answers as $answer)
-							<p>Q: {{ $answer->question }} <p>
-								<p>A: {{ $answer->answer }} </p>
-								@endforeach
-							</div>
+							@forelse($answers as $answer)
+							<p>Q: {{ $answer->question }} </p>
+							<p>A: {{ $answer->answer }} </p>
+							@empty
+							<p class="text-center"><strong>Not Answered</strong></p>
+
+							@endforelse
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		@endsection
-		@push('scripts')
-		<script type="text/javascript">
-			$( document ).ready(function() {
-				$('.range').change(function(e){
-					e.preventDefault();
-					var range = $(this).val()
-					var table = $(".diettable:checked").val();
-					var client_id = {{ $client->id }}
-					if(table == null){
-						alertify.set('notifier','position', 'top-center');
-						alertify.error('Please Select Table');
-					}else{
-						$.ajaxSetup({
-							headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							}
-						});
-						jQuery.ajax({
-							url: "{{ route('set-renewtable-session') }}",
-							method: 'post',
-							data: {
-								range: range,
-								table: table,
-								client: client_id
-							},
-							success: function(result){
-								window.location = '{{ route('edit-diet-template',$selected_table->id) }}';
-							}
-						});
-					}
-				});
+	</div>
+	@endsection
+	@push('scripts')
+	<script type="text/javascript">
+		$( document ).ready(function() {
+			$('.range').change(function(e){
+				e.preventDefault();
+				var range = $(this).val()
+				var table = $(".diettable:checked").val();
+				var client_id = {{ $client->id }}
+				if(table == null){
+					alertify.set('notifier','position', 'top-center');
+					alertify.error('Please Select Table');
+				}else{
+					$.ajaxSetup({
+						headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						}
+					});
+					jQuery.ajax({
+						url: "{{ route('set-renewtable-session') }}",
+						method: 'post',
+						data: {
+							range: range,
+							table: table,
+							client: client_id
+						},
+						success: function(result){
+							window.location = '{{ route('edit-diet-template',$selected_table->id) }}';
+						}
+					});
+				}
 			});
-		</script>
-		@endpush
+		});
+	</script>
+	@endpush

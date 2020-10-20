@@ -50,7 +50,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="{{route('renew-workout.index')}}">
+        <a href="{{route('clients.index')}}">
           <span><i class="far fa-user-circle"></i>Clients</span>
         </a>
       </li>
