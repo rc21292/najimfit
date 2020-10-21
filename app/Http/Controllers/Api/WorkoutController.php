@@ -75,8 +75,26 @@ class WorkoutController extends Controller
 		}else{
 			return response(['errors'=>'Workout not assigned by Nutrionist'], 422);
 		}
-
-		
-
 	}
+
+
+	public function getworkoutinstructions(Request $request){
+		$instructions = DB::table('workout_information')->get();
+		if(!$instructions->isEmpty()){
+			foreach($instructions as $instruction){
+				$instruct[] = array(
+					"insturction_id" => $instruction->id,
+					"name" => $request->language == "arabic" ? $instruction->name_arabic : $instruction->name,
+					"description" => $request->language == "arabic" ? $instruction->information_arabic : $instruction->information,
+				);
+			}
+
+			$data = $instruct;
+			return response()->json(['success'=> $data], 200);
+
+		}else{
+			return response(['errors'=>'No Instructions found!'], 422);
+		}
+	}
+	
 }

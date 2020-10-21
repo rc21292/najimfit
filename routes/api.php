@@ -43,6 +43,7 @@ Route::middleware('auth:api')->group(function () {
 
 	Route::post('/get-workouts', 'Api\WorkoutController@getworkouts')->name('getworkout.api');
 	Route::post('/get-workout-details', 'Api\WorkoutController@getexercisedetails')->name('getexercisedetails.api');
+	Route::post('/get-workout-instructions', 'Api\WorkoutController@getworkoutinstructions')->name('getworkoutinstructions.api');
 });
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
