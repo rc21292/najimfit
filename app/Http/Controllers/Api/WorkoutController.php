@@ -25,24 +25,33 @@ class WorkoutController extends Controller
 		->where('client_workouts.client_id',Auth::Client()->id)
 		->get();
 
-		foreach($workouts as $workout){
-			$exercises[] = array(
-				"day" => $workout->day,
-				"client_id" => Auth::Client()->id,
-				"workout_id" => $workout->workout_id,
-				"name" => $request->language == "arabic" ? $workout->name_arabic : $workout->name,
-				"image" => 'https://tegdarco.com/uploads/exercises/'.$workout->image,
-				"video" => "https://www.youtube.com/watch?v=ti3tbscESUY",
-				"time" => $workout->time,
-				"calories" => $workout->calories,
-				"sets" => $workout->sets,
-				"reps" => $workout->reps,
-				"description" => $request->language == "arabic" ? $workout->description_arabic : $workout->description,
-			);
+		if(!$workouts->isEmpty()){
+			foreach($workouts as $workout){
+				$exercises[] = array(
+					"day" => $workout->day,
+					"client_id" => Auth::Client()->id,
+					"workout_id" => $workout->workout_id,
+					"name" => $request->language == "arabic" ? $workout->name_arabic : $workout->name,
+					"image" => 'https://tegdarco.com/uploads/exercises/'.$workout->image,
+					"video" => "https://www.youtube.com/watch?v=ti3tbscESUY",
+					"time" => $workout->time,
+					"calories" => $workout->calories,
+					"sets" => $workout->sets,
+					"reps" => $workout->reps,
+					"status" => $workout->status,
+					"description" => $request->language == "arabic" ? $workout->description_arabic : $workout->description,
+				);
+			}
+
+			$data = $exercises;
+			return response()->json(['success'=> $data], 200);
+			
+		}else{
+			return response(['errors'=>'Workout not assigned by Nutrionist'], 422);
 		}
 
-		$data = $exercises;
-		return response()->json(['success'=> $data], 200);
+
+		
 	}
 
 	public function getexercisedetails(Request $request){
@@ -51,25 +60,23 @@ class WorkoutController extends Controller
 		->select('exercises.id as exercise_id','exercises.*','exercises.name','client_workouts.day','client_workouts.id as workout_id','client_workouts.*')
 		->where('client_workouts.id',$request->workout_id)
 		->first();
-		
+		$workout->day =  $workout->day;
+		$workout->workout_id = $workout->workout_id;
+		$workout->image = 'https://tegdarco.com/uploads/exercises/'.$workout->image;
+		$workout->name =$request->language == "arabic" ? $workout->description_arabic : $workout->name;
+		unset($workout->name_arabic);
+		$workout->sets =$workout->sets;
+		$workout->reps = $workout->reps;
+		$workout->description =$request->language == "arabic" ? $workout->description_arabic : $workout->description;
+		unset($workout->description_arabic);
+		if(isset($workout)){
+			$data = $workout;
+			return response()->json(['success'=> $data], 200);
+		}else{
+			return response(['errors'=>'Workout not assigned by Nutrionist'], 422);
+		}
 
-			$exercises[] = array(
-				"day" => $workout->day,
-				"client_id" => Auth::Client()->id,
-				"workout_id" => $workout->workout_id,
-				"name" => $request->language == "arabic" ? $workout->name_arabic : $workout->name,
-				"image" => 'https://tegdarco.com/uploads/exercises/'.$workout->image,
-				"video" => "https://www.youtube.com/watch?v=ti3tbscESUY",
-				"time" => $workout->time,
-				"calories" => $workout->calories,
-				"sets" => $workout->sets,
-				"reps" => $workout->reps,
-				"description" => $request->language == "arabic" ? $workout->description_arabic : $workout->description,
-			);
 		
-
-		$data = $exercises;
-		return response()->json(['success'=> $data], 200);
 
 	}
 }

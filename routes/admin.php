@@ -1,4 +1,4 @@
-<?php 
+<?php  
 
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +65,8 @@ Route::post('meal-delete-image/{meal}', 'ClientsController@deleteimage')->name('
 // Exercise Route
 Route::resource('exercise','Features\ExerciseController');
 Route::post('exercise-delete-image/{exercise}', 'Features\ExerciseController@deleteimage')->name('exercise-image-delete');
-
+Route::get('workout-informations','Features\ExerciseController@getworkoutinformation')->name('workout-informations');
+Route::post('workout-information','Features\ExerciseController@storeinformation')->name('workout-information');
+Route::patch('workout-information-update','Features\ExerciseController@updateinformation')->name('workout-information-update');
 Route::resource('products','ProductController');
 });

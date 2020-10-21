@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Admin\Features;
 
@@ -65,7 +65,7 @@ class ExerciseController extends Controller
         $exercise->sort = $request->sort;
         $exercise->image = $name;
         if ($request->has('video')) {
-        $exercise->video = $request->video;
+            $exercise->video = $request->video;
         }
         $exercise->time = $request->time;
         $exercise->calories = $request->calories;
@@ -85,7 +85,7 @@ class ExerciseController extends Controller
 
     public function show(Exercise $exercise)
     {
-        
+
     }
 
     /**
@@ -120,14 +120,14 @@ class ExerciseController extends Controller
 
         $exercise->name = $request->name;
         $exercise->name_arabic = $request->name_arabic;
- $exercise->description_arabic = $request->description_arabic;
+        $exercise->description_arabic = $request->description_arabic;
         $exercise->category = $request->category;
         $exercise->sort = $request->sort;
         if ($request->has('image')) {
-        $exercise->image = $name;
+            $exercise->image = $name;
         }
         if ($request->has('video')) {
-        $exercise->video = $request->video;
+            $exercise->video = $request->video;
         }
         $exercise->time = $request->time;
         $exercise->calories = $request->calories;
@@ -159,4 +159,31 @@ class ExerciseController extends Controller
         $exercise->update(['image' => null]);
         return response()->json(["success"=>'deleted']);
     }
+    public function storeinformation(Request $request){
+        DB::table('workout_information')->insert([
+            'name' => $request->name,
+            'name_arabic' => $request->name_arabic,
+            'information' => $request->description,
+            'information_arabic' => $request->description_arabic,
+
+        ]);
+        return redirect()->route('workout-informations');
+    }      
+
+    public function updateinformation(Request $request){
+       DB::table('workout_information')->where('id',$request->cat_id)->update([
+        'name' => $request->name,
+        'name_arabic' => $request->name_arabic,
+        'information' => $request->description,
+        'information_arabic' => $request->description_arabic,
+
+    ]);
+       return redirect()->route('workout-informations');
+
+   }
+   public function getworkoutinformation(){
+    $categories = DB::table('workout_information')->get();
+
+    return view('backend.admin.features.workouts.information',compact('categories'))->with('no', 1);
+}
 }

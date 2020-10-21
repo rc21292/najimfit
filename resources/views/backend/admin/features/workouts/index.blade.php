@@ -15,6 +15,7 @@
 				</nav>
 			</div>
 			<div class="col-sm-4" style="padding-left: 85px;">
+				<a href="{{route('workout-informations')}}" class="btn btn-square btn-warning mb-2"><i class="fas fa-list"></i> Information</a>
 				<a href="{{route('workout-category.index')}}" class="btn btn-square btn-danger mb-2"><i class="fas fa-list"></i> Categories</a>
 				<a href="{{route('exercise.create')}}" class="btn btn-square btn-primary mb-2"><i class="fas fa-plus"></i>  Add Exercise</a>
 			</div>
