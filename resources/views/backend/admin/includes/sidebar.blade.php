@@ -28,26 +28,23 @@
           <span><i class="fab fa-stack-exchange"></i>Chats</span>
         </a>
       </li>
-
       <li class="menu-item">
-        <a href="{{route('assign-table.index')}}">
-          <span><i class="fa fa-table"></i>Assign Tables</span>
+        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements1" aria-expanded="false" aria-controls="form-elements1">
+          <span><i class="fas fa-table"></i>Tables</span>
         </a>
+        <ul id="form-elements1" class="collapse" aria-labelledby="form-elements1" data-parent="#side-nav-accordion">
+          <li> <a href="{{route('assign-table.index')}}">Assign Tables</a></li>
+          <li> <a href="{{route('renew-table.index')}}">Renew Tables</a> </li>
+        </ul>
       </li>
       <li class="menu-item">
-        <a href="{{route('renew-table.index')}}">
-          <span><i class="fa fa-redo"></i>Renewal Tables</span>
+        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements2" aria-expanded="false" aria-controls="form-elements2">
+          <span><i class="fas fa-burn"></i>Workouts</span>
         </a>
-      </li>
-      <li class="menu-item">
-        <a href="{{route('assign-workout.index')}}">
-          <span><i class="fa fa-burn"></i>Assign Workouts</span>
-        </a>
-      </li>
-      <li class="menu-item">
-        <a href="{{route('assign-table.index')}}">
-          <span><i class="fa fa-sync"></i>Renewed Workouts</span>
-        </a>
+        <ul id="form-elements2" class="collapse" aria-labelledby="form-elements2" data-parent="#side-nav-accordion">
+          <li><a href="{{route('assign-workout.index')}}">Assign Workout</a></li>
+          <li><a href="{{route('renew-workout.index')}}">Renew Workout</a></li>
+        </ul>
       </li>
       <li class="menu-item">
         <a href="{{route('clients.index')}}">

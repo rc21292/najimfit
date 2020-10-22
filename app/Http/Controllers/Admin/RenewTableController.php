@@ -67,7 +67,7 @@ class RenewTableController extends Controller
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-        ->where('nutritionist_clients.nutritionist_id',$id)
+        ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','posted')
         ->get();
 
         return view('backend.admin.renewtables.client',compact('clients'))->with('no', 1);

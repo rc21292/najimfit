@@ -94,7 +94,7 @@ class TableController extends Controller
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-        ->where('nutritionist_clients.nutritionist_id',$id)
+        ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','due')
         ->get();
 
         return view('backend.admin.tables.client',compact('clients'))->with('no', 1);
@@ -145,6 +145,7 @@ class TableController extends Controller
     	->join('users','users.id','=','nutritionist_clients.nutritionist_id')
     	->join('clients','clients.id','=','nutritionist_clients.client_id')
     	->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
+        ->where('nutritionist_clients.table_status','due')
     	->get();
     	return view('backend.admin.tables.client',compact('clients'))->with('no', 1);
     }

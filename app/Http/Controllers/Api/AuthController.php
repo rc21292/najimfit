@@ -31,6 +31,17 @@ class AuthController extends Controller
 		$request['password']=Hash::make($request['password']);
 		$request['remember_token'] = Str::random(10);
 		$user = Client::create($request->toArray());
+		$nutritionists = DB::table('nutritionist_clients')
+		->select('nutritionist_id', DB::raw('count(*) as client_total'))
+		->groupBy('nutritionist_id')
+		->get();
+
+		foreach($nutritionists as $nutritionist){
+			if($nutritionist->client_total < 30){
+				DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
+				break;
+			}
+		}
 		$token = $user->createToken('Laravel Password Grant Client')->accessToken;
 		$response = ['token' => $token];
 		return response($response, 200);
@@ -148,7 +159,7 @@ class AuthController extends Controller
 		if($answers){
 			$client->answers = 1;
 		}else{
-		$client->answers = 0;
+			$client->answers = 0;
 		}
 		$response = ['success' => $client];
 		return response($response, 200);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class ClientsController extends Controller
 {
@@ -16,6 +17,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
+
         $clients = Client::latest()->get();
         return view('backend.admin.clients.index',compact('clients'))->with('no', 1);
     }
@@ -42,16 +44,26 @@ class ClientsController extends Controller
         $input['password'] = Hash::make($input['password']);
         if ($request->has('status')) {
 
-           $input['status'] = $request->status;
+         $input['status'] = $request->status;
 
-        }else{
+     }else{
 
-            $input['status'] = "off";
-        }
-        $user = Client::create($input);
-        return redirect()->route('clients.index')
-        ->with('success','Client Created successfully');
+        $input['status'] = "off";
     }
+    $user = Client::create($input);
+    $nutritionists = DB::table('nutritionist_clients')
+    ->select('nutritionist_id', DB::raw('count(*) as client_total'))
+    ->groupBy('nutritionist_id')
+    ->get();
+
+    foreach($nutritionists as $nutritionist){
+        if($nutritionist->client_total < 30){
+            DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
+            break;
+        }
+    }
+    return redirect()->route('clients.index')->with('success','Client Created successfully');
+}
 
     /**
      * Display the specified resource.
