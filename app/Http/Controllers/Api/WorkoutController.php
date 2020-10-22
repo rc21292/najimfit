@@ -96,5 +96,47 @@ class WorkoutController extends Controller
 			return response(['errors'=>'No Instructions found!'], 422);
 		}
 	}
+
+	public function completeworkout(Request $request){
+		$workouts = DB::table('client_workouts')->where('id',$request->workout_id)->update(['timer'=>$request->timer, 'status'=>"completed"]);
+		$data = "Exercises marked as Completed!";
+		return response()->json(['success'=> $data], 200);
+	}
+
+	public function summaryworkout(Request $request){
+
+		$workouts = DB::table('client_workouts')
+		->join('exercises','exercises.id','=','client_workouts.exercise')
+		->select('exercises.id as exercise_id','exercises.*','exercises.name','client_workouts.day','client_workouts.id as workout_id','client_workouts.*')
+		->where('client_workouts.client_id',Auth::Client()->id)
+		->where('client_workouts.day',$request->day)
+		->where('client_workouts.status','completed')
+		->get();
+
+		if(!$workouts->isEmpty()){
+			foreach($workouts as $workout){
+				$exercises[] = array(
+					"day" => $workout->day,
+					"client_id" => Auth::Client()->id,
+					"workout_id" => $workout->workout_id,
+					"name" => $request->language == "arabic" ? $workout->name_arabic : $workout->name,
+					"image" => 'https://tegdarco.com/uploads/exercises/'.$workout->image,
+					"video" => "https://www.youtube.com/watch?v=ti3tbscESUY",
+					"time" => $workout->time,
+					"calories" => $workout->calories,
+					"sets" => $workout->sets,
+					"reps" => $workout->reps,
+					"status" => $workout->status,
+					"description" => $request->language == "arabic" ? $workout->description_arabic : $workout->description,
+				);
+			}
+
+			$data = $exercises;
+			return response()->json(['success'=> $data], 200);
+			
+		}else{
+			return response(['errors'=>'Workout not assigned by Nutrionist or Please check Day parameter'], 422);
+		}
+	}
 	
 }

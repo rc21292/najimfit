@@ -1,4 +1,4 @@
-<?php 
+<?php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,8 +42,14 @@ Route::middleware('auth:api')->group(function () {
 	Route::post('/update-cart', 'Api\CartController@updatecart')->name('updatecart.api');
 
 	Route::post('/get-workouts', 'Api\WorkoutController@getworkouts')->name('getworkout.api');
+
 	Route::post('/get-workout-details', 'Api\WorkoutController@getexercisedetails')->name('getexercisedetails.api');
+
 	Route::post('/get-workout-instructions', 'Api\WorkoutController@getworkoutinstructions')->name('getworkoutinstructions.api');
+
+	Route::post('/complete-workout', 'Api\WorkoutController@completeworkout')->name('completeworkout.api');
+	Route::post('/summary-workout', 'Api\WorkoutController@summaryworkout')->name('summaryworkout.api');
+
 });
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
@@ -52,13 +58,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 	Route::get('/get-packages', 'Api\AuthController@getpackages')->name('getpackages.api');
 	Route::post('/login', 'Api\AuthController@login')->name('login.api');
 	Route::post('/register','Api\AuthController@register')->name('register.api');
-   
+
     //Forget Password routes
 	Route::post('create', 'Api\PasswordResetController@create');
-    Route::get('password/find/{token}', 'Api\PasswordResetController@find');
-    Route::post('reset', 'Api\PasswordResetController@reset');
-    Route::get('getcountryflags','Api\AuthController@getcountryflags');
-    Route::get('terms','Api\AuthController@terms');
+	Route::get('password/find/{token}', 'Api\PasswordResetController@find');
+	Route::post('reset', 'Api\PasswordResetController@reset');
+	Route::get('getcountryflags','Api\AuthController@getcountryflags');
+	Route::get('terms','Api\AuthController@terms');
 
     //
 
