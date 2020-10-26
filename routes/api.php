@@ -18,6 +18,8 @@ Route::middleware('auth:api')->group(function () {
     // our routes to be protected will go in here
 	Route::get('/user', 'Api\AuthController@getuserdetails');
 
+	Route::post('/edit-user', 'Api\AuthController@update');
+
 	Route::post('/select-gender', 'Api\AuthController@selectgender')->name('selectgender.api');
 
 	Route::post('/get-questions', 'Api\QuestionController@getquestions')->name('getquestions.api');

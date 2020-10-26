@@ -13,6 +13,7 @@ use App\Models\Package;
 use App\Models\ClientWorkout;
 use DB;
 use Session;
+use Auth;
 
 class WorkoutController extends Controller
 {
@@ -23,14 +24,25 @@ class WorkoutController extends Controller
      */
     public function index()
     {
-        $total_clients = Client::count();
-        $users = User::role('Nutritionist')
-        ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
-        ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','due')
-        ->get();
-        
-        return view('backend.admin.workout.index',compact('users','total_clients'));
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+
+        if($role_name == 'Nutritionist'){
+
+            return redirect()->route('assign-workout.show',Auth::User()->id);
+
+        }else{
+
+            $total_clients = Client::count();
+            $users = User::role('Nutritionist')
+            ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
+            ->join('clients','clients.id','=','nutritionist_clients.client_id')
+            ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','due')
+            ->get();
+
+            return view('backend.admin.workout.index',compact('users','total_clients'));
+        }
     }
 
     /**
@@ -51,8 +63,8 @@ class WorkoutController extends Controller
      */
     public function store(Request $request)
     {
-     DB::table('client_workouts')->where('client_id',$request->client_id)->delete();
-     foreach($request->days as $key => $value){
+       DB::table('client_workouts')->where('client_id',$request->client_id)->delete();
+       foreach($request->days as $key => $value){
         foreach($value['exercises'] as $newkey => $exercise){
             ClientWorkout::updateOrCreate(
                 ['client_id' => $request->client_id, 'day' => $value['day'], 'exercise' =>$exercise],
@@ -102,7 +114,7 @@ class WorkoutController extends Controller
         $no_days = ClientWorkout::where('client_id',$id)->max('day');
         $client_workouts = DB::table('client_workouts')->where('client_id',$id)->get();
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
-       
+
         
         return view('backend.admin.workout.table',compact('client','weight','height','workouts','answers','exercises','client_workouts','no_days'));
     }

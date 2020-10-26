@@ -14,6 +14,8 @@ use Carbon\Carbon;
 use DB;
 use Session;
 use App\Models\Term;
+use File;
+use Image;
 class AuthController extends Controller
 {
 	public function register (Request $request) {
@@ -26,7 +28,8 @@ class AuthController extends Controller
 		]);
 		if ($validator->fails())
 		{
-			return response(['errors'=>$validator->errors()->all()], 422);
+			$array = implode(',', $validator->errors()->all());
+			return response(['errors'=>$array], 422);
 		}
 		$request['password']=Hash::make($request['password']);
 		$request['remember_token'] = Str::random(10);
@@ -52,7 +55,8 @@ class AuthController extends Controller
 		]);
 		if ($validator->fails())
 		{
-			return response(['errors'=>$validator->errors()->all()], 422);
+			$array = implode(',', $validator->errors()->all());
+			return response(['errors'=>$array], 422);
 		}
 		$user_id = Auth::Client()->id;
 		$user = Client::find($user_id);
@@ -115,7 +119,8 @@ class AuthController extends Controller
 		]);
 		if ($validator->fails())
 		{
-			return response(['errors'=>$validator->errors()->all()], 422);
+			$array = implode(',', $validator->errors()->all());
+			return response(['errors'=>$array], 422);
 		}
 		$user = Client::where('email', $request->email)->first();
 		if ($user) {
@@ -163,6 +168,46 @@ class AuthController extends Controller
 		}
 		$response = ['success' => $client];
 		return response($response, 200);
+	}
+
+	public function update(Request $request)
+	{ 
+		$user_id = Auth::User()->id;
+
+		$validator = Validator::make($request->all(), [
+			'firstname' => 'required|string|max:255',
+			'lastname' => 'required|string|max:255',
+			'phone' => 'required|numeric|min:11',
+			'email' => 'required|string|email|max:255',
+			'password' => 'required|string|min:6',
+		]);
+
+		if ($validator->fails())
+		{
+			return response(['errors'=>$validator->errors()->all()], 422);
+		}
+
+		$user = Client::find($user_id);
+		$user->firstname = request('firstname');
+		$user->lastname = request('lastname');
+		$user->phone = request('phone');
+		$user->gender = request('gender');
+		$user->email = request('email');
+
+		
+	
+			$file = $request->file('image');
+				if(isset($file)) {
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file)->resize(150, 150);
+            $pp = public_path('uploads/clients/images/');
+            $profileimage->save(public_path('uploads/clients/images/'.$path),100);
+		$user->avatar = $path;
+		}
+		$user->save();
+		$user->image = 'https://tegdarco.com/uploads/clients/images/'.$user->avatar;
+		return response(['success'=> $user], 200);
 	}
 
 

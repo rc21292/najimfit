@@ -99,8 +99,15 @@ class WorkoutController extends Controller
 
 	public function completeworkout(Request $request){
 		$workouts = DB::table('client_workouts')->where('id',$request->workout_id)->update(['timer'=>$request->timer, 'status'=>"completed"]);
-		$data = "Exercises marked as Completed!";
-		return response()->json(['success'=> $data], 200);
+		$workout = DB::table('client_workouts')->where('id',$request->workout_id)->where('client_workouts.client_id',Auth::Client()->id)->exists();
+		if($workout){
+			$data = "Exercises marked as Completed!";
+			return response()->json(['success'=> $data], 200);
+
+		}else{
+			return response(['errors'=>'No Workout found for this Workout id!'], 422);
+
+		}
 	}
 
 	public function summaryworkout(Request $request){

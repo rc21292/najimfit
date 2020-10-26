@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use Illuminate\Support\Facades\Hash;
 use DB;
+use Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 class ClientsController extends Controller
 {
@@ -17,9 +19,26 @@ class ClientsController extends Controller
      */
     public function index()
     {
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
 
-        $clients = Client::latest()->get();
-        return view('backend.admin.clients.index',compact('clients'))->with('no', 1);
+        if($role_name == 'Nutritionist'){
+            $clients = DB::table('nutritionist_clients')
+            ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
+            ->join('clients','clients.id','=','nutritionist_clients.client_id')
+            ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
+            ->where('nutritionist_clients.nutritionist_id',Auth::User()->id)
+            ->get();
+
+            return view('backend.admin.clients.index',compact('clients'))->with('no', 1);
+
+        }else{
+
+
+            $clients = Client::latest()->get();
+            return view('backend.admin.clients.index',compact('clients'))->with('no', 1);
+        }
     }
 
     /**
@@ -44,9 +63,9 @@ class ClientsController extends Controller
         $input['password'] = Hash::make($input['password']);
         if ($request->has('status')) {
 
-         $input['status'] = $request->status;
+           $input['status'] = $request->status;
 
-     }else{
+       }else{
 
         $input['status'] = "off";
     }

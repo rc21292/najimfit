@@ -13,6 +13,7 @@ use App\Models\Package;
 use App\Models\ClientWorkout;
 use DB;
 use Session;
+use Auth;
 
 class RenewWorkoutController extends Controller
 {
@@ -24,13 +25,23 @@ class RenewWorkoutController extends Controller
     
     public function index()
     {
-        $total_clients = Client::count();
-        $users = User::role('Nutritionist')
-        ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
-        ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','posted')
-        ->get();
-        return view('backend.admin.renew-workout.index',compact('users','total_clients'));
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+
+        if($role_name == 'Nutritionist'){
+
+            return redirect()->route('renew-workout.show',Auth::User()->id);
+
+        }else{
+            $total_clients = Client::count();
+            $users = User::role('Nutritionist')
+            ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
+            ->join('clients','clients.id','=','nutritionist_clients.client_id')
+            ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','posted')
+            ->get();
+            return view('backend.admin.renew-workout.index',compact('users','total_clients'));
+        }
     }
 
     /**

@@ -13,6 +13,7 @@ use App\Models\Package;
 use App\Models\ClientTable;
 use DB;
 use Session;
+use Auth;
 use Spatie\Permission\Traits\HasRoles;
 function __construct()
 {
@@ -32,14 +33,27 @@ class TableController extends Controller
      */
     public function index()
     {
-    	$total_clients = Client::count();
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+
+        if($role_name == 'Nutritionist'){
+
+            return redirect()->route('assign-table.show',Auth::User()->id);
+
+        }else{
+
+        $total_clients = Client::count();
         $users = User::role('Nutritionist')
-                    ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
-    	            ->join('clients','clients.id','=','nutritionist_clients.client_id')
-    	            ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('table_status','due')
-    	            ->get();
-        
+        ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
+        ->join('clients','clients.id','=','nutritionist_clients.client_id')
+        ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('table_status','due')
+        ->get();
+
         return view('backend.admin.tables.index',compact('users','total_clients'));
+
+        }
+        
     }
 
     /**
@@ -146,8 +160,8 @@ class TableController extends Controller
     	->join('clients','clients.id','=','nutritionist_clients.client_id')
     	->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
         ->where('nutritionist_clients.table_status','due')
-    	->get();
-    	return view('backend.admin.tables.client',compact('clients'))->with('no', 1);
+        ->get();
+        return view('backend.admin.tables.client',compact('clients'))->with('no', 1);
     }
 
     public function setsession(Request $request){
@@ -185,5 +199,5 @@ class TableController extends Controller
       $protein = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('protein');
       return response()->json(['calories'=> $calories, 'carbs'=> $carbs, 'fat'=> $fat, 'protein'=> $protein]);
 
-    }
+  }
 }

@@ -15,6 +15,7 @@ use App\Models\ClientTable;
 use DB;
 use Session;
 use Spatie\Permission\Traits\HasRoles;
+use Auth;
 
 class RenewTableController extends Controller
 {
@@ -25,12 +26,22 @@ class RenewTableController extends Controller
      */
     public function index()
     {
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+
+        if($role_name == 'Nutritionist'){
+
+            return redirect()->route('renew-table.show',Auth::User()->id);
+
+        }else{
         $total_clients = Client::count();
         $users = User::role('Nutritionist')
         ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('table_status','posted')
         ->get();
+    }
         return view('backend.admin.renewtables.index',compact('users','total_clients'));
     }
 
