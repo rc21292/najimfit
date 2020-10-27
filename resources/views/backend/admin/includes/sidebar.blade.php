@@ -24,7 +24,7 @@
       <!-- /Advanced UI Elements -->
 
       <li class="menu-item">
-        <a href="#">
+        <a href="/chatify">
           <span><i class="fab fa-stack-exchange"></i>Chats</span>
         </a>
       </li>
@@ -145,7 +145,7 @@
       </li>
       @endcan
       <li class="menu-item">
-        <a href="#">
+        <a href="/chatify">
           <span><i class="fab fa-stack-exchange"></i>Chats</span>
         </a>
       </li>
