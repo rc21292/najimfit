@@ -120,15 +120,15 @@
 			defaultPreviewContent: '<img src="/backend/assets/img/media.png" alt="Your Avatar"><h6 class="text-muted">Upload Image</h6>',
 			layoutTemplates: {main2: '{preview} {remove} {browse}'},
 			allowedFileExtensions: ["jpg", "png", "gif"],
-			@if(isset($profile->avater))
+			@if(isset($profile->avatar))
 			initialPreview: [
-			"{{asset('uploads/user/'.$profile->avater)}}"
+			"{{asset('uploads/user/'.$profile->avatar)}}"
 			],
 			 initialPreviewAsData: true, // defaults markup
 
     initialPreviewFileType: 'image', // image is the default and can be overridden in config below
     initialPreviewConfig: [
-    {caption: "{{$profile->avater}}", url: "{{route('account-image-delete',$profile->avater)}}", key: {{$profile->id}} }
+    {caption: "{{$profile->avatar}}", url: "{{route('account-image-delete',$profile->avatar)}}", key: {{$profile->id}} }
     ],
     @endif
 });

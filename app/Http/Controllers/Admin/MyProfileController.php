@@ -61,7 +61,7 @@ class MyProfileController extends Controller
         $user = User::find($user_id);
         $user->name = $request->name;
         if ($request->has('image')) {
-            $user->avater = $path;
+            $user->avatar = $path;
         }
      $user->save();
 
@@ -117,7 +117,7 @@ class MyProfileController extends Controller
         File::delete($image);
         $user_id = Auth::User()->id;
         $user = User::find($user_id);
-        $user->avater = null;
+        $user->avatar = null;
         $user->save();
         return response()->json(["success"=>'deleted']);
     }
