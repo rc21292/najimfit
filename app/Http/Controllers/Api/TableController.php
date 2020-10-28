@@ -4,10 +4,483 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Client;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Auth;
+use App\Models\Package;
+use Carbon\Carbon;
+use DB;
+use Session;
+use App\Models\Term;
+use File;
+use Image;
+use App\Models\ClientTable;
+use App\Models\Meals\Meal;
+use App\Models\Meals\TableCategory;
 
 class TableController extends Controller
 {
-    public function gettable(){
-    	
-    }
+	public function gettable(Request $request){
+
+		$client_id = Auth::id();
+
+		$table = ClientTable::where('client_id',$client_id)->first();
+		if(isset($table)){
+
+			$category = $table->table_id ;
+			$breakfast= $table->breakfast;
+			$snacks1= $table->snacks1;
+			$lunch= $table->lunch;
+			$snacks2= $table->snacks2;
+			$dinner= $table->dinner;
+			$snacks3= $table->snacks3;
+			unset($table->breakfast);
+			unset($table->snacks1);
+			unset($table->lunch);
+			unset($table->snacks2);
+			unset($table->dinner);
+			unset($table->snacks3);
+			unset($table->calories);
+			unset($table->carbs);
+			unset($table->protein);
+			unset($table->fat);
+			unset($table->created_at);
+			unset($table->updated_at);
+
+
+			$table->category = TableCategory::find($category)->name;
+			$breakfast_detail =Meal::find($breakfast);
+			$table->breakfast_name = $breakfast_detail->food;
+			if(isset($breakfast_detail->image)){
+				$table->breakfast_image = 'https://tegdarco.com/uploads/meals/'.$breakfast_detail->image;
+			}else{
+				$table->breakfast_image = 'https://tegdarco.com/uploads/meals/meal.png';
+			}
+			$table->breakfast_calories = $breakfast_detail->calories;
+			$table->breakfast_carbs = $breakfast_detail->carbs;
+			$table->breakfast_protein = $breakfast_detail->protein;
+			$table->breakfast_fat = $breakfast_detail->fat;
+			if(isset($breakfast_detail->quantity)){
+				$table->breakfast_quantity = $breakfast_detail->quantity;
+			}
+
+			if(isset($breakfast_detail->weight)){
+				$table->breakfast_weight = $breakfast_detail->weight.' gm';
+			}
+
+			if(isset($breakfast_detail->spoon)){
+				$table->breakfast_spoon = $breakfast_detail->spoon;
+			}
+
+			$snacks1_detail =Meal::find($snacks1);
+			$table->snacks1_name = $snacks1_detail->food;
+			if(isset($breakfast_detail->image)){
+				$table->snacks1_image = 'https://tegdarco.com/uploads/meals/'.$snacks1_detail->image;
+			}else{
+				$table->snacks1_image = 'https://tegdarco.com/uploads/meals/meal.png';
+			}
+			$table->snacks1_calories = $snacks1_detail->calories;
+			$table->snacks1_carbs = $snacks1_detail->carbs;
+			$table->snacks1_protein = $snacks1_detail->protein;
+			$table->snacks1_fat = $snacks1_detail->fat;
+			if(isset($snacks1_detail->quantity)){
+				$table->snacks1_quantity = $snacks1_detail->quantity;
+			}
+
+			if(isset($snacks1_detail->weight)){
+				$table->snacks1_weight = $snacks1_detail->weight.' gm';
+			}
+
+			if(isset($snacks1_detail->spoon)){
+				$table->snacks1_spoon = $snacks1_detail->spoon;
+			}
+
+			$lunch_detail =Meal::find($lunch);
+			$table->lunch_name = $lunch_detail->food;
+			if(isset($lunch_detail->image)){
+				$table->lunch_image = 'https://tegdarco.com/uploads/meals/'.$lunch_detail->image;
+			}else{
+				$table->lunch_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+			$table->lunch_calories = $lunch_detail->calories;
+			$table->lunch_carbs = $lunch_detail->carbs;
+			$table->lunch_protein = $lunch_detail->protein;
+			$table->lunch_fat = $lunch_detail->fat;
+			if(isset($lunch_detail->quantity)){
+				$table->lunch_quantity = $lunch_detail->quantity;
+			}
+
+			if(isset($lunch_detail->weight)){
+				$table->lunch_weight = $lunch_detail->weight.' gm';
+			}
+
+			if(isset($lunch_detail->spoon)){
+				$table->lunch_spoon = $lunch_detail->spoon;
+			}
+
+			$snacks2_detail =Meal::find($snacks2);
+			$table->snacks2_name = $snacks2_detail->food;
+			if(isset($snacks2_detail->image)){
+				$table->snacks2_image = 'https://tegdarco.com/uploads/meals/'.$snacks2_detail->image;
+			}else{
+				$table->snacks2_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+			$table->snacks2_calories = $snacks2_detail->calories;
+			$table->snacks2_carbs = $snacks2_detail->carbs;
+			$table->snacks2_protein = $snacks2_detail->protein;
+			$table->snacks2_fat = $snacks2_detail->fat;
+			if(isset($snacks2_detail->quantity)){
+				$table->snacks2_quantity = $snacks2_detail->quantity;
+			}
+
+			if(isset($snacks2_detail->weight)){
+				$table->snacks2_weight = $snacks2_detail->weight.' gm';
+			}
+
+			if(isset($snacks2_detail->spoon)){
+				$table->snacks2_spoon = $snacks2_detail->spoon;
+			}
+
+			$dinner_detail =Meal::find($dinner);
+			$table->dinner_name = $dinner_detail->food;
+			if(isset($dinner_detail->image)){
+				$table->dinner_image = 'https://tegdarco.com/uploads/meals/'.$dinner_detail->image;
+			}else{
+				$table->dinner_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+
+			$table->dinner_calories = $dinner_detail->calories;
+			$table->dinner_carbs = $dinner_detail->carbs;
+			$table->dinner_protein = $dinner_detail->protein;
+			$table->dinner_fat = $dinner_detail->fat;
+			if(isset($dinner_detail->quantity)){
+				$table->dinner_quantity = $dinner_detail->quantity;
+			}
+
+			if(isset($dinner_detail->weight)){
+				$table->dinner_weight = $dinner_detail->weight.' gm';
+			}
+
+			if(isset($dinner_detail->spoon)){
+				$table->dinner_spoon = $dinner_detail->spoon;
+			}
+
+			$snacks3_detail =Meal::find($snacks3);
+			$table->snacks3_name = $snacks3_detail->food;
+			if(isset($snacks3_detail->image)){
+				$table->snacks3_image = 'https://tegdarco.com/uploads/meals/'.$snacks3_detail->image;
+			}else{
+				$table->snacks3_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+
+			$table->snacks3_calories = $snacks3_detail->calories;
+			$table->snacks3_carbs = $snacks3_detail->carbs;
+			$table->snacks3_protein = $snacks3_detail->protein;
+			$table->snacks3_fat = $snacks3_detail->fat;
+			if(isset($snacks3_detail->quantity)){
+				$table->snacks3_quantity = $snacks3_detail->quantity;
+			}
+
+			if(isset($snacks3_detail->weight)){
+				$table->snacks3_weight = $snacks3_detail->weight.' gm';
+			}
+
+			if(isset($snacks3_detail->spoon)){
+				$table->snacks3_spoon = $snacks3_detail->spoon;
+			}
+			$table->total_calorie_range = $table->calorie_range;
+
+			unset($table->calorie_range);
+			unset($table->table_id);
+
+
+			return response(["success"=>$table]);
+		}else{
+			return response(['errors'=>'Diet not assigned by Nutrionist'], 422);
+		}
+
+	}
+
+	public function getbreakfast(){
+		$client_id = Auth::id();
+
+		$table = ClientTable::where('client_id',$client_id)->first();
+		if(isset($table)){
+
+			$category = $table->table_id ;
+			$breakfast= $table->breakfast;
+			$snacks1= $table->snacks1;
+			$lunch= $table->lunch;
+			$snacks2= $table->snacks2;
+			$dinner= $table->dinner;
+			$snacks3= $table->snacks3;
+			unset($table->breakfast);
+			unset($table->snacks1);
+			unset($table->lunch);
+			unset($table->snacks2);
+			unset($table->dinner);
+			unset($table->snacks3);
+			unset($table->calories);
+			unset($table->carbs);
+			unset($table->protein);
+			unset($table->fat);
+			unset($table->created_at);
+			unset($table->updated_at);
+
+
+			$table->category = TableCategory::find($category)->name;
+			$breakfast_detail =Meal::find($breakfast);
+			$table->breakfast_name = $breakfast_detail->food;
+			if(isset($breakfast_detail->image)){
+				$table->breakfast_image = 'https://tegdarco.com/uploads/meals/'.$breakfast_detail->image;
+			}else{
+				$table->breakfast_image = 'https://tegdarco.com/uploads/meals/meal.png';
+			}
+			$table->breakfast_calories = $breakfast_detail->calories;
+			$table->breakfast_carbs = $breakfast_detail->carbs;
+			$table->breakfast_protein = $breakfast_detail->protein;
+			$table->breakfast_fat = $breakfast_detail->fat;
+			if(isset($breakfast_detail->quantity)){
+				$table->breakfast_quantity = $breakfast_detail->quantity;
+			}
+
+			if(isset($breakfast_detail->weight)){
+				$table->breakfast_weight = $breakfast_detail->weight.' gm';
+			}
+
+			if(isset($breakfast_detail->spoon)){
+				$table->breakfast_spoon = $breakfast_detail->spoon;
+			}
+			unset($table->calorie_range);
+			unset($table->table_id);
+
+
+			return response(["success"=>$table]);
+		}else{
+			return response(['errors'=>'Diet not assigned by Nutrionist'], 422);
+		}
+	}
+
+	public function getlunch(){
+		$client_id = Auth::id();
+
+		$table = ClientTable::where('client_id',$client_id)->first();
+		if(isset($table)){
+
+			$category = $table->table_id ;
+			$breakfast= $table->breakfast;
+			$snacks1= $table->snacks1;
+			$lunch= $table->lunch;
+			$snacks2= $table->snacks2;
+			$dinner= $table->dinner;
+			$snacks3= $table->snacks3;
+			unset($table->breakfast);
+			unset($table->snacks1);
+			unset($table->lunch);
+			unset($table->snacks2);
+			unset($table->dinner);
+			unset($table->snacks3);
+			unset($table->calories);
+			unset($table->carbs);
+			unset($table->protein);
+			unset($table->fat);
+			unset($table->created_at);
+			unset($table->updated_at);
+			$lunch_detail =Meal::find($lunch);
+			$table->lunch_name = $lunch_detail->food;
+			if(isset($lunch_detail->image)){
+				$table->lunch_image = 'https://tegdarco.com/uploads/meals/'.$lunch_detail->image;
+			}else{
+				$table->lunch_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+			$table->lunch_calories = $lunch_detail->calories;
+			$table->lunch_carbs = $lunch_detail->carbs;
+			$table->lunch_protein = $lunch_detail->protein;
+			$table->lunch_fat = $lunch_detail->fat;
+			if(isset($lunch_detail->quantity)){
+				$table->lunch_quantity = $lunch_detail->quantity;
+			}
+
+			if(isset($lunch_detail->weight)){
+				$table->lunch_weight = $lunch_detail->weight.' gm';
+			}
+
+			if(isset($lunch_detail->spoon)){
+				$table->lunch_spoon = $lunch_detail->spoon;
+			}
+			unset($table->calorie_range);
+			unset($table->table_id);
+
+
+			return response(["success"=>$table]);
+		}else{
+			return response(['errors'=>'Diet not assigned by Nutrionist'], 422);
+		}
+	}
+
+	public function getdinner(){
+		$client_id = Auth::id();
+
+		$table = ClientTable::where('client_id',$client_id)->first();
+		if(isset($table)){
+
+			$category = $table->table_id ;
+			$breakfast= $table->breakfast;
+			$snacks1= $table->snacks1;
+			$lunch= $table->lunch;
+			$snacks2= $table->snacks2;
+			$dinner= $table->dinner;
+			$snacks3= $table->snacks3;
+			unset($table->breakfast);
+			unset($table->snacks1);
+			unset($table->lunch);
+			unset($table->snacks2);
+			unset($table->dinner);
+			unset($table->snacks3);
+			unset($table->calories);
+			unset($table->carbs);
+			unset($table->protein);
+			unset($table->fat);
+			unset($table->created_at);
+			unset($table->updated_at);
+
+			$dinner_detail =Meal::find($dinner);
+			$table->dinner_name = $dinner_detail->food;
+			if(isset($dinner_detail->image)){
+				$table->dinner_image = 'https://tegdarco.com/uploads/meals/'.$dinner_detail->image;
+			}else{
+				$table->dinner_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+
+			$table->dinner_calories = $dinner_detail->calories;
+			$table->dinner_carbs = $dinner_detail->carbs;
+			$table->dinner_protein = $dinner_detail->protein;
+			$table->dinner_fat = $dinner_detail->fat;
+			if(isset($dinner_detail->quantity)){
+				$table->dinner_quantity = $dinner_detail->quantity;
+			}
+
+			if(isset($dinner_detail->weight)){
+				$table->dinner_weight = $dinner_detail->weight.' gm';
+			}
+
+			if(isset($dinner_detail->spoon)){
+				$table->dinner_spoon = $dinner_detail->spoon;
+			}
+			unset($table->calorie_range);
+			unset($table->table_id);
+
+
+			return response(["success"=>$table]);
+
+		}else{
+			return response(['errors'=>'Diet not assigned by Nutrionist'], 422);
+		}
+	}
+	public function getsnacks(){
+
+		$client_id = Auth::id();
+
+		$table = ClientTable::where('client_id',$client_id)->first();
+		if(isset($table)){
+
+			$category = $table->table_id ;
+			$breakfast= $table->breakfast;
+			$snacks1= $table->snacks1;
+			$lunch= $table->lunch;
+			$snacks2= $table->snacks2;
+			$dinner= $table->dinner;
+			$snacks3= $table->snacks3;
+			unset($table->breakfast);
+			unset($table->snacks1);
+			unset($table->lunch);
+			unset($table->snacks2);
+			unset($table->dinner);
+			unset($table->snacks3);
+			unset($table->calories);
+			unset($table->carbs);
+			unset($table->protein);
+			unset($table->fat);
+			unset($table->created_at);
+			unset($table->updated_at);
+
+			$snacks1_detail =Meal::find($snacks1);
+			$table->snacks1_name = $snacks1_detail->food;
+			if(isset($breakfast_detail->image)){
+				$table->snacks1_image = 'https://tegdarco.com/uploads/meals/'.$snacks1_detail->image;
+			}else{
+				$table->snacks1_image = 'https://tegdarco.com/uploads/meals/meal.png';
+			}
+			$table->snacks1_calories = $snacks1_detail->calories;
+			$table->snacks1_carbs = $snacks1_detail->carbs;
+			$table->snacks1_protein = $snacks1_detail->protein;
+			$table->snacks1_fat = $snacks1_detail->fat;
+			if(isset($snacks1_detail->quantity)){
+				$table->snacks1_quantity = $snacks1_detail->quantity;
+			}
+
+			if(isset($snacks1_detail->weight)){
+				$table->snacks1_weight = $snacks1_detail->weight.' gm';
+			}
+
+			if(isset($snacks1_detail->spoon)){
+				$table->snacks1_spoon = $snacks1_detail->spoon;
+			}
+			$snacks2_detail =Meal::find($snacks2);
+			$table->snacks2_name = $snacks2_detail->food;
+			if(isset($snacks2_detail->image)){
+				$table->snacks2_image = 'https://tegdarco.com/uploads/meals/'.$snacks2_detail->image;
+			}else{
+				$table->snacks2_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+			$table->snacks2_calories = $snacks2_detail->calories;
+			$table->snacks2_carbs = $snacks2_detail->carbs;
+			$table->snacks2_protein = $snacks2_detail->protein;
+			$table->snacks2_fat = $snacks2_detail->fat;
+			if(isset($snacks2_detail->quantity)){
+				$table->snacks2_quantity = $snacks2_detail->quantity;
+			}
+
+			if(isset($snacks2_detail->weight)){
+				$table->snacks2_weight = $snacks2_detail->weight.' gm';
+			}
+
+			if(isset($snacks2_detail->spoon)){
+				$table->snacks2_spoon = $snacks2_detail->spoon;
+			}
+			$snacks3_detail =Meal::find($snacks3);
+			$table->snacks3_name = $snacks3_detail->food;
+			if(isset($snacks3_detail->image)){
+				$table->snacks3_image = 'https://tegdarco.com/uploads/meals/'.$snacks3_detail->image;
+			}else{
+				$table->snacks3_image = 'https://tegdarco.com/uploads/meals/meal.png';			
+			}
+
+			$table->snacks3_calories = $snacks3_detail->calories;
+			$table->snacks3_carbs = $snacks3_detail->carbs;
+			$table->snacks3_protein = $snacks3_detail->protein;
+			$table->snacks3_fat = $snacks3_detail->fat;
+			if(isset($snacks3_detail->quantity)){
+				$table->snacks3_quantity = $snacks3_detail->quantity;
+			}
+
+			if(isset($snacks3_detail->weight)){
+				$table->snacks3_weight = $snacks3_detail->weight.' gm';
+			}
+
+			if(isset($snacks3_detail->spoon)){
+				$table->snacks3_spoon = $snacks3_detail->spoon;
+			}
+			unset($table->calorie_range);
+			unset($table->table_id);
+
+
+			return response(["success"=>$table]);
+		}else{
+			return response(['errors'=>'Diet not assigned by Nutrionist'], 422);
+		}
+		
+	}
 }

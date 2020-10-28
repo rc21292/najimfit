@@ -29,7 +29,7 @@ class MealController extends Controller
     {
       $tables = TableCategory::all();   
       return view('backend.admin.features.tables.create',compact('tables'));
-    }
+  }
 
     /**
      * Store a newly created resource in storage.
@@ -51,26 +51,35 @@ class MealController extends Controller
         $meal->food = $request->food;
         $meal->table_id = $request->table;
         $meal->type = $request->type;
-        $meal->calories = $request->calories;
-        $meal->carbs = $request->carbs;
-        $meal->fat = $request->fat;
-        $meal->protein = $request->protein;
-        $meal->sort = $request->sort;
-        if(isset($name)){
+        if(isset($request->quantity)){
+           $meal->quantity = $request->quantity;
+        }
+        if(isset($request->weight)){
+           $meal->weight = $request->weight;
+        }
+        if(isset($request->spoon)){
+           $meal->spoon = $request->spoon;
+        }
+       $meal->calories = $request->calories;
+       $meal->carbs = $request->carbs;
+       $meal->fat = $request->fat;
+       $meal->protein = $request->protein;
+       $meal->sort = $request->sort;
+       if(isset($name)){
         $meal->image = $name;
-        }
-        if ($request->has('status')) {
-
-            $meal->status = $request->status;
-
-        }else{
-
-            $meal->status = "off";
-        }
-
-        $meal->save();
-        return redirect()->route('meals.show',$request->table)->with(['success'=>'Meal Saved Successfully!']);
     }
+    if ($request->has('status')) {
+
+        $meal->status = $request->status;
+
+    }else{
+
+        $meal->status = "off";
+    }
+
+    $meal->save();
+    return redirect()->route('meals.show',$request->table)->with(['success'=>'Meal Saved Successfully!']);
+}
 
     /**
      * Display the specified resource.
@@ -80,9 +89,9 @@ class MealController extends Controller
      */
     public function show($id)
     {
-     $meals = Meal::where('table_id',$id)->get();   
-      return view('backend.admin.features.tables.index',compact('meals'))->with('no', 1);
-    }
+       $meals = Meal::where('table_id',$id)->get();   
+       return view('backend.admin.features.tables.index',compact('meals'))->with('no', 1);
+   }
 
     /**
      * Show the form for editing the specified resource.
@@ -117,14 +126,23 @@ class MealController extends Controller
         $meal->food = $request->food;
         $meal->table_id = $request->table;
         $meal->type = $request->type;
+        if(isset($request->quantity)){
+           $meal->quantity = $request->quantity;
+        }
+        if(isset($request->weight)){
+           $meal->weight = $request->weight;
+        }
+        if(isset($request->spoon)){
+           $meal->spoon = $request->spoon;
+        }
         $meal->calories = $request->calories;
         $meal->carbs = $request->carbs;
         $meal->fat = $request->fat;
         $meal->protein = $request->protein;
         $meal->sort = $request->sort;
         if ($request->has('image')) {
-        $meal->image = $name;
-    }
+            $meal->image = $name;
+        }
         if ($request->has('status')) {
 
             $meal->status = $request->status;

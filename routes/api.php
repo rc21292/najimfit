@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->group(function () {
     // our routes to be protected will go in here
 	Route::get('/user', 'Api\AuthController@getuserdetails');
+	Route::get('/subscriptions', 'Api\SubscriptionController@subscriptions');
+	Route::get('/user-body-profile', 'Api\AuthController@getuserbodyprofile');
 
 	Route::post('/edit-user', 'Api\AuthController@update');
 
@@ -49,6 +51,12 @@ Route::middleware('auth:api')->group(function () {
 
 	Route::post('/get-workout-instructions', 'Api\WorkoutController@getworkoutinstructions')->name('getworkoutinstructions.api');
 
+	Route::post('/view-diets', 'Api\TableController@gettable')->name('gettable.api');
+	Route::post('/get-breakfast', 'Api\TableController@getbreakfast')->name('gettable.api');
+	Route::post('/get-lunch', 'Api\TableController@getlunch')->name('getlunch.api');
+	Route::post('/get-dinner', 'Api\TableController@getdinner')->name('getdinner.api');
+	Route::post('/get-snacks', 'Api\TableController@getsnacks')->name('getsnacks.api');
+
 	Route::post('/complete-workout', 'Api\WorkoutController@completeworkout')->name('completeworkout.api');
 	Route::post('/summary-workout', 'Api\WorkoutController@summaryworkout')->name('summaryworkout.api');
 
@@ -67,7 +75,5 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 	Route::post('reset', 'Api\PasswordResetController@reset');
 	Route::get('getcountryflags','Api\AuthController@getcountryflags');
 	Route::get('terms','Api\AuthController@terms');
-
-    //
 
 });

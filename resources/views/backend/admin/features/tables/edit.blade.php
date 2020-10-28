@@ -89,6 +89,27 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-md-6">
+							<label for="quantity">Quantity</label>
+							<div class="input-group">
+								<input type="number" class="form-control" name="quantity" id="quantity" placeholder="Quantity (If Applicable)"value="{{$meal->quantity}}">
+							</div>
+						</div>	
+						<div class="col-md-6">
+							<label for="weight">Weight (In gm)</label>
+							<div class="input-group">
+								<input type="number" class="form-control" name="weight" id="weight" placeholder="Weight (In gm)"value="{{$meal->weight}}">
+								<div class="invalid-feedback">
+									Please provide Weight.
+								</div>
+							</div>
+						</div>	
+						<div class="col-md-12">
+							<label for="spoon">Spoon</label>
+							<div class="input-group">
+								<input type="number" class="form-control" name="spoon" id="spoon" placeholder="Spoon" value="{{$meal->spoon}}">
+							</div>
+						</div>	
 						<div class="col-xl-6 col-md-12">
 							<label for="calories">Calories Range (in Cal)</label>
 							<div class="input-group">

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Auth;
 use App\Models\Package;
+use App\Models\QuestionCategory;
 use Carbon\Carbon;
 use DB;
 use Session;
@@ -100,8 +101,9 @@ class AuthController extends Controller
 		}else{
 
 			$valid_upto = Carbon::now()->addDays($validity);
+			$today = date('d-m-Y');
 
-			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
+			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto], 'subscription_date'=> $today);
 
 			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 			$response = ['success' => 'This package has been assigned to you..!'];
@@ -158,6 +160,12 @@ class AuthController extends Controller
 	}
 	public function getuserdetails(){
 		$client = Client::find(Auth::Client()->id);
+		if(isset($client->avatar)){
+			$client->image = 'https://tegdarco.com/uploads/clients/images/'.$client->avatar;
+		}else{
+			$client->image = 'https://tegdarco.com/uploads/clients/images/avatar.png';
+		}
+
 		$validity = Package::where('id', $client->package_id)->value('validity');
 		$client->package_validity = isset($client->validity) ? ($client->validity >= Carbon::now() ? 'You already have an active package. Current Package is Valid Upto '.$client->validity : 'Package Expired') :'No Package Purchased';
 		$answers = DB::table('client_answers')->where('client_id',Auth::Client()->id)->exists();
@@ -179,7 +187,6 @@ class AuthController extends Controller
 			'lastname' => 'required|string|max:255',
 			'phone' => 'required|numeric|min:11',
 			'email' => 'required|string|email|max:255',
-			'password' => 'required|string|min:6',
 		]);
 
 		if ($validator->fails())
@@ -194,21 +201,27 @@ class AuthController extends Controller
 		$user->gender = request('gender');
 		$user->email = request('email');
 
-		
-	
+		if($request->has('image')){
 			$file = $request->file('image');
-				if(isset($file)) {
-            $name = $file->getClientOriginalName();
-            $path = time().$name;
-            $profileimage = Image::make($file)->resize(150, 150);
-            $pp = public_path('uploads/clients/images/');
-            $profileimage->save(public_path('uploads/clients/images/'.$path),100);
-		$user->avatar = $path;
+			if(isset($file)) {
+				$name = $file->getClientOriginalName();
+				$path = time().$name;
+				$profileimage = Image::make($file)->resize(150, 150);
+				$pp = public_path('uploads/clients/images/');
+				$profileimage->save(public_path('uploads/clients/images/'.$path),100);
+				$user->avatar = $path;
+			}
 		}
 		$user->save();
 		$user->image = 'https://tegdarco.com/uploads/clients/images/'.$user->avatar;
 		return response(['success'=> $user], 200);
 	}
 
+	public function getuserbodyprofile(){
+		$client = Client::find(Auth::Client()->id);
+		$category = QuestionCategory::whereIn('id',[3,4])->get();
+		
+		return response(['success'=> $category], 200);
+	}
 
 }
