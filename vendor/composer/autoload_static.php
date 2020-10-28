@@ -45,14 +45,12 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
-        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'bbd3f4c222c0dc01d51aaddd000c7145' => __DIR__ . '/..' . '/pragmarx/ia-arr/src/Support/helpers.php',
         '5de818542d3f05537910d3201983c6e4' => __DIR__ . '/..' . '/pragmarx/ia-arr/src/Support/alias.php',
         'd1bbbb1cdb91a23bb0785f5b4c1b000a' => __DIR__ . '/..' . '/pragmarx/ia-collection/src/Support/helpers.php',
         'ae4a8c3de7784f45a7823e518716da9f' => __DIR__ . '/..' . '/pragmarx/ia-collection/src/Support/alias.php',
         'e9c9b5a77c01901edff7ea6d79858a18' => __DIR__ . '/..' . '/pragmarx/ia-str/src/Support/helpers.php',
         'e932c180925ac557b75404ab8ceaf2ec' => __DIR__ . '/..' . '/pragmarx/ia-str/src/Support/alias.php',
-        'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         '7aed44d824e149ce152c0fb82af9379a' => __DIR__ . '/..' . '/colinodell/json5/src/global.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
@@ -127,7 +125,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         ),
         'P' => 
         array (
-            'Pusher\\' => 7,
             'Psy\\' => 4,
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
@@ -221,7 +218,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
             'Cron\\' => 5,
             'Collective\\Html\\' => 16,
             'ColinODell\\Json5\\' => 17,
-            'Chatify\\' => 8,
             'Carbon\\' => 7,
         ),
         'B' => 
@@ -389,10 +385,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         'Ramsey\\Collection\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/collection/src',
-        ),
-        'Pusher\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/pusher/pusher-php-server/src',
         ),
         'Psy\\' => 
         array (
@@ -635,10 +627,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         array (
             0 => __DIR__ . '/..' . '/colinodell/json5/src',
         ),
-        'Chatify\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/munafio/chatify/src',
-        ),
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
@@ -663,17 +651,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
             'Mockery' => 
             array (
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
-            ),
-        ),
-        'H' => 
-        array (
-            'Highlight\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/scrivo/highlight.php',
-            ),
-            'HighlightUtilities\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/scrivo/highlight.php',
             ),
         ),
     );
@@ -705,6 +682,7 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         'App\\Http\\Controllers\\Api\\CartController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/CartController.php',
         'App\\Http\\Controllers\\Api\\PasswordResetController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PasswordResetController.php',
         'App\\Http\\Controllers\\Api\\QuestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/QuestionController.php',
+        'App\\Http\\Controllers\\Api\\SubscriptionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/SubscriptionController.php',
         'App\\Http\\Controllers\\Api\\TableController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/TableController.php',
         'App\\Http\\Controllers\\Api\\WorkoutController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/WorkoutController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -727,6 +705,7 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Client' => __DIR__ . '/../..' . '/app/Models/Client.php',
+        'App\\Models\\ClientAnswer' => __DIR__ . '/../..' . '/app/Models/ClientAnswer.php',
         'App\\Models\\ClientTable' => __DIR__ . '/../..' . '/app/Models/ClientTable.php',
         'App\\Models\\ClientWorkout' => __DIR__ . '/../..' . '/app/Models/ClientWorkout.php',
         'App\\Models\\Coupon' => __DIR__ . '/../..' . '/app/Models/Coupon.php',
@@ -841,12 +820,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         'Carbon\\Traits\\Units' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Units.php',
         'Carbon\\Traits\\Week' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Week.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
-        'Chatify\\ChatifyMessenger' => __DIR__ . '/..' . '/munafio/chatify/src/ChatifyMessenger.php',
-        'Chatify\\ChatifyServiceProvider' => __DIR__ . '/..' . '/munafio/chatify/src/ChatifyServiceProvider.php',
-        'Chatify\\Facades\\ChatifyMessenger' => __DIR__ . '/..' . '/munafio/chatify/src/Facades/ChatifyMessenger.php',
-        'Chatify\\Http\\Controllers\\MessagesController' => __DIR__ . '/..' . '/munafio/chatify/src/Http/Controllers/MessagesController.php',
-        'Chatify\\Http\\Models\\Favorite' => __DIR__ . '/..' . '/munafio/chatify/src/Http/Models/Favorite.php',
-        'Chatify\\Http\\Models\\Message' => __DIR__ . '/..' . '/munafio/chatify/src/Http/Models/Message.php',
         'ColinODell\\Json5\\Json5Decoder' => __DIR__ . '/..' . '/colinodell/json5/src/Json5Decoder.php',
         'ColinODell\\Json5\\SyntaxError' => __DIR__ . '/..' . '/colinodell/json5/src/SyntaxError.php',
         'Collective\\Html\\Componentable' => __DIR__ . '/..' . '/laravelcollective/html/src/Componentable.php',
@@ -1787,17 +1760,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
-        'Highlight\\Autoloader' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/Autoloader.php',
-        'Highlight\\HighlightResult' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/HighlightResult.php',
-        'Highlight\\Highlighter' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/Highlighter.php',
-        'Highlight\\JsonRef' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/JsonRef.php',
-        'Highlight\\Language' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/Language.php',
-        'Highlight\\Mode' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/Mode.php',
-        'Highlight\\ModeDeprecations' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/ModeDeprecations.php',
-        'Highlight\\RegEx' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/RegEx.php',
-        'Highlight\\RegExMatch' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/RegExMatch.php',
-        'Highlight\\RegExUtils' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/RegExUtils.php',
-        'Highlight\\Terminators' => __DIR__ . '/..' . '/scrivo/highlight.php/Highlight/Terminators.php',
         'Http\\Message\\MessageFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/MessageFactory.php',
         'Http\\Message\\RequestFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/RequestFactory.php',
         'Http\\Message\\ResponseFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/ResponseFactory.php',
@@ -4639,11 +4601,6 @@ class ComposerStaticInit2497950715fedf70469cc162dca556ff
         'Psy\\VersionUpdater\\GitHubChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/GitHubChecker.php',
         'Psy\\VersionUpdater\\IntervalChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/IntervalChecker.php',
         'Psy\\VersionUpdater\\NoopChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/NoopChecker.php',
-        'Pusher\\Pusher' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/Pusher.php',
-        'Pusher\\PusherCrypto' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/PusherCrypto.php',
-        'Pusher\\PusherException' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/PusherException.php',
-        'Pusher\\PusherInstance' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/PusherInstance.php',
-        'Pusher\\Webhook' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/Webhook.php',
         'Ramsey\\Collection\\AbstractArray' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractArray.php',
         'Ramsey\\Collection\\AbstractCollection' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractCollection.php',
         'Ramsey\\Collection\\AbstractSet' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractSet.php',
