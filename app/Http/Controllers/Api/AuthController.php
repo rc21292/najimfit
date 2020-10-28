@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Auth;
 use App\Models\Package;
-use App\Models\QuestionCategory;
 use Carbon\Carbon;
 use DB;
 use Session;
 use App\Models\Term;
 use File;
 use Image;
+use App\Models\QuestionCategory;
 class AuthController extends Controller
 {
 	public function register (Request $request) {
@@ -101,9 +101,8 @@ class AuthController extends Controller
 		}else{
 
 			$valid_upto = Carbon::now()->addDays($validity);
-			$today = date('d-m-Y');
 
-			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto], 'subscription_date'=> $today);
+			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
 
 			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 			$response = ['success' => 'This package has been assigned to you..!'];
@@ -217,11 +216,18 @@ class AuthController extends Controller
 		return response(['success'=> $user], 200);
 	}
 
-	public function getuserbodyprofile(){
-		$client = Client::find(Auth::Client()->id);
-		$category = QuestionCategory::whereIn('id',[3,4])->get();
-		
-		return response(['success'=> $category], 200);
+	public function getuserbodyprofile(Request $request){
+		$user_id = Auth::Client()->id;
+		if($request->language == 'arabic'){
+
+			$questions = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->whereIn('questions.category',[2,3,5])->get();
+		}else{
+			$questions = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->whereIn('questions.category',[2,3,5])->get();
+
+		}
+
+		return response(['success'=> $questions], 200);
 	}
+
 
 }
