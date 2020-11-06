@@ -116,13 +116,10 @@
 							<div class="input-group">
 								<select class="form-control" name="question_type" id="question_type" required>
 									<option value="" >Please Select</option>
-									<option value="text" @if(@$question->question_type == 'text') selected @endif >Text</option>
-									<option value="textarea" @if(@$question->question_type == 'textarea') selected @endif >Textarea</option>
-									<option value="radio" @if(@$question->question_type == 'radio') selected @endif >Radio</option>
-									<option value="checkbox" @if(@$question->question_type == 'checkbox') selected @endif >Checkbox</option>
-									<option value="select" @if(@$question->question_type == 'select') selected @endif >Select</option>
-									<option value="list" @if(@$question->question_type == 'list') selected @endif >List</option>
 									<option value="date" @if(@$question->question_type == 'date') selected @endif>Date</option>
+									<option value="boolean" @if(@$question->question_type == 'boolean') selected @endif>Boolean</option>
+									<option value="dropDown" @if(@$question->question_type == 'dropDown') selected @endif>DropDown</option>
+									<option value="list" @if(@$question->question_type == 'list') selected @endif>List</option>
 								</select>
 								<div class="invalid-feedback">
 									Please select a Question Type.
@@ -130,68 +127,6 @@
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-12">
-						</div>
-						
-						<div class="col-xl-12 col-md-12" id="show-hide" @if(($question->question_type == 'select') || ($question->question_type == 'radio') || ($question->question_type == 'checkbox')) style="display: block;" @else style="display: none;" @endif >
-							<div class="pt-5 workoutdiv" >
-								<form method="post" action="{{route('assign-workout.store')}}">
-									@csrf
-									<input type="hidden" name="client_id" >
-									<div class="col-xl-12 col-md-12">
-										<div class="ms-panel ms-panel-fh">
-											<div class="ms-panel-header">
-												<h6>Options</h6>
-											</div>
-											<div class="ms-panel-body">
-												<div class="table">
-													<table id="days" class="table thead-primary">
-														<thead>
-															<tr>
-																<th scope="col">Option Name</th>
-																<th scope="col">Option Name Arabic</th>
-																<th scope="col">Action</th>
-															</tr>
-														</thead>
-
-														@php
-
-														$days_row = 0;
-
-														$question_options = DB::table('question_options')
-														->select('id','name','name_arabic')
-														->where('question_id',$question->id)
-														->get();
-														@endphp
-														
-														<tbody>
-															@foreach($question_options as $options)
-															<tr id="day-row{{ @$days_row }}">
-																<td class="text-right">
-																	<input type="hidden" name="option_id[]" value="{{$options->id}}"/>
-																	<input type="text" name="option_name[]" value="{{$options->name}}" placeholder="Enter Name" class="form-control" /></td>
-																	<td class="text-right">
-																	<input type="text" name="option_name_arabic[]" value="{{$options->name_arabic}}" placeholder="Enter Name Arabic" class="form-control" /></td>
-																
-																<td class="text-center"><button type="button" onclick="$('#day-row{{ @$days_row  }}').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
-															</tr>
-															@php
-															$days_row ++;
-															@endphp
-															@endforeach
-														</tbody>
-														<tfoot>
-															<tr>
-																<th scope="row"></th>
-																<td></td>
-																<td class="text-center"><button type="button" onclick="adddays();" data-toggle="tooltip" title="Add Option Value" class="btn btn-danger"><i class="fa fa-plus"></i></button></td></td>
-															</tr>
-														</tfoot>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
-							</div>
 						</div>
 						<div class="col-md-12">
 							<label for="validationCustom12">Upload Image</label>
@@ -263,26 +198,4 @@
     @endif
 });
 </script>
-<script type="text/javascript">
-		var days_row = 0;
-		function adddays() {
-			html = '<tr id="day-row' + days_row + '">';
-			html += '  <th scope="row"><input type="hidden" name="option_id[]" value="0"><input type="text" name="option_name[]" value="" placeholder="Enter Name" class="form-control" required/></th>';
-			html += '  <th scope="row"><input type="text" name="option_name_arabic[]" value="" placeholder="Enter Name Arabic" class="form-control" required/></th>';
-			html += '  <td class="text-center"><button type="button" onclick="$(\'#day-row' + days_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
-			html += '</tr>';
-
-			$('#days tbody').append(html);
-			days_row++;
-		}   
-
-		$('#question_type').change(function() {
-			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select')) {
-				$("#show-hide").show();
-			}else{
-				$("#show-hide").hide();
-			}
-		});         
-
-	</script>
 @endpush

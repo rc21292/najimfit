@@ -173,6 +173,19 @@ class AuthController extends Controller
 		}else{
 			$client->answers = 0;
 		}
+		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
+		$workout_days = 0;
+		if ($client_workouts) {
+		$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
+
+		$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
+		$calories_sum = 0;
+		foreach ($workouts as $key => $workout) {
+			$calories_sum += explode('-', $workout->calories)[1];
+		}
+		}
+		$client->active_days = $workout_days;
+		$client->kal_burnt = $calories_sum;
 		$response = ['success' => $client];
 		return response($response, 200);
 	}
@@ -199,6 +212,9 @@ class AuthController extends Controller
 		$user->phone = request('phone');
 		$user->gender = request('gender');
 		$user->email = request('email');
+		if($request->has('address')){
+			$user->address = request('address');
+		}
 
 		if($request->has('image')){
 			$file = $request->file('image');
@@ -211,6 +227,8 @@ class AuthController extends Controller
 				$user->avatar = $path;
 			}
 		}
+
+		// echo "<pre>";print_r($user);"</pre>";exit;
 		$user->save();
 		$user->image = 'https://tegdarco.com/uploads/clients/images/'.$user->avatar;
 		return response(['success'=> $user], 200);
@@ -220,11 +238,35 @@ class AuthController extends Controller
 		$user_id = Auth::Client()->id;
 		if($request->language == 'arabic'){
 
+			$questions_body_size = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',2)->get();
+
+			$questions_health = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',3)->get();
+
+			$questions_medicine = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',5)->get();
+		}else{
+			$questions_body_size = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',2)->get();
+			$questions_health = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',3)->get();
+			$questions_medicine = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',5)->get();	
+		}
+
+
+		/*if($request->language == 'arabic'){
+
 			$questions = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->whereIn('questions.category',[2,3,5])->get();
 		}else{
-			$questions = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->whereIn('questions.category',[2,3,5])->get();
+			$questions = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.category as question_category','questions.id as question_id','questions.question','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->whereIn('questions.category',[2,3,5])->get()
+			->groupBy(function ($val) {
+        return $val->question_category;
+    });
 
-		}
+		}*/
+
+		return response([
+			'success'=> 'true',
+			'body_size'=> $questions_body_size,
+			'health'=> $questions_health,
+			'medicine'=> $questions_medicine,
+		], 200);
 
 		return response(['success'=> $questions], 200);
 	}

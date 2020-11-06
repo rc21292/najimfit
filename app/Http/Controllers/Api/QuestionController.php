@@ -27,6 +27,19 @@ class QuestionController extends Controller
 				$query->whereIn('questions.gender',['both', Auth::Client()->gender]);
 			}])
 			->get();
+
+			foreach ($QuestionCategory as $keyy => $value) {
+				foreach ($value->questions as $key => $value1) {
+					$question_options = DB::table('question_options')
+					->select('id','name','name_arabic')
+					->where('question_id',$value1->id)
+					->get();
+					if (count($question_options)>0) {
+					$QuestionCategory[$keyy]->questions[$key]['options'] = $question_options;
+					}
+				}
+			}
+			
 			$questions = Question::whereIn('gender',['both', Auth::Client()->gender])->orderBy('sort','asc')->select('id','question')->get();
 		}else{
 			$gender = Auth::Client()->gender;
@@ -34,7 +47,24 @@ class QuestionController extends Controller
 				$query->where('questions.gender','=','both');
 			}])
 			->get();
+
+			foreach ($QuestionCategory as $keyy => $value) {
+				foreach ($value->questions as $key => $value1) {
+					if ($value1->image) {
+					$QuestionCategory[$keyy]->questions[$key]['image'] = 'https://tegdarco.com/uploads/questions/'.$value1->image;
+					}					
+					$question_options = DB::table('question_options')
+					->select('id','name','name_arabic')
+					->where('question_id',$value1->id)
+					->get();
+					if (count($question_options) > 0) {
+					$QuestionCategory[$keyy]->questions[$key]['options'] = $question_options;
+					}
+				}
+			}
+
 		}
+
 		$response = ['success' => $QuestionCategory];
 		return response($response, 200);
 	}

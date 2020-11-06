@@ -118,13 +118,10 @@
 							<div class="input-group">
 								<select class="form-control" name="question_type" id="question_type" required>
 									<option value="" >Please Select</option>
-									<option value="text" >Text</option>
-									<option value="textarea" >Textarea</option>
-									<option value="radio" >Radio</option>
-									<option value="checkbox" >Checkbox</option>
-									<option value="select" >Select</option>
-									<option value="list" >List</option>
 									<option value="date" >Date</option>
+									<option value="boolean" >Boolean</option>
+									<option value="dropDown" >DropDown</option>
+									<option value="list" >List</option>
 								</select>
 								<div class="invalid-feedback">
 									Please select a Question Type.
@@ -132,51 +129,6 @@
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-12">
-						</div>
-						<div class="col-xl-12 col-md-12" id="show-hide" style="display: none;">
-							<div class="workoutdiv" >
-								<form method="post" action="{{route('assign-workout.store')}}">
-									@csrf
-									<input type="hidden" name="client_id" >
-										<div class="ms-panel ms-panel-fh">
-											<div class="ms-panel-header">
-												<h6>Options</h6>
-											</div>
-											<div class="ms-panel-body">
-												<div class="table">
-													<table id="days" class="table thead-primary">
-														<thead>
-															<tr>
-																<th scope="col">Option Name</th>
-																<th scope="col">Option Name Arabic</th>
-																<th scope="col">Action</th>
-															</tr>
-														</thead>
-														
-														<tbody>
-															
-															<tr id="day-row{{ @$days_row }}">
-																<td class="text-right">
-																	<input type="text" name="option_name[]" placeholder="Enter Name" class="form-control" />
-																</td>
-																<td class="text-right">
-																	<input type="text" name="option_name_arabic[]" placeholder="Enter Name Arabic" class="form-control" />
-																</td>
-																<td class="text-center"><button type="button" onclick="$('#day-row{{ @$days_row  }}').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
-															</tr>
-														</tbody>
-														<tfoot>
-															<tr>
-																<th scope="row"></th>
-																<td></td>
-																<td class="text-center"><button type="button" onclick="adddays();" data-toggle="tooltip" title="Add Option Value" class="btn btn-danger"><i class="fa fa-plus"></i></button></td></td>
-															</tr>
-														</tfoot>
-													</table>
-												</div>
-											</div>
-										</div>
-							</div>
 						</div>
 						<div class="col-md-12">
 							<label for="validationCustom12">Upload Image</label>
@@ -233,27 +185,4 @@
 			allowedFileExtensions: ["jpg", "png", "gif"]
 		});
 	</script>
-	<script type="text/javascript">	
-		var days_row = 0;
-		function adddays() {
-			html = '<tr id="day-row' + days_row + '">';
-			html += '  <th scope="row"><input type="text" name="option_name[]" value="" placeholder="Enter Name" class="form-control" required/></th><th scope="row"><input type="text" name="option_name_arabic[]" value="" placeholder="Enter Name Arabic" class="form-control" required/></th>';
-			html += '  <td class="text-center"><button type="button" onclick="$(\'#day-row' + days_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
-			html += '</tr>';
-
-			$('#days tbody').append(html);
-			days_row++;
-		}   
-
-
-		$('#question_type').change(function() {
-			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select')) {
-				$("#show-hide").show();
-			}else{
-				$("#show-hide").hide();
-			}
-		});        
-
-	</script>
-
-	@endpush
+@endpush

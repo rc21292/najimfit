@@ -31,6 +31,7 @@ class SubscriptionController extends Controller
 			$now = Carbon::now();
 			$days = $datework->diffInDays($now);
 			$client->days = $days." Days Remaining";
+			$client->member_since = $client->created_at->format('Y-m-d');
 			unset($client->id);
 			unset($client->firstname);
 			unset($client->lastname);
