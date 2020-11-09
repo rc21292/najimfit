@@ -29,9 +29,16 @@ class DietController extends Controller
 
 			});
 
-			foreach ($intakeSubs as $key => $intakeSub) {
-				foreach ($intakeSub as $keyy => $value) {
+			foreach ($intakeSubs as $key => $intakeSub) 
+			{
+				foreach ($intakeSub as $keyy => $value) 
+				{
+					$comments = DB::table('intake_substance_comments')->orderBy('created_at')->where(['client_id'=>$user_id,'intake_subs_id'=> $value->id])->get();
+
 					$intakeSubs[$key][$keyy]['image'] = 'https://tegdarco.com/uploads/substances/'.$value->image;
+					if (count($comments)) {
+						$intakeSubs[$key][$keyy]['comments'] = $comments;
+					}
 				}
 			}
 
@@ -85,5 +92,27 @@ class DietController extends Controller
 
 	}
 
+
+	public function intakeSubsComment(Request $request)
+	{
+		$user_id = Auth::User()->id;
+
+
+		$validator = Validator::make($request->all(), [
+			'comment' => 'required',
+			'intake_subs_id' => 'required',
+		]);
+
+		if ($validator->fails())
+		{
+			return response(['errors'=>$validator->errors()->all()], 422);
+		}
+
+		$flag = 'client_nutri';
+
+		DB::table('intake_substance_comments')->insert(['client_id'=>$user_id,'intake_subs_id'=>$request->intake_subs_id,'flag'=>'nutri_client','comment'=>$request->comment]);
+
+		return response(['success'=> true], 200);
+	}
 	
 }
