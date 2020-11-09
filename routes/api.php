@@ -43,6 +43,8 @@ Route::middleware('auth:api')->group(function () {
 	Route::get('/delete-cart', 'Api\CartController@deletecart')->name('deletecart.api');
 	Route::get('/terms', 'Api\AuthController@terms')->name('terms.api');
 
+	Route::get('/privacy-policy', 'Api\AuthController@privacyPolicy')->name('privacypolicy.api');
+
 	Route::post('/update-cart', 'Api\CartController@updatecart')->name('updatecart.api');
 
 	Route::post('/get-workouts', 'Api\WorkoutController@getworkouts')->name('getworkout.api');
@@ -79,5 +81,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 	Route::post('reset', 'Api\PasswordResetController@reset');
 	Route::get('getcountryflags','Api\AuthController@getcountryflags');
 	Route::get('terms','Api\AuthController@terms');
+	
 
 });
