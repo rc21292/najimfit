@@ -33,17 +33,18 @@ class DietController extends Controller
 			{
 				foreach ($intakeSub as $keyy => $value) 
 				{
-					$comments = DB::table('intake_substance_comments')->orderBy('created_at')->where(['client_id'=>$user_id,'intake_subs_id'=> $value->id])->get();
+					$comments = DB::table('intake_substance_comments')->orderBy('created_at')->where('intake_subs_id', $value->id)->get();
 
 					$intakeSubs[$key][$keyy]['image'] = 'https://tegdarco.com/uploads/substances/'.$value->image;
-					if (count($comments)) {
-
+					if (count($comments) > 0) {
+						DB::enableQueryLog();
 						foreach ($comments as $comment_key => $comment) {
-							if ($comment->flag = 'nutri_client') {
+							if ($comment->flag == 'nutri_client') {
 								$user_name = DB::table('users')->where('id',$comment->client_id)->value('name');
 							}else{
-								$user_name = $comments = DB::table('clients')->where('id',$comment->client_id)->value('firstname').' '.DB::table('users')->where('id',$comment->client_id)->value('lastname');
+								$user_name = DB::table('clients')->where('id',$comment->client_id)->value('firstname').' '.DB::table('clients')->where('id',$comment->client_id)->value('lastname');
 							}
+							// dd(DB::getQueryLog());
 							$comments[$comment_key]->name = $user_name;
 						}
 						$intakeSubs[$key][$keyy]['comments'] = $comments;
