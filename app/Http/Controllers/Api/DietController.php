@@ -37,6 +37,15 @@ class DietController extends Controller
 
 					$intakeSubs[$key][$keyy]['image'] = 'https://tegdarco.com/uploads/substances/'.$value->image;
 					if (count($comments)) {
+
+						foreach ($comments as $comment_key => $comment) {
+							if ($comment->flag = 'nutri_client') {
+								$user_name = DB::table('users')->where('id',$comment->client_id)->value('name');
+							}else{
+								$user_name = $comments = DB::table('clients')->where('id',$comment->client_id)->value('firstname').' '.DB::table('users')->where('id',$comment->client_id)->value('lastname');
+							}
+							$comments[$comment_key]->name = $user_name;
+						}
 						$intakeSubs[$key][$keyy]['comments'] = $comments;
 					}
 				}
