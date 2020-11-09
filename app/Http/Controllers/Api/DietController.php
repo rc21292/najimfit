@@ -120,7 +120,7 @@ class DietController extends Controller
 
 		$flag = 'client_nutri';
 
-		DB::table('intake_substance_comments')->insert(['client_id'=>$user_id,'intake_subs_id'=>$request->intake_subs_id,'flag'=>'nutri_client','comment'=>$request->comment]);
+		DB::table('intake_substance_comments')->insert(['client_id'=>$user_id,'intake_subs_id'=>$request->intake_subs_id,'flag'=>$flag,'comment'=>$request->comment]);
 
 		return response(['success'=> true], 200);
 	}
