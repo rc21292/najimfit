@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use DB;
 use Session;
 use App\Models\Term;
+use App\Models\PrivacyPolicy;
 use File;
 use Image;
 use App\Models\QuestionCategory;
@@ -157,6 +158,19 @@ class AuthController extends Controller
 		$response = ['success' => $term];
 		return response($response, 200);
 	}
+
+	public function privacyPolicy(){
+		$term = PrivacyPolicy::first();
+		$response = ['success' => $term];
+		return response($response, 200);
+	}
+
+	public function about(){
+		$about_us = AboutUs::first();
+		$response = ['success' => $about_us];
+		return response($response, 200);
+	}
+	
 	public function getuserdetails(){
 		$client = Client::find(Auth::Client()->id);
 		if(isset($client->avatar)){
