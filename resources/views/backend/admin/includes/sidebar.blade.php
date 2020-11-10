@@ -119,6 +119,9 @@
         </a>
         <ul id="form-elements" class="collapse" aria-labelledby="form-elements" data-parent="#side-nav-accordion">
           <li> <a href="{{route('terms-and-conditions.index')}}">Terms & Conditions</a> </li>
+          <li> <a href="{{route('privacy-policy.index')}}">Privacy Policy</a> </li>
+          <li> <a href="{{route('about.index')}}">About</a> </li>
+
           <li> <a href="#">My Profile</a> </li>
           <li> <a href="#">Social Media Links</a> </li>
           <li> <a href="#">Contact Details</a> </li>
