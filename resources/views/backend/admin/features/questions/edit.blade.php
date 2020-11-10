@@ -154,7 +154,7 @@
 						<div class="col-xl-6 col-md-12">
 						</div>
 						
-						<div class="col-xl-12 col-md-12" id="show-hide" @if(($question->question_type == 'select') || ($question->question_type == 'radio') || ($question->question_type == 'checkbox')) style="display: block;" @else style="display: none;" @endif >
+						<div class="col-xl-12 col-md-12" id="show-hide" @if(($question->question_type == 'select') || ($question->question_type == 'radio') || ($question->question_type == 'checkbox') || ($question->question_type == 'list_drop')) style="display: block;" @else style="display: none;" @endif >
 							<div class="pt-5 workoutdiv" >
 								<form method="post" action="{{route('assign-workout.store')}}">
 									@csrf
@@ -299,7 +299,7 @@
 		}   
 
 		$('#question_type').change(function() {
-			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select')) {
+			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select') || ($(this).val() == 'list_drop')) {
 				$("#show-hide").show();
 			}else{
 				$("#show-hide").hide();

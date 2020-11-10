@@ -269,7 +269,7 @@
 
 
 		$('#question_type').change(function() {
-			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select')) {
+			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select') || ($(this).val() == 'list_drop')) {
 				$("#show-hide").show();
 			}else{
 				$("#show-hide").hide();
