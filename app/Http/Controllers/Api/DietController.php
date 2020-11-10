@@ -35,7 +35,18 @@ class DietController extends Controller
 				{
 					$comments = DB::table('intake_substance_comments')->orderBy('created_at')->where('intake_subs_id', $value->id)->get();
 
-					$intakeSubs[$key][$keyy]['image'] = 'https://tegdarco.com/uploads/substances/'.$value->image;
+					$images = DB::table('intake_substance_images')->orderBy('created_at')->where('intake_substance_id', $value->id)->get();
+
+					foreach ($images as $image_key => $image) {
+						$images[$image_key]->image = 'https://tegdarco.com/uploads/substances/'.$image->image;
+					}
+
+					if (count($images) > 0) {
+						$intakeSubs[$key][$keyy]['image'] = $images;
+					}else{
+						$intakeSubs[$key][$keyy]['image'] = [];
+					}
+
 					if (count($comments) > 0) {
 						DB::enableQueryLog();
 						foreach ($comments as $comment_key => $comment) {
@@ -80,25 +91,25 @@ class DietController extends Controller
 		$intakeSubs->time = request('time');
 		$intakeSubs->client_id = $user_id;
 		$intakeSubs->diet_type = request('type');
-		
-		if($request->has('image')){
-			$file = $request->file('image');
-			if(isset($file)) {
-				$name = $file->getClientOriginalName();
+		$intakeSubs->image = '';
+
+		$intakeSubs->save();
+
+		$images=array();
+		if($files=$request->file('image')){
+			foreach($files as $file){
+				$name=$file->getClientOriginalName();
 				$path = time().$name;
-				// $profileimage = Image::make($file)->resize(300, 300);
 				$profileimage = Image::make($file);
 				$pp = public_path('uploads/substances/');
-				// echo "<pre>";print_r(public_path('uploads/substances/'.$path));"</pre>";exit;
 				$profileimage->save(public_path('uploads/substances/'.$path),100);
-				$intakeSubs->image = $path;
+				DB::table('intake_substance_images')->insert(['intake_substance_id'=>$intakeSubs->id,'image'=>$path]);
 			}
 		}
 
-		$intakeSubs->save();
-		$intakeSubs->time = date('h:i A',strtotime($intakeSubs->time));
-		$intakeSubs->image = 'https://tegdarco.com/uploads/substances/'.$intakeSubs->image;
-		return response(['success'=> $intakeSubs], 200);
+		/*$intakeSubs->time = date('h:i A',strtotime($intakeSubs->time));
+		$intakeSubs->image = 'https://tegdarco.com/uploads/substances/'.$intakeSubs->image;*/
+		return response(['success'=> true], 200);
 
 	}
 
