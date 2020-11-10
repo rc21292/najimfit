@@ -15,6 +15,7 @@ use DB;
 use Session;
 use App\Models\Term;
 use App\Models\PrivacyPolicy;
+use App\Models\AboutUs;
 use File;
 use Image;
 use App\Models\QuestionCategory;
