@@ -111,6 +111,27 @@
 								<input type="text" class="form-control" name="unit" id="unit" value="{{$question->unit}}" placeholder="Unit">
 							</div>
 						</div>
+
+						<div class="col-md-6">
+							<label for="question">Hint(in English)</label>
+							<div class="input-group">
+								<input type="text" id="hint" value="{{$question->hint}}" name="hint" class="form-control" placeholder="Hint"></input>
+								<div class="invalid-feedback">
+									Please Enter a Hint.
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<label for="question_arabic">Hint(in Arabic)</label>
+							<div class="input-group">
+								<input type="text" id="arabic_hint" value="{{$question->arabic_hint}}" name="arabic_hint" class="form-control" placeholder="Hint(in Arabic)"></input>
+								<div class="invalid-feedback">
+									Please Enter a Hint.
+								</div>
+							</div>
+						</div>
+
 						<div class="col-xl-6 col-md-12 mb-3">
 							<label for="question_type">Select Question Type</label>
 							<div class="input-group">
@@ -122,6 +143,7 @@
 									<option value="checkbox" @if(@$question->question_type == 'checkbox') selected @endif >Checkbox</option>
 									<option value="select" @if(@$question->question_type == 'select') selected @endif >Select</option>
 									<option value="list" @if(@$question->question_type == 'list') selected @endif >List</option>
+									<option value="list_drop"  @if(@$question->question_type == 'list_drop') selected @endif >List Drop</option>
 									<option value="date" @if(@$question->question_type == 'date') selected @endif>Date</option>
 								</select>
 								<div class="invalid-feedback">

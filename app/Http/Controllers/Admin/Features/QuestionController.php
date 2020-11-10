@@ -8,6 +8,7 @@ use App\Models\QuestionCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use File;
+use DB;
 
 class QuestionController extends Controller
 {
@@ -43,6 +44,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+        // echo "<pre>";print_r($request->all());"</pre>";exit;
         if ($request->has('image')) {
             $file = $request->file('image');
             $name = $file->getClientOriginalName();
@@ -57,6 +59,9 @@ class QuestionController extends Controller
         if (isset($request->unit)) {
             $question->unit = $request->unit;
         }
+        $question->question_type = $request->question_type;
+        $question->hint = $request->hint;
+        $question->arabic_hint = $request->arabic_hint;
         $question->category = $request->category;
         $question->gender = $request->gender;
         $question->sort = $request->sort;
@@ -65,6 +70,19 @@ class QuestionController extends Controller
         $question->question_arabic = $request->question_arabic;
         }
         $question->save();
+
+        if ($request->has('option_name') && count($request->option_name) > 0) {
+            foreach ($request->option_name as  $key => $option) {
+                if($option){
+                    DB::table('question_options')->insert([
+                        'question_id' => $question->id,
+                        'name' => $option,
+                        'name_arabic' => $request->option_name_arabic[$key],
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('question.index')->with(['success'=>'Question Saved Successfully!']);
     }
 
@@ -113,14 +131,48 @@ class QuestionController extends Controller
         if (isset($request->unit)) {
             $question->unit = $request->unit;
         }
+        $question->question_type = $request->question_type;
         $question->category = $request->category;
         $question->gender = $request->gender;
         $question->sort = $request->sort;
         $question->question = $request->question;
+        $question->hint = $request->hint;
+        $question->arabic_hint = $request->arabic_hint;
         if(isset($request->question_arabic)){
         $question->question_arabic = $request->question_arabic;
         }
         $question->save();
+
+        $ids = DB::table('question_options')->where('question_id',$question->id)->pluck('id');
+
+        foreach ($ids as $id) {
+            if ($request->has('option_id')) {
+                if (!in_array($id, @$request->option_id)) {
+                    DB::table('question_options')->where('id',$id)->delete();
+                }
+            }else{
+                DB::table('question_options')->where('question_id',$question->id)->delete();
+            }
+        }
+
+        if ($request->has('option_name')) {
+            foreach ($request->option_name as $key => $option) {
+
+                if ($request->option_id[$key] == 0) {
+                    DB::table('question_options')->insert([
+                        'question_id' => $question->id,
+                        'name' => $option,
+                        'name_arabic' => $request->option_name_arabic[$key]
+                    ]);
+                }else{
+                    DB::table('question_options')->where('id',$request->option_id[$key])->update([
+                        'name' => $option,
+                        'name_arabic' => $request->option_name_arabic[$key]
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('question.index')->with(['success'=>'Question Updated Successfully!']);
     }
 

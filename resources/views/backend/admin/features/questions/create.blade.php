@@ -113,6 +113,27 @@
 								<input type="text" class="form-control" name="unit" id="unit" placeholder="Unit">
 							</div>
 						</div>
+
+						<div class="col-md-6">
+							<label for="question">Hint(in English)</label>
+							<div class="input-group">
+								<input type="text" id="hint" name="hint" class="form-control" placeholder="Hint" required></input>
+								<div class="invalid-feedback">
+									Please Enter a Hint.
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<label for="question_arabic">Hint(in Arabic)</label>
+							<div class="input-group">
+								<input type="text" id="arabic_hint" name="arabic_hint" class="form-control" placeholder="Hint(in Arabic)"></input>
+								<div class="invalid-feedback">
+									Please Enter a Hint.
+								</div>
+							</div>
+						</div>
+
 						<div class="col-xl-6 col-md-12 mb-3">
 							<label for="question_type">Select Question Type</label>
 							<div class="input-group">
@@ -124,6 +145,7 @@
 									<option value="checkbox" >Checkbox</option>
 									<option value="select" >Select</option>
 									<option value="list" >List</option>
+									<option value="list_drop" >List Drop</option>
 									<option value="date" >Date</option>
 								</select>
 								<div class="invalid-feedback">
