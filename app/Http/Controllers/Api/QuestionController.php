@@ -99,6 +99,29 @@ class QuestionController extends Controller
 	}
 
 
+	public function updateAnswers(Request $request)
+	{
+		$user_id = Auth::Client()->id;
+
+		foreach($request->all() as $key =>$value){
+			if (DB::table('client_answers')->where('client_id', '=', $user_id)->exists()) {
+				
+				if (DB::table('client_answers')->where(['client_id'=>$user_id,'question_id'=>$key])->exists()) {
+
+					DB::table('client_answers')->where(['client_id'=>$user_id,'question_id'=>$key])->update(['answer' => $value]);
+
+				}
+
+			}else{
+				return response(['errors'=>'Record not found!'], 422);
+			}
+
+		}
+			$response = ['success' => 'Data updated successfully'];
+			return response($response, 200);
+	}
+
+
 	public function getclientanswers(Request $request){
 		$user_id = Auth::Client()->id;
 

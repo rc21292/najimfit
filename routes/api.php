@@ -32,6 +32,8 @@ Route::middleware('auth:api')->group(function () {
 
 	Route::post('/submit-answers', 'Api\QuestionController@saveanswers')->name('saveanswers.api');
 
+	Route::post('/update-body-health', 'Api\QuestionController@updateAnswers')->name('updateanswers.api');
+
 	Route::post('/logout', 'Api\AuthController@logout')->name('logout.api');
 
 	Route::get('/get-cart', 'Api\CartController@getcart')->name('getcart.api');

@@ -64,6 +64,9 @@ Route::get('renew-workout-template/{id}','RenewWorkoutController@workouttemplate
 
 // Clients Route
 Route::resource('clients','ClientsController');
+
+Route::resource('intake-substances','IntakeSubstanceController');
+
 Route::resource('client-full-profile','ClientProfileController');
 Route::post('meal-delete-image/{meal}', 'ClientsController@deleteimage')->name('meal-image-delete');
 // Exercise Route

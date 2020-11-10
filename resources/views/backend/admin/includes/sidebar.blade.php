@@ -47,6 +47,11 @@
         </ul>
       </li>
       <li class="menu-item">
+        <a href="{{route('intake-substances.index')}}">
+          <span><i class="far fa-user-circle"></i>Intake Substances</span>
+        </a>
+      </li>  
+      <li class="menu-item">
         <a href="{{route('clients.index')}}">
           <span><i class="far fa-user-circle"></i>Clients</span>
         </a>
@@ -169,7 +174,7 @@
           <li><a href="{{route('assign-workout.index')}}">Assign Workout</a></li>
           <li><a href="{{route('renew-workout.index')}}">Renew Workout</a></li>
         </ul>
-      </li>
+      </li>    
       <li class="menu-item">
         <a href="{{route('clients.index')}}">
           <span><i class="far fa-user-circle"></i>Active Clients</span>
