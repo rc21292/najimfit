@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use DB;
 use Session;
 use App\Models\Term;
+use App\Models\Gdpr;
 use App\Models\PrivacyPolicy;
 use App\Models\AboutUs;
 use File;
@@ -182,6 +183,12 @@ class AuthController extends Controller
 	public function about(){
 		$about_us = AboutUs::first();
 		$response = ['success' => $about_us];
+		return response($response, 200);
+	}
+
+	public function gdpr(){
+		$gdpr = Gdpr::first();
+		$response = ['success' => $gdpr];
 		return response($response, 200);
 	}
 	

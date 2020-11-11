@@ -32,6 +32,7 @@ Route::post('meal-delete-image/{meal}', 'Features\Meals\MealController@deleteima
 
 Route::resource('terms-and-conditions','TermsController');
 Route::resource('privacy-policy','PrivacyPolicyController');
+Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
 
 // Assign Table Nutritionist-wise
