@@ -169,7 +169,7 @@ class AuthController extends Controller
 	}
 
 	public function faqs(){
-		$faqs = DB::table('faqs')->get();
+		$faqs = DB::table('faqs')->where('status',1)->latest('id')->get();
 		unset($faqs->slug);
 		$response = ['success' => $faqs];
 		return response($response, 200);
