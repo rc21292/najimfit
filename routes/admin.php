@@ -34,6 +34,7 @@ Route::resource('terms-and-conditions','TermsController');
 Route::resource('privacy-policy','PrivacyPolicyController');
 Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
+Route::resource('faqs','FaqController');
 
 // Assign Table Nutritionist-wise
 Route::resource('assign-table','TableController');
