@@ -75,6 +75,16 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
+/*use these api without login also*/
+Route::get('/terms', 'Api\AuthController@terms')->name('terms.api');
+Route::get('/gdpr', 'Api\AuthController@gdpr')->name('gdpr.api');
+
+Route::get('/about', 'Api\AuthController@about')->name('about.api');
+
+Route::get('/privacy-policy', 'Api\AuthController@privacyPolicy')->name('privacypolicy.api');
+/*end*/
+
+
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     // Public routes
