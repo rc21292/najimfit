@@ -44,7 +44,7 @@ class DietController extends Controller
 					if (count($images) > 0) {
 						$intakeSubs[$key][$keyy]['image'] = $images;
 					}else{
-						$intakeSubs[$key][$keyy]['image'] = [];
+						$intakeSubs[$key][$keyy]['image'] = 'https://tegdarco.com/uploads/substances/diet-default.png';
 					}
 
 					if (count($comments) > 0) {
@@ -52,11 +52,14 @@ class DietController extends Controller
 						foreach ($comments as $comment_key => $comment) {
 							if ($comment->flag == 'nutri_client') {
 								$user_name = DB::table('users')->where('id',$comment->client_id)->value('name');
+								$comment_by_user = false;
 							}else{
 								$user_name = DB::table('clients')->where('id',$comment->client_id)->value('firstname').' '.DB::table('clients')->where('id',$comment->client_id)->value('lastname');
+								$comment_by_user = true;
 							}
 							// dd(DB::getQueryLog());
 							$comments[$comment_key]->name = $user_name;
+							$comments[$comment_key]->comment_by_user = $comment_by_user;
 						}
 						$intakeSubs[$key][$keyy]['comments'] = $comments;
 					}
@@ -94,6 +97,11 @@ class DietController extends Controller
 		$intakeSubs->image = '';
 
 		$intakeSubs->save();
+
+		if (request('comment') && !empty(request('comment'))) {
+			$flag = 'client_nutri';
+			DB::table('intake_substance_comments')->insert(['client_id'=>$user_id,'intake_subs_id'=>$intakeSubs->id,'flag'=>$flag,'comment'=>request('comment')]);
+		}
 
 		$images=array();
 		if($files=$request->file('image')){
