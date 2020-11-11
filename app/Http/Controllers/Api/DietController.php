@@ -44,7 +44,7 @@ class DietController extends Controller
 					if (count($images) > 0) {
 						$intakeSubs[$key][$keyy]['image'] = $images;
 					}else{
-						$intakeSubs[$key][$keyy]['image'] = 'https://tegdarco.com/uploads/substances/diet-default.png';
+						$intakeSubs[$key][$keyy]['image'] = [['image'=>'https://tegdarco.com/uploads/substances/diet-default.png']];
 					}
 
 					if (count($comments) > 0) {
