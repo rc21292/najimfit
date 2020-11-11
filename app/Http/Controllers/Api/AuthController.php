@@ -71,6 +71,19 @@ class AuthController extends Controller
 
 	}
 
+	public function checkPhone(Request $request)
+	{
+		$user_id = Auth::Client()->id;
+
+		$user = Client::find($user_id);
+
+		if (isset($user->phone) && !empty($user->phone)) {
+			return $response = ['success' => 'true','message' => "Phone number exists"];
+		}else{
+			return $response = ['success' => false,'message' => "Phone number not exists"];
+		}
+	}
+
 	public function getpackages(Request $request){
 		$packages = Package::all();
 		foreach ($packages as $row) {

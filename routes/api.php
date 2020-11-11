@@ -21,6 +21,7 @@ Route::middleware('auth:api')->group(function () {
 	Route::get('/user-body-profile', 'Api\AuthController@getuserbodyprofile');
 
 	Route::post('/edit-user', 'Api\AuthController@update');
+	Route::post('/check-phone', 'Api\AuthController@checkPhone');
 
 	Route::post('/select-gender', 'Api\AuthController@selectgender')->name('selectgender.api');
 
