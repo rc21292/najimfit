@@ -168,9 +168,10 @@ class AuthController extends Controller
 		return response($response, 200);
 	}
 
-	public function terms(){
-		$term = Term::first();
-		$response = ['success' => $term];
+	public function faqs(){
+		$faqs = DB::table('faqs')->get();
+		unset($faqs->slug);
+		$response = ['success' => $faqs];
 		return response($response, 200);
 	}
 
@@ -209,15 +210,15 @@ class AuthController extends Controller
 			$client->answers = 0;
 		}
 		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
+		$calories_sum = 0;
 		$workout_days = 0;
 		if ($client_workouts) {
-		$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
+			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
 
-		$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
-		$calories_sum = 0;
-		foreach ($workouts as $key => $workout) {
-			$calories_sum += explode('-', $workout->calories)[1];
-		}
+			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
+			foreach ($workouts as $key => $workout) {
+				$calories_sum += explode('-', $workout->calories)[1];
+			}
 		}
 		$client->active_days = $workout_days;
 		$client->kal_burnt = $calories_sum;
