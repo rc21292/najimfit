@@ -95,6 +95,12 @@ class AuthController extends Controller
 
 		$validity = $user->validity;
 
+		$date = new Carbon;
+		if($date > $validity)
+		{
+			return $response = ['success' => false,'message' => 'No data found'];
+		} 
+
 		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name];
 	}
 
