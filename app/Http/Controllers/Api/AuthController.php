@@ -58,28 +58,44 @@ class AuthController extends Controller
 	public function getHomeData()
 	{
 		$user_id = Auth::Client()->id;
-		$user = Client::find($user_id);
-		$fdate = $user->subscription_date;
-		$tdate = Now();
-		$datetime1 = new DateTime($fdate);
-		$datetime2 = new DateTime($tdate);
-		$interval = $datetime1->diff($datetime2);
-		$active_day = $interval->format('%a');
+		$user = Client::find($user_id);		
 
 		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
 		$calories_sum = 0;
 		$workout_days = 0;
 		if ($client_workouts) {
+			$workout_data = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->orderBy('day', 'asc')->first();
+
+			$fdate = $workout_data->created_at;
+			$tdate = Now();
+			$datetime1 = new DateTime($fdate);
+			$datetime2 = new DateTime($tdate);
+			$interval = $datetime1->diff($datetime2);
+			$active_day = $interval->format('%a');
+			// $active_day = 3;
+
+			$workout_exercise = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','exercises.name')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('day',$active_day)->first();
+
+			if ($workout_exercise) {
+				$workout_name = $workout_exercise->name;
+			}else{
+				$workout_name = '---';
+			}
+
 			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
+
 			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
+
 			foreach ($workouts as $key => $workout) {
 				$calories_sum += explode('-', $workout->calories)[1];
 			}
+		}else{
+			return $response = ['success' => false,'message' => 'No data found'];
 		}
 
 		$validity = $user->validity;
 
-		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'workout'=>$workout_days];
+		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'workout_days'=>$workout_days,'workout'=>$workout_name];
 	}
 
 	public function selectgender(Request $request){
