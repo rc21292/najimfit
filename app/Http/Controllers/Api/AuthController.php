@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Auth;
+use DateTime;
 use App\Models\Package;
 use Carbon\Carbon;
 use DB;
@@ -53,6 +54,34 @@ class AuthController extends Controller
 		$response = ['token' => $token];
 		return response($response, 200);
 	}
+
+	public function getHomeData()
+	{
+		$user_id = Auth::Client()->id;
+		$user = Client::find($user_id);
+		$fdate = $user->subscription_date;
+		$tdate = Now();
+		$datetime1 = new DateTime($fdate);
+		$datetime2 = new DateTime($tdate);
+		$interval = $datetime1->diff($datetime2);
+		$active_day = $interval->format('%a');
+
+		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
+		$calories_sum = 0;
+		$workout_days = 0;
+		if ($client_workouts) {
+			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
+			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
+			foreach ($workouts as $key => $workout) {
+				$calories_sum += explode('-', $workout->calories)[1];
+			}
+		}
+
+		$validity = $user->validity;
+
+		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'workout'=>$workout_days];
+	}
+
 	public function selectgender(Request $request){
 		$validator = Validator::make($request->all(), [
 			'gender' => 'required|string|max:7',

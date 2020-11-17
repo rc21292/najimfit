@@ -60,6 +60,8 @@ Route::middleware('auth:api')->group(function () {
 
 	Route::post('/get-workout-details', 'Api\WorkoutController@getexercisedetails')->name('getexercisedetails.api');
 
+	Route::post('/get-home', 'Api\AuthController@getHomeData')->name('gethomedata.api');
+
 	Route::post('/get-workout-instructions', 'Api\WorkoutController@getworkoutinstructions')->name('getworkoutinstructions.api');
 
 	Route::post('/view-diets', 'Api\TableController@gettable')->name('gettable.api');
