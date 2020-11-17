@@ -95,7 +95,7 @@ class AuthController extends Controller
 
 		$validity = $user->validity;
 
-		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'workout_days'=>$workout_days,'workout'=>$workout_name];
+		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name];
 	}
 
 	public function selectgender(Request $request){
