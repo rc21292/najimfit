@@ -62,7 +62,7 @@ class AuthController extends Controller
 		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
 		$from = "+12283356343";
 		$to = $request['mobile'];
-		$body = "using twilio rest api from Fedrick krishna";
+		$body = $request['message'];
 		$data = array (
 			'From' => $from,
 			'To' => $to,
@@ -86,7 +86,7 @@ class AuthController extends Controller
 		if (isset($array['RestException']) && $array['RestException']['Status'] == 400) {
 			return $response = ['success' => false,'message' => $array['RestException']['Message']];
 		}
-		
+
 		curl_close($x);
 	}
 
