@@ -55,6 +55,41 @@ class AuthController extends Controller
 		return response($response, 200);
 	}
 
+	public function sendSms(Request $request)
+	{
+		$id = "ACbcfbb403ad0a2267c6e559cf9c7c8119";
+		$token = "a25cdbe5d55a2d008d1d5a3cef19ae44";
+		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
+		$from = "+12283356343";
+		$to = $request['mobile'];
+		$body = "using twilio rest api from Fedrick krishna";
+		$data = array (
+			'From' => $from,
+			'To' => $to,
+			'Body' => $body,
+		);
+		$post = http_build_query($data);
+		$x = curl_init($url );
+		curl_setopt($x, CURLOPT_POST, true);
+		curl_setopt($x, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($x, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($x, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($x, CURLOPT_USERPWD, "$id:$token");
+		curl_setopt($x, CURLOPT_POSTFIELDS, $post);
+		$y = curl_exec($x);
+		$xml = simplexml_load_string($y);
+		$json = json_encode($xml);
+		$array = json_decode($json,TRUE);
+		if (isset($array['SMSMessage']) && !empty($array['SMSMessage'])) {
+			return $response = ['success' => true,'message' => 'Message sended successfully'];
+		}
+		if (isset($array['RestException']) && $array['RestException']['Status'] == 400) {
+			return $response = ['success' => false,'message' => $array['RestException']['Message']];
+		}
+		
+		curl_close($x);
+	}
+
 	public function getHomeData()
 	{
 		$user_id = Auth::Client()->id;

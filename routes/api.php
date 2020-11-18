@@ -45,6 +45,7 @@ Route::middleware('auth:api')->group(function () {
 
 	Route::get('/delete-cart', 'Api\CartController@deletecart')->name('deletecart.api');
 	Route::get('/terms', 'Api\AuthController@terms')->name('terms.api');
+	Route::post('/send-sms', 'Api\AuthController@sendSms')->name('sendsms.api');
 
 	Route::get('/faqs', 'Api\AuthController@faqs')->name('faqs.api');
 
