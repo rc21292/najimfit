@@ -48,7 +48,7 @@ echo "sss";
 $id = "ACbcfbb403ad0a2267c6e559cf9c7c8119";
 $token = "c25fd668e797404fc58c5d1b197c9506";
 $url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
-$from = "+97336599909";
+$from = "+12283356343";
 $to = "+919026574061"; // twilio trial verified number
 $body = "using twilio rest api from Fedrick";
 $data = array (
@@ -71,7 +71,7 @@ var_dump($post);
 var_dump($y);
 
 
-        $this->send_twilio_text_sms("ACbcfbb403ad0a2267c6e559cf9c7c8119", "c25fd668e797404fc58c5d1b197c9506", "+97336599909", "+919026574061", "Testing api please ignore");
+        $this->send_twilio_text_sms("ACbcfbb403ad0a2267c6e559cf9c7c8119", "c25fd668e797404fc58c5d1b197c9506", "+12283356343", "+919026574061", "Testing api please ignore");
 die;
 
 		$intake_subs = Diet::exists();
