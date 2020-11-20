@@ -262,10 +262,17 @@ class AuthController extends Controller
 	}
 
 	public function privacyPolicy(){
-		$term = PrivacyPolicy::first();
-		$response = ['success' => $term];
+		$privacypolicy = PrivacyPolicy::first();
+		$response = ['success' => $privacypolicy];
 		return response($response, 200);
 	}
+
+	public function terms(){
+		$terms = Term::first();
+		$response = ['success' => $terms];
+		return response($response, 200);
+	}
+
 
 	public function about(){
 		$about_us = AboutUs::first();
