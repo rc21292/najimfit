@@ -89,6 +89,8 @@ Route::get('/about', 'Api\AuthController@about')->name('about.api');
 
 Route::get('/faqs', 'Api\AuthController@faqs')->name('faqs.api');
 
+Route::post('/forget-password-sms', 'Api\AuthController@forgetPasswordSms')->name('sendsms.api');
+
 Route::get('/privacy-policy', 'Api\AuthController@privacyPolicy')->name('privacypolicy.api');
 /*end*/
 
