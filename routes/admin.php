@@ -9,6 +9,7 @@ Route::resource('my-account', 'MyProfileController');
 Route::post('account-delete-image/{account}', 'MyProfileController@deleteimage')->name('account-image-delete');
 // User Route
 Route::resource('roles','RoleController');
+Route::resource('chat','ChatController');
 Route::resource('users','UserController');
 // Questions Route
 Route::resource('question','Features\QuestionController');
