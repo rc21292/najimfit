@@ -88,7 +88,6 @@ class AuthController extends Controller
 			$xml = simplexml_load_string($y);
 			$json = json_encode($xml);
 			$array = json_decode($json,TRUE);
-			echo "<pre>";print_r($array);"</pre>";exit;
 			if (isset($array['SMSMessage']) && !empty($array['SMSMessage'])) {
 				return $response = ['success' => true,'message' => 'Message sended successfully'];
 			}
