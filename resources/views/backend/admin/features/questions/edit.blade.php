@@ -115,7 +115,7 @@
 						<div class="col-md-6">
 							<label for="question">Placeholder Text(in English)</label>
 							<div class="input-group">
-								<input type="text" id="placeholder_text" value="{{$question->placeholder_text}}" name="placeholder_text" class="form-control" placeholder="Placeholder Text"></input>
+								<input type="text" id="hint" value="{{$question->hint}}" name="hint" class="form-control" placeholder="Placeholder Text"></input>
 								<div class="invalid-feedback">
 									Please Enter a Placeholder Text.
 								</div>
@@ -125,7 +125,7 @@
 						<div class="col-md-6">
 							<label for="question_arabic">Placeholder Text(in Arabic)</label>
 							<div class="input-group">
-								<input type="text" id="arabic_placeholder_text" value="{{$question->arabic_placeholder_text}}" name="arabic_placeholder_text" class="form-control" placeholder="Placeholder Text(in Arabic)"></input>
+								<input type="text" id="arabic_hint" value="{{$question->arabic_hint}}" name="arabic_hint" class="form-control" placeholder="Placeholder Text(in Arabic)"></input>
 								<div class="invalid-feedback">
 									Please Enter a Placeholder Text.
 								</div>
