@@ -66,7 +66,7 @@ class AuthController extends Controller
 		if ($no_exists) 
 		{
 			$id = "ACbcfbb403ad0a2267c6e559cf9c7c8119";
-			$token = "e0b250480f9a89ad3dd670e488f6d1f7";
+			$token = "e0cb01c8a0aeea41f3544582ff3e3889";
 			$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
 			$from = "+12283356343";
 			$to = $request['mobile'];
@@ -88,6 +88,7 @@ class AuthController extends Controller
 			$xml = simplexml_load_string($y);
 			$json = json_encode($xml);
 			$array = json_decode($json,TRUE);
+			echo "<pre>";print_r($array);"</pre>";exit;
 			if (isset($array['SMSMessage']) && !empty($array['SMSMessage'])) {
 				return $response = ['success' => true,'message' => 'Message sended successfully'];
 			}
@@ -104,7 +105,7 @@ class AuthController extends Controller
 	public function sendSms(Request $request)
 	{
 		$id = "ACbcfbb403ad0a2267c6e559cf9c7c8119";
-		$token = "e0b250480f9a89ad3dd670e488f6d1f7";
+		$token = "e0cb01c8a0aeea41f3544582ff3e3889";
 		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
 		$from = "+12283356343";
 		$to = $request['mobile'];
