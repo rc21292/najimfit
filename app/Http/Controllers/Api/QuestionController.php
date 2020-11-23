@@ -113,11 +113,11 @@ class QuestionController extends Controller
 				}
 
 			}else{
-				return response(['errors'=>'Record not found!'], 422);
+				return response(['success' => false, 'message'=>'Record not found!'],200);
 			}
 
 		}
-			$response = ['success' => 'Data updated successfully'];
+			$response = ['success' => true, 'message' => 'Data updated successfully'];
 			return response($response, 200);
 	}
 
