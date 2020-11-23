@@ -32,16 +32,34 @@ class CartController extends Controller
 	public function addtocart(Request $request){
 		$user_id = Auth::Client()->id;
 		$current_package = Client::find($user_id);
-
 		$validity = Package::where('id', $request->package)->value('validity');
 		if($current_package->validity >= Carbon::now()){
-			$response = ['success' => 'You already have an active package. Current Package is Valid Upto '.$current_package->validity];
+			if(DB::table('cart')->where('client_id', $user_id)->where('package_id', $request->package)->exists()){
+				$cart = DB::table('cart')->join('packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description', DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
+				$response = ['success' => $cart , 'message' => 'Package already added to Cart' ];
+				return response($response, 200);
+			}else{
+				if(DB::table('cart')->where('client_id', $user_id)->exists()){
+					DB::table('cart')->where('client_id', $user_id)->delete();
+				}
+				$subtotal = Package::find($request->package)->price;
+				$quantity = 1;
+				Session::put('total',$subtotal);
+				$cart_id = DB::table('cart')->insertGetId(['client_id' => $user_id, 'package_id' => $request->package, 'subtotal'=> $subtotal, 'quantity'=> $quantity,'discount'=> 0, 'total' => $subtotal]);
+				$cart = DB::table('cart')->join(	'packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description',DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
+				$response = ['success' => $cart];
+				return response($response, 200);
+			}
+			// $response = ['success' => 'You already have an active package. Current Package is Valid Upto '.$current_package->validity];
 		}else{
 			if(DB::table('cart')->where('client_id', $user_id)->where('package_id', $request->package)->exists()){
 				$cart = DB::table('cart')->join('packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description', DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
 				$response = ['success' => $cart , 'message' => 'Package already added to Cart' ];
 				return response($response, 200);
 			}else{
+				if(DB::table('cart')->where('client_id', $user_id)->exists()){
+					DB::table('cart')->where('client_id', $user_id)->delete();
+				}
 				$subtotal = Package::find($request->package)->price;
 				$quantity = 1;
 				Session::put('total',$subtotal);

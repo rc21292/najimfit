@@ -245,7 +245,30 @@ class AuthController extends Controller
 
 		$validity = Package::where('id', $request->package_id)->value('validity');
 		if($current_package->validity >= Carbon::now()){
-			$response = ['success' => 'You already have an active package. Current Package is Valid Upto '.$current_package->validity];
+
+			if ($current_package->package_id == $request->package_id) {
+				$current_validity = $current_package->validity;
+
+				$date = date_create($current_validity);
+
+				date_add($date, date_interval_create_from_date_string("$validity days")); 
+
+				$valid_upto =  date_format($date, "Y-m-d"); 
+
+				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
+
+				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
+				$response = ['success' => 'This package has been assigned to you..!'];
+			}else{
+				$valid_upto = Carbon::now()->addDays($validity);
+
+				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
+
+				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
+				$response = ['success' => 'This package has been assigned to you..!'];
+			}
+
+			// $response = ['success' => 'You already have an active package. Current Package is Valid Upto '.$current_package->validity];
 		}else{
 
 			$valid_upto = Carbon::now()->addDays($validity);
