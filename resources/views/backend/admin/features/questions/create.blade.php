@@ -115,21 +115,41 @@
 						</div>
 
 						<div class="col-md-6">
-							<label for="question">Hint(in English)</label>
+							<label for="question">Placeholder Text(in English)</label>
 							<div class="input-group">
-								<input type="text" id="hint" name="hint" class="form-control" placeholder="Hint" required></input>
+								<input type="text" id="placeholder_text" name="placeholder_text" class="form-control" placeholder="Placeholder Text" required></input>
 								<div class="invalid-feedback">
-									Please Enter a Hint.
+									Please Enter a Placeholder Text.
 								</div>
 							</div>
 						</div>
 
 						<div class="col-md-6">
-							<label for="question_arabic">Hint(in Arabic)</label>
+							<label for="question_arabic">Placeholder Text(in Arabic)</label>
 							<div class="input-group">
-								<input type="text" id="arabic_hint" name="arabic_hint" class="form-control" placeholder="Hint(in Arabic)"></input>
+								<input type="text" id="arabic_placeholder_text" name="arabic_placeholder_text" class="form-control" placeholder="Placeholder Text(in Arabic)"></input>
 								<div class="invalid-feedback">
-									Please Enter a Hint.
+									Please Enter a Placeholder Text.
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<label for="question">Question Explanaiton(in English)</label>
+							<div class="input-group">
+								<input type="text" id="question_explanaiton" value="" name="question_explanaiton" class="form-control" placeholder="Question Explanaiton"></input>
+								<div class="invalid-feedback">
+									Please Enter a Question Explanaiton.
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<label for="question_arabic">Question Explanaiton(in Arabic)</label>
+							<div class="input-group">
+								<input type="text" id="arabic_question_explanaiton" value="" name="arabic_question_explanaiton" class="form-control" placeholder="Question Explanaiton(in Arabic)"></input>
+								<div class="invalid-feedback">
+									Please Enter a Question Explanaiton.
 								</div>
 							</div>
 						</div>

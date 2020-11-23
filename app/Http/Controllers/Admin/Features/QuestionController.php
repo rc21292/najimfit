@@ -44,7 +44,6 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        // echo "<pre>";print_r($request->all());"</pre>";exit;
         if ($request->has('image')) {
             $file = $request->file('image');
             $name = $file->getClientOriginalName();
@@ -60,8 +59,10 @@ class QuestionController extends Controller
             $question->unit = $request->unit;
         }
         $question->question_type = $request->question_type;
-        $question->hint = $request->hint;
-        $question->arabic_hint = $request->arabic_hint;
+        $question->placeholder_text = $request->placeholder_text;
+        $question->question_explanaiton = $request->question_explanaiton;
+        $question->arabic_placeholder_text = $request->arabic_placeholder_text;
+        $question->arabic_question_explanaiton = $request->arabic_question_explanaiton;
         $question->category = $request->category;
         $question->gender = $request->gender;
         $question->sort = $request->sort;
@@ -136,8 +137,10 @@ class QuestionController extends Controller
         $question->gender = $request->gender;
         $question->sort = $request->sort;
         $question->question = $request->question;
-        $question->hint = $request->hint;
-        $question->arabic_hint = $request->arabic_hint;
+        $question->placeholder_text = $request->placeholder_text;
+        $question->question_explanaiton = $request->question_explanaiton;
+        $question->arabic_placeholder_text = $request->arabic_placeholder_text;
+        $question->arabic_question_explanaiton = $request->arabic_question_explanaiton;
         if(isset($request->question_arabic)){
         $question->question_arabic = $request->question_arabic;
         }
