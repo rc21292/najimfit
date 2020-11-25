@@ -117,7 +117,7 @@
 						<div class="col-md-6">
 							<label for="question">Placeholder Text(in English)</label>
 							<div class="input-group">
-								<input type="text" id="hint" name="hint" class="form-control" placeholder="Placeholder Text" required></input>
+								<input type="text" id="hint" name="hint" class="form-control" placeholder="Placeholder Text" ></input>
 								<div class="invalid-feedback">
 									Please Enter a Placeholder Text.
 								</div>
