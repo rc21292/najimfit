@@ -106,6 +106,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 	Route::post('create', 'Api\PasswordResetController@create');
 	Route::get('password/find/{token}', 'Api\PasswordResetController@find');
 	Route::post('reset', 'Api\PasswordResetController@reset');
+
+	Route::post('reset-mobile', 'Api\PasswordResetController@resetByMobile');
+
 	Route::get('getcountryflags','Api\AuthController@getcountryflags');
 	Route::get('terms','Api\AuthController@terms');
 	
