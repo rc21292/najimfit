@@ -20,6 +20,8 @@ class IntakeSubstanceController extends Controller
 
     public function index()
     {
+        echo "updating soon!";
+        die;
         $intake_subs = Diet::exists();
 
         if ($intake_subs) {
