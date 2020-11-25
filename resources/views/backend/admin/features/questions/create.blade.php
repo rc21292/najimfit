@@ -160,6 +160,7 @@
 								<select class="form-control" name="question_type" id="question_type" required>
 									<option value="" >Please Select</option>
 									<option value="text" >Text</option>
+									<option value="number" >Number</option>
 									<option value="textarea" >Textarea</option>
 									<option value="radio" >Radio</option>
 									<option value="checkbox" >Checkbox</option>

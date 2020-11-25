@@ -158,6 +158,7 @@
 								<select class="form-control" name="question_type" id="question_type" required>
 									<option value="" >Please Select</option>
 									<option value="text" @if(@$question->question_type == 'text') selected @endif >Text</option>
+									<option value="number" @if(@$question->question_type == 'number') selected @endif >Number</option>
 									<option value="textarea" @if(@$question->question_type == 'textarea') selected @endif >Textarea</option>
 									<option value="radio" @if(@$question->question_type == 'radio') selected @endif >Radio</option>
 									<option value="checkbox" @if(@$question->question_type == 'checkbox') selected @endif >Checkbox</option>
