@@ -195,6 +195,7 @@ class AuthController extends Controller
 		}
 
 		$validity = $user->validity;
+		$package_subscription_date = $user->subscription_date;
 
 		$date = new Carbon;
 		if($date > $validity)
@@ -202,7 +203,7 @@ class AuthController extends Controller
 			return $response = ['success' => false,'message' => 'Package expired'];
 		} 
 
-		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name];
+		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name,'package_subscription_date' => $package_subscription_date];
 	}
 
 	public function selectgender(Request $request){
