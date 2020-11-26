@@ -95,7 +95,7 @@ class PasswordResetController extends Controller
 
         if ($validator->fails())
         {
-            return response(['success'=>false,'message'=>'The given data was invalid.']);
+            return response(['success'=>false,'message'=>'The given data was invalid.'], 404);
         }
 
 
@@ -104,7 +104,7 @@ class PasswordResetController extends Controller
      		['email', $request->email]
      	])->first();
      	if (!$passwordReset)
-     		return response()->json([
+     		return response()->json(['success'=>false,
      			'message' => 'This password reset token is invalid.'
      		], 404);
      	$user = Client::where('email', $passwordReset->email)->first();
