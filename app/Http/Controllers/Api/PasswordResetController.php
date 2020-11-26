@@ -95,6 +95,8 @@ class PasswordResetController extends Controller
 
         if ($validator->fails())
         {
+            $array = implode(',', $validator->errors()->all());
+            return response(['success'=>false,'message'=>$array], 404);
             return response(['success'=>false,'message'=>'The given data was invalid.'], 404);
         }
 
