@@ -110,6 +110,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 	Route::post('reset-mobile', 'Api\PasswordResetController@resetByMobile');
 
 	Route::get('getcountryflags','Api\AuthController@getcountryflags');
+	Route::post('convert-currency','Api\AuthController@currencyConverter');
 	Route::get('terms','Api\AuthController@terms');
 	
 

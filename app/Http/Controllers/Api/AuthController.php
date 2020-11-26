@@ -23,6 +23,26 @@ use Image;
 use App\Models\QuestionCategory;
 class AuthController extends Controller
 {
+
+	private $currencies = array();
+
+	public function __construct() {
+
+		$query = DB::table('currencies')->get();
+
+
+		foreach ($query as $result) {
+			$this->currencies[$result->code] = array(
+				'currency_id'   => $result->currency_id,
+				'title'         => $result->title,
+				'symbol_left'   => $result->symbol_left,
+				'symbol_right'  => $result->symbol_right,
+				'decimal_place' => $result->decimal_place,
+				'value'         => $result->value
+			);
+		}
+	}
+
 	public function register (Request $request) {
 		$validator = Validator::make($request->all(), [
 			'firstname' => 'required|string|max:255',
@@ -470,5 +490,52 @@ class AuthController extends Controller
 		return response(['success'=> $questions], 200);
 	}
 
+	public function currencyConverter(Request $request)
+	{
+		$packages = Package::all();
+		$amount=499;
+		$from=$request->from;
+		$to=$request->to;
+		$amount_re = $this->currency_converter($from,$to,$amount);
+		return response(['success'=> true,'amount'=>$amount_re], 200);
+	}
 
+	public function currency_converter($from,$to,$amount)
+	{
+		$symbol_left = $this->currencies[$to]['symbol_left'];
+		$symbol_right = $this->currencies[$to]['symbol_right'];
+
+		$decimal_place = $this->currencies[$to]['decimal_place'];
+
+		if (isset($this->currencies[$from])) {
+			$from = $this->currencies[$from]['value'];
+		} else {
+			$from = 1;
+		}
+
+		if (isset($this->currencies[$to])) {
+			$to = $this->currencies[$to]['value'];
+		} else {
+			$to = 1;
+		}
+
+
+		return $amount = round($amount * ($to / $from), (int)$decimal_place);
+
+		/*$string = '';
+
+		if ($symbol_left) {
+			$string .= $symbol_left;
+		}
+
+		$string .= $amount;
+
+		if ($symbol_right) {
+			$string .= $symbol_right;
+		}
+
+		return $string;*/
+
+
+	} 
 }
