@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
 use App\Models\Client;
@@ -25,6 +26,7 @@ class PasswordResetController extends Controller
 			return response()->json([
 				'message' => "We can't find a user with that e-mail address."
 			], 404);
+        // $a = mt_rand(1000, 9999); 
 		$passwordReset = PasswordResetClients::updateOrCreate(
 			['email' => $user->email],
 			[
@@ -77,12 +79,26 @@ class PasswordResetController extends Controller
      */
      public function reset(Request $request)
      {
-     	$request->validate([
+     	/*$request->validate([
      		'email' => 'required|string|email',
      		'password' => 'required|string',
      		'confirm_password' => 'required|same:password',
      		'token' => 'required|string'
-     	]);
+     	]);*/
+
+        $validator = Validator::make($request->all(), [
+           'email' => 'required|string|email',
+            'password' => 'required|string',
+            'confirm_password' => 'required|same:password',
+            'token' => 'required|string'
+        ]);
+
+        if ($validator->fails())
+        {
+            return response(['success'=>false,'message'=>'The given data was invalid.']);
+        }
+
+
      	$passwordReset = PasswordResetClients::where([
      		['token', $request->token],
      		['email', $request->email]
