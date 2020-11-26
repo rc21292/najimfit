@@ -26,12 +26,13 @@ class PasswordResetController extends Controller
 			return response()->json([
 				'message' => "We can't find a user with that e-mail address."
 			], 404);
-        // $a = mt_rand(1000, 9999); 
+        $a = mt_rand(1000, 9999); 
 		$passwordReset = PasswordResetClients::updateOrCreate(
 			['email' => $user->email],
 			[
 				'email' => $user->email,
-				'token' => Str::random(40)
+				// 'token' => Str::random(40)
+                'token' => $a
 			]
 		);
 		if ($user && $passwordReset)
@@ -84,6 +85,7 @@ class PasswordResetController extends Controller
      	]);*/
 
         $validator = Validator::make($request->all(), [
+            'email' => 'string|email',
             'password' => 'required|string',
             'confirm_password' => 'required|same:password',
             'token' => 'required|string'
@@ -95,20 +97,35 @@ class PasswordResetController extends Controller
             return response(['success'=>false,'message'=>$array], 404);
         }
 
-
-     	$passwordReset = PasswordResetClients::where([
-     		['token', $request->token],
-     		['email', $request->email]
-     	])->first();
-     	if (!$passwordReset)
-     		return response()->json(['success'=>false,
-     			'message' => 'This password reset token is invalid.'
-     		], 404);
-     	$user = Client::where('email', $passwordReset->email)->first();
-     	if (!$user)
-     		return response()->json([
-     			'message' => "We can't find a user with that e-mail address."
-     		], 404);
+        if (isset($request->email) && !empty($request->email)) {
+            $passwordReset = PasswordResetClients::where([
+                ['token', $request->token],
+                ['email', $request->email]
+            ])->first();
+            if (!$passwordReset)
+                return response()->json(['success'=>false,
+                    'message' => 'This password reset token is invalid.'
+                ], 404);
+            $user = Client::where('email', $passwordReset->email)->first();
+            if (!$user)
+                return response()->json([
+                    'message' => "We can't find a user with that e-mail address."
+                ], 404);
+        }else{
+            $passwordReset = PasswordResetClients::where([
+                ['token', $request->token],
+                ['mobile', $request->mobile]
+            ])->first();
+            if (!$passwordReset)
+                return response()->json(['success'=>false,
+                    'message' => 'This password reset token is invalid.'
+                ], 404);
+            $user = Client::where('phone', $passwordReset->mobile)->first();
+            if (!$user)
+                return response()->json([
+                    'message' => "We can't find a user with that mobile no."
+                ], 404);
+        }
      	$user->password = bcrypt($request->password);
      	$user->save();
      	$passwordReset->delete();
@@ -137,7 +154,7 @@ class PasswordResetController extends Controller
     , ''
     , $request->mobile
     );
-        $no_exists = Client::where('phone',$mobile_no)->exists();
+        $no_exists = Client::where('phone',$mobile_no)->orWhere('phone',$request->mobile)->exists();
         if ($no_exists) 
         {
             $id = config('services.twilio.account_sid');
@@ -148,8 +165,10 @@ class PasswordResetController extends Controller
             $code = $this->setOTP();
             $body = 'Your otp for forgot password is '.$code;
 
-            $check = DB::table('user_otps')->where('phone',$mobile_no)->exists();
-            if($check == true){   
+            $user = Client::where('phone',$mobile_no)->orWhere('phone',$request->mobile)->first();
+
+            // $check = DB::table('user_otps')->where('phone',$mobile_no)->exists();
+            /*if($check == true){   
                 $res = DB::table('user_otps')->where('phone',$mobile_no)->update([ 
                     'otp' => $code, 
                 ]);         
@@ -157,7 +176,16 @@ class PasswordResetController extends Controller
             }else{
                 $res = DB::table('user_otps')->updateOrInsert([ 
                     'otp' => $code, 'phone'=> $mobile_no, 'created_at' => now(), 'is_verified' => 0]);
-            }
+            }*/
+
+            $passwordReset = PasswordResetClients::updateOrCreate(
+                ['mobile' => $user->phone],
+                [
+                    'email' => $user->email,
+                    'mobile' => $user->phone,
+                    'token' => $code
+                ]
+            );
 
             $data = array (
                 'From' => $from,

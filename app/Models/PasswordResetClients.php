@@ -8,7 +8,7 @@ class PasswordResetClients extends Model
 {
 	protected $table = "password_resets_clients";
     protected $fillable = [
-        'email', 'token'
+        'email','mobile','token'
     ];
     public $timestamps = true;
 }
