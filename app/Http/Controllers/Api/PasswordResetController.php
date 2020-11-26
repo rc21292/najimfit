@@ -118,12 +118,13 @@ class PasswordResetController extends Controller
     , ''
     , $request->mobile
     );
-            
+
             $passwordReset = PasswordResetClients::where([
                 ['token', $request->token],
                 ['mobile', $request->mobile]
             ])->first();
             if (!$passwordReset){
+                echo $mobile_no;
                 $passwordReset = PasswordResetClients::where([
                     ['token', $request->token],
                     ['mobile', $mobile_no]
@@ -134,7 +135,7 @@ class PasswordResetController extends Controller
                     ], 404);
                 }
             }
-            $user = Client::where('phone', $passwordReset->mobile)->first();
+            $user = Client::where('phone',$mobile_no)->orWhere('phone',$request->mobile)->first();
             if (!$user)
                 return response()->json([
                     'message' => "We can't find a user with that mobile no."
