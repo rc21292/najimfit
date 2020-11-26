@@ -80,14 +80,10 @@ class PasswordResetController extends Controller
      public function reset(Request $request)
      {
      	/*$request->validate([
-     		'email' => 'required|string|email',
-     		'password' => 'required|string',
-     		'confirm_password' => 'required|same:password',
-     		'token' => 'required|string'
+     		'email' => 'required|string|email'
      	]);*/
 
         $validator = Validator::make($request->all(), [
-           'email' => 'required|string|email',
             'password' => 'required|string',
             'confirm_password' => 'required|same:password',
             'token' => 'required|string'
@@ -97,7 +93,6 @@ class PasswordResetController extends Controller
         {
             $array = implode(',', $validator->errors()->all());
             return response(['success'=>false,'message'=>$array], 404);
-            return response(['success'=>false,'message'=>'The given data was invalid.'], 404);
         }
 
 
