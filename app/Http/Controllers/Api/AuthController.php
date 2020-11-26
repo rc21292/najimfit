@@ -493,7 +493,7 @@ class AuthController extends Controller
 	public function currencyConverter(Request $request)
 	{
 		$packages = Package::all();
-		$amount=499;
+		$amount=$request->amount;
 		$from=$request->from;
 		$to=$request->to;
 		$amount_re = $this->currency_converter($from,$to,$amount);
@@ -520,7 +520,7 @@ class AuthController extends Controller
 		}
 
 
-		return $amount = round($amount * ($to / $from), (int)$decimal_place);
+		return number_format($amount * ($to / $from), (int)$decimal_place);
 
 		/*$string = '';
 
