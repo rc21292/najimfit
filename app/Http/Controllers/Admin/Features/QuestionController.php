@@ -32,8 +32,9 @@ class QuestionController extends Controller
     {
         $last_record = Question::orderBy('sort', 'desc')->first();
         $sort = $last_record->sort + 1;
+        $questions = Question::all();
         $categories = QuestionCategory::all();
-        return view('backend.admin.features.questions.create',compact('sort','categories'));
+        return view('backend.admin.features.questions.create',compact('sort','categories','questions'));
     }
 
     /**
@@ -59,6 +60,8 @@ class QuestionController extends Controller
             $question->unit = $request->unit;
         }
         $question->question_type = $request->question_type;
+         $question->optional_question = $request->optional_question;
+        $question->related_question = $request->related_question;
         $question->hint = $request->hint;
         $question->question_explanaiton = $request->question_explanaiton;
         $question->arabic_hint = $request->arabic_hint;
@@ -107,7 +110,8 @@ class QuestionController extends Controller
     public function edit(Question $question)
     {
         $categories = QuestionCategory::all();
-        return view('backend.admin.features.questions.edit', compact('question','categories'));
+        $questions = Question::all();
+        return view('backend.admin.features.questions.edit', compact('question','categories','questions'));
     }
 
     /**
@@ -133,6 +137,8 @@ class QuestionController extends Controller
             $question->unit = $request->unit;
         }
         $question->question_type = $request->question_type;
+        $question->optional_question = $request->optional_question;
+        $question->related_question = $request->related_question;
         $question->category = $request->category;
         $question->gender = $request->gender;
         $question->sort = $request->sort;

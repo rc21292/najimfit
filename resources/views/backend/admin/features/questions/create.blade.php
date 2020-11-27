@@ -167,6 +167,7 @@
 									<option value="select" >Select</option>
 									<option value="list" >List</option>
 									<option value="list_drop" >List Drop</option>
+									<option value="Y/N" >Y/N</option>
 									<option value="date" >Date</option>
 								</select>
 								<div class="invalid-feedback">
@@ -174,7 +175,32 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-6 col-md-12">
+						<div class="col-xl-6 col-md-12 mb-3">
+							<label for="question_type">Select Related Question</label>
+							<div class="input-group">
+								<select class="form-control" name="related_question" id="related_question" required>
+									<option value="" >Please Select</option>
+									@foreach($questions as $question_data)
+									<option value="{{$question_data->id}}">{{ $question_data->question }}</option>
+									@endforeach
+								</select>
+								<div class="invalid-feedback">
+									Please select a Question Type.
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-12 mb-3">
+							<label for="optional_question">Question is Optional</label>
+							<div class="input-group">
+								<select class="form-control" name="optional_question" id="optional_question">
+									<option value="" >Please Select</option>
+									<option value="Yes">Yes</option>
+									<option value="No" selected>No</option>					
+								</select>
+								<div class="invalid-feedback">
+									Please select a Question Type.
+								</div>
+							</div>
 						</div>
 						<div class="col-xl-12 col-md-12" id="show-hide" style="display: none;">
 							<div class="workoutdiv" >
@@ -280,7 +306,7 @@
 		var days_row = 0;
 		function adddays() {
 			html = '<tr id="day-row' + days_row + '">';
-			html += '  <th scope="row"><input type="text" name="option_name[]" value="" placeholder="Enter Name" class="form-control" required/></th><th scope="row"><input type="text" name="option_name_arabic[]" value="" placeholder="Enter Name Arabic" class="form-control" required/></th>';
+			html += '  <th scope="row"><input type="text" name="option_name[]" value="" placeholder="Enter Name" class="form-control"/></th><th scope="row"><input type="text" name="option_name_arabic[]" value="" placeholder="Enter Name Arabic" class="form-control"/></th>';
 			html += '  <td class="text-center"><button type="button" onclick="$(\'#day-row' + days_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 			html += '</tr>';
 
@@ -290,7 +316,7 @@
 
 
 		$('#question_type').change(function() {
-			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select') || ($(this).val() == 'list_drop')) {
+			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select') || ($(this).val() == 'list_drop') || ($(this).val() == 'Y/N')) {
 				$("#show-hide").show();
 			}else{
 				$("#show-hide").hide();

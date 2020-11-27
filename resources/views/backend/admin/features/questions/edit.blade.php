@@ -164,8 +164,36 @@
 									<option value="checkbox" @if(@$question->question_type == 'checkbox') selected @endif >Checkbox</option>
 									<option value="select" @if(@$question->question_type == 'select') selected @endif >Select</option>
 									<option value="list" @if(@$question->question_type == 'list') selected @endif >List</option>
+									<option value="Y/N" @if(@$question->question_type == 'Y/N') selected @endif >Y/N</option>
 									<option value="list_drop"  @if(@$question->question_type == 'list_drop') selected @endif >List Drop</option>
 									<option value="date" @if(@$question->question_type == 'date') selected @endif>Date</option>
+								</select>
+								<div class="invalid-feedback">
+									Please select a Question Type.
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-12 mb-3">
+							<label for="question_type">Select Related Question</label>
+							<div class="input-group">
+								<select class="form-control" name="related_question" id="related_question" required>
+									<option value="" >Please Select</option>
+									@foreach($questions as $question_data)
+									<option value="{{$question_data->id}}" @if($question->related_question == $question_data->id) selected @endif>{{ $question_data->question }}</option>
+									@endforeach
+								</select>
+								<div class="invalid-feedback">
+									Please select a Question Type.
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-12 mb-3">
+							<label for="optional_question">Question is Optional</label>
+							<div class="input-group">
+								<select class="form-control" name="optional_question" id="optional_question" required>
+									<option value="" >Please Select</option>
+									<option value="Yes" @if(@$question->optional_question == 'Yes') selected @endif >Yes</option>
+									<option value="No" @if(@$question->optional_question == 'No') selected @endif >No</option>					
 								</select>
 								<div class="invalid-feedback">
 									Please select a Question Type.
@@ -175,7 +203,7 @@
 						<div class="col-xl-6 col-md-12">
 						</div>
 						
-						<div class="col-xl-12 col-md-12" id="show-hide" @if(($question->question_type == 'select') || ($question->question_type == 'radio') || ($question->question_type == 'checkbox') || ($question->question_type == 'list_drop')) style="display: block;" @else style="display: none;" @endif >
+						<div class="col-xl-12 col-md-12" id="show-hide" @if(($question->question_type == 'select') || ($question->question_type == 'radio') || ($question->question_type == 'checkbox') || ($question->question_type == 'list_drop') || ($question->question_type == 'Y/N')) style="display: block;" @else style="display: none;" @endif >
 							<div class="pt-5 workoutdiv" >
 								<form method="post" action="{{route('assign-workout.store')}}">
 									@csrf
@@ -320,7 +348,7 @@
 		}   
 
 		$('#question_type').change(function() {
-			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select') || ($(this).val() == 'list_drop')) {
+			if (($(this).val() == 'radio') || ($(this).val() == 'checkbox') || ($(this).val() == 'select') || ($(this).val() == 'list_drop') || ($(this).val() == 'Y/N')) {
 				$("#show-hide").show();
 			}else{
 				$("#show-hide").hide();
