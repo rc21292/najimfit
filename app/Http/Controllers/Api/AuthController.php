@@ -432,6 +432,8 @@ class AuthController extends Controller
 		$user->phone = request('phone');
 		$user->gender = request('gender');
 		$user->email = request('email');
+		$user->country = request('country');
+		$user->city = request('city');
 		if($request->has('address')){
 			$user->address = request('address');
 		}
