@@ -23,8 +23,7 @@ class PasswordResetController extends Controller
 		]);
 		$user = Client::where('email', $request->email)->first();
 		if (!$user)
-			return response()->json([
-				'message' => "We can't find a user with that e-mail address."
+			return response()->json(['success'=>false,'message' => "We can't find a user with that e-mail address."
 			], 404);
         $a = mt_rand(1000, 9999); 
 		$passwordReset = PasswordResetClients::updateOrCreate(
@@ -39,8 +38,8 @@ class PasswordResetController extends Controller
 			$user->notify(
 				new PasswordResetRequest($passwordReset->token)
 			);
-		return response()->json([
-			'success' => 'We have e-mailed your password reset link!'
+		return response()->json(['success'=>true,
+			'message' => 'We have e-mailed your password reset link!'
 		]);
 	}
     /**
@@ -80,10 +79,6 @@ class PasswordResetController extends Controller
      */
      public function reset(Request $request)
      {
-     	/*$request->validate([
-     		'email' => 'required|string|email'
-     	]);*/
-
         $validator = Validator::make($request->all(), [
             'email' => 'string|email',
             'password' => 'required|string',
@@ -108,8 +103,7 @@ class PasswordResetController extends Controller
                 ], 404);
             $user = Client::where('email', $passwordReset->email)->first();
             if (!$user)
-                return response()->json([
-                    'message' => "We can't find a user with that e-mail address."
+                return response()->json(['success'=>false,'message' => "We can't find a user with that e-mail address."
                 ], 404);
         }else{
 
@@ -137,8 +131,7 @@ class PasswordResetController extends Controller
             }
             $user = Client::where('phone',$mobile_no)->orWhere('phone',$request->mobile)->first();
             if (!$user)
-                return response()->json([
-                    'message' => "We can't find a user with that mobile no."
+                return response()->json(['success'=>false,'message' => "We can't find a user with that mobile no."
                 ], 404);
         }
      	$user->password = bcrypt($request->password);
@@ -146,7 +139,8 @@ class PasswordResetController extends Controller
      	$passwordReset->delete();
      	$user->notify(new PasswordResetSuccess($passwordReset));
      	return response()->json([
-			'success' => $user
+			'success' => true,
+            'message' => $user,
 		]);
      }
 
