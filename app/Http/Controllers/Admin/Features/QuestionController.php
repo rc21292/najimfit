@@ -12,6 +12,9 @@ use DB;
 
 class QuestionController extends Controller
 {
+
+    private $related_ids = [];
+
     /**
      * Display a listing of the resource.
      *
@@ -45,6 +48,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->related_ids = [];
+        if ($request->related_question) {
+            array_push($this->related_ids, $request->related_question);
+            $this->getRelatedIds($request->related_question);
+        }
+
+        $relatedIds = implode(',', $this->related_ids);
+
         if ($request->has('image')) {
             $file = $request->file('image');
             $name = $file->getClientOriginalName();
@@ -62,6 +74,7 @@ class QuestionController extends Controller
         $question->question_type = $request->question_type;
          $question->optional_question = $request->optional_question;
         $question->related_question = $request->related_question;
+        $question->related_question_ids = $relatedIds;
         $question->hint = $request->hint;
         $question->question_explanaiton = $request->question_explanaiton;
         $question->arabic_hint = $request->arabic_hint;
@@ -121,8 +134,27 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
+
+    function getRelatedIds($id)
+    {
+        $related_ques = Question::where('id', $id)->first();
+        $related_id = $related_ques->related_question;
+        if(!empty($related_id) || $related_id != null){
+        array_push($this->related_ids, $related_id);
+            $this->getRelatedIds($related_id);
+        }
+    }
+
     public function update(Request $request, Question $question)
     {
+        $this->related_ids = [];
+        if ($request->related_question) {
+            array_push($this->related_ids, $request->related_question);
+           $this->getRelatedIds($request->related_question);
+        }
+
+        $relatedIds = implode(',', $this->related_ids);
+
         if ($request->has('image')) {
             $file = $request->file('image');
             $name = $file->getClientOriginalName();
@@ -139,6 +171,7 @@ class QuestionController extends Controller
         $question->question_type = $request->question_type;
         $question->optional_question = $request->optional_question;
         $question->related_question = $request->related_question;
+        $question->related_question_ids = $relatedIds;
         $question->category = $request->category;
         $question->gender = $request->gender;
         $question->sort = $request->sort;
