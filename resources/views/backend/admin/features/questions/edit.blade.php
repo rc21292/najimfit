@@ -176,7 +176,7 @@
 						<div class="col-xl-6 col-md-12 mb-3">
 							<label for="question_type">Select Related Question</label>
 							<div class="input-group">
-								<select class="form-control" name="related_question" id="related_question" required>
+								<select class="form-control" name="related_question" id="related_question">
 									<option value="" >Please Select</option>
 									@foreach($questions as $question_data)
 									<option value="{{$question_data->id}}" @if($question->related_question == $question_data->id) selected @endif>{{ $question_data->question }}</option>
