@@ -156,7 +156,7 @@ class AuthController extends Controller
 		curl_close($x);
 	}
 
-	public function getHomeData()
+	public function getHomeData(Request $request)
 	{
 		$user_id = Auth::Client()->id;
 		$user = Client::find($user_id);		
@@ -169,23 +169,35 @@ class AuthController extends Controller
 
 			$fdate = $workout_data->created_at;
 			$tdate = Now();
+
+			if ($request->date) {
+				$tdate21 = date('Y-m-d H:i:s',strtotime($request->date));
+			}else{
+				$tdate21 = Now();
+			}			
+
 			$datetime1 = new DateTime($fdate);
-			$datetime2 = new DateTime($tdate);
+			// $datetime2 = new DateTime($tdate);
+			$datetime2 = new DateTime($tdate21);
+
 			$interval = $datetime1->diff($datetime2);
 			$active_day = $interval->format('%a');
-			// $active_day = 3;
+			if ($datetime2 < $datetime1) {
+				$active_day = 0;
+			}
+			// $active_day = 3;			
 
 			$workout_exercise = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','exercises.name')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('day',$active_day)->first();
 
 			if ($workout_exercise) {
 				$workout_name = $workout_exercise->name;
 			}else{
-				$workout_name = '---';
+				$workout_name = '';
 			}
 
 			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
 
-			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
+			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->where('day',$active_day)->get();
 
 			foreach ($workouts as $key => $workout) {
 				$calories_sum += explode('-', $workout->calories)[1];
@@ -450,7 +462,6 @@ class AuthController extends Controller
 			}
 		}
 
-		// echo "<pre>";print_r($user);"</pre>";exit;
 		$user->save();
 		$user->image = 'https://tegdarco.com/uploads/clients/images/'.$user->avatar;
 		return response(['success'=> $user], 200);

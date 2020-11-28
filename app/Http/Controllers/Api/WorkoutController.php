@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Auth;
+use DateTime;
 use App\Models\Package;
 use App\Models\Exercise;
 use Carbon\Carbon;
@@ -19,11 +20,28 @@ use Session;
 class WorkoutController extends Controller
 {
 	public function getworkouts(Request $request){
-		$workouts = DB::table('client_workouts')
+
+
+		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
+		if ($client_workouts) {
+			$workout_data = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->orderBy('day', 'asc')->first();
+			$fdate = $workout_data->created_at;
+			$tdate21 = date('Y-m-d H:i:s',strtotime($request->date));
+			$tdate = new DateTime($tdate21);
+			$datetime1 = new DateTime($fdate);
+			$datetime2 = new DateTime($tdate21);
+			$interval = $datetime1->diff($datetime2);
+			$active_day = $interval->format('%a');
+		}
+
+		$workoutss = DB::table('client_workouts')
 		->join('exercises','exercises.id','=','client_workouts.exercise')
 		->select('exercises.id as exercise_id','exercises.*','exercises.name','client_workouts.day','client_workouts.id as workout_id','client_workouts.*')
-		->where('client_workouts.client_id',Auth::Client()->id)
-		->get();
+		->where('client_workouts.client_id',Auth::Client()->id);
+		if (isset($request->date)) {
+		$workoutss->where('client_workouts.day',$active_day);
+		}
+		$workouts = $workoutss->get();
 
 		if(!$workouts->isEmpty()){
 			foreach($workouts as $workout){

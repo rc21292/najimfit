@@ -16,7 +16,7 @@ use Image;
 
 class DietController extends Controller
 {
-	public function intakeSubsList()
+	public function intakeSubsList(Request $request)
 	{
 		$user_id = Auth::User()->id;
 
@@ -24,10 +24,16 @@ class DietController extends Controller
 
 		if ($intakeSubs) {
 
-			$intakeSubs = Diet::orderBy('created_at')->where('client_id',$user_id)->get()->groupBy(function($item) {
-				return $item->diet_type;
-
-			});
+			if ($request->date) {
+				DB::connection()->enableQueryLog();
+				$intakeSubs = Diet::orderBy('created_at')->where('client_id',$user_id)->where('created_at', 'like', '%' . date('Y-m-d',strtotime($request->date)) . '%')->get()->groupBy(function($item) {
+					return $item->diet_type;
+				});
+			}else{
+				$intakeSubs = Diet::orderBy('created_at')->where('client_id',$user_id)->get()->groupBy(function($item) {
+					return $item->diet_type;
+				});
+			}
 
 			foreach ($intakeSubs as $key => $intakeSub) 
 			{
