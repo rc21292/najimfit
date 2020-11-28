@@ -31,7 +31,7 @@ return [
     ],
 
     'twilio' => [
-        'auth_token' => "835b2150c5c5d255e107e2718e7851ab",
+        'auth_token' => "9051e42fece515e1fcdd8bf224c7be7e",
         'account_sid' => "ACbcfbb403ad0a2267c6e559cf9c7c8119",
     ],
 

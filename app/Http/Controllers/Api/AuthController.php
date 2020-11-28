@@ -85,8 +85,8 @@ class AuthController extends Controller
 		$no_exists = Client::where('phone',$mobile_no)->exists();
 		if ($no_exists) 
 		{
-			$id = config()->get('services.twilio.account_sid');
-			$token = config()->get('services.twilio.auth_token');
+			$id = config('services.twilio.account_sid');
+			$token = config('services.twilio.auth_token');
 			$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
 			$from = "+12283356343";
 			$to = $request['mobile'];
@@ -123,8 +123,8 @@ class AuthController extends Controller
 
 	public function sendSms(Request $request)
 	{
-		$id = config()->get('services.twilio.account_sid');
-		$token = config()->get('services.twilio.auth_token');
+		$id = config('services.twilio.account_sid');
+		$token = config('services.twilio.auth_token');
 		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
 		$from = "+12283356343";
 		$to = $request['mobile'];
