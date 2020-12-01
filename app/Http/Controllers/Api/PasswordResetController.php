@@ -209,7 +209,6 @@ class PasswordResetController extends Controller
             curl_setopt($x, CURLOPT_USERPWD, "$id:$token");
             curl_setopt($x, CURLOPT_POSTFIELDS, $post);
             $y = curl_exec($x);
-            echo "<pre>";print_r($y);"</pre>";exit;
             $xml = simplexml_load_string($y);
             $json = json_encode($xml);
             $array = json_decode($json,TRUE);
