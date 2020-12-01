@@ -86,13 +86,13 @@
                                             <td>{{@$client_table->calories}} Calories</td>        
                                         </tr>
                                         <tr>
-                                            <td>{{$client_table->carbs}}g Carbs</td>       
+                                            <td>{{@$client_table->carbs}}g Carbs</td>       
                                         </tr>
                                         <tr>
-                                            <td>{{$client_table->protein}}g Protein</td>       
+                                            <td>{{@$client_table->protein}}g Protein</td>       
                                         </tr>
                                         <tr>
-                                            <td>{{$client_table->fat}}g Fat</td>       
+                                            <td>{{@$client_table->fat}}g Fat</td>       
                                         </tr>
                                     </tbody>
                                     <thead>
