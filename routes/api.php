@@ -75,6 +75,8 @@ Route::middleware('auth:api')->group(function () {
 	Route::post('/get-lunch', 'Api\TableController@getlunch')->name('getlunch.api');
 	Route::post('/get-dinner', 'Api\TableController@getdinner')->name('getdinner.api');
 	Route::post('/get-snacks', 'Api\TableController@getsnacks')->name('getsnacks.api');
+	Route::post('save-chat', 'Api\ChatController@store')->name('insertchat.api');
+	Route::post('fetch-chat', 'Api\ChatController@getChat')->name('getchat.api');
 
 	Route::post('/complete-workout', 'Api\WorkoutController@completeworkout')->name('completeworkout.api');
 	Route::post('/summary-workout', 'Api\WorkoutController@summaryworkout')->name('summaryworkout.api');
