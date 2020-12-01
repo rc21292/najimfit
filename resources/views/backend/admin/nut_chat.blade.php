@@ -83,7 +83,7 @@
                                             <td>{{$package}}</td>       
                                         </tr>
                                         <tr>
-                                            <td>{{$client_table->calories}} Calories</td>        
+                                            <td>{{@$client_table->calories}} Calories</td>        
                                         </tr>
                                         <tr>
                                             <td>{{$client_table->carbs}}g Carbs</td>       
