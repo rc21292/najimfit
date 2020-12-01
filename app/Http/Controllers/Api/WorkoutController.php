@@ -62,7 +62,7 @@ class WorkoutController extends Controller
 			}
 
 			$data = $exercises;
-			return response()->json(['success' => true,'message'=> $data], 200);
+			return response()->json(['success' => true,'message'=> 'data fetched successfully'],'data'=> $data] 200);
 			
 		}else{
 			return response(['success' => false,'message'=>'Workout not assigned by Nutrionist'], 422);
