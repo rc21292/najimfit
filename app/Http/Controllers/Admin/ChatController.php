@@ -76,8 +76,7 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-
-        $receptor = Client::where('id',$request->receptor_id)->first();
+        $receptor = Client::where('id',$request->receiver_id)->first();
 
         $this->validate($request, [
             'content' => 'required',
@@ -96,16 +95,16 @@ class ChatController extends Controller
         $input['id'] = $last_key;
         $input['message_from'] = 'nutri';
         $input['is_read'] = 0;
-        $input['user_id'] = Auth::user()->id;
-        $input['user_name'] = Auth::user()->name;
-        $input['receptor_name'] = $receptor->firstname.' '.$receptor->lastname;
-        $input['user_iamge'] = Auth::user()->avatar;
+        $input['sender_id'] = Auth::user()->id;
+        $input['sender_name'] = Auth::user()->name;
+        $input['receiver_name'] = $receptor->firstname.' '.$receptor->lastname;
+        $input['sender_iamge'] = Auth::user()->avatar;
         if ($receptor->avater) {
-            $input['receptor_image'] = $receptor->avater;
+            $input['receiver_image'] = $receptor->avater;
         }else{
-            $input['receptor_image'] = 'avatar.png';
+            $input['receiver_image'] = 'avatar.png';
         }
-        $input['sender_reseptent'] = Auth::user()->id.'_'.$input['receptor_id'];
+        $input['sender_receiver'] = Auth::user()->id.'_'.$input['receiver_id'];
         $input['timestamp'] = NOW();
         $set = $database->getReference($ref)->update($input);
 

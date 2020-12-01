@@ -165,22 +165,22 @@
         var id1 = "{{ $receptorUser->id }}";
         var id2 = "{{ Auth::user()->id }}";
         var id3 = "{{ Auth::user()->id }}_{{ $receptorUser->id }}";
-       firebase.database().ref('/chats').orderByChild("sender_reseptent").equalTo(id3.trim()).on('value', function(snapshot) {
-        console.log(snapshot);
+       firebase.database().ref('/chats').orderByChild("sender_receiver").equalTo(id3.trim()).on('value', function(snapshot) {
+        console.log(snapshot.val());
             var chat_element = "";
             if(snapshot.val() != null) {
                 snapshot.forEach(function(childSnapshot) {
                     console.log(childSnapshot.val());
                     var childData = childSnapshot.val();
-                    var sender_reseptent = escapeHtml(childData.sender_reseptent);
-                    if (sender_reseptent.trim() == id3.trim()) {
+                    var sender_receiver = escapeHtml(childData.sender_receiver);
+                    if (sender_receiver.trim() == id3.trim()) {
                         var chat_name = childData.name,
                         chat_content = escapeHtml(childData.content);
                         users_name[`index`] = chat_name;
-                        if (childData.user_id == '{{ $receptorUser->id }}') {
+                        if (childData.sender_id == '{{ $receptorUser->id }}') {
                             chat_element += '<div class="chat-item ms-chat-bubble ms-chat-message media ms-chat-incoming clearfix '+childData.type+'">';
                             @if($client->avatar)
-                             chat_element += '<div class="ms-chat-status ms-status-online ms-chat-img">'+
+                             chat_element += '<div class="chat-item ms-chat-status ms-status-online ms-chat-img">'+
                         '<img src="/uploads/clients/images/{{ $client->avatar}}"  alt="people">'+
                         '</div>';
                         @else
@@ -284,8 +284,7 @@ let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMon
                     url: '{{ route('chat.store') }}',
                     data: {
                         content: chat_content.val().trim(),
-                        name: user_name,
-                        receptor_id: '{{$receptorUser->id}}',
+                        receiver_id: '{{$receptorUser->id}}',
                         file_name: document.getElementById("file_name").value,
                         file_path: document.getElementById("file_path").value,
                     },
