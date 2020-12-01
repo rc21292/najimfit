@@ -45,7 +45,7 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-         $receptor = User::select('id','name','avater')->where('id',$request->receptor_id)->first();
+         $receiver = User::select('id','name','avater')->where('id',$request->receiver_id)->first();
         $input = $request->all();
         $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
@@ -58,17 +58,17 @@ class ChatController extends Controller
 
         $input['id'] = $last_key;
         $input['message_from'] = 'user';
-        $input['is_read'] = 0;
-        $input['user_id'] = Auth::user()->id;
-        $input['user_name'] = Auth::user()->firstname.' '.Auth::user()->lastname;
-        $input['receptor_name'] = $receptor->name;
-        $input['user_iamge'] = Auth::user()->avatar;
-        if ($receptor->avater) {
-            $input['receptor_image'] = $receptor->avater;
+        $input['sender_id'] = Auth::user()->id;
+        $input['sender_name'] = Auth::user()->firstname.' '.Auth::user()->lastname;
+        $input['sender_image'] = Auth::user()->avatar;
+        $input['receiver_name'] = $receiver->name;
+        if ($receiver->avater) {
+            $input['receiver_image'] = $receiver->avater;
         }else{
-            $input['receptor_image'] = 'avatar.png';
+            $input['receiver_image'] = 'avatar.png';
         }
-        $input['sender_reseptent'] = $input['receptor_id'].'_'.Auth::user()->id;
+        $input['sender_receiver'] = $input['receiver_id'].'_'.Auth::user()->id;
+        $input['is_read'] = 0;
         $input['timestamp'] = NOW();
         $set = $database->getReference($ref)->update($input);
 
@@ -91,7 +91,7 @@ class ChatController extends Controller
         $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
         $database = $factory->createDatabase();
-        $sender_reseptent = $request->receptor_id.'_'.Auth::user()->id;
+        $sender_reseptent = $request->receiver_id.'_'.Auth::user()->id;
 
         $createPost    =   $database->getReference('chats')->orderByChild('sender_reseptent')->equalTo($sender_reseptent)->getSnapshot()->getValue();
         if (count($createPost) > 0) {
