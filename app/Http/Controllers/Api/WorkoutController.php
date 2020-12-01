@@ -21,7 +21,7 @@ class WorkoutController extends Controller
 {
 	public function getworkouts(Request $request){
 
-		$active_day = 0
+		$active_day = 0;
 		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
 		if ($client_workouts) {
 			$workout_data = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->orderBy('day', 'asc')->first();
