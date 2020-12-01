@@ -21,7 +21,7 @@ class WorkoutController extends Controller
 {
 	public function getworkouts(Request $request){
 
-
+		$active_day = 0
 		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
 		if ($client_workouts) {
 			$workout_data = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->orderBy('day', 'asc')->first();
@@ -62,14 +62,11 @@ class WorkoutController extends Controller
 			}
 
 			$data = $exercises;
-			return response()->json(['success'=> $data], 200);
+			return response()->json(['success' => true,'message'=> $data], 200);
 			
 		}else{
-			return response(['errors'=>'Workout not assigned by Nutrionist'], 422);
-		}
-
-
-		
+			return response(['success' => false,'message'=>'Workout not assigned by Nutrionist'], 422);
+		}		
 	}
 
 	public function getexercisedetails(Request $request){
