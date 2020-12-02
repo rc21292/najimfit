@@ -102,7 +102,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Yoga:</td>       
+                                            <td>Yoga</td>       
                                         </tr>
                                     </tbody>
                                     <thead>
@@ -112,7 +112,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Pakage Name:</td>       
+                                            <td>.....</td>       
                                         </tr>
                                        
                                     </tbody>
