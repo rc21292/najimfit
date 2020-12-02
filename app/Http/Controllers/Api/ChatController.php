@@ -119,7 +119,7 @@ class ChatController extends Controller
                 $chat_data[$key]["receiver_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$value['receiver_image'];
             }
 
-            $chat_data[$key]["timestamp"] = date('Y-m-d H:i:s.u',strtotime($value['timestamp']));
+            $chat_data[$key]["timestamp"] = 1000 *strtotime($value['timestamp']);
         }
 
         if (count($chat_data) > 0) {
