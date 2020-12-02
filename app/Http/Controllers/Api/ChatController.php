@@ -93,12 +93,26 @@ class ChatController extends Controller
         $database = $factory->createDatabase();
         $sender_reseptent = $request->receiver_id.'_'.Auth::user()->id;
 
-        $createPost    =   $database->getReference('chats')->orderByChild('sender_reseptent')->equalTo($sender_reseptent)->getSnapshot()->getValue();
+        $createPost    =   $database->getReference('chats')->orderByChild('sender_receiver')->equalTo($sender_reseptent)->getSnapshot()->getValue();
+
+        $new = array_values($createPost);
+
+        usort($new, function ($a, $b) { return ($this->intcmp( @$b["id"], @$a["id"])); });
+        
         if (count($createPost) > 0) {
-            return $response = ['success' => true,'message' => array_values($createPost)];
+            return $response = ['success' => true,'message' => $new];
         }else{
             return $response = ['success' => false,'message' => 'no chat'];
         }
+    }
+
+    function sortByOrder($a, $b) {
+    return $a['order'] - $b['order'];
+}
+
+function intcmp($a,$b)
+    {
+      return ($a-$b) ? ($a-$b)/abs($a-$b) : 0;
     }
 
     /**
