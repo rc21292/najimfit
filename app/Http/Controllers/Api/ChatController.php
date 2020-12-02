@@ -82,7 +82,7 @@ class ChatController extends Controller
         $chat_data["receiver_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$chat_data['receiver_image'];
     }
 
-    $chat_data["timestamp"] = 1000 *strtotime($value['timestamp']);
+    $chat_data["timestamp"] = 1000 *strtotime($chat_data['timestamp']);
 
     return response(['success' => true,'message'=> 'data inserted successfully','data' => $chat_data], 200);
 }
