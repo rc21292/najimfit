@@ -78,6 +78,8 @@ Route::middleware('auth:api')->group(function () {
 	Route::post('save-chat', 'Api\ChatController@store')->name('insertchat.api');
 	Route::post('chat-list', 'Api\ChatController@getChat')->name('getchat.api');
 
+	Route::get('nutritionist-detail', 'Api\AuthController@nutritionistDetail')->name('nutritionistdetail.api');
+
 	Route::post('/complete-workout', 'Api\WorkoutController@completeworkout')->name('completeworkout.api');
 	Route::post('/summary-workout', 'Api\WorkoutController@summaryworkout')->name('summaryworkout.api');
 

@@ -45,45 +45,45 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-         $receiver = User::select('id','name','avater')->where('id',$request->receiver_id)->first();
-        $input = $request->all();
-        $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+       $receiver = User::select('id','name','avater')->where('id',$request->receiver_id)->first();
+       $input = $request->all();
+       $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
-        $database = $factory->createDatabase();
+       $database = $factory->createDatabase();
 
-        $createPost    =   $database->getReference('chats')->getvalue(); 
-        $last_key =  @end(array_keys($createPost))+1;
+       $createPost    =   $database->getReference('chats')->getvalue(); 
+       $last_key =  @end(array_keys($createPost))+1;
 
-        $ref = 'chats/'.$last_key;  
+       $ref = 'chats/'.$last_key;  
 
-        $input['id'] = $last_key;
-        $input['message_from'] = 'user';
-        $input['sender_id'] = Auth::user()->id;
-        $input['sender_name'] = Auth::user()->firstname.' '.Auth::user()->lastname;
-        $input['sender_image'] = Auth::user()->avatar;
-        $input['receiver_name'] = $receiver->name;
-        if ($receiver->avater) {
-            $input['receiver_image'] = $receiver->avater;
-        }else{
-            $input['receiver_image'] = 'avatar.png';
-        }
-        $input['sender_receiver'] = $input['receiver_id'].'_'.Auth::user()->id;
-        $input['is_read'] = 0;
-        $input['timestamp'] = NOW();
-        $set = $database->getReference($ref)->update($input);
-        $chat_data = $set->getvalue();
-
-        if ($chat_data['message_from'] == 'user') {                
-            $chat_data["sender_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$chat_data['sender_image'];
-            $chat_data["receiver_image"] = 'https://tegdarco.com/uploads/user/'.@$chat_data['receiver_image'];
-        }
-        else{
-            $chat_data["sender_image"] = 'https://tegdarco.com/uploads/user/'.@$chat_data['sender_image'];
-            $chat_data["receiver_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$chat_data['receiver_image'];
-        }
-
-        return response(['success' => true,'message'=> 'data inserted successfully','data' => $chat_data], 200);
+       $input['id'] = $last_key;
+       $input['message_from'] = 'user';
+       $input['sender_id'] = Auth::user()->id;
+       $input['sender_name'] = Auth::user()->firstname.' '.Auth::user()->lastname;
+       $input['sender_image'] = Auth::user()->avatar;
+       $input['receiver_name'] = $receiver->name;
+       if ($receiver->avater) {
+        $input['receiver_image'] = $receiver->avater;
+    }else{
+        $input['receiver_image'] = 'avatar.png';
     }
+    $input['sender_receiver'] = $input['receiver_id'].'_'.Auth::user()->id;
+    $input['is_read'] = 0;
+    $input['timestamp'] = NOW();
+    $set = $database->getReference($ref)->update($input);
+    $chat_data = $set->getvalue();
+
+    if ($chat_data['message_from'] == 'user') {                
+        $chat_data["sender_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$chat_data['sender_image'];
+        $chat_data["receiver_image"] = 'https://tegdarco.com/uploads/user/'.@$chat_data['receiver_image'];
+    }
+    else{
+        $chat_data["sender_image"] = 'https://tegdarco.com/uploads/user/'.@$chat_data['sender_image'];
+        $chat_data["receiver_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$chat_data['receiver_image'];
+    }
+
+    return response(['success' => true,'message'=> 'data inserted successfully','data' => $chat_data], 200);
+}
 
     /**
      * Display the specified resource.

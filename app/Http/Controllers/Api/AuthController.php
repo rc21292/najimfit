@@ -553,6 +553,18 @@ class AuthController extends Controller
 
 
 	} 
+	
+	public function nutritionistDetail(Request $request)
+	{
+		$nutritionists = DB::table('nutritionist_clients')
+		->join('users','users.id','nutritionist_clients.nutritionist_id')
+		->select('users.id','users.nutritionist_id as reffernce_number','users.name','users.email','users.avater')
+		->where('client_id', Auth::user()->id)
+		->first();
+		$nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
+		return response(['success'=> true,'message'=>'nutritionist detail','data' => $nutritionists], 200);
+	}
+
 	public function nutritionistList(Request $request)
 	{
 		$users = User::select('id','nutritionist_id as reffernce_number','name','email')->where('id', '!=' , 1)->get();
