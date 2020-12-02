@@ -69,7 +69,7 @@ class ChatController extends Controller
     }
     $input['sender_receiver'] = $input['receiver_id'].'_'.Auth::user()->id;
     $input['is_read'] = 0;
-    $input['timestamp'] = NOW();
+    $input['timestamp'] = date('Y-m-d H:i:s.u');
     $set = $database->getReference($ref)->update($input);
     $chat_data = $set->getvalue();
 
@@ -118,6 +118,8 @@ class ChatController extends Controller
                 $chat_data[$key]["sender_image"] = 'https://tegdarco.com/uploads/user/'.@$value['sender_image'];
                 $chat_data[$key]["receiver_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$value['receiver_image'];
             }
+
+            $chat_data[$key]["timestamp"] = date('Y-m-d H:i:s.u',strtotime($value['timestamp']));
         }
 
         if (count($chat_data) > 0) {
