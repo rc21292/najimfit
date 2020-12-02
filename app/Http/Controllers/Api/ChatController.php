@@ -71,8 +71,18 @@ class ChatController extends Controller
         $input['is_read'] = 0;
         $input['timestamp'] = NOW();
         $set = $database->getReference($ref)->update($input);
+        $chat_data = $set->getvalue();
 
-        return response(['success' => true,'message'=> 'data inserted successfully','data' => $set->getvalue()], 200);
+        if ($chat_data['message_from'] == 'user') {                
+            $chat_data["sender_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$chat_data['sender_image'];
+            $chat_data["receiver_image"] = 'https://tegdarco.com/uploads/user/'.@$chat_data['receiver_image'];
+        }
+        else{
+            $chat_data["sender_image"] = 'https://tegdarco.com/uploads/user/'.@$chat_data['sender_image'];
+            $chat_data["receiver_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$chat_data['receiver_image'];
+        }
+
+        return response(['success' => true,'message'=> 'data inserted successfully','data' => $chat_data], 200);
     }
 
     /**
@@ -95,24 +105,31 @@ class ChatController extends Controller
 
         $createPost    =   $database->getReference('chats')->orderByChild('sender_receiver')->equalTo($sender_reseptent)->getSnapshot()->getValue();
 
-        $new = array_values($createPost);
+        $chat_data = array_values($createPost);
 
-        usort($new, function ($a, $b) { return ($this->intcmp( @$b["id"], @$a["id"])); });
-        
-        if (count($createPost) > 0) {
-            return $response = ['success' => true,'message' => $new];
+        usort($chat_data, function ($a, $b) { return ($this->intcmp( @$b["id"], @$a["id"])); });
+
+        foreach ($chat_data as $key => $value) {
+            if ($value['message_from'] == 'user') {                
+                $chat_data[$key]["sender_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$value['sender_image'];
+                $chat_data[$key]["receiver_image"] = 'https://tegdarco.com/uploads/user/'.@$value['receiver_image'];
+            }
+            else{
+                $chat_data[$key]["sender_image"] = 'https://tegdarco.com/uploads/user/'.@$value['sender_image'];
+                $chat_data[$key]["receiver_image"] = 'https://tegdarco.com/uploads/clients/images/'.@$value['receiver_image'];
+            }
+        }
+
+        if (count($chat_data) > 0) {
+            return $response = ['success' => true,'message' => 'Data fetched successfully','data' => $chat_data];
         }else{
             return $response = ['success' => false,'message' => 'no chat'];
         }
     }
 
-    function sortByOrder($a, $b) {
-    return $a['order'] - $b['order'];
-}
-
-function intcmp($a,$b)
+    function intcmp($a,$b)
     {
-      return ($a-$b) ? ($a-$b)/abs($a-$b) : 0;
+        return ($a-$b) ? ($a-$b)/abs($a-$b) : 0;
     }
 
     /**

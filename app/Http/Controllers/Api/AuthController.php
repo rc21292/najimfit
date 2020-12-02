@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Auth;
 use DateTime;
 use App\Models\Package;
+use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use Session;
@@ -552,4 +553,9 @@ class AuthController extends Controller
 
 
 	} 
+	public function nutritionistList(Request $request)
+	{
+		$users = User::select('id','nutritionist_id as reffernce_number','name','email')->where('id', '!=' , 1)->get();
+		return response(['success'=> true,'message'=>'nutritionist fetched','data' => $users], 200);
+	}
 }

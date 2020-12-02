@@ -103,6 +103,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 	Route::get('/get-packages', 'Api\AuthController@getpackages')->name('getpackages.api');
 	Route::post('/login', 'Api\AuthController@login')->name('login.api');
 	Route::post('/register','Api\AuthController@register')->name('register.api');
+	Route::get('/nutritionist-list','Api\AuthController@nutritionistList')->name('nutritionistlist.api');
 
     //Forget Password routes
 	Route::post('create', 'Api\PasswordResetController@create');
