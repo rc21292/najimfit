@@ -265,18 +265,27 @@ class AuthController extends Controller
 	}
 
 	public function getpackages(Request $request){
+
 		$packages = Package::all();
 		foreach ($packages as $row) {
-			$allpackages[] = array(
 
+			if ($request->currency) {
+				$amount=$row->price;
+				$from='SAR';
+				$to=$request->currency;
+				$amount_re = $this->currency_converter($from,$to,$amount);				
+			}else{
+				$amount_re = $row->price;
+			}
+
+			$allpackages[] = array(
 				'id'  => $row->id,
 				'name'  => $request->language == "arabic" ? $row->name_arabic : $row->name,
-				'price'  => $row->price,
+				'price'  => $amount_re,
 				'validity'  => $row->validity.' days',
 				'target'  => $request->language == "arabic" ? $row->target_arabic : $row->target,
 				'description' => $request->language == "arabic" ? $row->description_arabic : $row->description,
 				'image' =>'https://tegdarco.com/uploads/packages/'.$row->image,
-
 			);            
 		}
 		
@@ -533,7 +542,6 @@ class AuthController extends Controller
 		$symbol_right = $this->currencies[$to]['symbol_right'];
 
 		$decimal_place = $this->currencies[$to]['decimal_place'];
-
 		if (isset($this->currencies[$from])) {
 			$from = $this->currencies[$from]['value'];
 		} else {
@@ -545,7 +553,6 @@ class AuthController extends Controller
 		} else {
 			$to = 1;
 		}
-
 
 		return number_format($amount * ($to / $from), (int)$decimal_place);
 
