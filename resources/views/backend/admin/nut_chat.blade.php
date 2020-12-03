@@ -57,14 +57,10 @@
                                         <form id="chat-form">
                                             <ul class="ms-list-flex mb-0">
                                                 <li class="ms-chat-input">
-                                                    <input type="text" id="content" name="content" placeholder="Enter Message" value="">
+                                                    <input type="text" id="content" name="content" placeholder="Enter Message" value="" >
                                                 </li>
-                                                <li>
-                                                    <input type="hidden" name="file_name" id="file_name" value="">
-                                                    <input type="hidden" name="file_path" id="file_path" value="">
-                                                    <li><div class="addFiles" style="display: none;"><input id="file"  type="file" name="file"></div>
-                                                    </li>
-                                                    <li> <button style="margin-top: -10px;margin-bottom: -2px" class="btn btn-primary">Send</button></li>
+                                                <li style="margin-top: -16px; margin-left: 3px;">
+                                                    <button class="btn btn-primary">Send</button>
                                                 </li>
                                             </ul>
                                         </form>
@@ -161,22 +157,17 @@
         firebase.initializeApp(firebaseConfig);
 
         // chats
-        var users_name = [];
-        var id1 = "{{ $receptorUser->id }}";
-        var id2 = "{{ Auth::user()->id }}";
         var id3 = "{{ Auth::user()->id }}_{{ $receptorUser->id }}";
        firebase.database().ref('/chats').orderByChild("sender_receiver").equalTo(id3.trim()).on('value', function(snapshot) {
-        console.log(snapshot.val());
             var chat_element = "";
             if(snapshot.val() != null) {
                 snapshot.forEach(function(childSnapshot) {
-                    console.log(childSnapshot.val());
+                    // console.log(childSnapshot.val());
                     var childData = childSnapshot.val();
                     var sender_receiver = escapeHtml(childData.sender_receiver);
                     if (sender_receiver.trim() == id3.trim()) {
                         var chat_name = childData.name,
                         chat_content = escapeHtml(childData.content);
-                        users_name[`index`] = chat_name;
                         if (childData.sender_id == '{{ $receptorUser->id }}' && childData.message_from == 'user') {
                             chat_element += '<div class="chat-item ms-chat-bubble ms-chat-message media ms-chat-incoming clearfix '+childData.type+'">';
                             @if($client->avatar)
@@ -199,14 +190,10 @@
                         chat_element += '<div class="ms-chat-text"><p>';                
                         chat_element += chat_content;
 
-                        if (childData.file_name && childData.file_name != '') {
-                            chat_element += '<br>';
-                            chat_element += '<a target="_blank" href="' + childData.file_path + '">' + childData.file_name + '</a>';
-                        }
                         chat_element += '</p></div>';
 
                         let current_datetime = new Date(childData.timestamp);
-let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1)+ "-" + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds() 
+                        let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1)+ "-" + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(); 
 
                         chat_element += '<p class="ms-chat-time">';
                         chat_element += formatted_date;
@@ -224,57 +211,22 @@ let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMon
                 $(".card-body").html('<i>No chat</i>')
             }
 
-          
             scroll_bottom();
         }, function(error) {
             alert('ERROR! Please, open your console.')
             console.log(error);
         });
 
-       
-
-        firebase.database().ref('/typing').on('value', function(snapshot) {
-            var user = snapshot.val();
-            if(user && user.name != user_name) {
-                $(".users").html(user.name + ' is typing');
-            }else{
-                $(".users").html(old_users_val);
-            }
-        });
-
-        // Get user name from localStorage
-        var user_name = localStorage.getItem('user_name');
-        // If the user hasn't set their name
-        var myModal;
-        if(!user_name) {
-            // Show modal
-            myModal = $('#myModal').modal({
-                backdrop: 'static'
-            });
-
-        }
-
-        // #logout action handler
-        $("#logout").click(function() {
-            var ask = confirm('Are you sure?');
-            if(ask) {
-                localStorage.removeItem("user_name");
-                location.reload();
-            }
-            return false;
-        });
-
         // Set the card height equal to the height of the window
         $(".card-body").css({
-            height: $(window).outerHeight() - 200,
+            height: $(window).outerHeight() - 290,
             overflowY: 'auto'
         });
 
         // #chat-form action handler
         $("#chat-form").submit(function() {
             var me = $(this),
-            chat_content = me.find('[name=content]'),
-            user_name = localStorage.getItem('user_name');
+            chat_content = me.find('[name=content]');
 
             if(chat_content.val().trim().length <= 0) {
                 $(".emojionearea-editor").focus();
@@ -284,25 +236,20 @@ let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMon
                     url: '{{ route('chat.store') }}',
                     data: {
                         content: chat_content.val().trim(),
-                        receiver_id: '{{$receptorUser->id}}',
-                        file_name: document.getElementById("file_name").value,
-                        file_path: document.getElementById("file_path").value,
+                        receiver_id: '{{$receptorUser->id}}'
                     },
                     method: 'post',
                     headers: {
                         'X-CSRF-TOKEN': $("meta[name=csrf-token]").attr('content')
                     },
                     beforeSend: function() {
-                        chat_content.attr('disabled', true);
+                        $("#chat-form button").prop('disabled', true);
                     },
                     complete: function() {
-                        chat_content.attr('disabled', false);
+                        $("#chat-form button").prop('disabled', false);
                     },
                     success: function() {
                         chat_content.val('');
-                        document.getElementById("file").value=null; 
-                        document.getElementById("file_name").value=null; 
-                        document.getElementById("file_path").value=null; 
                         chat_content.focus();
                         $(".emojionearea-editor").html('');
                         scroll_bottom();
@@ -326,35 +273,6 @@ let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMon
         });
     </script>
 
-    <script>
-            var storageRef = firebase.storage().ref();
- 
-            function handleFileSelect(evt) {
-                evt.stopPropagation();
-                evt.preventDefault();
-                $("#chat-form button").prop('disabled', true);
-                var file = evt.target.files[0];
- 
-                var metadata = {
-                    'contentType': file.type
-                };
-
-                storageRef.child('images/' + file.name).put(file, metadata).then(function (snapshot) {
-                    console.log(snapshot);
-                    snapshot.ref.getDownloadURL().then(function (url) {
-                        document.getElementById('file_path').value = url;
-                        document.getElementById('file_name').value = file.name;
-                        $("#chat-form button").prop('disabled', false);
-                    });
-                }).catch(function (error) {
-                    console.error('Upload failed:', error);
-                });
-            }
- 
-            window.onload = function () {
-                document.getElementById('file').addEventListener('change', handleFileSelect, false);
-            }
-        </script>
         <script type="text/javascript">
   $(document).ready(function() {
     $("#content").emojioneArea();
