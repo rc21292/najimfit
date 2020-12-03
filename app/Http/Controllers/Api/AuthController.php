@@ -48,15 +48,27 @@ class AuthController extends Controller
 		$validator = Validator::make($request->all(), [
 			'firstname' => 'required|string|max:255',
 			'lastname' => 'required|string|max:255',
-			'phone' => 'required|numeric|min:11|unique:clients',
-			'email' => 'required|string|email|max:255|unique:clients',
+			'phone' => 'required|numeric|min:11',
+			'email' => 'required|string|email|max:255',
 			'password' => 'required|string|min:6',
 		]);
 		if ($validator->fails())
 		{
 			$array = implode(',', $validator->errors()->all());
-			return response(['errors'=>$array], 422);
+			return response(["success"=> 0,'message'=>$array], 422);
 		}
+
+		$validator = Validator::make($request->all(), [
+			'phone' => 'unique:clients',
+			'email' => 'unique:clients'
+		]);
+		if ($validator->fails())
+		{
+			$array = implode(',', $validator->errors()->all());
+			return response(["success"=> 2,"message"=>'Mobile or Email already exists'], 422);
+			return response(["success"=> 2,"message"=>$array], 422);
+		}
+
 		$request['password']=Hash::make($request['password']);
 		$request['remember_token'] = Str::random(10);
 		$user = Client::create($request->toArray());
@@ -72,7 +84,7 @@ class AuthController extends Controller
 			}
 		}
 		$token = $user->createToken('Laravel Password Grant Client')->accessToken;
-		$response = ['token' => $token];
+		$response = ["success"=> 1,"message" => "User registred successfully",'token' => $token];
 		return response($response, 200);
 	}
 
