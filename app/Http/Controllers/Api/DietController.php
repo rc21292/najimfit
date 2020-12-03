@@ -71,10 +71,14 @@ class DietController extends Controller
 					}
 				}
 			}
+			if (count($intakeSubs) < 1) {
+				return response(["success"=>false,'message'=>'data not found!'], 422);
+			}else{
 
-			return response(["success"=>$intakeSubs]);
+			return response(["success"=>true,'message'=>'data fetched','data'=>$intakeSubs]);
+		}
 		}else{
-			return response(['errors'=>'Record not found!'], 422);
+			return response(["success"=>false,'message'=>'Record not found!'], 422);
 		}
 	}
 
