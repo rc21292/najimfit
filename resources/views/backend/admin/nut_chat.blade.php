@@ -177,7 +177,7 @@
                         var chat_name = childData.name,
                         chat_content = escapeHtml(childData.content);
                         users_name[`index`] = chat_name;
-                        if (childData.sender_id == '{{ $receptorUser->id }}') {
+                        if (childData.sender_id == '{{ $receptorUser->id }}' && childData.message_from == 'user') {
                             chat_element += '<div class="chat-item ms-chat-bubble ms-chat-message media ms-chat-incoming clearfix '+childData.type+'">';
                             @if($client->avatar)
                              chat_element += '<div class="chat-item ms-chat-status ms-status-online ms-chat-img">'+
@@ -185,7 +185,7 @@
                         '</div>';
                         @else
                         chat_element += '<div class="ms-chat-status ms-status-online ms-chat-img">'+
-                        '<img style='width:55px; height:55px;' src="https://via.placeholder.com/270x270" class="ms-img-round" alt="people">'+
+                        '<img style="width:55px; height:55px;" src="https://via.placeholder.com/270x270" class="ms-img-round" alt="people">'+
                         '</div>';
                         @endif
                         }else{
