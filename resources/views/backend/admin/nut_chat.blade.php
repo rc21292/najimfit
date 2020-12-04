@@ -18,7 +18,7 @@
                                     @if($client->avatar)
                                     <img style='width:55px; height:55px;' src="/uploads/clients/images/{{ $client->avatar}}" class="ms-img-round" alt="people">
                                     @else
-                                    <img style='width:55px; height:55px;' src="https://via.placeholder.com/270x270" class="ms-img-round" alt="people">
+                                    <img style='width:55px; height:55px;' src="/uploads/clients/images/avatar.png" class="ms-img-round" alt="people">
                                     @endif
                                 </div>
                                 <div class="media-body ms-chat-user-info mt-1">
@@ -176,7 +176,7 @@
                         '</div>';
                         @else
                         chat_element += '<div class="ms-chat-status ms-status-online ms-chat-img">'+
-                        '<img style="width:55px; height:55px;" src="https://via.placeholder.com/270x270" class="ms-img-round" alt="people">'+
+                        '<img style="width:55px; height:55px;" src="/uploads/clients/images/avatar.png" class="ms-img-round" alt="people">'+
                         '</div>';
                         @endif
                         }else{
