@@ -32,7 +32,7 @@
 <script>
 	var dataSet18 = [
 	@foreach($clients as $client)
-	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}}"," {{ $client->phone }}", "{{ $client->email }}", @if($client->status == 'on')"Enabled" @else "Disabled" @endif , "<a href='{{route('clients.edit',$client->id)}}'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('clients.destroy',$client->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}}"," {{ $client->phone }}", "{{ $client->email }}", "<a  class='btn btn-success btnpro' href='{{route('chat.show',$client->id)}}'>chat</a>", @if($client->status == 'on')"Enabled" @else "Disabled" @endif , "<a href='{{route('clients.edit',$client->id)}}'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('clients.destroy',$client->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
@@ -42,6 +42,7 @@
 		{ title: "Client Name" },
 		{ title: "Phone" },
 		{ title: "Email" },
+		{ title: "Chat" },
 		{ title: "Status" },
 		{ title: "Action" },
 		],

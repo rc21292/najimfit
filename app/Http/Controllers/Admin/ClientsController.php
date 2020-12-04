@@ -31,10 +31,9 @@ class ClientsController extends Controller
             ->where('nutritionist_clients.nutritionist_id',Auth::User()->id)
             ->get();
 
-            return view('backend.admin.clients.index',compact('clients'))->with('no', 1);
+            return view('backend.admin.clients.nutri_index',compact('clients'))->with('no', 1);
 
         }else{
-
 
             $clients = Client::latest()->get();
             return view('backend.admin.clients.index',compact('clients'))->with('no', 1);
