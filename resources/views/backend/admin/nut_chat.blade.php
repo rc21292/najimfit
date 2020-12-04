@@ -176,7 +176,7 @@
                         '</div>';
                         @else
                         chat_element += '<div class="ms-chat-status ms-status-online ms-chat-img">'+
-                        '<img style="width:55px; height:55px;" src="/uploads/clients/images/avatar.png" class="ms-img-round" alt="people">'+
+                        '<img style="width:48px; height:48px;" src="/uploads/clients/images/avatar.png" class="ms-img-round" alt="people">'+
                         '</div>';
                         @endif
                         }else{
