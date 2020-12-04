@@ -98,7 +98,7 @@ class ChatController extends Controller
         $input['sender_id'] = Auth::user()->id;
         $input['sender_name'] = Auth::user()->name;
         $input['receiver_name'] = $receptor->firstname.' '.$receptor->lastname;
-        $input['sender_iamge'] = Auth::user()->avatar;
+        $input['sender_image'] = Auth::user()->avatar;
         if ($receptor->avater) {
             $input['receiver_image'] = $receptor->avater;
         }else{
