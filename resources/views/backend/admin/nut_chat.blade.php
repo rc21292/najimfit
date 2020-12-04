@@ -172,7 +172,7 @@
                             chat_element += '<div class="chat-item ms-chat-bubble ms-chat-message media ms-chat-incoming clearfix '+childData.type+'">';
                             @if($client->avatar)
                              chat_element += '<div class="chat-item ms-chat-status ms-status-online ms-chat-img">'+
-                        '<img src="/uploads/clients/images/{{ $client->avatar}}"  alt="people">'+
+                        '<img style="width:48px; height:48px;"48px src="/uploads/clients/images/{{ $client->avatar}}" class="ms-img-round"  alt="people">'+
                         '</div>';
                         @else
                         chat_element += '<div class="ms-chat-status ms-status-online ms-chat-img">'+
