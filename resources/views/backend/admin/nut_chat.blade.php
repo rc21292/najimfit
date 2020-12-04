@@ -193,10 +193,21 @@
                         chat_element += '</p></div>';
 
                         let current_datetime = new Date(childData.timestamp);
-                        let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1)+ "-" + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds(); 
+                        console.log(current_datetime.getHours());
+                        let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1)+ "-" + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + " " + (current_datetime.getHours() >= 12 ? 'PM' : 'AM');
+                        var date1 = new Date(childData.timestamp);
+                        var date2 = new Date();
+                        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
 
                         chat_element += '<p class="ms-chat-time">';
-                        chat_element += formatted_date;
+                        if (diffDays > 1) {
+                            chat_element += diffDays;
+                            chat_element += ' days ago';
+                        }else{
+                            chat_element += formatted_date;
+                        }
                         chat_element += '</p>';
 
                         chat_element += '</div>';
