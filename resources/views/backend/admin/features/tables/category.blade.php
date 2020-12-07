@@ -100,7 +100,7 @@
 <script>
 	var dataSet12 = [
 	@foreach($categories as $category)
-	[ "{{ $no++ }}" ,"{{ $category->name }}","{{ $category->sort }}", "<a href='{{route('meals.show',$category->id)}}'><i class='fa fa-eye'></i></a><a data-name='{{$category->name}}' data-sort='{{$category->sort}}' data-catid='{{$category->id}}' data-toggle='modal' data-target='#edit'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('tables.destroy',$category)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	[ "{{ $no++ }}" ,"{{ $category->name }}","{{ $category->sort }}", "<a href='{{route('meals.show',$category->id)}}' class='btn btn-primary' style='margin-right:12px;'>Add Meal</a><a data-name='{{$category->name}}' data-sort='{{$category->sort}}' data-catid='{{$category->id}}' data-toggle='modal' data-target='#edit'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('tables.destroy',$category)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
 	@endforeach
 	];
 	var tablequestion = $('#data-table-12').DataTable( {
