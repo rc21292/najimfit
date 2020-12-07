@@ -1,8 +1,17 @@
 @extends('layouts.app')
 @section('head')
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <link href="{{asset('backend/assets/css/datatables.min.css')}}" rel="stylesheet">
 @endsection
 @section('content')
+<style type="text/css">
+	.select2-selection__choice:nth-child(odd) {
+    margin-left : 20px !important;
+}
+
+
+</style>
 <div class="row">
 	<div class="col-md-12">
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
@@ -85,7 +94,7 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="breakfast">Select Breakfast</label>
 									<div class="input-group">
-										<select class="form-control" id="breakfast" name="breakfast" required="">
+										<select class="form-control js-example-basic-multiple" id="breakfast" multiple="multiple" name="breakfast[]" required="">
 											<option value="">Select Breakfast</option>
 											@foreach($breakfasts as $breakfast)
 											<option value="{{$breakfast->id}}">{{$breakfast->food}}</option>
@@ -99,7 +108,7 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack1">Select Snack 1</label>
 									<div class="input-group">
-										<select class="form-control" id="snack1" name="snack1" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack1" name="snack1[]" required="">
 											<option value="">Select Snack 1</option>
 											@foreach($snacks as $snack)
 											<option value="{{$snack->id}}">{{$snack->food}}</option>
@@ -113,7 +122,7 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="lunch">Select Lunch</label>
 									<div class="input-group">
-										<select class="form-control" id="lunch" name="lunch" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="lunch" name="lunch[]" required="">
 											<option value="">Select Lunch</option>
 											@foreach($lunchs as $lunch)
 											<option value="{{$lunch->id}}">{{$lunch->food}}</option>
@@ -127,7 +136,7 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack2">Select Snack 2</label>
 									<div class="input-group">
-										<select class="form-control" id="snack2" name="snack2" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack2" name="snack2[]" required="">
 											<option value="">Select Snack 2</option>
 											@foreach($snacks as $snack)
 											<option value="{{$snack->id}}">{{$snack->food}}</option>
@@ -141,7 +150,7 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="dinner">Select Dinner</label>
 									<div class="input-group">
-										<select class="form-control" id="dinner" name="dinner" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="dinner" name="dinner[]" required="">
 											<option value="">Select Dinner</option>
 											@foreach($dinners as $dinner)
 											<option value="{{$dinner->id}}">{{$dinner->food}}</option>
@@ -155,10 +164,10 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack3">Select Snack 3</label>
 									<div class="input-group">
-										<select class="form-control" id="snack3" name="snack3" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack3" name="snack3[]" required="">
 											<option value="">Select Snack 3</option>
 											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}">{{$snack->food}}</option>
+											<option  value="{{$snack->id}}">{{$snack->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -193,8 +202,23 @@
 	</div>
 	@endsection
 	@push('scripts')
+
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.js-example-basic-multiple').select2({
+				tags: true,
+				tokenSeparators: [',', ' ']
+			});
+		});
+	</script>
+
 	<script type="text/javascript">
 		$("input[name='calculate']").on("click", function(){
+			/*var snack3=[];
+			$('#snack3 :selected').each(function(){
+				snack3.push($(this).val());
+			});*/
 			var breakfast = $('#breakfast :selected').val();
 			var snack1 = $('#snack1 :selected').val();
 			var lunch = $('#lunch :selected').val();

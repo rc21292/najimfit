@@ -82,12 +82,13 @@ class TableController extends Controller
         $clientmeal->protein = $request->protein;
         $clientmeal->client_id = Session::get('client');
         $clientmeal->table_id = Session::get('table_id');
-        $clientmeal->breakfast = $request->breakfast;
-        $clientmeal->snacks1 = $request->snack1;
-        $clientmeal->lunch = $request->lunch;
-        $clientmeal->snacks2 = $request->snack2;
-        $clientmeal->dinner = $request->dinner;
-        $clientmeal->snacks3 = $request->snack3;
+        // $clientmeal->breakfast = $request->breakfast;
+        $clientmeal->breakfast = implode(', ', $request->breakfast);
+        $clientmeal->snacks1 = implode(', ', $request->snack1);
+        $clientmeal->lunch = implode(', ', $request->lunch);
+        $clientmeal->snacks2 = implode(', ', $request->snack2);
+        $clientmeal->dinner = implode(', ', $request->dinner);
+        $clientmeal->snacks3 = implode(', ', $request->snack3);
         $clientmeal->calorie_range = Session::get('range');
         $clientmeal->save();
 
@@ -192,7 +193,8 @@ class TableController extends Controller
         return view('backend.admin.tables.template',compact('client','answers','weight','height','table','breakfasts','snacks','lunchs','dinners','days'))->with('no', 1);
     }
     
-    public function foodinfo(Request $request){
+    public function foodinfo(Request $request)
+    {
       $calories = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('calories');
       $carbs = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('carbs');
       $fat = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('fat');
