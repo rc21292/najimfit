@@ -60,6 +60,15 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-md-12">
+							<label for="food_arabic">Food Name(in Arabic)</label>
+							<div class="input-group">
+								<input type="text" id="food_arabic" name="food_arabic" class="form-control" placeholder="Food Name(in Arabic)" value="{{$meal->food_arabic}}" >
+								<div class="invalid-feedback">
+									Please Enter a Name(in Arabic).
+								</div>
+							</div>
+						</div>
 						<div class="col-xl-6 col-md-12 mb-3">
 							<label for="table">Select Table</label>
 							<div class="input-group">

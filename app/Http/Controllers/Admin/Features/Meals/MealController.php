@@ -49,6 +49,7 @@ class MealController extends Controller
 
         $meal = new Meal;
         $meal->food = $request->food;
+        $meal->food_arabic = $request->food_arabic;
         $meal->table_id = $request->table;
         $meal->type = $request->type;
         if(isset($request->quantity)){
@@ -124,6 +125,7 @@ class MealController extends Controller
         }
 
         $meal->food = $request->food;
+        $meal->food_arabic = $request->food_arabic;
         $meal->table_id = $request->table;
         $meal->type = $request->type;
         if(isset($request->quantity)){

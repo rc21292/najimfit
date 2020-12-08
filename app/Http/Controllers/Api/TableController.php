@@ -60,7 +60,8 @@ class TableController extends Controller
 			foreach ($data_breakfast as $key => $breakfast) 
 			{
 				$breakfast_detail =Meal::find($breakfast);
-				$table_break_fast[$key]['breakfast_name'] = $breakfast_detail->food;
+				// echo "<pre>";print_r($breakfast_detail);"</pre>";exit;
+				$table_break_fast[$key]['breakfast_name'] = ($request->language == 'arabic') ? $breakfast_detail->food_arabic :  $breakfast_detail->food;
 				if(isset($breakfast_detail->image)){
 					$table_break_fast[$key]['breakfast_image'] = 'https://tegdarco.com/uploads/meals/'.$breakfast_detail->image;
 				}else{
@@ -102,7 +103,7 @@ class TableController extends Controller
 			{
 
 				$snacks1_detail =Meal::find($snacks1);
-				$table_data_snacks1[$key]['snacks1_name'] = $snacks1_detail->food;
+				$table_data_snacks1[$key]['snacks1_name'] = ($request->language == 'arabic') ? $snacks1_detail->food_arabic : $snacks1_detail->food;
 				if(isset($breakfast_detail->image)){
 					$table_data_snacks1[$key]['snacks1_image'] = 'https://tegdarco.com/uploads/meals/'.$snacks1_detail->image;
 				}else{
@@ -143,7 +144,7 @@ class TableController extends Controller
 			foreach ($data_lunch as $key => $lunch) 
 			{
 				$lunch_detail =Meal::find($lunch);
-				$table_data_lunch[$key]['lunch_name'] = $lunch_detail->food;
+				$table_data_lunch[$key]['lunch_name'] = ($request->language == 'arabic') ? $lunch_detail->food_arabic : $lunch_detail->food;
 				if(isset($lunch_detail->image)){
 					$table_data_lunch[$key]['lunch_image'] = 'https://tegdarco.com/uploads/meals/'.$lunch_detail->image;
 				}else{
@@ -223,7 +224,7 @@ class TableController extends Controller
 			foreach ($data_dinner as $key => $dinner) 
 			{
 				$dinner_detail =Meal::find($dinner);
-				$table_data_dinner[$key]['dinner_name'] = $dinner_detail->food;
+				$table_data_dinner[$key]['dinner_name'] = ($request->language == 'arabic') ? $dinner_detail->food_arabic : $dinner_detail->food;
 				if(isset($dinner_detail->image)){
 					$table_data_dinner[$key]['dinner_image'] = 'https://tegdarco.com/uploads/meals/'.$dinner_detail->image;
 				}else{
