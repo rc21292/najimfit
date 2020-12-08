@@ -304,7 +304,7 @@ class TableController extends Controller
 
 
 			$dites = [
-				'success' => 'true',
+				'success' => true,
 				'message' => 'Diets data fetched successfully',
 				'data' => 
 				[
