@@ -85,11 +85,13 @@ class TableController extends Controller
 
 			$table_breakfast_data = [];
 			$table_breakfast_calories = 0;
+			$i = 0;
 			foreach ($table_break_fast as $key1 => $value1) {
 				$key1 = $key1+1;
-				$table_breakfast_data['food'.$key1]['foodName'] = $value1['breakfast_name'];
-				$table_breakfast_data['food'.$key1]['foodCallery'] = $value1['breakfast_calories'];
+				$table_breakfast_data[$i]['foodDetails']['foodName'] = $value1['breakfast_name'];
+				$table_breakfast_data[$i]['foodDetails']['foodCallery'] = $value1['breakfast_calories'];
 				$table_breakfast_calories += $value1['breakfast_calories'];
+				$i++;
 			}
 
 			$data_snacks1 = explode(', ', $snacks1);
@@ -125,11 +127,13 @@ class TableController extends Controller
 
 			$table_snacks1 = [];
 			$table_snacks1_calories = 0;
+			$i = 0;
 			foreach ($table_data_snacks1 as $key1 => $value1) {
 				$key1 = $key1+1;
-				$table_snacks1['food'.$key1]['foodName'] = $value1['snacks1_name'];
-				$table_snacks1['food'.$key1]['foodCallery'] = $value1['snacks1_calories'];
+				$table_snacks1[$i]['foodDetails']['foodName'] = $value1['snacks1_name'];
+				$table_snacks1[$i]['foodDetails']['foodCallery'] = $value1['snacks1_calories'];
 				$table_snacks1_calories += $value1['snacks1_calories'];
+				$i++;
 			}			
 
 			$data_lunch = explode(', ', $lunch);
@@ -164,13 +168,14 @@ class TableController extends Controller
 
 			$table_lunch = [];
 			$table_lunch_calories = 0;
+			$i = 0;
 			foreach ($table_data_lunch as $key1 => $value1) {
 				$key1 = $key1+1;
-				$table_lunch['food'.$key1]['foodName'] = $value1['lunch_name'];
-				$table_lunch['food'.$key1]['foodCallery'] = $value1['lunch_calories'];
+				$table_lunch[$i]['foodDetails']['foodName'] = $value1['lunch_name'];
+				$table_lunch[$i]['foodDetails']['foodCallery'] = $value1['lunch_calories'];
 				$table_lunch_calories += $value1['lunch_calories'];
+				$i++;
 			}
-
 
 			$data_snacks2 = explode(', ', $snacks2);
 
@@ -244,11 +249,13 @@ class TableController extends Controller
 
 			$table_dinner = [];
 			$table_dinner_calories = 0;
+			$i = 0;
 			foreach ($table_data_dinner as $key1 => $value1) {
 				$key1 = $key1+1;
-				$table_dinner['food'.$key1]['foodName'] = $value1['dinner_name'];
-				$table_dinner['food'.$key1]['foodCallery'] = $value1['dinner_calories'];
+				$table_dinner[$i]['foodDetails']['foodName'] = $value1['dinner_name'];
+				$table_dinner[$i]['foodDetails']['foodCallery'] = $value1['dinner_calories'];
 				$table_dinner_calories += $value1['dinner_calories'];
+				$i++;
 			}
 
 			$data_snacks3 = explode(', ', $snacks3);
@@ -304,39 +311,25 @@ class TableController extends Controller
 					[
 						'foodCategory' => 'breakFast',
 						'foodcalary' => $table_breakfast_calories,
-						'foods' => 
-						[
-							0 => $table_breakfast_data,
-						],
+						'foods' => $table_breakfast_data,
 					],
 					1 => 
 					[
 						'foodCategory' => 'lunch',
 						'foodcalary' => $table_lunch_calories,
-						'foods' => 
-						[
-							0 => $table_lunch,
-						],
+						'foods' => $table_lunch,
 					],
 					2 => 
 					[
 						'foodCategory' => 'dinner',
 						'foodcalary' => $table_dinner_calories,
-						'foods' => 
-						[
-							0 => $table_dinner,
-						],
+						'foods' => $table_dinner,
 					],
 					3 => 
 					[
 						'foodCategory' => 'snacks',
-						'foodcalary' => $table_snacks1_calories+$table_snacks2_calories+$table_snacks3_calories,
-						'foods' => 
-						[
-							0 => $table_snacks1,
-							1 => $table_snacks2,
-							2 => $table_snacks3,
-						],
+						'foodcalary' => $table_snacks1_calories,
+						'foods' => $table_snacks1
 					],
 				],
 			];
