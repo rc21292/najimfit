@@ -58,7 +58,7 @@
 							<h6>Select Table</h6>
 							<div class="btn-group-toggle radiogrp" data-toggle="buttons">
 								@foreach($tables as $table)
-								@if(Session::get('table_id') == $table->id)
+								@if($table_id == $table->id)
 								<label class="btn btn-primary focus active">
 									<input type="radio" name="table" class="diettable" value="{{ $table->id }}" checked="checked"> {{$table->name}}
 									@else
@@ -72,67 +72,67 @@
 							<div class="pt-5">
 								<h6>Select Calorie Range</h6>
 								<div class="btn-group-toggle radiogrp" data-toggle="buttons">
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '500-600 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range" value="500-600 Cal" autocomplete="off" @if(Session::get('range') == "500-600 Cal") checked @endif> 500 - 600 Cal
+									<label class="btn btn-secondary btnmax @if($range == '500-600 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range" value="500-600 Cal" autocomplete="off" @if($range == "500-600 Cal") checked @endif> 500 - 600 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '600-700 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="600-700 Cal"autocomplete="off" @if(Session::get('range') == "600-700 Cal") checked @endif> 600 - 700 Cal
+									<label class="btn btn-secondary btnmax @if($range == '600-700 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="600-700 Cal"autocomplete="off" @if($range == "600-700 Cal") checked @endif> 600 - 700 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '700-800 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="700-800 Cal"autocomplete="off" @if(Session::get('range') == "700-800 Cal") checked @endif> 700 - 800 Cal
+									<label class="btn btn-secondary btnmax @if($range == '700-800 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="700-800 Cal"autocomplete="off" @if($range == "700-800 Cal") checked @endif> 700 - 800 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '800-900 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="800-900 Cal"autocomplete="off" @if(Session::get('range') == "800-900 Cal") checked @endif> 800 - 900 Cal
-									</label>
-
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '900-1000 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="900-1000 Cal"autocomplete="off" @if(Session::get('range') == "900-1000 Cal") checked @endif> 900 - 1000 Cal
+									<label class="btn btn-secondary btnmax @if($range == '800-900 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="800-900 Cal"autocomplete="off" @if($range == "800-900 Cal") checked @endif> 800 - 900 Cal
 									</label>
 
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1000-1100 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1000-1100 Cal"autocomplete="off" @if(Session::get('range') == "1000-1100 Cal") checked @endif> 1000 - 1100 Cal
+									<label class="btn btn-secondary btnmax @if($range == '900-1000 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="900-1000 Cal"autocomplete="off" @if($range == "900-1000 Cal") checked @endif> 900 - 1000 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1100-1200 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1100-1200 Cal"autocomplete="off" @if(Session::get('range') == "1100-1200 Cal") checked @endif> 1100 - 1200 Cal
+
+									<label class="btn btn-secondary btnmax @if($range == '1000-1100 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1000-1100 Cal"autocomplete="off" @if($range == "1000-1100 Cal") checked @endif> 1000 - 1100 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1200-1300 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1200-1300 Cal"autocomplete="off" @if(Session::get('range') == "1100-1200 Cal") checked @endif> 1200 - 1300 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1100-1200 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1100-1200 Cal"autocomplete="off" @if($range == "1100-1200 Cal") checked @endif> 1100 - 1200 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1300-1400 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1300-1400 Cal"autocomplete="off" @if(Session::get('range') == "1300-1400 Cal") checked @endif> 1300 - 1400 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1200-1300 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1200-1300 Cal"autocomplete="off" @if($range == "1100-1200 Cal") checked @endif> 1200 - 1300 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1400-1500 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1400-1500 Cal"autocomplete="off" @if(Session::get('range') == "1400-1500 Cal") checked @endif> 1400 - 1500 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1300-1400 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1300-1400 Cal"autocomplete="off" @if($range == "1300-1400 Cal") checked @endif> 1300 - 1400 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1500-1600 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1500-1600 Cal"autocomplete="off" @if(Session::get('range') == "1500-1600 Cal") checked @endif> 1500 - 1600 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1400-1500 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1400-1500 Cal"autocomplete="off" @if($range == "1400-1500 Cal") checked @endif> 1400 - 1500 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1600-1700 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1600-1700 Cal"autocomplete="off" @if(Session::get('range') == "1600-1700 Cal") checked @endif> 1600 - 1700 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1500-1600 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1500-1600 Cal"autocomplete="off" @if($range == "1500-1600 Cal") checked @endif> 1500 - 1600 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1700-1800 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1700-1800 Cal"autocomplete="off" @if(Session::get('range') == "1700-1800 Cal") checked @endif> 1700 - 1800 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1600-1700 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1600-1700 Cal"autocomplete="off" @if($range == "1600-1700 Cal") checked @endif> 1600 - 1700 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1800-1900 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1800-1900 Cal"autocomplete="off" @if(Session::get('range') == "1800-1900 Cal") checked @endif> 1800 - 1900 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1700-1800 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1700-1800 Cal"autocomplete="off" @if($range == "1700-1800 Cal") checked @endif> 1700 - 1800 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '1900-2000 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="1900-2000 Cal"autocomplete="off" @if(Session::get('range') == "1900-2000 Cal") checked @endif> 1900 - 2000 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1800-1900 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1800-1900 Cal"autocomplete="off" @if($range == "1800-1900 Cal") checked @endif> 1800 - 1900 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '2000-2100 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="2000-2100 Cal"autocomplete="off" @if(Session::get('range') == "2000-2100 Cal") checked @endif> 2000 - 2100 Cal
+									<label class="btn btn-secondary btnmax @if($range == '1900-2000 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="1900-2000 Cal"autocomplete="off" @if($range == "1900-2000 Cal") checked @endif> 1900 - 2000 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '2100-2200 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="2100-2200 Cal"autocomplete="off" @if(Session::get('range') == "2100-2200 Cal") checked @endif> 2100 - 2200 Cal
+									<label class="btn btn-secondary btnmax @if($range == '2000-2100 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="2000-2100 Cal"autocomplete="off" @if($range == "2000-2100 Cal") checked @endif> 2000 - 2100 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '2200-2300 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="2200-2300 Cal"autocomplete="off" @if(Session::get('range') == "2200-2300 Cal") checked @endif> 2200 - 2300 Cal
+									<label class="btn btn-secondary btnmax @if($range == '2100-2200 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="2100-2200 Cal"autocomplete="off" @if($range == "2100-2200 Cal") checked @endif> 2100 - 2200 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '2300-2400 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="2300-2400 Cal"autocomplete="off" @if(Session::get('range') == "2300-2400 Cal") checked @endif> 2300 - 2400 Cal
+									<label class="btn btn-secondary btnmax @if($range == '2200-2300 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="2200-2300 Cal"autocomplete="off" @if($range == "2200-2300 Cal") checked @endif> 2200 - 2300 Cal
 									</label>
-									<label class="btn btn-secondary btnmax @if(Session::get('range') == '2400-2500 Cal') focus active @endif ml-4">
-										<input type="radio" name="range" class="range"  value="2400-2500 Cal"autocomplete="off" @if(Session::get('range') == "2400-2500 Cal") checked @endif> 2400 - 2500 Cal
+									<label class="btn btn-secondary btnmax @if($range == '2300-2400 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="2300-2400 Cal"autocomplete="off" @if($range == "2300-2400 Cal") checked @endif> 2300 - 2400 Cal
+									</label>
+									<label class="btn btn-secondary btnmax @if($range == '2400-2500 Cal') focus active @endif ml-4">
+										<input type="radio" name="range" class="range"  value="2400-2500 Cal"autocomplete="off" @if($range == "2400-2500 Cal") checked @endif> 2400 - 2500 Cal
 									</label>
 								</div>
 							</div>

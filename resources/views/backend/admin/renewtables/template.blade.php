@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('head')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <link href="{{asset('backend/assets/css/datatables.min.css')}}" rel="stylesheet">
 @endsection
 @section('content')
@@ -86,10 +87,10 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="breakfast">Select Breakfast</label>
 									<div class="input-group">
-										<select class="form-control" id="breakfast" name="breakfast" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="breakfast" name="breakfast[]" required="">
 											<option value="">Select Breakfast</option>
 											@foreach($breakfasts as $breakfast)
-											<option value="{{$breakfast->id}}" @if($selected_meal->breakfast == $breakfast->id) selected @endif>{{$breakfast->food}}</option>
+											<option value="{{$breakfast->id}}" @if(in_array($breakfast->id,$selected_meal_breakfast)) selected @endif>{{$breakfast->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -100,10 +101,10 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack1">Select Snack 1</label>
 									<div class="input-group">
-										<select class="form-control" id="snack1" name="snack1" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack1" name="snack1[]" required="">
 											<option value="">Select Snack 1</option>
 											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}" @if($selected_meal->snacks1 == $snack->id) selected @endif>{{$snack->food}}</option>
+											<option value="{{$snack->id}}" @if(in_array($snack->id,$selected_meal_snacks1)) selected @endif>{{$snack->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -114,10 +115,10 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="lunch">Select Lunch</label>
 									<div class="input-group">
-										<select class="form-control" id="lunch" name="lunch" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="lunch" name="lunch[]" required="">
 											<option value="">Select Lunch</option>
 											@foreach($lunchs as $lunch)
-											<option value="{{$lunch->id}}" @if($selected_meal->lunch == $lunch->id) selected @endif>{{$lunch->food}}</option>
+											<option value="{{$lunch->id}}" @if(in_array($lunch->id,$selected_meal_lunch)) selected @endif>{{$lunch->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -128,10 +129,10 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack2">Select Snack 2</label>
 									<div class="input-group">
-										<select class="form-control" id="snack2" name="snack2" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack2" name="snack2[]" required="">
 											<option value="">Select Snack 2</option>
 											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}" @if($selected_meal->snacks2 == $snack->id) selected @endif>{{$snack->food}}</option>
+											<option value="{{$snack->id}}" @if(in_array($snack->id,$selected_meal_snacks2)) selected @endif>{{$snack->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -142,10 +143,10 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="dinner">Select Dinner</label>
 									<div class="input-group">
-										<select class="form-control" id="dinner" name="dinner" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="dinner" name="dinner[]" required="">
 											<option value="">Select Dinner</option>
 											@foreach($dinners as $dinner)
-											<option value="{{$dinner->id}}" @if($selected_meal->dinner == $dinner->id) selected @endif>{{$dinner->food}}</option>
+											<option value="{{$dinner->id}}" @if(in_array($dinner->id,$selected_meal_dinner)) selected @endif>{{$dinner->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -156,10 +157,10 @@
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack3">Select Snack 3</label>
 									<div class="input-group">
-										<select class="form-control" id="snack3" name="snack3" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack3" name="snack3[]" required="">
 											<option value="">Select Snack 3</option>
 											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}" @if($selected_meal->snacks3 == $snack->id) selected @endif>{{$snack->food}}</option>
+											<option value="{{$snack->id}}" @if(in_array($snack->id,$selected_meal_snacks3)) selected @endif>{{$snack->food}}</option>
 											@endforeach
 										</select>
 										<div class="invalid-feedback">
@@ -235,4 +236,14 @@
 		});
 	});
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.js-example-basic-multiple').select2({
+				tags: true,
+				tokenSeparators: [',', ' ']
+			});
+		});
+	</script>
 @endpush

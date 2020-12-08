@@ -124,12 +124,31 @@ class TableController extends Controller
     public function edit($id)
     {
     	$tables = TableCategory::all();
+        $selected_table= ClientTable::where('client_id',$id)->first();
+        if ($selected_table) {
+            $table_id = $selected_table->table_id;
+            $range = $selected_table->calorie_range;
+            Session::put('table_id', $table_id);
+            Session::put('client', $id);
+            Session::put('range', $range);
+        }else{
+            $table_id = 0;
+            $range = 0;
+            Session::put('table_id', 0);
+            Session::put('client', 0);
+            Session::put('range', 0);
+        }
     	$answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$id)->get();
     	$client = Client::find($id);
     	$weight = DB::table('client_answers')->where('client_id',$id)->where('question_id',9)->value('answer');
 
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
-        return view('backend.admin.tables.table',compact('client','weight','height','tables','answers'));
+
+        if ($selected_table) {
+            return view('backend.admin.renewtables.table',compact('client','weight','height','tables','answers','selected_table','table_id','range'));
+        }else{
+            return view('backend.admin.tables.table',compact('client','weight','height','tables','answers','selected_table','table_id','range'));
+        }
     }
 
     /**
