@@ -30,6 +30,9 @@ class QuestionController extends Controller
 
 			foreach ($QuestionCategory as $keyy => $value) {
 				foreach ($value->questions as $key => $value1) {
+					if ($value1->image) {
+					$QuestionCategory[$keyy]->questions[$key]['image'] = 'https://tegdarco.com/uploads/questions/'.$value1->image;
+					}
 					$question_options = DB::table('question_options')
 					->select('id','name','name_arabic')
 					->where('question_id',$value1->id)
