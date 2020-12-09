@@ -170,14 +170,16 @@ class DietController extends Controller
 
 		if ($validator->fails())
 		{
-			return response(['errors'=>$validator->errors()->all()], 422);
+			$array = implode(',', $validator->errors()->all());
+			return response(["success"=> false,'message'=>$array], 422);
 		}
 
 		$flag = 'client_nutri';
+		// insertGetId
 
 		DB::table('intake_substance_comments')->insert(['client_id'=>$user_id,'intake_subs_id'=>$request->intake_subs_id,'flag'=>$flag,'comment'=>$request->comment, 'time_stamp' => $request->time_stamp]);
 
-		return response(['success'=> true], 200);
+		return response(['success'=> true, 'message' => 'comment inserted successfully'], 200);
 	}
 	
 }
