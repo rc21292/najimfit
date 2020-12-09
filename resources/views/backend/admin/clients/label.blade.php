@@ -3,6 +3,7 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
+@include('backend.admin.includes.flashmessage')
 <div class="col-xl-12 col-md-12">
 	<div class="col-xl-12">
 		<div class="ms-panel">
@@ -11,8 +12,9 @@
 					<div class="col-md-12">
 						<div class="ms-panel">
 							<div class="ms-panel-header">
-								<h6>Assign Labels to Client</h6>
-								
+								<h6>Assign Labels to Client 
+
+									<a style="float: right;margin-top: -10px" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
 							</div>
 							<div class="ms-panel-body">
 								<form action="{{route('labels.store')}}" method="post">
