@@ -116,10 +116,14 @@ public function index(Request $request)
 
       $input = $request->all();
 
+
       if(!empty($input['password'])){
        $input['password'] = Hash::make($input['password']);
      }else{
-       $input = array_except($input,array('password'));
+
+      $input = $request->except('password','confirm-password');
+       // $input = @array_except($input,array('password'));
+
      }
 
      $user = User::find($id);
