@@ -104,6 +104,7 @@ class DietController extends Controller
 		$intakeSubs->time = request('time');
 		$intakeSubs->client_id = $user_id;
 		$intakeSubs->diet_type = request('type');
+		$intakeSubs->time_stamp = request('time_stamp');
 		$intakeSubs->image = '';
 
 		$intakeSubs->save();
@@ -132,6 +133,31 @@ class DietController extends Controller
 	}
 
 
+	public function intakeSubsCommentList(Request $request)
+	{
+		$user_id = Auth::User()->id;
+		$comments = DB::table('intake_substance_comments')->where(['client_id'=>$user_id,'intake_subs_id'=>$request->intake_subs_id])->get();
+
+		if (count($comments) > 0) {
+			DB::enableQueryLog();
+			foreach ($comments as $comment_key => $comment) {
+				if ($comment->flag == 'nutri_client') {
+					$user_name = DB::table('users')->where('id',$comment->client_id)->value('name');
+					$comment_by_user = false;
+				}else{
+					$user_name = DB::table('clients')->where('id',$comment->client_id)->value('firstname').' '.DB::table('clients')->where('id',$comment->client_id)->value('lastname');
+					$comment_by_user = true;
+				}
+				$comments[$comment_key]->name = $user_name;
+				$comments[$comment_key]->comment_by_user = $comment_by_user;
+			}
+		
+			return response(['success'=> true, 'message' => 'data fetched successfully', 'data' => $comments], 200);
+		}else{
+			return response(['success'=> false, 'message' => 'no data found'], 401);
+		}
+	}
+
 	public function intakeSubsComment(Request $request)
 	{
 		$user_id = Auth::User()->id;
@@ -149,7 +175,7 @@ class DietController extends Controller
 
 		$flag = 'client_nutri';
 
-		DB::table('intake_substance_comments')->insert(['client_id'=>$user_id,'intake_subs_id'=>$request->intake_subs_id,'flag'=>$flag,'comment'=>$request->comment]);
+		DB::table('intake_substance_comments')->insert(['client_id'=>$user_id,'intake_subs_id'=>$request->intake_subs_id,'flag'=>$flag,'comment'=>$request->comment, 'time_stamp' => $request->time_stamp]);
 
 		return response(['success'=> true], 200);
 	}

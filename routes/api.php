@@ -64,11 +64,14 @@ Route::middleware('auth:api')->group(function () {
 	Route::post('/get-home', 'Api\AuthController@getHomeData')->name('gethomedata.api');
 
 	Route::post('/get-workout-instructions', 'Api\WorkoutController@getworkoutinstructions')->name('getworkoutinstructions.api');
+	
 
 	Route::post('/view-diets', 'Api\TableController@gettable')->name('gettable.api');
+	Route::post('/diet-instructions', 'Api\TableController@getDietsInstructions')->name('getdietsinstructions.api');
 
 	Route::post('/intake-subs', 'Api\DietController@intakeSubs')->name('intakesubs.api');
 	Route::post('/intake-subs-comment', 'Api\DietController@intakeSubsComment')->name('intakesubscomment.api');
+	Route::post('/intake-subs-comment-list', 'Api\DietController@intakeSubsCommentList')->name('intakesubscommentlist.api');
 	Route::post('/intake-subs-list', 'Api\DietController@intakeSubsList')->name('intakesubslist.api');
 	
 	Route::post('/get-breakfast', 'Api\TableController@getbreakfast')->name('gettable.api');

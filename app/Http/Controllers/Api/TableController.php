@@ -927,4 +927,24 @@ class TableController extends Controller
 		}
 		
 	}
+
+	public function getDietsInstructions(Request $request)
+	{
+		$instructions = DB::table('diet_informations')->get();
+		if(!$instructions->isEmpty()){
+			foreach($instructions as $instruction){
+				$instruct[] = array(
+					"insturction_id" => $instruction->id,
+					"name" => $request->language == "arabic" ? $instruction->name_arabic : $instruction->name,
+					"description" => $request->language == "arabic" ? $instruction->information_arabic : $instruction->information,
+				);
+			}
+
+			$data = $instruct;
+			return response()->json(['success'=> $data], 200);
+
+		}else{
+			return response(['errors'=>'No Instructions found!'], 422);
+		}
+	}
 }
