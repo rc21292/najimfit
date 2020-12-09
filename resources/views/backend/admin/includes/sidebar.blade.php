@@ -123,6 +123,7 @@
           <span><i class="material-icons fs-16">settings</i>Settings</span>
         </a>
         <ul id="form-elements" class="collapse" aria-labelledby="form-elements" data-parent="#side-nav-accordion">
+          <li> <a href="{{route('diet-informations.index')}}">Diet Informations</a> </li>
           <li> <a href="{{route('terms-and-conditions.index')}}">Terms & Conditions</a> </li>
           <li> <a href="{{route('privacy-policy.index')}}">Privacy Policy</a> </li>
           <li> <a href="{{route('gdpr.index')}}">GDPR</a> </li>
@@ -180,6 +181,11 @@
       <li class="menu-item">
         <a href="{{route('clients.index')}}">
           <span><i class="far fa-user-circle"></i>Active Clients</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{route('chat.index')}}">
+          <span><i class="flaticon-chat"></i></i>client Chats</span>
         </a>
       </li>
       <li class="menu-item">

@@ -74,6 +74,10 @@ Route::resource('client-full-profile','ClientProfileController');
 Route::post('meal-delete-image/{meal}', 'ClientsController@deleteimage')->name('meal-image-delete');
 // Exercise Route
 Route::resource('exercise','Features\ExerciseController');
+Route::resource('diet-informations','DietInformationController');
+
+Route::patch('diet-information-update','DietInformationController@updateInformation')->name('diet-information-update');
+
 Route::post('exercise-delete-image/{exercise}', 'Features\ExerciseController@deleteimage')->name('exercise-image-delete');
 Route::get('workout-informations','Features\ExerciseController@getworkoutinformation')->name('workout-informations');
 Route::post('workout-information','Features\ExerciseController@storeinformation')->name('workout-information');
