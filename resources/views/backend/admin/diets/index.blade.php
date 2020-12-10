@@ -17,7 +17,7 @@
 			<div class="col-sm-2" >
 			</div>
 			<div class="col-sm-2" >
-				<a href="javascript:0" data-toggle="modal" data-target="#myModal" class="btn btn-square btn-primary mb-2"><i class="fas fa-plus"></i> Information</a>
+				<a href="{{route('diet-informations.create')}}" class="btn btn-square btn-primary mb-2"><i class="fas fa-plus"></i> Information</a>
 			</div>
 		</div>
 		@include('backend.admin.includes.flashmessage')
@@ -120,7 +120,7 @@
 <script>
 	var dataSet7 = [
 	@foreach($diet_informations as $diet_information)
-	[ "{{ $no++ }}" ,"{{ $diet_information->name }}","<a data-name='{{$diet_information->name}}' data-name_arabic='{{$diet_information->name_arabic}}' data-description='{{$diet_information->information}}' data-description_arabic='{{$diet_information->information_arabic}}' data-catid='{{$diet_information->id}}' data-toggle='modal' data-target='#edit'><i class='fas fa-pencil-alt ms-text-primary'></i></a><a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('diet-informations.destroy',$diet_information->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	[ "{{ $no++ }}" ,"{{ $diet_information->name }}","<a href='{{route('diet-informations.edit',$diet_information->id)}}'><i class='fas fa-pencil-alt ms-text-primary'></i></a><a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('diet-informations.destroy',$diet_information->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
 	@endforeach
 	];
 	var tablequestion = $('#data-table-9').DataTable( {
