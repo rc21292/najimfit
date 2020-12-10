@@ -11,7 +11,6 @@ use App\Models\ClientTable;
 use App\Models\Package;
 use Auth;
 use DB;
-use Google\Cloud\Firestore\FirestoreClient;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 putenv('GOOGLE_APPLICATION_CREDENTIALS='.__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
@@ -25,36 +24,22 @@ class ChatController extends Controller
      */
     public function index()
     {
-        $db = new FirestoreClient([
-            'projectId' => 'test-tegdarco',
-        ]);
+        $user = Auth::User();
+        $clients = Client::join('nutritionist_clients','nutritionist_clients.client_id','clients.id')->where('nutritionist_id',$user->id)->get();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+        
+        $users = Client::where('id', '!=', Auth::user()->id)->take(3)->get();
+        $chat = ''; 
+        $receptorUser = '';
 
-        /*$citiesRef = $db->collection('users');
-        $citiesRef->document('er.krishna.mishra@gmail.com')->set([
-            'id' => 'er.krishna.mishra@gmail.com',
-            'chattingWith' => 'laxman@gmail.com',
-            'photoUrl' => 'https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg',
-            'nickname' => 'Krishna Mishra',
-            'createdAt' => '1606289391323'
-        ]);*/
+        if($role_name == 'Nutritionist'){
 
-        $userRef =  $db->collection('users');
-        $documents = $userRef->documents();
-/*$documents =  $db->collection('messages/er.krishna.mishra@gmail.com-fire1test@gmail.com/er.krishna.mishra@gmail.com-fire1test@gmail.com')->documents();*/
-            // echo "<pre>";print_r($documents);"</pre>";exit;
-        foreach ($documents as $document) {
-            if ($document->exists()) {
-                printf('Document data for document %s:' . PHP_EOL, $document->id());
-                print_r($document->data());
-                printf(PHP_EOL);
-            } else {
-                printf('Document %s does not exist!' . PHP_EOL, $snapshot->id());
-            }
+            return view('backend.admin.chat.index', compact('receptorUser', 'chat', 'users','clients'));
+
+        }else{
+            return view('backend.admin.chat.index', compact('client','client_table','weight','height','receptorUser', 'chat', 'users','package'));
         }
-
-        echo "<pre>";print_r('kkk');"</pre>";exit;
-        die;
-
 
     }
 
@@ -109,43 +94,6 @@ class ChatController extends Controller
         $set = $database->getReference($ref)->update($input);
 
         return response(['data' => $set->getvalue()], 200);
-        $db = new FirestoreClient([
-            'projectId' => 'test-tegdarco',
-        ]);
-
-        $citiesRef = $db->collection('users');
-        $citiesRef->document('er.krishna.mishra@gmail.com')->set([
-            'id' => 'er.krishna.mishra@gmail.com',
-            'chattingWith' => 'laxman@gmail.com',
-            'photoUrl' => 'https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg',
-            'nickname' => 'Krishna Mishra',
-            'createdAt' => '1606289391323'
-        ]);
-        
-        $this->validate($request, [
-            'content' => 'required',
-        ]);
-
-        $input = $request->all();
-        $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
-
-        $database = $factory->createDatabase();
-
-        $createPost    =   $database->getReference('chats')->getvalue(); 
-        $last_key =  @end(array_keys($createPost))+1;
-
-        $ref = 'chats/'.$last_key;  
-
-        $input['ip'] = request()->ip();
-        $input['type'] = 'chat';
-        $input['id'] = $last_key;
-        $input['user_id'] = Auth::user()->id;
-        $input['sender_reseptent'] = $input['receptor_id'].'_'.Auth::user()->id;
-        $input['updated_at'] = NOW();
-        $input['created_at'] = NOW();
-        $set = $database->getReference($ref)->update($input);
-
-        return response(['data' => $set->getvalue()], 200);
     }
 
     /**
@@ -157,6 +105,7 @@ class ChatController extends Controller
     public function show($id)
     {
         $user = Auth::User();
+        $clients = Client::join('nutritionist_clients','nutritionist_clients.client_id','clients.id')->where('clients.id', '!=' , $id)->where('nutritionist_id',$user->id)->get();
         $roles = $user->getRoleNames();
         $role_name =  $roles->implode('', ' ');
 
@@ -176,7 +125,7 @@ class ChatController extends Controller
 
         if($role_name == 'Nutritionist'){
 
-            return view('backend.admin.nut_chat', compact('client','client_table','weight','height','receptorUser', 'chat', 'users','package'));
+            return view('backend.admin.chat.nut_chat', compact('client','client_table','weight','height','receptorUser', 'chat', 'users','package','clients'));
 
         }else{
             return view('backend.admin.chat', compact('client','client_table','weight','height','receptorUser', 'chat', 'users','package'));
