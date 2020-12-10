@@ -28,7 +28,7 @@ class DietInformationController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.admin.diets.create');
     }
 
     /**
@@ -68,7 +68,9 @@ class DietInformationController extends Controller
      */
     public function edit($id)
     {
-        //
+         $diet_informations = DietInformation::find($id);
+         // echo "<pre>";print_r($diet_informations);"</pre>";exit;
+        return view('backend.admin.diets.edit',compact('diet_informations'));
     }
 
     /**
@@ -80,7 +82,15 @@ class DietInformationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // echo "<pre>";print_r($request->all());"</pre>";exit;
+         DB::table('diet_informations')->where('id',$id)->update([
+            'name' => $request->name,
+            'name_arabic' => $request->name_arabic,
+            'information' => $request->description,
+            'information_arabic' => $request->description_arabic,
+
+        ]);
+        return redirect()->route('diet-informations.index');
     }
 
     public function updateInformation(Request $request)
