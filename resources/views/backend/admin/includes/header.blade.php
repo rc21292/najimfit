@@ -81,10 +81,11 @@
             var count = 0;
             snapshot.forEach(function(childSnapshot) {
               var childData = childSnapshot.val();
-              if ((childData.sender_id == '{{Auth::user()->id}}') || (childData.receiver_id == '{{Auth::user()->id}}')) {
-               count++;
-             }
-              
+              if (childData.message_from = 'user') {
+                if (childData.receiver_id == '{{Auth::user()->id}}') {
+                  count++;
+                }
+              }              
             });
             $(".ms-has-notification").html(count+' <i class="flaticon-chat"></i>');
         // console.log(count);
