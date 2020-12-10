@@ -323,6 +323,7 @@
 
         // #chat-form action handler
         $("#chat-form").submit(function() {
+
             var me = $(this),
             chat_content = me.find('[name=content]');
 
@@ -393,5 +394,19 @@
     });
 
 });
+
+
+/*  $('body').on('keypress','.emojionearea-editor', function(e) {
+    var test = $("#chat-form").find('[name=content]').val();
+    if(e.which == 13) {
+        debugger;
+     
+    $("#chat-form").submit();
+    return false;    //<---- Add this line
+  }
+});
+*/
+  
+
 </script>
     @endpush
