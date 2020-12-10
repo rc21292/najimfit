@@ -132,7 +132,7 @@
 							<tbody>
 								<tr>
 									<th scope="row">Active Package</th>
-									<td>{{$client_package->name}}</td>
+									<td>{{@$client_package->name}}</td>
 								</tr>
 								<tr>
 									@php

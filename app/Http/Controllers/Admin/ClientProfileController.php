@@ -73,7 +73,11 @@ class ClientProfileController extends Controller
         // $snacks1 = Meal::where('id',$selected_meal->snacks1)->first();
         // $snacks2 = Meal::where('id',$selected_meal->snacks2)->first();
         // $snacks3 = Meal::where('id',$selected_meal->snacks3)->first();
+        if ($client->package_id) {
         $client_package = Package::find($client->package_id)->first();
+        }else{
+           $client_package = ''; 
+        }
 
 
         return view('backend.admin.clients.view_full_profile',compact('profile','answers','client','weight','height','client_package'));
