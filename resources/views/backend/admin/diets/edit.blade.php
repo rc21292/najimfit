@@ -38,7 +38,7 @@
 					<div class="col-xl-12 col-md-12 mb-3">
 						<label>Information Description</label>
 						<div class="input-group">
-							<textarea placeholder="Write Information" class="form-control" name="description" required>{{$diet_informations->information}}</textarea>
+							<textarea rows="6" placeholder="Write Information" class="form-control" name="description" required>{{$diet_informations->information}}</textarea>
 						<div class="invalid-feedback">
 									Please Enter Information Description.
 								</div>
@@ -48,7 +48,7 @@
 					<div class="col-xl-12 col-md-12 mb-3">
 						<label>Information Description(in Arabic)</label>
 						<div class="input-group">
-							<textarea placeholder="وصف المعلومات" class="form-control" name="description_arabic" dir="rtl">{{$diet_informations->information_arabic}}</textarea>
+							<textarea rows="6" placeholder="وصف المعلومات" class="form-control" name="description_arabic" dir="rtl">{{$diet_informations->information_arabic}}</textarea>
 
 					</div>
 					</div>
