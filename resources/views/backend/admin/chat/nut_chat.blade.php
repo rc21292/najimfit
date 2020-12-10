@@ -139,7 +139,7 @@
                                                     <input type="text" id="content" name="content" placeholder="Enter Message" value="" >
                                                 </li>
                                                 <li style="margin-top: -16px; margin-left: 3px;">
-                                                    <button class="btn btn-primary">Send</button>
+                                                    <button type="submit" class="btn btn-primary">Send</button>
                                                 </li>
                                             </ul>
                                         </form>
@@ -323,7 +323,7 @@
 
         // #chat-form action handler
         $("#chat-form").submit(function() {
-
+            debugger;
             var me = $(this),
             chat_content = me.find('[name=content]');
 
@@ -372,41 +372,19 @@
         });
     </script>
 
-        <script type="text/javascript">
-  $(document).ready(function() {
-    $("#content").emojioneArea();
-  });
+    <script type="text/javascript">
+        $(document).ready(function() {
 
-  $(function(){
-
-    $('input[type="search"]').keyup(function(){
-        
-        var searchText = $(this).val().toLowerCase();
-        
-        $('#chats-2 ul > li').each(function(){
-            
-            var currentLiText = $(this).text().toLowerCase(),
-                showCurrentLi = currentLiText.indexOf(searchText) !== -1;
-            
-            $(this).toggle(showCurrentLi);
-            
-        });     
-    });
-
-});
-
-
-/*  $('body').on('keypress','.emojionearea-editor', function(e) {
-    var test = $("#chat-form").find('[name=content]').val();
-    if(e.which == 13) {
-        debugger;
-     
-    $("#chat-form").submit();
-    return false;    //<---- Add this line
-  }
-});
-*/
-  
-
-</script>
+            $("#content").emojioneArea({
+                events: {
+                    keyup: function(editor, event) {
+                        if (event.which == 13) {
+                            $(".emojionearea-editor").blur();
+                            $("#chat-form").submit(); 
+                        } 
+                    }
+                }
+            });
+        });
+    </script>
     @endpush
