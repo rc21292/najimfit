@@ -12,6 +12,21 @@
       </div>
 
       <ul class="ms-nav-list ms-inline mb-0" id="ms-nav-options">
+        @php
+
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+
+        if($role_name == 'Nutritionist'){
+        @endphp
+        <!-- {{{App\Helper::getMessageCount()}}} -->
+        <li class="ms-nav-item ms-nav-user dropdown">
+          <a href="/dashboard/chat" class="text-disabled ms-has-notification">0 <i class="flaticon-chat"></i></a>
+        </li>
+        @php
+      }
+      @endphp        
         <li class="ms-nav-item ms-nav-user dropdown">
           <a href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img class="ms-user-img ms-img-round float-right" src="{{asset('backend/assets/img/avatar.png')}}" alt="people"> </a>
           <ul class="dropdown-menu dropdown-menu-right user-dropdown" aria-labelledby="userDropdown">
@@ -44,3 +59,35 @@
       <span class="ms-toggler-bar bg-primary"></span>
     </div>
   </nav>
+
+@push('scripts')
+<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous"></script>
+<script>
+  var firebaseConfig = {
+        apiKey: "AIzaSyDfaDyhvmTp-Za0PUXGtK8pqJffNV0UM98",
+        authDomain: "test-tegdarco.firebaseapp.com",
+        databaseURL: "https://test-tegdarco.firebaseio.com",
+        projectId: "test-tegdarco",
+        storageBucket: "test-tegdarco.appspot.com",
+        messagingSenderId: "451237505127",
+        appId: "1:451237505127:web:121a1743e95ff8d1be0cc2",
+        measurementId: "G-0P6W55LWN2"
+    };
+        firebase.initializeApp(firebaseConfig);
+
+        var datas = firebase.database().ref('/chats').orderByChild("is_read").equalTo(0).on('value', function(snapshot) {
+          var chat_element = "";
+          if(snapshot.val() != null) {
+            var count = 0;
+            snapshot.forEach(function(childSnapshot) {
+              var childData = childSnapshot.val();
+               count++;
+              
+            });
+            $(".ms-has-notification").html(count+' <i class="flaticon-chat"></i>');
+        // console.log(count);
+          }
+        });
+        </script>
+    @endpush
