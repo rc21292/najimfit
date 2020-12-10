@@ -274,15 +274,21 @@
                         chat_element += '</p></div>';
 
                         let current_datetime = new Date(childData.timestamp);
-                        // console.log(current_datetime.getHours());
-                        let formatted_date = current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1)+ "-" + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + " " + (current_datetime.getHours() >= 12 ? 'PM' : 'AM');
+
+                        var monthShortNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                        ];
+
+
+                        console.log(current_datetime.getMinutes());
+                        let formatted_date = (monthShortNames[current_datetime.getMonth()])+ " " + current_datetime.getDate() + ", " + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + " " + (current_datetime.getHours() >= 12 ? 'pm' : 'am');
                         var date1 = new Date(childData.timestamp);
                         var date2 = new Date();
                         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
                         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
 
-                        chat_element += '<p class="ms-chat-time">';
+                        chat_element += '<p class="ms-chat-time" style="color:grey">';
                         if (diffDays > 1) {
                             chat_element += diffDays;
                             chat_element += ' days ago';
@@ -374,11 +380,11 @@
 
     $('input[type="search"]').keyup(function(){
         
-        var searchText = $(this).val();
+        var searchText = $(this).val().toLowerCase();
         
-        $('ul > li').each(function(){
+        $('#chats-2 ul > li').each(function(){
             
-            var currentLiText = $(this).text(),
+            var currentLiText = $(this).text().toLowerCase(),
                 showCurrentLi = currentLiText.indexOf(searchText) !== -1;
             
             $(this).toggle(showCurrentLi);

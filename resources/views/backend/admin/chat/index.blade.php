@@ -225,15 +225,15 @@
     $("#content").emojioneArea();
   });
 
-    $(function(){
+     $(function(){
 
     $('input[type="search"]').keyup(function(){
         
-        var searchText = $(this).val();
+        var searchText = $(this).val().toLowerCase();
         
-        $('ul > li').each(function(){
+        $('#chats-2 ul > li').each(function(){
             
-            var currentLiText = $(this).text(),
+            var currentLiText = $(this).text().toLowerCase(),
                 showCurrentLi = currentLiText.indexOf(searchText) !== -1;
             
             $(this).toggle(showCurrentLi);
