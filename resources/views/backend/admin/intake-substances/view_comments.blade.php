@@ -30,9 +30,11 @@
 @push('scripts')
 <script>
 	var dataSet18 = [
+	@if($intake_subs->comments)
 	@foreach($intake_subs->comments as $intake_sub)
 	[ "{{ $no++ }}" ,"{{ $intake_sub->comment }}","{{ $intake_sub->name }}", "<a class='btn btn-info btnpro' href='{{route('chat.show',$intake_sub->client_id)}}'> Chat</a>"],
 	@endforeach
+	@endif
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
 		data: dataSet18,
