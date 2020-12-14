@@ -130,7 +130,7 @@ class IntakeSubstanceController extends Controller
         $intake_subs['comments'] = '';
     }               
 
-    echo "<pre>";print_r($intake_subs->toArray());"</pre>";exit;
+    // echo "<pre>";print_r($intake_subs->toArray());"</pre>";exit;
         return view('backend.admin.intake-substances.view_comments',compact('intake_subs'))->with('no', 1);
     }
 
