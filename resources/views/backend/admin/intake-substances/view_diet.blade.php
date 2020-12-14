@@ -33,6 +33,11 @@
 		</div>
 	</div>
 	@if($intake_subs->images)
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="form-group">
+			<strong>Images:</strong>
+		</div>
+	</div>
 	@foreach($intake_subs->images as $data)
 	<div class="col-xs-2 col-sm-2 col-md-2">
 		<div class="form-group">
