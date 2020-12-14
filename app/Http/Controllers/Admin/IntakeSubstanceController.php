@@ -102,6 +102,38 @@ class IntakeSubstanceController extends Controller
         return view('backend.admin.intake-substances.show',compact('intake_subs'))->with('no', 1);
     }
 
+    public function viewComments($id)
+    {
+        $intake_subs = Diet::exists();
+
+        if ($intake_subs) {
+
+            $intake_subs = Diet::leftJoin('intake_substance_images','intake_substance_images.intake_substance_id','intake_substances.id')->where('intake_substances.id',$id)->first();
+        }
+
+       $comments = DB::table('intake_substance_comments')->orderBy('created_at')->where('intake_subs_id', $id)->get();
+
+       if (count($comments) > 0) {
+        foreach ($comments as $comment_key => $comment) {
+            if ($comment->flag == 'nutri_client') {
+                $user_name = DB::table('users')->where('id',$comment->client_id)->value('name');
+                $comment_by_user = false;
+            }else{
+                $user_name = DB::table('clients')->where('id',$comment->client_id)->value('firstname').' '.DB::table('clients')->where('id',$comment->client_id)->value('lastname');
+                $comment_by_user = true;
+            }
+            $comments[$comment_key]->name = $user_name;
+            $comments[$comment_key]->comment_by_user = $comment_by_user;
+        }
+        $intake_subs['comments'] = $comments;
+    }else{
+        $intake_subs['comments'] = '';
+    }               
+
+    echo "<pre>";print_r($intake_subs->toArray());"</pre>";exit;
+        return view('backend.admin.intake-substances.view_comments',compact('intake_subs'))->with('no', 1);
+    }
+
 
     public function viewDiet($id)
     {
@@ -115,7 +147,7 @@ class IntakeSubstanceController extends Controller
 
         $images = DB::table('intake_substance_images')->orderBy('created_at')->where('intake_substance_id', $id)->get();
 
-        if ($images) {
+        if (count($images) > 0) {
             $intake_subs['images'] = $images;
         }else{
             $intake_subs['images'] = '';

@@ -16,7 +16,7 @@
 	<div class="col-md-12">
 		<div class="ms-panel">
 			<div class="ms-panel-header">
-				<h6>Intake Substances List</h6>
+				<h6>Intake Substances Comments</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
@@ -30,21 +30,16 @@
 @push('scripts')
 <script>
 	var dataSet18 = [
-	@foreach($intake_subs as $intake_subs1)
-	@foreach($intake_subs1 as $intake_sub)
-	[ "{{ $no++ }}" ," {{ $intake_sub->diet_type }}", "{{ $intake_sub->serving_size }}", "{{ $intake_sub->grams_per_serving }}" , "{{ $intake_sub->time }}", "<a class='btn btn-primary btnpro' href='{{route('view-diets',$intake_sub->id)}}'>View Details</a> <a class='btn btn-info btnpro' href='{{route('view-comments',$intake_sub->id)}}'>View Comments</a>"],
-	@endforeach
+	@foreach($intake_subs->comments as $intake_sub)
+	[ "{{ $no++ }}" ,"{{ $intake_sub->comment }}","{{ $intake_sub->name }}", "<a class='btn btn-info btnpro' href='{{route('chat.show',$intake_sub->client_id)}}'> Chat</a>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
 		data: dataSet18,
 		columns: [
 		{ title: "Id" },
-		// { title: "Client Name" },
-		{ title: "Diet Type" },
-		{ title: "Serving Size" },
-		{ title: "Grams Per Serving" },
-		{ title: "Time" },
+		{ title: "Comment" },
+		{ title: "Comment By" },		
 		{ title: "Action" },
 		],
 

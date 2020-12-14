@@ -70,6 +70,7 @@ Route::resource('clients','ClientsController');
 
 Route::resource('intake-substances','IntakeSubstanceController');
 Route::get('view-diets/{id}','IntakeSubstanceController@viewDiet')->name('view-diets');
+Route::get('view-comments/{id}','IntakeSubstanceController@viewComments')->name('view-comments');
 
 Route::resource('client-full-profile','ClientProfileController');
 Route::post('meal-delete-image/{meal}', 'ClientsController@deleteimage')->name('meal-image-delete');
