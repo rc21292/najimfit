@@ -9,9 +9,34 @@ use DB;
 use Session;
 use Auth;
 use App\Models\Diet;
+use App\Models\User;
+use App\Models\Client;
+use App\Helper;
 
 class IntakeSubstanceController extends Controller
 {
+
+    public function sendNotice($value='')
+    {
+         $user = Client::where('id', $id)->first();
+
+        // $notification_id = $user->notification_id;
+        $notification_id = 1;
+        $title = "Greeting Notification";
+        $message = "Have good day!";
+        $id = $user->id;
+        $type = "basic";
+
+        $res = \App\Helper::send_notification_FCM($notification_id, $title, $message, $id,$type);
+
+        if($res == 1){
+
+            echo "<pre>";print_r('sjsjjs');"</pre>";exit;
+        }else{
+            echo "<pre>";print_r('error');"</pre>";exit;
+        }
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,14 +45,18 @@ class IntakeSubstanceController extends Controller
 
     public function index()
     {
-        echo "updating soon!";
-        die;
         $intake_subs = Diet::exists();
 
         if ($intake_subs) {
 
-           $intake_subs = Diet::orderBy('created_at')->select('intake_substances.*','clients.firstname','clients.lastname')->join('clients','clients.id','=','intake_substances.client_id')->get();
-			// echo "<pre>";print_r($intake_subs->toArray());"</pre>";exit;
+            $intakeSubs = Diet::orderBy('created_at')->get()->groupBy(function($item) {
+                    return $item->client_id;
+                });
+
+            // echo "<pre>";print_r($intakeSubs->toArray());"</pre>";exit;
+
+
+           $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname')->join('clients','clients.id','=','intake_substances.client_id')->distinct()->get();
            return view('backend.admin.intake-substances.index',compact('intake_subs'))->with('no', 1);
        }
    }
@@ -61,7 +90,39 @@ class IntakeSubstanceController extends Controller
      */
     public function show($id)
     {
-        echo "<pre>";print_r('working on it');"</pre>";exit;
+        $intake_subs = Diet::exists();
+
+        if ($intake_subs) {
+
+            $intake_subs = Diet::orderBy('created_at')->where('client_id',$id)->get()->groupBy(function($item) {
+                return $item->diet_type;
+            });
+        }
+
+        return view('backend.admin.intake-substances.show',compact('intake_subs'))->with('no', 1);
+    }
+
+
+    public function viewDiet($id)
+    {
+        $intake_subs = Diet::exists();
+
+        if ($intake_subs) {
+
+            $intake_subs = Diet::leftJoin('intake_substance_images','intake_substance_images.intake_substance_id','intake_substances.id')->where('intake_substances.id',$id)->first();
+        }
+
+
+        $images = DB::table('intake_substance_images')->orderBy('created_at')->where('intake_substance_id', $id)->get();
+
+        if ($images) {
+            $intake_subs['images'] = $images;
+        }else{
+            $intake_subs['images'] = '';
+        }                
+
+
+        return view('backend.admin.intake-substances.view_diet',compact('intake_subs'))->with('no', 1);
     }
 
     /**

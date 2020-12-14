@@ -30,16 +30,21 @@
 @push('scripts')
 <script>
 	var dataSet18 = [
-	@foreach($intake_subs as $intake_sub)
-	[ "{{ $no++ }}" ,"{{ $intake_sub->firstname }} {{ $intake_sub->lastname}}", "<a class='btn btn-info btnpro' href='{{route('intake-substances.show',$intake_sub->client_id)}}'> View Diet</a>"],
+	@foreach($intake_subs as $intake_subs1)
+	@foreach($intake_subs1 as $intake_sub)
+	[ "{{ $no++ }}" ," {{ $intake_sub->diet_type }}", "{{ $intake_sub->serving_size }}", "{{ $intake_sub->grams_per_serving }}" , "{{ $intake_sub->time }}", "<a href='{{route('view-diets',$intake_sub->id)}}'><i class='fas fa-eye'></i></a>"],
+	@endforeach
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
 		data: dataSet18,
 		columns: [
 		{ title: "Id" },
-		{ title: "Client Name" },
-		
+		// { title: "Client Name" },
+		{ title: "Diet Type" },
+		{ title: "Serving Size" },
+		{ title: "Grams Per Serving" },
+		{ title: "Time" },
 		{ title: "Action" },
 		],
 
