@@ -941,7 +941,7 @@ class TableController extends Controller
 			}
 
 			$data = $instruct;
-			return response()->json(['success'=>true,'message'=> 'Diet Instruction list' 'data'=> $data], 200);
+			return response()->json(['success'=>true,'message'=> 'Diet Instruction list','data'=> $data], 200);
 
 		}else{
 			return response(['success'=>false,'message'=> 'No Instructions found!'], 422);
