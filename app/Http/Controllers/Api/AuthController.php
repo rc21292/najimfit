@@ -497,11 +497,11 @@ class AuthController extends Controller
 
 			$questions_health = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','questions.question_type','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',3)->get();
 
-			$questions_medicine = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','questions.question_type','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',5)->get();
+			$questions_medicine = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question_arabic','questions.question_type','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',3)->get();
 		}else{
 			$questions_body_size = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','questions.question_type','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',2)->get();
 			$questions_health = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','questions.question_type','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',3)->get();
-			$questions_medicine = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','questions.question_type','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',5)->get();	
+			$questions_medicine = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.id as question_id','questions.question','questions.question_type','client_answers.id as answer_id' , 'client_answers.answer')->where('client_answers.client_id', $user_id)->where('questions.category',3)->where('questions.hint','Medicine')->get();	
 		}
 
 
