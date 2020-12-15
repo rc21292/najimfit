@@ -18,6 +18,25 @@ use Session;
 
 class CartController extends Controller
 {
+
+	private $currencies = array();
+
+	public function __construct() {
+
+		$query = DB::table('currencies')->get();
+
+		foreach ($query as $result) {
+			$this->currencies[$result->code] = array(
+				'currency_id'   => $result->currency_id,
+				'title'         => $result->title,
+				'symbol_left'   => $result->symbol_left,
+				'symbol_right'  => $result->symbol_right,
+				'decimal_place' => $result->decimal_place,
+				'value'         => $result->value
+			);
+		}
+	}
+
 	public function getcart(){
 		$user_id = Auth::Client()->id;
 		if(DB::table('cart')->where('client_id', $user_id)->exists()){
@@ -30,6 +49,7 @@ class CartController extends Controller
 	}
 
 	public function addtocart(Request $request){
+		// echo "<pre>";print_r($request->all());"</pre>";exit;
 		$user_id = Auth::Client()->id;
 		$current_package = Client::find($user_id);
 		$validity = Package::where('id', $request->package)->value('validity');
@@ -42,7 +62,17 @@ class CartController extends Controller
 				if(DB::table('cart')->where('client_id', $user_id)->exists()){
 					DB::table('cart')->where('client_id', $user_id)->delete();
 				}
-				$subtotal = Package::find($request->package)->price;
+				// $subtotal = Package::find($request->package)->price;
+
+				if ($request->currency) {
+					$amount = Package::find($request->package)->price;
+					$from='SAR';
+					$to=$request->currency;
+					$subtotal = $this->currency_converter($from,$to,$amount);				
+				}else{
+					$subtotal = Package::find($request->package)->price;
+				}
+
 				$quantity = 1;
 				Session::put('total',$subtotal);
 				$cart_id = DB::table('cart')->insertGetId(['client_id' => $user_id, 'package_id' => $request->package, 'subtotal'=> $subtotal, 'quantity'=> $quantity,'discount'=> 0, 'total' => $subtotal]);
@@ -90,7 +120,16 @@ class CartController extends Controller
 			$package = Package::find($request->package);
 			$price = $package->price;
 		}
-		$subtotal = $price * $request->quantity;
+		// $subtotal = $price * $request->quantity;
+
+		if ($request->currency) {
+			$amount = $price * $request->quantity;
+			$from='SAR';
+			$to=$request->currency;
+			$subtotal = $this->currency_converter($from,$to,$amount);				
+		}else{
+			$subtotal = $price * $request->quantity;
+		}
 		
 		if(isset($request->coupon)){
 			$check=DB::table('coupons')->where('code',$request->coupon)->where('package_id',$request->package)->exists();
@@ -118,6 +157,28 @@ class CartController extends Controller
 		$response = ['success' => $cart , 'message' => 'Cart Updated Successfully' ];
 		return response($response, 200);
 	}
+
+	public function currency_converter($from,$to,$amount)
+	{
+		$symbol_left = $this->currencies[$to]['symbol_left'];
+		$symbol_right = $this->currencies[$to]['symbol_right'];
+
+		$decimal_place = $this->currencies[$to]['decimal_place'];
+		if (isset($this->currencies[$from])) {
+			$from = $this->currencies[$from]['value'];
+		} else {
+			$from = 1;
+		}
+
+		if (isset($this->currencies[$to])) {
+			$to = $this->currencies[$to]['value'];
+		} else {
+			$to = 1;
+		}
+
+		return number_format($amount * ($to / $from), (int)$decimal_place);
+
+	} 
 
 	public function coupons(){
 		$coupons = DB::table('coupons')->get();
