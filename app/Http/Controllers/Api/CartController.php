@@ -176,7 +176,7 @@ class CartController extends Controller
 			$to = 1;
 		}
 
-		return number_format($amount * ($to / $from), (int)$decimal_place);
+		return round($amount * ($to / $from), (int)$decimal_place);
 
 	} 
 
