@@ -201,7 +201,8 @@
                     url: '{{ route('intake-substances.store') }}',
                     data: {
                         content: chat_content.val().trim(),
-                        intake_substance_id: '{{$id}}'
+                        intake_substance_id: '{{$id}}',
+                        client_id: '{{$client->id}}',
                     },
                     method: 'post',
                     headers: {

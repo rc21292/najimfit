@@ -47,18 +47,24 @@ class IntakeSubstanceController extends Controller
 
     public function index()
     {
-        $intake_subs = Diet::exists();
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
 
-        if ($intake_subs) {
+        if($role_name == 'Nutritionist')
+        {
+             $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname')->join('nutritionist_clients','nutritionist_clients.client_id','=','intake_substances.client_id')->join('clients','clients.id','=','intake_substances.client_id')->where('nutritionist_clients.nutritionist_id', $user->id)->distinct()->get();
 
-            $intakeSubs = Diet::orderBy('created_at')->get()->groupBy(function($item) {
-                return $item->client_id;
-            });
+        }else{
+            $intake_subs = Diet::exists();
 
-            $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname')->join('clients','clients.id','=','intake_substances.client_id')->distinct()->get();
+            if ($intake_subs) {
 
-            return view('backend.admin.intake-substances.index',compact('intake_subs'))->with('no', 1);
+                $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname')->join('clients','clients.id','=','intake_substances.client_id')->distinct()->get();
+            }
         }
+
+        return view('backend.admin.intake-substances.index',compact('intake_subs'))->with('no', 1);
     }
 
     /**
@@ -83,11 +89,10 @@ class IntakeSubstanceController extends Controller
 
         $flag = 'nutri_client';
 
-        $data = DB::table('intake_substance_comments')->where('intake_subs_id',$request->intake_substance_id)->first();
 
         // insertGetId
 
-        DB::table('intake_substance_comments')->insert(['client_id'=>$data->client_id,'intake_subs_id'=>$request->intake_substance_id,'flag'=>$flag,'comment'=>$request->content, 'time_stamp' => \Carbon\Carbon::now()->timestamp]);
+        DB::table('intake_substance_comments')->insert(['client_id'=>$request->client_id,'intake_subs_id'=>$request->intake_substance_id,'flag'=>$flag,'comment'=>$request->content, 'time_stamp' => \Carbon\Carbon::now()->timestamp]);
 
         // return redirect()->route('view-comments',$request->intake_substance_id)
         // ->with('success','Client Updated successfully');
@@ -133,8 +138,6 @@ class IntakeSubstanceController extends Controller
                 $intake_subs = Diet::leftJoin('intake_substance_images','intake_substance_images.intake_substance_id','intake_substances.id')->where('intake_substances.id',$id)->first();
             }
 
-            // echo "<pre>";print_r($intake_subs->toArray());"</pre>";exit;
-
             $client = Client::find($intake_subs->client_id);
 
             $client_table = ClientTable::select('calories','carbs','protein','fat')->where('client_id',$intake_subs->client_id)->first();
@@ -176,6 +179,16 @@ class IntakeSubstanceController extends Controller
                 $intake_subs = Diet::leftJoin('intake_substance_images','intake_substance_images.intake_substance_id','intake_substances.id')->where('intake_substances.id',$id)->first();
             }
 
+            $client = Client::find($intake_subs->client_id);
+
+            $client_table = ClientTable::select('calories','carbs','protein','fat')->where('client_id',$intake_subs->client_id)->first();
+
+            $package = Package::where('id',$client->package_id)->value('name');
+
+            $weight = DB::table('client_answers')->where('client_id',$intake_subs->client_id)->where('question_id',9)->value('answer');
+
+            $height = DB::table('client_answers')->where('client_id',$intake_subs->client_id)->where('question_id',10)->value('answer');
+
             $comments = DB::table('intake_substance_comments')->orderBy('created_at')->where('intake_subs_id', $id)->get();
 
             if (count($comments) > 0) {
@@ -193,9 +206,11 @@ class IntakeSubstanceController extends Controller
                 $intake_subs['comments'] = $comments;
             }else{
                 $intake_subs['comments'] = '';
-            }               
+            }         
 
-            return view('backend.admin.intake-substances.view_comments',compact('intake_subs'))->with('no', 1);
+            return view('backend.admin.intake-substances.chat',compact('intake_subs','client','client_table','weight','height','id','package'))->with('no', 1);      
+
+            // return view('backend.admin.intake-substances.view_comments',compact('intake_subs'))->with('no', 1);
         }
     }
 
