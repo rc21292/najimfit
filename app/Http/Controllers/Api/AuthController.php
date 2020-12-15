@@ -311,14 +311,17 @@ class AuthController extends Controller
 
 				$valid_upto =  date_format($date, "Y-m-d"); 
 
-				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
+				$today_date = date('Y-m-d');
+
+				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date]);
 
 				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 				$response = ['success' => 'This package has been assigned to you..!'];
 			}else{
 				$valid_upto = Carbon::now()->addDays($validity);
+				$today_date = date('Y-m-d');
 
-				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
+				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date]);
 
 				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 				$response = ['success' => 'This package has been assigned to you..!'];
@@ -328,8 +331,9 @@ class AuthController extends Controller
 		}else{
 
 			$valid_upto = Carbon::now()->addDays($validity);
+			$today_date = date('Y-m-d');
 
-			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
+			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date]);
 
 			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 			$response = ['success' => 'This package has been assigned to you..!'];
