@@ -161,6 +161,11 @@
         </a>
       </li>
       <li class="menu-item">
+        <a href="{{route('intake-substances.index')}}">
+          <span><i class="far fa-user-circle"></i>Intake Substances</span>
+        </a>
+      </li> 
+      <li class="menu-item">
         <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements1" aria-expanded="false" aria-controls="form-elements1">
           <span><i class="fas fa-table"></i>Tables</span>
         </a>
