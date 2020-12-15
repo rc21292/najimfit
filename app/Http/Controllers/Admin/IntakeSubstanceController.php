@@ -53,16 +53,18 @@ class IntakeSubstanceController extends Controller
 
         if($role_name == 'Nutritionist')
         {
-             $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname')->join('nutritionist_clients','nutritionist_clients.client_id','=','intake_substances.client_id')->join('clients','clients.id','=','intake_substances.client_id')->where('nutritionist_clients.nutritionist_id', $user->id)->distinct()->get();
+             $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname','users.name')->join('nutritionist_clients','nutritionist_clients.client_id','=','intake_substances.client_id')->join('clients','clients.id','=','intake_substances.client_id')->join('users','users.id','=','nutritionist_clients.nutritionist_id')->where('nutritionist_clients.nutritionist_id', $user->id)->distinct()->get();
 
         }else{
             $intake_subs = Diet::exists();
 
             if ($intake_subs) {
 
-                $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname')->join('clients','clients.id','=','intake_substances.client_id')->distinct()->get();
+                $intake_subs = Diet::select('intake_substances.client_id','clients.firstname','clients.lastname','users.name')->join('clients','clients.id','=','intake_substances.client_id')->join('nutritionist_clients','nutritionist_clients.client_id','=','intake_substances.client_id')->join('users','users.id','=','nutritionist_clients.nutritionist_id')->distinct()->get();
             }
         }
+
+        // echo "<pre>";print_r($intake_subs->toArray());"</pre>";exit;
 
         return view('backend.admin.intake-substances.index',compact('intake_subs'))->with('no', 1);
     }
