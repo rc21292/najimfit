@@ -52,6 +52,12 @@ class SubscriptionController extends Controller
 			unset($client->status);
 			unset($client->created_at);
 			unset($client->updated_at);
+			if ($client->country == null || $client->country == 'null') {
+				$client->country = '';
+			}
+			if ($client->city == null || $client->city == 'null') {
+				$client->city = '';
+			}
 
 			$response = ['success' => $client];
 			return response($response, 200);
