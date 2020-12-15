@@ -18,7 +18,6 @@ use Session;
 
 class CartController extends Controller
 {
-
 	private $currencies = array();
 
 	public function __construct() {
