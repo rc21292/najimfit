@@ -95,10 +95,10 @@
                                         <form id="chat-form">
                                             <ul class="ms-list-flex mb-0">
                                                 <li class="ms-chat-input">
-                                                    <input type="text" id="content" name="content" placeholder="Enter Message" value="" >
+                                                    <input style="border: 1px solid black; line-height: 33px;" type="text" id="content" name="content" placeholder="Enter Comment" value="" >
                                                 </li>
                                                 <li style="">
-                                                    <button type="submit" class="btn btn-primary">Send</button>
+                                                    <button style="margin-top: -2px; margin-left: -30px;" type="submit" class="btn btn-primary">Send</button>
                                                 </li>
                                             </ul>
                                         </form>
