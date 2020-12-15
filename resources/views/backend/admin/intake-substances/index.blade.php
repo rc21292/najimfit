@@ -31,15 +31,15 @@
 <script>
 	var dataSet18 = [
 	@foreach($intake_subs as $intake_sub)
-	[ "{{ $no++ }}" ,"{{ $intake_sub->firstname }} {{ $intake_sub->lastname}}", "<a class='btn btn-info btnpro' href='{{route('intake-substances.show',$intake_sub->client_id)}}'> View Diet</a>"],
+	[ "{{ $no++ }}" , "{{ $intake_sub->name}}" ,"{{ $intake_sub->firstname }} {{ $intake_sub->lastname}}", "<a class='btn btn-info btnpro' href='{{route('intake-substances.show',$intake_sub->client_id)}}'> View Diet</a>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
 		data: dataSet18,
 		columns: [
 		{ title: "Id" },
-		{ title: "Client Name" },
-		
+		{ title: "Nutritionist" },
+		{ title: "Client Name" },		
 		{ title: "Action" },
 		],
 
