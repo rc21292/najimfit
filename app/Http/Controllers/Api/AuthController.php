@@ -313,7 +313,7 @@ class AuthController extends Controller
 
 				$today_date = date('Y-m-d');
 
-				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date]);
+				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
 
 				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 				$response = ['success' => 'This package has been assigned to you..!'];
