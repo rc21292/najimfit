@@ -57,12 +57,12 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('requests.index')}}">
           <span><i class="fa fa-anchor"></i>Requests</span>
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('complaints.index')}}">
           <span><i class="fas fa-exclamation-triangle"></i>Complaints</span>
         </a>
       </li>
