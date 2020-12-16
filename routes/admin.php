@@ -68,6 +68,11 @@ Route::get('renew-workout-template/{id}','RenewWorkoutController@workouttemplate
 // Clients Route
 Route::resource('clients','ClientsController');
 
+Route::resource('requests','RequestController');
+Route::get('defer/{id}','RequestController@create')->name('defer');
+Route::resource('complaints','ComplaintController');
+Route::get('post-complaint/{id}','ComplaintController@create')->name('post-complaint');
+
 Route::resource('intake-substances','IntakeSubstanceController');
 Route::get('view-diets/{id}','IntakeSubstanceController@viewDiet')->name('view-diets');
 Route::get('view-comments/{id}','IntakeSubstanceController@viewComments')->name('view-comments');

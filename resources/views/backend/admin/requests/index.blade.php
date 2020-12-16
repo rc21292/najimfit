@@ -8,16 +8,15 @@
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
 				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Client List</li>
+				<li class="breadcrumb-item active" aria-current="page">Request List</li>
 			</ol>
-			<a href="{{route('clients.create')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-plus"></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-md-12">
 		<div class="ms-panel">
 			<div class="ms-panel-header">
-				<h6>Client List</h6>
+				<h6>Request List</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
@@ -31,17 +30,17 @@
 @push('scripts')
 <script>
 	var dataSet18 = [
-	@foreach($clients as $client)
-	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}}"," {{ $client->phone }}", @if($client->status == 'on')"Enabled" @else "Disabled" @endif , "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('chat.show',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='{{route('defer',$client->id)}}' class='btn btn-info btnpro'>Defer</a><a href='{{route('post-complaint',$client->id)}}' class='btn btn-info btnpro'>Post Complaint</a> <a class='btn btn-primary btnpro' href='{{route('clients.edit',$client->id)}}'>Edit</a><a href='javascript:' onclick='submitform({{ $no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{$no}}' action='{{route('clients.destroy',$client->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	@foreach($requests as $request)
+	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->reason }}", "<a href='javascript:' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
 		data: dataSet18,
 		columns: [
 		{ title: "Id" },
-		{ title: "Client Name" },
-		{ title: "Phone" },
-		{ title: "Status" },
+		{ title: "Nutritionist Name" },
+		{ title: "Client" },
+		{ title: "Description" },
 		{ title: "Action" },
 		],
 
