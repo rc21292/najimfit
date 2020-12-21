@@ -26,12 +26,33 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title text-center">Client Actions</h3>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="ms-panel-body modal-body">
+				<input type="hidden" name="client_id" id="client" value="">
+				<a href="#" class="btn btn-block btn-warning">Defer Client</a>
+				<a href="#" class="btn btn-block btn-success">View Chat</a>
+				<a href="#" class="btn btn-block btn-danger">View Table</a>
+				<a href="#" class="btn btn-block btn-light">View Workout</a>
+				<a id="view_profile" href="#" class="btn btn-block btn-light">View Profile</a>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 @push('scripts')
 <script>
 	var dataSet18 = [
 	@foreach($requests as $request)
-	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->reason }}", "<a href='javascript:' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a>"],
+	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->reason }}", "<a href='javascript:' data-toggle='modal' data-target='#myModal' data-client='{{$request->client_id}}' class='btn btn-danger btnpro'>Actions</a>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
@@ -69,5 +90,14 @@
 			}
 		});
 	}
+</script>
+<script type="text/javascript">
+	$('#myModal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) 
+		var client_id = button.data('client')  
+		var modal = $(this)
+		modal.find('.modal-body #view_profile').attr('href', '/dashboard/client-full-profile/'+client_id);
+		modal.find('.modal-body #client').val(client_id);
+	})
 </script>
 @endpush
