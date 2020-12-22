@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\DeferRequest;
+use App\Models\Complaint;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use Auth;
@@ -31,6 +33,31 @@ class ClientsController extends Controller
             ->where('nutritionist_clients.nutritionist_id',Auth::User()->id)
             ->get();
 
+            foreach ($clients as $key => $value) {
+                $req_exists = DeferRequest::where('client_id',$value->client_id)->exists();
+                $compl_exists = Complaint::where('client_id',$value->client_id)->exists();
+                $clients[$key]->is_request = 0;
+                $clients[$key]->is_complaint = 0;
+                if ($req_exists) {
+                    $clients[$key]->is_request = 1;
+                }
+                if ($compl_exists) {
+                    $clients[$key]->is_complaint = 1;
+                }
+            }
+
+            foreach ($clients as $key => $client) {
+                $exists = DB::table('requests')
+                ->where('client_id', $client->id)
+                ->exists();
+                if ($exists) {
+                    $clients[$key]->is_deferd = 1;
+
+                }else{
+                    $clients[$key]->is_deferd = 0;
+                }
+            }
+            
             return view('backend.admin.clients.nutri_index',compact('clients'))->with('no', 1);
 
         }else{

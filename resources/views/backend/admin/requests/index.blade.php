@@ -35,7 +35,7 @@
 			</div>
 			<div class="ms-panel-body modal-body">
 				<input type="hidden" name="client_id" id="client" value="">
-				<a href="#" class="btn btn-block btn-warning">Defer Client</a>
+				<a href="#" id="defer_client" class="btn btn-block btn-warning">Defer Client</a>
 				<a href="#" class="btn btn-block btn-success">View Chat</a>
 				<a href="#" class="btn btn-block btn-danger">View Table</a>
 				<a href="#" class="btn btn-block btn-light">View Workout</a>
@@ -52,7 +52,7 @@
 <script>
 	var dataSet18 = [
 	@foreach($requests as $request)
-	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->reason }}", "<a href='javascript:' data-toggle='modal' data-target='#myModal' data-client='{{$request->client_id}}' class='btn btn-danger btnpro'>Actions</a>"],
+	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->reason }}", "<a href='javascript:' data-toggle='modal' data-target='#myModal' data-client='{{$request->client_id}}' data-id='{{$request->id}}' class='btn btn-danger btnpro'>Actions</a>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
@@ -94,9 +94,11 @@
 <script type="text/javascript">
 	$('#myModal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget) 
-		var client_id = button.data('client')  
+		var client_id = button.data('client');
+		var request_id = button.data('id');
 		var modal = $(this)
 		modal.find('.modal-body #view_profile').attr('href', '/dashboard/client-full-profile/'+client_id);
+		modal.find('.modal-body #defer_client').attr('href', '/dashboard/defer-client/'+request_id);
 		modal.find('.modal-body #client').val(client_id);
 	})
 </script>
