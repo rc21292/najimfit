@@ -75,6 +75,7 @@ Route::get('defer/{id}','RequestController@create')->name('defer');
 Route::get('defer-client/{id}','RequestController@deferClient')->name('defer-client');
 Route::get('client-defer/{id}','ComplaintController@deferClient')->name('defer-client');
 Route::post('assign-nutritionist','RequestController@assignToNutritionist')->name('assign-nutritionist');
+Route::post('assign-to-nutritionist','ComplaintController@assignToNutritionist')->name('assign-to-nutritionist');
 Route::resource('complaints','ComplaintController');
 Route::get('post-complaint/{id}','ComplaintController@create')->name('post-complaint');
 
@@ -89,6 +90,8 @@ Route::resource('exercise','Features\ExerciseController');
 Route::resource('diet-informations','DietInformationController');
 
 Route::patch('diet-information-update','DietInformationController@updateInformation')->name('diet-information-update');
+
+Route::get('/send-notification','IntakeSubstanceController@sendNotification');
 
 Route::post('exercise-delete-image/{exercise}', 'Features\ExerciseController@deleteimage')->name('exercise-image-delete');
 Route::get('workout-informations','Features\ExerciseController@getworkoutinformation')->name('workout-informations');

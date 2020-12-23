@@ -59,6 +59,15 @@ class ComplaintController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function assignToNutritionist(Request $request)
+    {
+        DB::table('nutritionist_clients')->where('client_id',$request->client_id)->update(['nutritionist_id'=>$request->nutritionist]);
+        DB::table('complaints')->where('id',$request->id)->where('client_id',$request->client_id)->update(['status'=>1]);
+        $complaints = Complaint::all();
+        return redirect()->route('complaints.index')->with('success','Client Assigned to Nutritionist successfully');
+    }
+
     public function store(Request $request)
     {
         $input = $request->all();

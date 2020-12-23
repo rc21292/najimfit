@@ -58,7 +58,7 @@ class RequestController extends Controller
         DB::table('nutritionist_clients')->where('client_id',$request->client_id)->update(['nutritionist_id'=>$request->nutritionist]);
         DB::table('requests')->where('id',$request->id)->where('client_id',$request->client_id)->update(['status'=>1]);
         $requests = DeferRequest::all();
-            return view('backend.admin.requests.index',compact('requests'))->with('no', 1);
+            return redirect()->route('requests.index')->with('success','Client Assigned to Nutritionist successfully');
     }
 
     /**

@@ -17,7 +17,7 @@
 									<a style="float: right;margin-top: -10px" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
 							</div>
 							<div class="ms-panel-body">
-								<form id="form-id" action="{{route('assign-nutritionist')}}" method="post">
+								<form id="form-id" action="{{route('assign-to-nutritionist')}}" method="post">
 									{{csrf_field()}}
 									<div class="modal-body">
 										<div class="ms-form-group has-icon">
