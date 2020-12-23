@@ -36,7 +36,7 @@
 			<div class="ms-panel-body modal-body">
 				<input type="hidden" name="client_id" id="client" value="">
 				<a href="#" id="defer_client" class="btn btn-block btn-warning">Defer Client</a>
-				<a href="#" class="btn btn-block btn-success">View Chat</a>
+				<a href="#" id="view_chat" class="btn btn-block btn-success">View Chat</a>
 				<a href="#" class="btn btn-block btn-danger">View Table</a>
 				<a href="#" class="btn btn-block btn-light">View Workout</a>
 				<a id="view_profile" href="#" class="btn btn-block btn-light">View Profile</a>
@@ -99,6 +99,7 @@
 		var modal = $(this)
 		modal.find('.modal-body #view_profile').attr('href', '/dashboard/client-full-profile/'+client_id);
 		modal.find('.modal-body #defer_client').attr('href', '/dashboard/defer-client/'+request_id);
+		modal.find('.modal-body #view_chat').attr('href', '/dashboard/view-chat/'+request_id);
 		modal.find('.modal-body #client').val(client_id);
 	})
 </script>

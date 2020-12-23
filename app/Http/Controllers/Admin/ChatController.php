@@ -102,6 +102,30 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function viewChat($id)
+    {
+        $client_id = DB::table('requests')->where('id',$id)->value('client_id');
+        $nutritionist_id = DB::table('requests')->where('id',$id)->value('nutritionist_id');
+
+        $user = User::find($nutritionist_id);
+        $client = Client::find($client_id);
+
+        $client_table = ClientTable::select('calories','carbs','protein','fat')->where('client_id',$client_id)->first();
+
+        $package = Package::where('id',$client->package_id)->value('name');
+
+        $weight = DB::table('client_answers')->where('client_id',$client_id)->where('question_id',9)->value('answer');
+
+        $height = DB::table('client_answers')->where('client_id',$client_id)->where('question_id',10)->value('answer');
+
+        $receptorUser = Client::where('id', '=', $client_id)->first();
+        $senderUser = User::where('id', '=', $nutritionist_id)->first();
+        $chat = $client_id; 
+        return view('backend.admin.chat.view_chat', compact('client','client_table','weight','height','receptorUser','senderUser', 'chat','package'));
+
+    }
+
     public function show($id)
     {
         $user = Auth::User();
