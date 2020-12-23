@@ -35,10 +35,10 @@
 			</div>
 			<div class="ms-panel-body modal-body">
 				<input type="hidden" name="client_id" id="client" value="">
-				<a href="#" class="btn btn-block btn-warning">Defer Client</a>
-				<a href="#" class="btn btn-block btn-success">View Chat</a>
-				<a href="#" class="btn btn-block btn-danger">View Table</a>
-				<a href="#" class="btn btn-block btn-light">View Workout</a>
+				<a href="#" id="defer_client" class="btn btn-block btn-warning">Defer Client</a>
+				<a href="#" id="view_chat" class="btn btn-block btn-success">View Chat</a>
+				<a href="#" id="view_table" class="btn btn-block btn-danger">View Table</a>
+				<a href="#" id="view_workout" class="btn btn-block btn-light">View Workout</a>
 				<a id="view_profile" href="#" class="btn btn-block btn-light">View Profile</a>
             </div>
 			<div class="modal-footer">
@@ -51,8 +51,8 @@
 @push('scripts')
 <script>
 	var dataSet18 = [
-	@foreach($complaints as $request)
-	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>{{ $request->client_id}}","{{ $request->reason }}", "<a href='javascript:' data-toggle='modal' data-target='#myModal' data-client='{{$request->client_id}}' class='btn btn-danger btnpro'>Actions</a>"],
+	@foreach($complaints as $complaint)
+	[ "{{ $no++ }}" ,"{{ $complaint->nutritionist_name }}"," {{ $complaint->client_name}}<br>{{ $complaint->client_id}}","{{ $complaint->reason }}", "<a href='javascript:' data-toggle='modal' data-target='#myModal' data-client='{{$complaint->client_id}}' data-id='{{$complaint->id}}' class='btn btn-danger btnpro'>Actions</a>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
@@ -94,9 +94,14 @@
 <script type="text/javascript">
 	$('#myModal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget) 
-		var client_id = button.data('client')  
+		var client_id = button.data('client'); 
+		var request_id = button.data('id'); 
 		var modal = $(this)
 		modal.find('.modal-body #view_profile').attr('href', '/dashboard/client-full-profile/'+client_id);
+		modal.find('.modal-body #defer_client').attr('href', '/dashboard/client-defer/'+request_id);
+		modal.find('.modal-body #view_chat').attr('href', '/dashboard/show-chat/'+request_id);
+		modal.find('.modal-body #view_table').attr('href', '/dashboard/assign-table/'+client_id+'/edit');
+		modal.find('.modal-body #view_workout').attr('href', '/dashboard/assign-workout/'+client_id+'/edit');
 		modal.find('.modal-body #client').val(client_id);
 	})
 </script>

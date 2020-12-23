@@ -8,6 +8,7 @@ use DB;
 use App\Models\Complaint;
 use App\Models\User;
 use App\Models\Client;
+use Auth;
 
 class ComplaintController extends Controller
 {
@@ -18,8 +19,28 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $complaints = Complaint::all();
-        return view('backend.admin.complaints.index',compact('complaints'))->with('no', 1);
+        $user = Auth::User();
+        $roles = $user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+
+        if($role_name == 'Nutritionist')
+        {
+            $complaints = Complaint::where('nutritionist_id',$user->id)->latest()->get();
+            return view('backend.admin.complaints.nutritionist.index',compact('complaints'))->with('no', 1);
+        }else{
+            $complaints = Complaint::latest()->get();
+            return view('backend.admin.complaints.index',compact('complaints'))->with('no', 1);
+        }
+    }
+
+    public function deferClient($id)
+    {
+        $client_id = DB::table('complaints')->where('id',$id)->value('client_id');
+        $nutritionist_id = DB::table('nutritionist_clients')->where('client_id',$client_id)->value('nutritionist_id');
+        $client_name = DB::table('clients')->where('id',$client_id)->value('firstname').' '.DB::table('clients')->where('id',$client_id)->value('lastname');
+        $nutritionist_name = User::where('id',$nutritionist_id)->value('name');
+        $nutritionists = User::whereNotIn('id',[$nutritionist_id,'1'])->get();
+        return view('backend.admin.complaints.defer_client',compact('id','nutritionists','nutritionist_name','client_name','client_id'));
     }
 
     /**
@@ -51,7 +72,7 @@ class ComplaintController extends Controller
 
         $user = Complaint::create($input);
         
-        return redirect()->route('complaints.index')->with('success','Request Created successfully');
+        return redirect()->route('complaints.index')->with('success','Complaint Created successfully');
     }
 
     /**

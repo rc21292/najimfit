@@ -47,17 +47,24 @@ class ClientsController extends Controller
             }
 
             foreach ($clients as $key => $client) {
-                $exists = DB::table('requests')
+                $exist_requests = DB::table('requests')
                 ->where('client_id', $client->id)
                 ->exists();
-                if ($exists) {
+                $exist_complaints = DB::table('complaints')
+                ->where('client_id', $client->id)
+                ->exists();
+                if ($exist_requests) {
                     $clients[$key]->is_deferd = 1;
-
                 }else{
                     $clients[$key]->is_deferd = 0;
                 }
+
+                if ($exist_complaints) {
+                    $clients[$key]->is_complaint = 1;
+                }else{
+                    $clients[$key]->is_complaint = 0;
+                }
             }
-            
             return view('backend.admin.clients.nutri_index',compact('clients'))->with('no', 1);
 
         }else{

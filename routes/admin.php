@@ -11,6 +11,7 @@ Route::post('account-delete-image/{account}', 'MyProfileController@deleteimage')
 Route::resource('roles','RoleController');
 Route::resource('chat','ChatController');
 Route::get('view-chat/{id}','ChatController@viewChat')->name('view-chat');
+Route::get('show-chat/{id}','ChatController@showChat')->name('show-chat');
 Route::resource('users','UserController');
 // Questions Route
 Route::resource('question','Features\QuestionController');
@@ -72,6 +73,7 @@ Route::resource('clients','ClientsController');
 Route::resource('requests','RequestController');
 Route::get('defer/{id}','RequestController@create')->name('defer');
 Route::get('defer-client/{id}','RequestController@deferClient')->name('defer-client');
+Route::get('client-defer/{id}','ComplaintController@deferClient')->name('defer-client');
 Route::post('assign-nutritionist','RequestController@assignToNutritionist')->name('assign-nutritionist');
 Route::resource('complaints','ComplaintController');
 Route::get('post-complaint/{id}','ComplaintController@create')->name('post-complaint');

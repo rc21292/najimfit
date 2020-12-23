@@ -20,12 +20,12 @@
 					@csrf
 					<div class="form-row">
 						<div class="col-xl-12 col-md-12 mb-3">
-							<label>Request Reason</label>
+							<label>Report about the Client</label>
 							<div class="input-group">
 								<input type="hidden" name="client_id" value="{{ $id }}">
-								<textarea rows="6" placeholder="Enter Reason" class="form-control" name="reason" value="" required></textarea>
+								<textarea rows="6" placeholder="Enter Report" class="form-control" name="reason" value="" required></textarea>
 								<div class="invalid-feedback">
-									Please Enter Reason of Request.
+									Please Enter Report about the Client.
 								</div>
 							</div>
 						</div>					
