@@ -24,7 +24,7 @@
       <!-- /Advanced UI Elements -->
 
       <li class="menu-item">
-        <a href="/chatify">
+        <a href="{{ route('client-chats.index') }}">
           <span><i class="fab fa-stack-exchange"></i>Chats</span>
         </a>
       </li>
@@ -67,7 +67,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('controls.index')}}">
           <span><i class="fa fa-cogs"></i>Controls</span>
         </a>
       </li>

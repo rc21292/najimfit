@@ -39,6 +39,23 @@ Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
 Route::resource('faqs','FaqController');
 
+Route::resource('controls','ControlController');
+Route::resource('notifications','NotificationController');
+Route::resource('subscriptions','SubscriptionController');
+Route::resource('appointments','AppointmentController');
+Route::resource('employees','EmployeeController');
+Route::resource('access','AccesController');
+
+Route::resource('notes','NoteController');
+Route::get('send-note/{id}','NoteController@sendNote')->name('send-note');
+
+Route::resource('client-chats','ClientChatController');
+
+Route::get('nutritionist-clients/{id}','ClientChatController@showClients')->name('nutritionist-clients');
+
+Route::get('chat-clients','ClientChatController@allclients')->name('chatclients');
+
+
 // Assign Table Nutritionist-wise
 Route::resource('assign-table','TableController');
 Route::get('all-clients','TableController@allclients')->name('allclients');
