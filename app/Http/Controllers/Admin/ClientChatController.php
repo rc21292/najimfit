@@ -46,7 +46,25 @@ class ClientChatController extends Controller
             $queries = DB::getQueryLog();
             // dd(end($queries));
 
-            return view('backend.admin.client_chats.index',compact('users','total_clients'));
+            foreach ($users as $key => $user) {
+                $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+                $database = $factory->createDatabase();
+
+                $createPosts    =   $database->getReference('chats')->orderByChild('is_read')->equalTo(0)->getSnapshot()->getValue();
+                $count = 0;
+                foreach ($createPosts as $createPost) {
+                    if ($createPost["receiver_id"] == $user->id) {
+                        $count++;
+                    }
+                }
+
+                $users[$key]['chats_count'] = $count;
+            }
+
+            $total_chat_count = count($createPosts);
+
+            return view('backend.admin.client_chats.index',compact('total_chat_count','users','total_clients'));
         }
 
     }

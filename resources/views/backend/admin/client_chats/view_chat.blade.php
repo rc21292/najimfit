@@ -176,7 +176,7 @@
             if(snapshot.val() != null) {
                 snapshot.forEach(function(childSnapshot) {
                     // console.log('dd',childSnapshot.val().id);
-                    firebase.database().ref('/chats').child(childSnapshot.val().id).update({'is_read' : 1});
+                    // firebase.database().ref('/chats').child(childSnapshot.val().id).update({'is_read' : 1});
                     var childData = childSnapshot.val();
                     var sender_receiver = childData.sender_receiver;
                     if (sender_receiver.trim() == id3.trim()) {
