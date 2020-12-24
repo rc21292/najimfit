@@ -32,16 +32,19 @@ class ClientChatController extends Controller
 
         if($role_name == 'Nutritionist'){
 
-            return redirect()->route('assign-table.show',Auth::User()->id);
+            return redirect()->route('client_chats.index',Auth::User()->id);
 
         }else{
-
+            DB::enableQueryLog();
             $total_clients = Client::count();
             $users = User::role('Nutritionist')
             ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
             ->join('clients','clients.id','=','nutritionist_clients.client_id')
-            ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('table_status','due')
+            ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')
+            // ->where('table_status','due')
             ->get();
+            $queries = DB::getQueryLog();
+            // dd(end($queries));
 
             return view('backend.admin.client_chats.index',compact('users','total_clients'));
         }
@@ -114,7 +117,7 @@ class ClientChatController extends Controller
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-        ->where('nutritionist_clients.table_status','due')
+        // ->where('nutritionist_clients.table_status','due')
         ->get();
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
@@ -149,7 +152,8 @@ class ClientChatController extends Controller
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-        ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','due')
+        ->where('nutritionist_clients.nutritionist_id',$id)
+        // ->where('nutritionist_clients.table_status','due')
         ->get();
 
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
