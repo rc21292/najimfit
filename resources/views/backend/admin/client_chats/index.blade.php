@@ -10,6 +10,7 @@
 	<div class="col-xl-3 col-md-6">
 		<a href="{{ route('chatclients') }}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
+				<span class="msg-count">{{ $total_chat_count }}</span>
 				<div class="ms-panel-body media">
 					<i class="material-icons">person</i>
 					<div class="media-body">
@@ -24,7 +25,7 @@
 	<div class="col-xl-3 col-md-6">
 		<a href="{{route('nutritionist-clients',$user->id)}}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
-				<span class="msg-count">{{ $user->clients_count }}</span>
+				<span class="msg-count">{{ $user->chats_count }}</span>
 				<div class="ms-panel-body media">
 					<i class="material-icons">person</i>
 					<div class="media-body">
