@@ -72,7 +72,7 @@ class GdprController extends Controller
      */
     public function update(Request $request, $id)
     {
-         DB::table('gdprs')->where('id',$id)->update(['content'=>$request->gdprs]);
+         DB::table('gdprs')->where('id',$id)->update(['content'=>$request->gdprs,'content_arabic'=>$request->content_arabic]);
         return redirect()->route('gdpr.index');
     }
 

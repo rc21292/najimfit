@@ -71,7 +71,7 @@ class TermsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('terms')->where('id',$id)->update(['content'=>$request->term]);
+        DB::table('terms')->where('id',$id)->update(['content'=>$request->term,'content_arabic'=>$request->content_arabic]);
         return redirect()->route('terms-and-conditions.index');
     }
 

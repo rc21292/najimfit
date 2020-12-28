@@ -31,7 +31,16 @@
 							</div>
 						</div>
 					</div>
-					<input type="submit" name="Update" value="Update" class="btn btn-primary">	
+
+					<div class="col-md-12">
+						<label for="privacy_policy">Privacy Policy(in Arabic)</label>
+						<div class="input-group">
+							<textarea rows="12" name="content_arabic" class="form-control" placeholder="" required>{{$privacy_policy->content_arabic}}</textarea>
+							<div class="invalid-feedback">
+								Mention Privacy Policy
+							</div>
+						</div>
+					</div>					<input type="submit" name="Update" value="Update" class="btn btn-primary">	
 				</form>
 			</div>
 		</div>

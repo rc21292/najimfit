@@ -72,7 +72,7 @@ class PrivacyPolicyController extends Controller
      */
     public function update(Request $request, $id)
     {
-         DB::table('privacy_policies')->where('id',$id)->update(['content'=>$request->privacy_policy]);
+         DB::table('privacy_policies')->where('id',$id)->update(['content'=>$request->privacy_policy,'content_arabic'=>$request->content_arabic]);
         return redirect()->route('privacy-policy.index');
     }
 

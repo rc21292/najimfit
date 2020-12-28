@@ -72,7 +72,7 @@ class AboutUsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('about_us')->where('id',$id)->update(['content'=>$request->about]);
+        DB::table('about_us')->where('id',$id)->update(['content'=>$request->about,'content_arabic'=>$request->content_arabic]);
         return redirect()->route('about.index');
     }
 

@@ -31,6 +31,15 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-md-12">
+						<label for="term">Terms & Conditions(in Arabic)</label>
+						<div class="input-group">
+							<textarea rows="12" name="content_arabic" class="form-control" placeholder="" required>{{$term->content_arabic}}</textarea>
+							<div class="invalid-feedback">
+								Mention Terms and Conditions
+							</div>
+						</div>
+					</div>
 					<input type="submit" name="Update" value="Update" class="btn btn-primary">	
 				</form>
 			</div>
