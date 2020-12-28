@@ -30,7 +30,9 @@ class Faq extends Model
         if (!empty($request)) {
 
             $this->question = filter_var($request['question'], FILTER_SANITIZE_STRING);
+            $this->question_arabic = filter_var($request['question_arabic'], FILTER_SANITIZE_STRING);
             $this->answer = filter_var($request['answer'], FILTER_SANITIZE_STRING);
+            $this->answer_arabic = filter_var($request['answer_arabic'], FILTER_SANITIZE_STRING);
             if ($request['status'] == "on") {
                 $this->status = 1;
             }else{
@@ -45,7 +47,9 @@ class Faq extends Model
         if (!empty($request)) {
             $faq = self::select('id')->where('id', $id)->first();
             $faq->question = filter_var($request['question'], FILTER_SANITIZE_STRING);
+            $faq->question_arabic = filter_var($request['question_arabic'], FILTER_SANITIZE_STRING);
             $faq->answer = filter_var($request['answer'], FILTER_SANITIZE_STRING);
+            $faq->answer_arabic = filter_var($request['answer_arabic'], FILTER_SANITIZE_STRING);
             if ($request['status'] == "on") {
                 $faq->status = 1;
             }else{
