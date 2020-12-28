@@ -36,9 +36,10 @@
 				<h3 class="modal-title text-center">Client Actions</h3>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
-			<div class="ms-panel-body">
+			<div class="ms-panel-body modal-body">
+				<input type="hidden" name="client_id" id="client" value="">
                   <a href="#" class="btn btn-block btn-primary">Request immediate response from nutritionist</a>
-                  <a href="#" class="btn btn-block btn-warning">Defer Client</a>
+                  <a href="#" id="defer_client" class="btn btn-block btn-warning">Defer Client</a>
                   <a href="#" class="btn btn-block btn-success">Defer Chat</a>
                   <a href="#" class="btn btn-block btn-danger">Block Client from speaking</a>
                   <a href="#" class="btn btn-block btn-light">Block Nutritionist from replying</a>
@@ -55,7 +56,7 @@
 	var dataSet18 = [
 	@foreach($clients as $client)
 	[
-	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('chat.show',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutri.</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
+	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('chat.show',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-client='{{$client->client_id}}' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutri.</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
 	@endforeach
 	];
 
@@ -104,9 +105,10 @@
 </script>
 <script type="text/javascript">
 	$('#myModal').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget) 
-		var client_id = button.data('client')  
+		var button = $(event.relatedTarget)
+		var client_id = button.data('client')
 		var modal = $(this)
+		modal.find('.modal-body #defer_client').attr('href', '/dashboard/chat-defer-client/'+client_id);
 		modal.find('.modal-body #client').val(client_id);
 	})
 </script>
