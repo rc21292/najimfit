@@ -219,6 +219,28 @@ class ClientChatController extends Controller
         return view('backend.admin.client_chats.defer_client',compact('id','nutritionists','nutritionist_name','client_name','client_id'));
     }
 
+    public function markUnread($id)
+    {
+        $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+        $database = $factory->createDatabase();
+
+        $createPosts    =   $database->getReference('chats')->orderByChild('sender_id')->equalTo((int)$id)->getSnapshot()->getValue();
+
+        foreach ($createPosts as $key => $createPost) {
+
+            $ref = 'chats/' . $createPost["id"];  
+
+            $updates = [
+                'is_read' => 0,
+            ];
+
+            $set = $database->getReference($ref)->update($updates);
+        }
+
+         return redirect()->back()->with('success', 'messages updated to unread!');   
+    }
+
 
     public function assignToNutritionist(Request $request)
     {
