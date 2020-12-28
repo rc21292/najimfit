@@ -7,7 +7,7 @@
 	<div class="col-md-12">
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
-				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
+				<li class="breadcrumb-item"><a href="/dashboard"><i class="material-icons">home</i> Home</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Complaints List</li>
 			</ol>
 		</nav>

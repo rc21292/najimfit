@@ -53,8 +53,9 @@ Route::resource('client-chats','ClientChatController');
 
 Route::get('nutritionist-clients/{id}','ClientChatController@showClients')->name('nutritionist-clients');
 
-Route::get('chat-clients','ClientChatController@allclients')->name('chatclients');
+Route::get('chat-defer-client/{id}','ClientChatController@deferClient')->name('chat-defer-client');
 
+Route::get('chat-clients','ClientChatController@allclients')->name('chatclients');
 
 // Assign Table Nutritionist-wise
 Route::resource('assign-table','TableController');
@@ -93,6 +94,7 @@ Route::get('defer-client/{id}','RequestController@deferClient')->name('defer-cli
 Route::get('client-defer/{id}','ComplaintController@deferClient')->name('defer-client');
 Route::post('assign-nutritionist','RequestController@assignToNutritionist')->name('assign-nutritionist');
 Route::post('assign-to-nutritionist','ComplaintController@assignToNutritionist')->name('assign-to-nutritionist');
+Route::post('assign-client-to-nutritionist','ClientChatController@assignToNutritionist')->name('assign-client-to-nutritionist');
 Route::resource('complaints','ComplaintController');
 Route::get('post-complaint/{id}','ComplaintController@create')->name('post-complaint');
 

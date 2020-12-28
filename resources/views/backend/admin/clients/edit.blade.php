@@ -8,6 +8,7 @@
 				<li class="breadcrumb-item"><a href="{{ route('clients.index')}}">Client List</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Edit Client</li>
 			</ol>
+			<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>	
 		</nav>
 	</div>
 	<div class="col-xl-8 col-md-12">

@@ -118,7 +118,7 @@
                         <p>Weight: {{ $weight }}</p>
                     </div>
                     <div class="col-sm-2 pt-3">
-                        <p>Height: {{ $height }}</p>
+                        <p>Height: {{ $height }} <a style="float: right;margin-top: -10px" href="/dashboard/chat" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a></p>
                     </div>
                 </div>
 

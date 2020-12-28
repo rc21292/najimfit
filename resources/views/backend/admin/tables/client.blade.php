@@ -12,7 +12,7 @@
 				<li class="breadcrumb-item"><a href="{{route('assign-table.index')}}">Nutritionist</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Client List</li>
 			</ol>
-			<a href="{{route('renew-table.index')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
+			<a href="{{route('assign-table.index')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>

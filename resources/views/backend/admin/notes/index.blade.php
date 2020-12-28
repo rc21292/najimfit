@@ -7,9 +7,10 @@
 	<div class="col-md-12">
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
-				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Request List</li>
+				<li class="breadcrumb-item"><a href="/dashboard"><i class="material-icons">home</i> Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Notes List</li>
 			</ol>
+			<a  href="/dashboard/client-chats" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>	
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
