@@ -131,12 +131,44 @@ class ClientChatController extends Controller
      */
 
     public function allclients(){
+        ini_set('max_execution_time', 300); 
         $clients = DB::table('nutritionist_clients')
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
+        ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id','users.id as user_id')
         // ->where('nutritionist_clients.table_status','due')
         ->get();
+
+        $user_ids = [];
+
+        // echo "<pre>";print_r($clients);"</pre>";exit;
+
+      /*  foreach ($clients as $key => $user) {
+            
+            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+            $database = $factory->createDatabase();
+
+            $createPosts    =   $database->getReference('chats')->orderByChild('receiver_id')->equalTo((string)$user->user_id)->getSnapshot()->getValue();
+            $count = 0;
+            $clients[$key]->timestamp = '';
+            if (count($createPosts) > 0) {
+                if (array_values($createPosts)[0]["sender_id"] == $user->client_id) {
+                    $clients[$key]->timestamp = array_values($createPosts)[0]["timestamp"];
+                }
+            }
+
+        }
+
+        if (!in_array($user->id, $user_ids)) {
+                        array_push($user_ids, $user->id);
+                        $clients[$key]->time_stamp = $createPost["timestamp"];
+                    }*/
+                    
+
+        // echo "<pre>";print_r($clients);"</pre>";exit;
+
+
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
 
@@ -175,6 +207,23 @@ class ClientChatController extends Controller
         ->get();
 
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
+    }
+
+    public function deferClient($id)
+    {
+        $nutritionist_id = DB::table('nutritionist_clients')->where('client_id',$id)->value('nutritionist_id');
+        $client_name = DB::table('clients')->where('id',$id)->value('firstname').' '.DB::table('clients')->where('id',$id)->value('lastname');
+        $nutritionist_name = User::where('id',$nutritionist_id)->value('name');
+        $nutritionists = User::whereNotIn('id',[$nutritionist_id,'1'])->get();
+        $client_id = $id;
+        return view('backend.admin.client_chats.defer_client',compact('id','nutritionists','nutritionist_name','client_name','client_id'));
+    }
+
+
+    public function assignToNutritionist(Request $request)
+    {
+        DB::table('nutritionist_clients')->where('client_id',$request->client_id)->update(['nutritionist_id'=>$request->nutritionist]);
+        return redirect()->route('client-chats.index')->with('success','Client Assigned to Nutritionist successfully');
     }
 
     /**
