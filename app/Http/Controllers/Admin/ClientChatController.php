@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\AdminRequest;
 use App\Models\Note;
 use DB;
+use Carbon\Carbon;
 use Session;
 use Auth;
 use App\Models\ClientTable;
@@ -119,6 +120,7 @@ class ClientChatController extends Controller
         }
         $input['sender_receiver'] = $sender->id.'_'.$input['receiver_id'];
         $input['timestamp'] = NOW();
+        $input['created_on'] = Carbon::now()->timestamp;
         $set = $database->getReference($ref)->update($input);
 
         return response(['data' => $set->getvalue()], 200);

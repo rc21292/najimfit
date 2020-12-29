@@ -11,6 +11,7 @@ use App\Models\ClientTable;
 use App\Models\Package;
 use Auth;
 use DB;
+use Carbon\Carbon;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 putenv('GOOGLE_APPLICATION_CREDENTIALS='.__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
@@ -91,6 +92,7 @@ class ChatController extends Controller
         }
         $input['sender_receiver'] = Auth::user()->id.'_'.$input['receiver_id'];
         $input['timestamp'] = NOW();
+        $input['created_on'] = Carbon::now()->timestamp;
         $set = $database->getReference($ref)->update($input);
 
         return response(['data' => $set->getvalue()], 200);
