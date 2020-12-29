@@ -90,6 +90,9 @@ Route::get('renew-workout-template/{id}','RenewWorkoutController@workouttemplate
 Route::resource('clients','ClientsController');
 
 Route::resource('requests','RequestController');
+Route::resource('admin-requests','AdminRequestController');
+Route::get('save-admin-request/{id}','AdminRequestController@store');
+
 Route::get('defer/{id}','RequestController@create')->name('defer');
 Route::get('defer-client/{id}','RequestController@deferClient')->name('defer-client');
 Route::get('client-defer/{id}','ComplaintController@deferClient')->name('defer-client');
