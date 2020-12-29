@@ -128,6 +128,18 @@ class WorkoutController extends Controller
 
 	public function summaryworkout(Request $request){
 
+		$workoutss = DB::table('client_workouts')
+		->join('exercises','exercises.id','=','client_workouts.exercise')
+		->select('exercises.id as exercise_id','exercises.*','exercises.name','client_workouts.day','client_workouts.id as workout_id','client_workouts.*')
+		->where('client_workouts.client_id',Auth::Client()->id)->where('client_workouts.status','completed')
+		->get();
+		/*->sum('exercises.calories');*/
+
+		$total_calories = 0;
+		foreach ($workoutss as $key => $workouts) {
+			$total_calories += (explode("-", $workouts->calories)[1]);
+		}
+
 		$workouts = DB::table('client_workouts')
 		->join('exercises','exercises.id','=','client_workouts.exercise')
 		->select('exercises.id as exercise_id','exercises.*','exercises.name','client_workouts.day','client_workouts.id as workout_id','client_workouts.*')
@@ -155,6 +167,7 @@ class WorkoutController extends Controller
 			}
 
 			$data = $exercises;
+			$data['total_calories'] = $total_calories;
 			return response()->json(['success'=> $data], 200);
 			
 		}else{
