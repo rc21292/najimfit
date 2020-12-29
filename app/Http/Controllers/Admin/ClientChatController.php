@@ -139,6 +139,30 @@ class ClientChatController extends Controller
         // ->where('nutritionist_clients.table_status','due')
         ->get();
 
+        /*foreach ($clients as $key => $user) {
+            
+            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+            $clients[$key]->timestamp = '';
+            $database = $factory->createDatabase();
+
+            $createPosts = $database->getReference('chats')->orderByChild('sender_receiver')->equalTo((string)$user->client_id.'_'.$user->user_id)->getSnapshot()->getValue();
+            if (count($createPosts) == 0) {
+                continue;
+            }
+
+            $keys = array_keys(array_combine(array_keys($createPosts), array_column($createPosts, 'is_read')),0);
+
+            $createPostse = $database->getReference('chats')->orderByChild('id')->equalTo((string)$keys[0])->getSnapshot()->getValue();
+
+
+            if (count($createPostse) > 0) {
+                    $clients[$key]->timestamp = date("d-m-Y h:i:sa", array_values($createPostse)[0]["timestamp"]);
+            }
+
+        }*/
+
+
         $user_ids = [];
 
         // echo "<pre>";print_r($clients);"</pre>";exit;
@@ -201,10 +225,34 @@ class ClientChatController extends Controller
         $clients = DB::table('nutritionist_clients')
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
+        ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id','users.id as user_id')
         ->where('nutritionist_clients.nutritionist_id',$id)
         // ->where('nutritionist_clients.table_status','due')
         ->get();
+
+
+        foreach ($clients as $key => $user) {
+            
+            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+            $clients[$key]->timestamp = '';
+            $database = $factory->createDatabase();
+
+            $createPosts = $database->getReference('chats')->orderByChild('sender_receiver')->equalTo((string)$user->client_id.'_'.$user->user_id)->getSnapshot()->getValue();
+            if (count($createPosts) == 0) {
+                continue;
+            }
+
+            $keys = array_keys(array_combine(array_keys($createPosts), array_column($createPosts, 'is_read')),0);
+
+            $createPostse = $database->getReference('chats')->orderByChild('id')->equalTo((string)$keys[0])->getSnapshot()->getValue();
+
+
+            if (count($createPostse) > 0) {
+                    $clients[$key]->timestamp = date("d-m-Y h:i:sa", array_values($createPostse)[0]["timestamp"]);
+            }
+
+        }
 
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
