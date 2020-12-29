@@ -14,6 +14,11 @@
 			</ol>
 			<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
 		</nav>
+		@if(session('success'))
+		<div class="alert alert-success" role="alert">
+	<i class="flaticon-tick-inside-circle"></i> <strong>Well done!</strong> {{session('success')}}
+</div>
+@endif
 		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-md-12">
@@ -38,7 +43,8 @@
 			</div>
 			<div class="ms-panel-body modal-body">
 				<input type="hidden" name="client_id" id="client" value="">
-                  <a href="#" class="btn btn-block btn-primary">Request immediate response from nutritionist</a>
+                  <a href="#" id="request_response" class="btn btn-block btn-primary">Request immediate response from nutritionist</a>
+                  <p id="admin-request"></p>
                   <a href="#" id="defer_client" class="btn btn-block btn-warning">Defer Client</a>
                   <a href="#" class="btn btn-block btn-success">Defer Chat</a>
                   <a href="#" class="btn btn-block btn-danger">Block Client from speaking</a>
@@ -56,7 +62,7 @@
 	var dataSet18 = [
 	@foreach($clients as $client)
 	[
-	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('mark-unread',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-client='{{$client->client_id}}' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutri.</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
+	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('mark-unread',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutri.</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
 	@endforeach
 	];
 
@@ -106,9 +112,16 @@
 <script type="text/javascript">
 	$('#myModal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget)
-		var client_id = button.data('client')
+		var client_id = button.data('client');
+		var request = button.data('request-date');
 		var modal = $(this)
 		modal.find('.modal-body #defer_client').attr('href', '/dashboard/chat-defer-client/'+client_id);
+		modal.find('.modal-body #request_response').attr('href', '/dashboard/save-admin-request/'+client_id);
+		if (request != '') {
+		modal.find('.modal-body #admin-request').html('<center>Last Request on '+request+'</center>');
+		}else{
+			modal.find('.modal-body #admin-request').html('');
+		}
 		modal.find('.modal-body #client').val(client_id);
 	})
 </script>
