@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\AdminRequest;
 use App\Models\Note;
 use DB;
 use Session;
@@ -138,6 +139,17 @@ class ClientChatController extends Controller
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id','users.id as user_id')
         // ->where('nutritionist_clients.table_status','due')
         ->get();
+
+        foreach ($clients as $key => $client) {
+             $client->client_id;
+            $clients[$key]->is_requested = '';
+             $is_exists = AdminRequest::where('client_id',$client->client_id)->exists();
+             if ($is_exists) {
+                 $request_data = AdminRequest::where('client_id',$client->client_id)->latest()->first();
+                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
+             }
+        }
+        // echo "<pre>";print_r($clients);"</pre>";exit;
 
         /*foreach ($clients as $key => $user) {
             
