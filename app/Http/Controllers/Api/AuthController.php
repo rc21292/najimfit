@@ -174,15 +174,19 @@ class AuthController extends Controller
 	public function getHomeData(Request $request)
 	{
 		$user_id = Auth::Client()->id;
-		$user = Client::find($user_id);		
+		$user = Client::find($user_id);
+
+		$package = Package::find(Auth::Client()->package_id);
 
 		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
 		$calories_sum = 0;
 		$workout_days = 0;
+		$assign_date = '';
 		if ($client_workouts) {
 			$workout_data = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->orderBy('day', 'asc')->first();
 
 			$fdate = $workout_data->created_at;
+			$assign_date = $workout_data->created_at;
 			$tdate = Now();
 
 			if ($request->date) {
@@ -230,7 +234,7 @@ class AuthController extends Controller
 			return $response = ['success' => false,'message' => 'Package expired'];
 		} 
 
-		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name,'package_subscription_date' => $package_subscription_date];
+		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name,'workout_days' => $package['workout_days'], 'assign_date' => $assign_date, 'package_subscription_date' => $package_subscription_date];
 	}
 
 	public function selectgender(Request $request){
