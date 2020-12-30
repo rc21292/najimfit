@@ -28,7 +28,7 @@ class TableController extends Controller
 
 		$table = ClientTable::where('client_id',$client_id)->first();
 
-		if(isset($table)){
+		if(!isset($table)){
 
 			$category = $table->table_id ;
 			$breakfast= $table->breakfast;
@@ -355,7 +355,7 @@ class TableController extends Controller
 				"snacks" => $getsnacks,
 			]);
 		}else{
-			return response(['errors'=>'Diet not assigned by Nutrionist'], 422);
+			return response(['success' => false,'message' => 'Diet not assigned by Nutrionist','data'=>''], 422);
 		}
 
 	}
