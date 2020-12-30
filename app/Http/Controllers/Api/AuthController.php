@@ -65,8 +65,10 @@ class AuthController extends Controller
 		if ($validator->fails())
 		{
 			$array = implode(',', $validator->errors()->all());
+			if ($request->language == "arabic") {
+				return response(["success"=> 2,"message"=>"الجوال أو البريد الإلكتروني موجود بالفعل"], 422);
+			}
 			return response(["success"=> 2,"message"=>'Mobile or Email already exists'], 422);
-			return response(["success"=> 2,"message"=>$array], 422);
 		}
 
 		$request['password']=Hash::make($request['password']);
