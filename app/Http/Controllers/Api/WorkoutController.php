@@ -165,10 +165,7 @@ class WorkoutController extends Controller
 					"description" => $request->language == "arabic" ? $workout->description_arabic : $workout->description,
 				);
 			}
-
-			$data = $exercises;
-			$data['total_calories'] = $total_calories;
-			return response()->json(['success'=> $data], 200);
+			return response()->json(['success'=> $exercises,'total_calories'=>$total_calories], 200);
 			
 		}else{
 			return response(['errors'=>'Workout not assigned by Nutrionist or Please check Day parameter'], 422);
