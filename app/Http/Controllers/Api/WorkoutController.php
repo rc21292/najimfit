@@ -70,6 +70,23 @@ class WorkoutController extends Controller
 		}		
 	}
 
+	public function workoutDays(Request $request)
+	{
+		$client_workouts = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->exists();
+		if ($client_workouts) {
+			$workout_data = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->orderBy('day', 'asc')->first();	
+			$fdate = $workout_data->created_at;
+			$datetime1 = new DateTime($fdate);
+			$datetime2 = new DateTime(Auth::Client()->validity);
+			$interval = $datetime1->diff($datetime2);	
+			$data['assign_date'] = $fdate;
+			$data['no_of_days'] = $interval->days;
+		return response()->json(['success' => true,'message'=> 'data fetched successfully','data'=> $data], 200);
+		}else{
+			return response(['success' => false,'message'=>'Workout not assigned by Nutrionist'], 422);
+		}	
+	}
+
 	public function getexercisedetails(Request $request){
 		$workout = DB::table('client_workouts')
 		->join('exercises','exercises.id','=','client_workouts.exercise')

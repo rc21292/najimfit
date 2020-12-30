@@ -86,6 +86,8 @@ Route::middleware('auth:api')->group(function () {
 	Route::post('/complete-workout', 'Api\WorkoutController@completeworkout')->name('completeworkout.api');
 	Route::post('/summary-workout', 'Api\WorkoutController@summaryworkout')->name('summaryworkout.api');
 
+	Route::get('/workout-days', 'Api\WorkoutController@workoutDays')->name('workoutdays.api');
+
 });
 
 /*use these api without login also*/
