@@ -64,6 +64,12 @@ class ChatController extends Controller
     {
         $receptor = Client::where('id',$request->receiver_id)->first();
 
+        $user = User::find(Auth::user()->id);
+
+        if ($user->is_blocked) {
+            return response(['data' => '']);
+        }
+
         $this->validate($request, [
             'content' => 'required',
         ]);

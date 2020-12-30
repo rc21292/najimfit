@@ -87,10 +87,32 @@ class ClientChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function blockClient($id)
+    {
+        Client::where('id',$id)->update(['is_blocked'=>1]);
+        return redirect()->back()->with('success', 'Successfully Blocked Client from speaking!');
+    }
+
+    public function blockNutritionist($id)
+    {
+        $clients = DB::table('nutritionist_clients')
+        ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
+        ->select('users.*')
+        ->where('nutritionist_clients.client_id',$id)
+        ->first();
+        User::where('id',$clients->id)->update(['is_blocked'=>1]);
+        return redirect()->back()->with('success', 'Successfully blocked Nutritionist from replying!');
+    }
+
     public function store(Request $request)
     {
+
         $receptor = Client::where('id',$request->receiver_id)->first();
         $sender = User::where('id',$request->sender_id)->first();
+        if ($sender->is_blocked) {
+            return response(['data' => '']);
+        }
 
         $this->validate($request, [
             'content' => 'required',

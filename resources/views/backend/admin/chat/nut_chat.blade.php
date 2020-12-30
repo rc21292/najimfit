@@ -131,6 +131,7 @@
                                 <div class="card-body ms-scrollable">
                                     No Chat .....
                                 </div>
+                                <p id="error-message" style="color: red;text-align: center;"></p>
                                 <div class="ms-panel-footer pt-0">
                                     <div class="ms-chat-textbox">
                                         <form id="chat-form">
@@ -317,7 +318,7 @@
 
         // Set the card height equal to the height of the window
         $(".card-body").css({
-            height: $(window).outerHeight() - 290,
+            height: $(window).outerHeight() - 310,
             overflowY: 'auto'
         });
 
@@ -347,7 +348,12 @@
                     complete: function() {
                         $("#chat-form button").prop('disabled', false);
                     },
-                    success: function() {
+                    success: function(data) {
+                        $("#error-message").html("");
+                        if (data.data == '') {
+                            $("#error-message").html("You are blocked by admin to reply!");
+                            return;
+                        }
                         chat_content.val('');
                         chat_content.focus();
                         $(".emojionearea-editor").html('');

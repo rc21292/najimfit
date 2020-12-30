@@ -53,6 +53,7 @@
                                 <div class="card-body ms-scrollable">
                                     loading chats .....
                                 </div>
+                                <p id="error-message" style="color: red;text-align: center;"></p>
                                 <div class="ms-panel-footer pt-0">
                                     <div class="ms-chat-textbox">
                                         <form id="chat-form">
@@ -283,7 +284,7 @@
 
         // Set the card height equal to the height of the window
         $(".card-body").css({
-            height: $(window).outerHeight() - 200,
+            height: $(window).outerHeight() - 310,
             overflowY: 'auto'
         });
 
@@ -314,7 +315,11 @@
                     complete: function() {
                         chat_content.attr('disabled', false);
                     },
-                    success: function() {
+                    success: function(data) {
+                        if (data.data == '') {
+                            $("#error-message").html("This client assigned nutritionist is blocked by admin(you) to reply!");
+                            return;
+                        }
                         chat_content.val('');
                         chat_content.focus();
                         $(".emojionearea-editor").html('');
