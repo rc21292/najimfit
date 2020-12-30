@@ -28,7 +28,7 @@ class TableController extends Controller
 
 		$table = ClientTable::where('client_id',$client_id)->first();
 
-		if(!isset($table)){
+		if(isset($table)){
 
 			$category = $table->table_id ;
 			$breakfast= $table->breakfast;
