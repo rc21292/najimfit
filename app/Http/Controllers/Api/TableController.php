@@ -355,7 +355,7 @@ class TableController extends Controller
 				"snacks" => $getsnacks,
 			]);
 		}else{
-			return response(['success' => false,'message' => 'Diet not assigned by Nutrionist','data'=>''], 422);
+			return response(['success' => false,'message' => 'Diet not assigned by Nutrionist','data'=>[]], 422);
 		}
 
 	}
