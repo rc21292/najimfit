@@ -66,7 +66,7 @@ class ChatController extends Controller
 
         $user = User::find(Auth::user()->id);
 
-        if ($user->is_blocked) {
+        if ($user->is_blocked && $receptor->nutri_blocked) {
             return response(['data' => '']);
         }
 

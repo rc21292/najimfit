@@ -102,6 +102,7 @@ class ClientChatController extends Controller
         ->where('nutritionist_clients.client_id',$id)
         ->first();
         User::where('id',$clients->id)->update(['is_blocked'=>1]);
+        Client::where('id',$id)->update(['is_blocked'=>1,'nutri_blocked'=>1]);
         return redirect()->back()->with('success', 'Successfully blocked Nutritionist from replying!');
     }
 
@@ -110,7 +111,7 @@ class ClientChatController extends Controller
 
         $receptor = Client::where('id',$request->receiver_id)->first();
         $sender = User::where('id',$request->sender_id)->first();
-        if ($sender->is_blocked) {
+        if ($sender->is_blocked && $receptor->nutri_blocked) {
             return response(['data' => '']);
         }
 
