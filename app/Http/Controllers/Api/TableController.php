@@ -311,25 +311,25 @@ class TableController extends Controller
 				[
 					0 => 
 					[
-						'foodCategory' => 'breakFast',
+						'foodCategory' => ($request->language == 'arabic') ? "فطور":'breakFast',
 						'foodcalary' => $table_breakfast_calories,
 						'foods' => $table_breakfast_data,
 					],
 					1 => 
 					[
-						'foodCategory' => 'lunch',
+						'foodCategory' => ($request->language == 'arabic') ? 'غداء':'lunch',
 						'foodcalary' => $table_lunch_calories,
 						'foods' => $table_lunch,
 					],
 					2 => 
 					[
-						'foodCategory' => 'dinner',
+						'foodCategory' => ($request->language == 'arabic') ? 'عشاء':'dinner',
 						'foodcalary' => $table_dinner_calories,
 						'foods' => $table_dinner,
 					],
 					3 => 
 					[
-						'foodCategory' => 'snacks',
+						'foodCategory' => ($request->language == 'arabic') ? 'وجبات الخفيفة':'snacks',
 						'foodcalary' => $table_snacks1_calories,
 						'foods' => $table_snacks1
 					],
