@@ -53,6 +53,24 @@ class PackageController extends Controller
         if ($request->has('image')) {
         $input['image'] = $request->$path;
     }
+
+        if (isset($request->workout_days) && !empty($request->workout_days)) {
+            
+            $input['workout_days'] = $request->workout_days;
+
+            $str_arr = @explode (",", $request->workout_days); 
+
+            $arr1 = array(1,2,3,4,5,6,7); 
+
+            $arr2 = $str_arr; 
+
+            $missing = array_diff($arr1,$arr2);
+
+            $strinarr = implode(',', $missing);
+
+            $input['off_days'] = $strinarr;
+        }
+
         $new_package = Package::create($input);
         return redirect()->route('package.index')->with(['success'=>'Package Saved Successfully!']);
     }
@@ -110,6 +128,25 @@ class PackageController extends Controller
         $package->price = $request->price;
 
         $package->validity = $request->validity;
+
+
+        if (isset($request->workout_days) && !empty($request->workout_days)) {
+            
+            $package->workout_days = $request->workout_days;
+
+            $str_arr = @explode (",", $request->workout_days); 
+
+            $arr1 = array(1,2,3,4,5,6,7); 
+
+            $arr2 = $str_arr; 
+
+            $missing = array_diff($arr1,$arr2);
+
+            $strinarr = implode(',', $missing);
+
+            $package->off_days = $strinarr;
+
+        }
 
         $package->target = $request->target;
 

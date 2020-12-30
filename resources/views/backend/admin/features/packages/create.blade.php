@@ -93,6 +93,15 @@
 									</div>
 								</div>
 								<div class="col-xl-6 col-md-12">
+									<label for="workout_days">Workout Days</label>
+									<div class="input-group">
+										<input type="text" class="form-control" name="workout_days" id="workout_days" placeholder="Workout Days" required>
+										<div class="invalid-feedback">
+											Please provide Workout Days.
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-6 col-md-12">
 									<label for="price">Package Price</label>
 									<div class="input-group">
 										<input type="number" class="form-control" name="price" id="price" placeholder="Package Price" required>

@@ -285,6 +285,8 @@ class AuthController extends Controller
 				'name'  => $request->language == "arabic" ? $row->name_arabic : $row->name,
 				'price'  => $amount_re,
 				'validity'  => $row->validity.' days',
+				'workout_days'  => $row->workout_days,
+				'off_days'  => $row->off_days,
 				'target'  => $request->language == "arabic" ? $row->target_arabic : $row->target,
 				'description' => $request->language == "arabic" ? $row->description_arabic : $row->description,
 				'image' =>'https://tegdarco.com/uploads/packages/'.$row->image,
