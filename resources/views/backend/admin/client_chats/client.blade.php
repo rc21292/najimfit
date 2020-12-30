@@ -14,11 +14,6 @@
 			</ol>
 			<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
 		</nav>
-		@if(session('success'))
-		<div class="alert alert-success" role="alert">
-	<i class="flaticon-tick-inside-circle"></i> <strong>Well done!</strong> {{session('success')}}
-</div>
-@endif
 		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-md-12">
@@ -47,8 +42,8 @@
                   <p id="admin-request"></p>
                   <a href="#" id="defer_client" class="btn btn-block btn-warning">Defer Client</a>
                   <a href="#" class="btn btn-block btn-success">Defer Chat</a>
-                  <a href="#" class="btn btn-block btn-danger">Block Client from speaking</a>
-                  <a href="#" class="btn btn-block btn-light">Block Nutritionist from replying</a>
+                  <a href="#" id="block_client" class="btn btn-block btn-danger">Block Client from speaking</a>
+                  <a href="#" id="block_nutritionist" class="btn btn-block btn-light">Block Nutritionist from replying</a>
                 </div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -117,6 +112,8 @@
 		var modal = $(this)
 		modal.find('.modal-body #defer_client').attr('href', '/dashboard/chat-defer-client/'+client_id);
 		modal.find('.modal-body #request_response').attr('href', '/dashboard/save-admin-request/'+client_id);
+		modal.find('.modal-body #block_client').attr('href', '/dashboard/block-client/'+client_id);
+		modal.find('.modal-body #block_nutritionist').attr('href', '/dashboard/block-nutritionist/'+client_id);
 		if (request != '') {
 		modal.find('.modal-body #admin-request').html('<center>Last Request on '+request+'</center>');
 		}else{
