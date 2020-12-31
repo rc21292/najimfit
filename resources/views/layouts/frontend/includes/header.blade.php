@@ -26,15 +26,15 @@
             </li>
             <li class="nav-item"> <a class="nav-link" href="#">شروط و الاحكام   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="#">   اتصل بنا   </a>
+            <li class="nav-item"> <a class="nav-link" href="/contact-us">   اتصل بنا   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="about-us.html">   معلومات عنا   </a>
+            <li class="nav-item"> <a class="nav-link" href="/about-us">   معلومات عنا   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="gallery.html">   صالة عرض   </a>
+            <li class="nav-item"> <a class="nav-link" href="/gallery">   صالة عرض   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="packages.html">  خدماتنا  </a>
+            <li class="nav-item"> <a class="nav-link" href="/packages">  خدماتنا  </a>
             </li>
-            <li class="nav-item active"> <a class="nav-link" href="index.html">  الصفحة الرئيسية   </a>
+            <li class="nav-item active"> <a class="nav-link" href="/">  الصفحة الرئيسية   </a>
             </li>
           </ul>
         </div>
