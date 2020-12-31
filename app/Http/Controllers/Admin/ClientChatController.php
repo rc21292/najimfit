@@ -26,6 +26,9 @@ class ClientChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $user_ids = [];
+
     public function index()
     {
         $user = Auth::User();
@@ -45,18 +48,37 @@ class ClientChatController extends Controller
             ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')
             // ->where('table_status','due')
             ->get();
+
+
+
+            foreach ($users as $key => $user) {
+                array_push($this->user_ids, $user->id);
+            }
+
             $queries = DB::getQueryLog();
-            // dd(end($queries));
+
+            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+            $database = $factory->createDatabase();
+
+            $createPosts = $database->getReference('chats')->orderByChild('is_read')->equalTo(0)->getSnapshot()->getValue();
+
+            $filtered = array_filter($createPosts, function (array $userData) {
+                $userEmail = $userData['receiver_id'] ?? '';
+
+                return in_array($userEmail, $this->user_ids) && $userData['message_from'] == 'user';
+            });
+
 
             foreach ($users as $key => $user) {
                 $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
                 $database = $factory->createDatabase();
 
-                $createPosts    =   $database->getReference('chats')->orderByChild('is_read')->equalTo(0)->getSnapshot()->getValue();
+                $createPosts = $database->getReference('chats')->orderByChild('is_read')->equalTo(0)->getSnapshot()->getValue();
                 $count = 0;
                 foreach ($createPosts as $createPost) {
-                    if ($createPost["receiver_id"] == $user->id) {
+                    if ($createPost["receiver_id"] == $user->id && $createPost['message_from'] == 'user' ) {
                         $count++;
                     }
                 }
@@ -64,7 +86,7 @@ class ClientChatController extends Controller
                 $users[$key]['chats_count'] = $count;
             }
 
-            $total_chat_count = count($createPosts);
+            $total_chat_count = count($filtered);
 
             return view('backend.admin.client_chats.index',compact('total_chat_count','users','total_clients'));
         }
@@ -288,7 +310,7 @@ class ClientChatController extends Controller
 
             $keys = array_keys(array_combine(array_keys($createPosts), array_column($createPosts, 'is_read')),0);
 
-            $createPostse = $database->getReference('chats')->orderByChild('id')->equalTo((string)$keys[0])->getSnapshot()->getValue();
+            $createPostse = $database->getReference('chats')->orderByChild('id')->equalTo((string)@$keys[0])->getSnapshot()->getValue();
 
 
             if (count($createPostse) > 0) {
