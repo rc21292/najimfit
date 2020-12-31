@@ -270,9 +270,9 @@ class ClientChatController extends Controller
         foreach ($clients as $key => $user) {
              $clients[$key]->is_requested = '';
 
-             $is_exists = AdminRequest::where('client_id',$client->client_id)->exists();
+             $is_exists = AdminRequest::where('client_id',$user->client_id)->exists();
              if ($is_exists) {
-                 $request_data = AdminRequest::where('client_id',$client->client_id)->latest()->first();
+                 $request_data = AdminRequest::where('client_id',$user->client_id)->latest()->first();
                  $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
              }
             
