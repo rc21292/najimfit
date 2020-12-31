@@ -34,7 +34,7 @@ class Helper extends Model
     public static function getAdminRequestsCount()
     {
       $user_id = Auth::user()->id;
-      return $request_count = AdminRequest::where('nutritionist_id',$user_id)->count();
+      return $request_count = AdminRequest::where('status',0)->where('nutritionist_id',$user_id)->count();
     }
 
  }
