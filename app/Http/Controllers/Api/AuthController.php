@@ -234,7 +234,7 @@ class AuthController extends Controller
 			return $response = ['success' => false,'message' => 'Package expired'];
 		} 
 
-		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name,'workout_days' => $package['workout_days'], 'assign_date' => $assign_date, 'package_subscription_date' => $package_subscription_date];
+		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name,'workout_days' => $package['workout_days'],'off_days' => $package['off_days'], 'assign_date' => $assign_date, 'package_subscription_date' => $package_subscription_date];
 	}
 
 	public function selectgender(Request $request){
