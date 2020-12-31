@@ -21,10 +21,10 @@
         if($role_name == 'Nutritionist'){
         @endphp
         <li class="ms-nav-item ms-nav-user dropdown">
-          <a href="/dashboard/chat" title="Chat Counts" class="text-disabled ms-has-notification get-notifications">0 <i class="flaticon-chat"></i></a>
+          <a href="/dashboard/chat" title="Chats" class="text-disabled ms-has-notification get-notifications">0 <i class="flaticon-chat"></i></a>
         </li>
         <li class="ms-nav-item ms-nav-user dropdown">
-          <a href="/dashboard/admin-requests" title="Admin Requests Count" class="text-disabled ms-has-notification">{{{ App\Helper::getAdminRequestsCount()}}} <i class="flaticon-chat"></i></a>
+          <a href="/dashboard/admin-requests" title="Admin Requests" class="text-disabled ms-has-notification">{{{ App\Helper::getAdminRequestsCount()}}} <i class="fa fa-envelope" aria-hidden="true"></i></a>
         </li>
         @php
       }
