@@ -211,7 +211,7 @@ class AuthController extends Controller
 			if ($workout_exercise) {
 				$workout_name = $workout_exercise->name;
 			}else{
-				$workout_name = '';
+				$workout_name = ($request->language == "arabic") ? "غيرمعتمد" :'Not Assigned';
 			}
 
 			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
