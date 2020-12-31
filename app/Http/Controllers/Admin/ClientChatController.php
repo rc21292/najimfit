@@ -49,8 +49,6 @@ class ClientChatController extends Controller
             // ->where('table_status','due')
             ->get();
 
-
-
             foreach ($users as $key => $user) {
                 array_push($this->user_ids, $user->id);
             }
@@ -178,78 +176,25 @@ class ClientChatController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function allclients(){
+    public function allclients()
+    {
         ini_set('max_execution_time', 300); 
         $clients = DB::table('nutritionist_clients')
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id','users.id as user_id')
-        // ->where('nutritionist_clients.table_status','due')
+    // ->where('nutritionist_clients.table_status','due')
         ->get();
 
         foreach ($clients as $key => $client) {
-             $client->client_id;
+            $client->client_id;
             $clients[$key]->is_requested = '';
-             $is_exists = AdminRequest::where('client_id',$client->client_id)->exists();
-             if ($is_exists) {
-                 $request_data = AdminRequest::where('client_id',$client->client_id)->latest()->first();
-                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
-             }
+            $is_exists = AdminRequest::where('client_id',$client->client_id)->exists();
+            if ($is_exists) {
+                $request_data = AdminRequest::where('client_id',$client->client_id)->latest()->first();
+                $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
+            }
         }
-        // echo "<pre>";print_r($clients);"</pre>";exit;
-
-        /*foreach ($clients as $key => $user) {
-            
-            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
-
-            $clients[$key]->timestamp = '';
-            $database = $factory->createDatabase();
-
-            $createPosts = $database->getReference('chats')->orderByChild('sender_receiver')->equalTo((string)$user->client_id.'_'.$user->user_id)->getSnapshot()->getValue();
-            if (count($createPosts) == 0) {
-                continue;
-            }
-
-            $keys = array_keys(array_combine(array_keys($createPosts), array_column($createPosts, 'is_read')),0);
-
-            $createPostse = $database->getReference('chats')->orderByChild('id')->equalTo((string)$keys[0])->getSnapshot()->getValue();
-
-
-            if (count($createPostse) > 0) {
-                    $clients[$key]->timestamp = date("d-m-Y h:i:sa", array_values($createPostse)[0]["timestamp"]);
-            }
-
-        }*/
-
-
-        $user_ids = [];
-
-        // echo "<pre>";print_r($clients);"</pre>";exit;
-
-      /*  foreach ($clients as $key => $user) {
-            
-            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
-
-            $database = $factory->createDatabase();
-
-            $createPosts    =   $database->getReference('chats')->orderByChild('receiver_id')->equalTo((string)$user->user_id)->getSnapshot()->getValue();
-            $count = 0;
-            $clients[$key]->timestamp = '';
-            if (count($createPosts) > 0) {
-                if (array_values($createPosts)[0]["sender_id"] == $user->client_id) {
-                    $clients[$key]->timestamp = array_values($createPosts)[0]["timestamp"];
-                }
-            }
-
-        }
-
-        if (!in_array($user->id, $user_ids)) {
-                        array_push($user_ids, $user->id);
-                        $clients[$key]->time_stamp = $createPost["timestamp"];
-                    }*/
-                    
-
-        // echo "<pre>";print_r($clients);"</pre>";exit;
 
 
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
