@@ -194,6 +194,11 @@
         </a>
       </li>
       <li class="menu-item">
+        <a href="{{route('admin-requests.index')}}">
+          <span><i class="fa fa-anchor"></i>Admin Request</span>
+        </a>
+      </li>
+      <li class="menu-item">
         <a href="#">
           <span><i class="fa fa-clipboard"></i> Notes</span>
         </a>

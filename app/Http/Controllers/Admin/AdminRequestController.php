@@ -25,7 +25,7 @@ class AdminRequestController extends Controller
 
         if($role_name == 'Nutritionist')
         {
-            $requests = AdminRequest::where('nutritionist_id',4)->get();
+            $requests = AdminRequest::where('nutritionist_id',$user->id)->get();
             return view('backend.admin.admin_requests.nutritionist.index',compact('requests'))->with('no', 1);
         }else{
             $requests = AdminRequest::where('status',0)->get();
