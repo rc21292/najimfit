@@ -1,10 +1,14 @@
 @extends('layouts.app')
 @section('head')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.css">
 <style>
 	input {
 		text-align: center;
+	}
+	.select2-selection {
+		height: 38px !important;
 	}
 	.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
 		margin: 0;
@@ -93,12 +97,18 @@
 									</div>
 								</div>
 								<div class="col-xl-6 col-md-12">
-									<label for="workout_days">Workout Days</label>
 									<div class="input-group">
-										<input type="text" class="form-control" name="workout_days" id="workout_days" placeholder="Workout Days" required>
-										<div class="invalid-feedback">
-											Please provide Workout Days.
-										</div>
+										<label for="workout_days">Workout Days</label>
+										<select data-placeholder="Please Select Workout Days" class="js-example-basic-multiple form-control" name="workout_days[]" multiple="multiple" style="width: 100%">
+											<option value="">Please Select days</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+										</select>
 									</div>
 								</div>
 								<div class="col-xl-6 col-md-12">
@@ -208,6 +218,7 @@
 </div>
 @endsection
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/js/plugins/piexif.min.js" type="text/javascript"></script>
 <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. 
 	This must be loaded before fileinput.min.js -->
@@ -240,4 +251,12 @@
 			allowedFileExtensions: ["jpg", "png", "gif"]
 		});
 	</script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+			tags: true,
+			tokenSeparators: [',', ' ']
+		});
+	});
+</script>
 	@endpush

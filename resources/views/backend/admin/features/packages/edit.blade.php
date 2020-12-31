@@ -1,9 +1,13 @@
 @extends('layouts.app')
 @section('head')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <style>
 	input {
 		text-align: center;
+	}
+	.select2-selection {
+		height: 38px !important;
 	}
 	.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
 		margin: 0;
@@ -93,12 +97,18 @@
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-12">
-							<label for="workout_days">Workout Days</label>
 							<div class="input-group">
-								<input type="text" class="form-control" name="workout_days" id="workout_days" placeholder="Workout Days" value="{{ $package->workout_days }}" required>
-								<div class="invalid-feedback">
-									Please provide Workout Days.
-								</div>
+								<label for="workout_days">Workout Days</label>
+								<select data-placeholder="Please Select Workout Days" class="js-example-basic-multiple form-control" name="workout_days[]" multiple="multiple" style="width: 100%">
+									<option value="">Please Select days</option>
+									<option @if(in_array(1, $package->workout_days)) selected @endif value="1">1</option>
+									<option @if(in_array(2, $package->workout_days)) selected @endif value="2">2</option>
+									<option @if(in_array(3, $package->workout_days)) selected @endif value="3">3</option>
+									<option @if(in_array(4, $package->workout_days)) selected @endif value="4">4</option>
+									<option @if(in_array(5, $package->workout_days)) selected @endif value="5">5</option>
+									<option @if(in_array(6, $package->workout_days)) selected @endif value="6">6</option>
+									<option @if(in_array(7, $package->workout_days)) selected @endif value="7">7</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-12">
@@ -208,6 +218,7 @@
 </div>
 @endsection
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/js/plugins/piexif.min.js" type="text/javascript"></script>
 <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. 
 	This must be loaded before fileinput.min.js -->
@@ -254,5 +265,13 @@
     ],
     @endif
 });
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+			tags: true,
+			tokenSeparators: [',', ' ']
+		});
+	});
 </script>
 @endpush

@@ -51,25 +51,23 @@ class PackageController extends Controller
 
         }
         if ($request->has('image')) {
-        $input['image'] = $request->$path;
-    }
-
-        if (isset($request->workout_days) && !empty($request->workout_days)) {
-            
-            $input['workout_days'] = $request->workout_days;
-
-            $str_arr = @explode (",", $request->workout_days); 
-
-            $arr1 = array(1,2,3,4,5,6,7); 
-
-            $arr2 = $str_arr; 
-
-            $missing = array_diff($arr1,$arr2);
-
-            $strinarr = implode(',', $missing);
-
-            $input['off_days'] = $strinarr;
+            $input['image'] = $request->$path;
         }
+
+        $workout_days = @implode(',', $request->workout_days);
+
+        $str_arr = @explode (",", $workout_days); 
+
+        $arr1 = array(1,2,3,4,5,6,7); 
+
+        $arr2 = $str_arr; 
+
+        $missing = array_diff($arr1,$arr2);
+
+        $strinarr = @implode(',', $missing);
+
+        $input['workout_days'] = $workout_days;
+        $input['off_days'] = $strinarr;
 
         $new_package = Package::create($input);
         return redirect()->route('package.index')->with(['success'=>'Package Saved Successfully!']);
@@ -94,6 +92,7 @@ class PackageController extends Controller
      */
     public function edit(Package $package)
     {
+        $package->workout_days = explode(',', $package->workout_days);
         return view('backend.admin.features.packages.edit', compact('package'));
     }
 
@@ -128,25 +127,22 @@ class PackageController extends Controller
         $package->price = $request->price;
 
         $package->validity = $request->validity;
-
-
-        if (isset($request->workout_days) && !empty($request->workout_days)) {
             
-            $package->workout_days = $request->workout_days;
+        $workout_days = @implode(',', $request->workout_days);
 
-            $str_arr = @explode (",", $request->workout_days); 
+        $str_arr = @explode(",", $workout_days); 
 
-            $arr1 = array(1,2,3,4,5,6,7); 
+        $arr1 = array(1,2,3,4,5,6,7); 
 
-            $arr2 = $str_arr; 
+        $arr2 = $str_arr; 
 
-            $missing = array_diff($arr1,$arr2);
+        $missing = array_diff($arr1,$arr2);
 
-            $strinarr = implode(',', $missing);
+        $strinarr = @implode(',', $missing);
 
-            $package->off_days = $strinarr;
+        $package->off_days = $strinarr;
 
-        }
+        $package->workout_days = $workout_days;
 
         $package->target = $request->target;
 
