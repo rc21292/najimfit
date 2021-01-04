@@ -317,7 +317,7 @@
                     },
                     success: function(data) {
                         if (data.data == '') {
-                            $("#error-message").html("This client assigned nutritionist is blocked by admin(you) to reply!");
+                            $("#error-message").html("Admin blocked you to reply for this client.");
                             return;
                         }
                         chat_content.val('');
