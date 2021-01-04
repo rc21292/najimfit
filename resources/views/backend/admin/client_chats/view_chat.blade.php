@@ -370,12 +370,20 @@
             }
  
             window.onload = function () {
-                document.getElementById('file').addEventListener('change', handleFileSelect, false);
             }
         </script>
         <script type="text/javascript">
-  $(document).ready(function() {
-    $("#content").emojioneArea();
-  });
-</script>
-    @endpush
+            $(document).ready(function() {
+                $("#content").emojioneArea({
+                    events: {
+                        keyup: function(editor, event) {
+                            if (event.which == 13) {
+                                $(".emojionearea-editor").blur();
+                                $("#chat-form").submit(); 
+                            } 
+                        }
+                    }
+                });
+            });
+        </script>
+        @endpush
