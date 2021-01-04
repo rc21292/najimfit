@@ -87,6 +87,7 @@ class ChatController extends Controller
         $input['id'] = $last_key;
         $input['message_from'] = 'nutri';
         $input['is_read'] = 0;
+        $input['from_admin'] = 1;
         $input['sender_id'] = Auth::user()->id;
         $input['sender_name'] = Auth::user()->name;
         $input['receiver_name'] = $receptor->firstname.' '.$receptor->lastname;
