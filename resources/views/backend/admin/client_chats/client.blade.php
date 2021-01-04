@@ -111,8 +111,6 @@
 		var request = button.data('request-date');
 		var client_blocked = button.data('client-blocked');
 		var nutri_blocked = button.data('nutri-blocked');
-		alert(client_blocked);
-		alert(nutri_blocked);
 		var modal = $(this)
 		modal.find('.modal-body #defer_client').attr('href', '/dashboard/chat-defer-client/'+client_id);
 		modal.find('.modal-body #request_response').attr('href', '/dashboard/save-admin-request/'+client_id);
