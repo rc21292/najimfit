@@ -262,13 +262,26 @@ class ClientChatController extends Controller
         ->get();
 
         foreach ($clients as $key => $user) {
-             $clients[$key]->is_requested = '';
+            $clients[$key]->is_requested = '';
 
-             $is_exists = AdminRequest::where('client_id',$user->client_id)->exists();
-             if ($is_exists) {
-                 $request_data = AdminRequest::where('client_id',$user->client_id)->latest()->first();
-                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
-             }
+            $client_data = Client::find($user->client_id);
+            $user_data = User::find($user->user_id);
+            $clients[$key]->is_client_blocked = 0;
+            $clients[$key]->is_nutri_blocked = 0;
+            if ($client_data->is_blocked) 
+            {
+                $clients[$key]->is_client_blocked = 1;
+            }
+            if ($user_data->is_blocked && $client_data->nutri_blocked) 
+            {
+                $clients[$key]->is_nutri_blocked = 1;
+            }
+
+            $is_exists = AdminRequest::where('client_id',$user->client_id)->exists();
+            if ($is_exists) {
+                $request_data = AdminRequest::where('client_id',$user->client_id)->latest()->first();
+                $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
+            }
             
             $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
