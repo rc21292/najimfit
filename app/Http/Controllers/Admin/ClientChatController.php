@@ -122,8 +122,26 @@ class ClientChatController extends Controller
         ->where('nutritionist_clients.client_id',$id)
         ->first();
         User::where('id',$clients->id)->update(['is_blocked'=>1]);
-        Client::where('id',$id)->update(['is_blocked'=>1,'nutri_blocked'=>1]);
+        Client::where('id',$id)->update(['is_blocked'=>0,'nutri_blocked'=>1]);
         return redirect()->back()->with('success', 'Successfully blocked Nutritionist from replying!');
+    }
+
+    public function unblockClient($id)
+    {
+        Client::where('id',$id)->update(['is_blocked'=>0]);
+        return redirect()->back()->with('success', 'Successfully Unblocked Client from speaking!');
+    }
+
+    public function unblockNutritionist($id)
+    {
+        $clients = DB::table('nutritionist_clients')
+        ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
+        ->select('users.*')
+        ->where('nutritionist_clients.client_id',$id)
+        ->first();
+        User::where('id',$clients->id)->update(['is_blocked'=>0]);
+        Client::where('id',$id)->update(['nutri_blocked'=>0]);
+        return redirect()->back()->with('success', 'Successfully Unblocked Nutritionist from replying!');
     }
 
     public function store(Request $request)
@@ -187,15 +205,24 @@ class ClientChatController extends Controller
         ->get();
 
         foreach ($clients as $key => $client) {
-            $client->client_id;
             $clients[$key]->is_requested = '';
             $is_exists = AdminRequest::where('client_id',$client->client_id)->exists();
             if ($is_exists) {
                 $request_data = AdminRequest::where('client_id',$client->client_id)->latest()->first();
                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
             }
-        }
 
+            $client_data = Client::find($client->client_id);
+            $user_data = User::find($client->user_id);
+            $clients[$key]->is_client_blocked = 0;
+            $clients[$key]->is_nutri_blocked = 0;
+            if ($client_data->is_blocked) {
+                $clients[$key]->is_client_blocked = 1;
+            }
+            if ($user_data->is_blocked && $client_data->nutri_blocked) {
+                $clients[$key]->is_nutri_blocked = 1;
+            }
+        }
 
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
@@ -283,10 +310,9 @@ class ClientChatController extends Controller
 
         $database = $factory->createDatabase();
 
-        $createPosts    =   $database->getReference('chats')->orderByChild('sender_id')->equalTo((int)$id)->getSnapshot()->getValue();
-
-        foreach ($createPosts as $key => $createPost) {
-
+        $createPosts    =   $database->getReference('chats')->orderByChild('sender_id')->equalTo((string)$id)->getSnapshot()->getValue();
+        foreach ($createPosts as $key => $createPost) 
+        {
             $ref = 'chats/' . $createPost["id"];  
 
             $updates = [

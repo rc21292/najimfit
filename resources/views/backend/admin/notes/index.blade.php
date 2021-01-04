@@ -17,7 +17,7 @@
 	<div class="col-md-12">
 		<div class="ms-panel">
 			<div class="ms-panel-header">
-				<h6>Request List</h6>
+				<h6>Notes List</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">

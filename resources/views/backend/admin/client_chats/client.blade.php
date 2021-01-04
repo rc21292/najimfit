@@ -57,7 +57,7 @@
 	var dataSet18 = [
 	@foreach($clients as $client)
 	[
-	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('mark-unread',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutri.</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
+	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('mark-unread',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-client-blocked='{{$client->is_client_blocked}}' data-nutri-blocked='{{$client->is_nutri_blocked}}' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutri.</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
 	@endforeach
 	];
 
@@ -109,11 +109,25 @@
 		var button = $(event.relatedTarget)
 		var client_id = button.data('client');
 		var request = button.data('request-date');
+		var client_blocked = button.data('client-blocked');
+		var nutri_blocked = button.data('nutri-blocked');
+		alert(client_blocked);
+		alert(nutri_blocked);
 		var modal = $(this)
 		modal.find('.modal-body #defer_client').attr('href', '/dashboard/chat-defer-client/'+client_id);
 		modal.find('.modal-body #request_response').attr('href', '/dashboard/save-admin-request/'+client_id);
+		if (client_blocked) {
+		modal.find('.modal-body #block_client').attr('href', '/dashboard/unblock-client/'+client_id);
+		modal.find('.modal-body #block_client').html('Unblock Client from speaking');
+	}else{
 		modal.find('.modal-body #block_client').attr('href', '/dashboard/block-client/'+client_id);
+	}
+	if (nutri_blocked) {
+		modal.find('.modal-body #block_nutritionist').attr('href', '/dashboard/unblock-nutritionist/'+client_id);
+		modal.find('.modal-body #block_nutritionist').html('Unblock Nutritionist from replying');
+	}else{
 		modal.find('.modal-body #block_nutritionist').attr('href', '/dashboard/block-nutritionist/'+client_id);
+	}
 		if (request != '') {
 		modal.find('.modal-body #admin-request').html('<center>Last Request on '+request+'</center>');
 		}else{

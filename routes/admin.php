@@ -52,7 +52,9 @@ Route::get('send-note/{id}','NoteController@sendNote')->name('send-note');
 Route::resource('client-chats','ClientChatController');
 Route::get('mark-unread/{id}','ClientChatController@markUnread')->name('mark-unread');
 Route::get('block-nutritionist/{id}','ClientChatController@blockNutritionist')->name('block-nutritionist');
+Route::get('unblock-nutritionist/{id}','ClientChatController@unblockNutritionist')->name('unblock-nutritionist');
 Route::get('block-client/{id}','ClientChatController@blockClient')->name('block-client');
+Route::get('unblock-client/{id}','ClientChatController@unblockClient')->name('unblock-client');
 
 Route::get('nutritionist-clients/{id}','ClientChatController@showClients')->name('nutritionist-clients');
 
