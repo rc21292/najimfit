@@ -319,20 +319,28 @@ class ClientChatController extends Controller
 
     public function markUnread($id)
     {
+        $nutritionist_id = DB::table('nutritionist_clients')->where('client_id',$id)->value('nutritionist_id');
+
         $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
         $database = $factory->createDatabase();
 
-        $createPosts    =   $database->getReference('chats')->orderByChild('sender_id')->equalTo((string)$id)->getSnapshot()->getValue();
+        $createPosts    =   $database->getReference('chats')->orderByChild('sender_receiver')->equalTo($nutritionist_id.'_'.$id)->getSnapshot()->getValue();
+
         foreach ($createPosts as $key => $createPost) 
         {
-            $ref = 'chats/' . $createPost["id"];  
+            if ($createPost["message_from"] == 'user' && $createPost["is_read"] == 0 && $createPost["sender_id"] == (string)$id) {
+                $ref = 'chats/' . $createPost["id"];  
 
-            $updates = [
-                'is_read' => 0,
-            ];
+                $updates = [
+                    'is_read' => 0,
+                ];
 
-            $set = $database->getReference($ref)->update($updates);
+                $set = $database->getReference($ref)->update($updates);
+            }else{
+                continue;
+            }
+
         }
 
          return redirect()->back()->with('success', 'messages updated to unread!');   
