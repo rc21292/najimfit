@@ -7,17 +7,16 @@
 	<div class="col-md-12">
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
-				<li class="breadcrumb-item"><a href="/dashboard"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Notes List</li>
+				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Request List</li>
 			</ol>
-			<a  href="/dashboard/client-chats" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>	
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-md-12">
 		<div class="ms-panel">
 			<div class="ms-panel-header">
-				<h6>Notes List</h6>
+				<h6>Request List</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
@@ -41,7 +40,7 @@
 		{ title: "Id" },
 		{ title: "Nutritionist Name" },
 		{ title: "Client" },
-		{ title: "Description" },
+		{ title: "Note" },
 		],
 
 	});
@@ -69,19 +68,5 @@
 			}
 		});
 	}
-</script>
-<script type="text/javascript">
-	$('#myModal').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget) 
-		var client_id = button.data('client');
-		var request_id = button.data('id');
-		var modal = $(this)
-		modal.find('.modal-body #view_profile').attr('href', '/dashboard/client-full-profile/'+client_id);
-		modal.find('.modal-body #defer_client').attr('href', '/dashboard/defer-client/'+request_id);
-		modal.find('.modal-body #view_chat').attr('href', '/dashboard/view-chat/'+request_id);
-		modal.find('.modal-body #view_table').attr('href', '/dashboard/assign-table/'+client_id+'/edit');
-		modal.find('.modal-body #view_workout').attr('href', '/dashboard/assign-workout/'+client_id+'/edit');
-		modal.find('.modal-body #client').val(client_id);
-	})
 </script>
 @endpush

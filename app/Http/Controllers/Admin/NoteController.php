@@ -26,10 +26,10 @@ class NoteController extends Controller
 
         if($role_name == 'Nutritionist')
         {
-            $requests = Note::where('nutritionist_id',$user->id)->get();
+            $requests = Note::where('nutritionist_id',$user->id)->latest()->get();
             return view('backend.admin.notes.nutritionist.index',compact('requests'))->with('no', 1);
         }else{
-            $requests = Note::where('status',0)->get();
+            $requests = Note::latest()->get();
             return view('backend.admin.notes.index',compact('requests'))->with('no', 1);
         }
     }

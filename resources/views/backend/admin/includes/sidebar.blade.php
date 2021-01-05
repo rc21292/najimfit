@@ -102,7 +102,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('notes.index')}}">
           <span><i class="far fa-clipboard"></i>Notes</span>
         </a>
       </li>
@@ -199,7 +199,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('notes.index')}}">
           <span><i class="fa fa-clipboard"></i> Notes</span>
         </a>
       </li>
