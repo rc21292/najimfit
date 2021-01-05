@@ -7,8 +7,8 @@
 	<div class="col-md-12">
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
-				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Request List</li>
+				<li class="breadcrumb-item"><a href="/dashboard"><i class="material-icons">home</i> Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Notes List</li>
 			</ol>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
@@ -16,7 +16,7 @@
 	<div class="col-md-12">
 		<div class="ms-panel">
 			<div class="ms-panel-header">
-				<h6>Request List</h6>
+				<h6>Notes List</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
