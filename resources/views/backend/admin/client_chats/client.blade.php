@@ -41,7 +41,7 @@
                   <a href="#" id="request_response" class="btn btn-block btn-primary">Request immediate response from nutritionist</a>
                   <p id="admin-request"></p>
                   <a href="#" id="defer_client" class="btn btn-block btn-warning">Defer Client</a>
-                  <a href="#" class="btn btn-block btn-success">Defer Chat</a>
+                  <a style="display: none;" href="#" class="btn btn-block btn-success">Defer Chat</a>
                   <a href="#" id="block_client" class="btn btn-block btn-danger">Block Client from speaking</a>
                   <a href="#" id="block_nutritionist" class="btn btn-block btn-light">Block Nutritionist from replying</a>
                 </div>
