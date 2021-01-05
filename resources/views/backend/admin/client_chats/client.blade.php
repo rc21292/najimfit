@@ -115,19 +115,21 @@
 		modal.find('.modal-body #defer_client').attr('href', '/dashboard/chat-defer-client/'+client_id);
 		modal.find('.modal-body #request_response').attr('href', '/dashboard/save-admin-request/'+client_id);
 		if (client_blocked) {
-		modal.find('.modal-body #block_client').attr('href', '/dashboard/unblock-client/'+client_id);
-		modal.find('.modal-body #block_client').html('Unblock Client from speaking');
-	}else{
-		modal.find('.modal-body #block_client').attr('href', '/dashboard/block-client/'+client_id);
-	}
-	if (nutri_blocked) {
-		modal.find('.modal-body #block_nutritionist').attr('href', '/dashboard/unblock-nutritionist/'+client_id);
-		modal.find('.modal-body #block_nutritionist').html('Unblock Nutritionist from replying');
-	}else{
-		modal.find('.modal-body #block_nutritionist').attr('href', '/dashboard/block-nutritionist/'+client_id);
-	}
+			modal.find('.modal-body #block_client').attr('href', '/dashboard/unblock-client/'+client_id);
+			modal.find('.modal-body #block_client').html('Unblock Client from speaking');
+		}else{
+			modal.find('.modal-body #block_client').attr('href', '/dashboard/block-client/'+client_id);
+			modal.find('.modal-body #block_client').html('Block Client from speaking');
+		}
+		if (nutri_blocked) {
+			modal.find('.modal-body #block_nutritionist').attr('href', '/dashboard/unblock-nutritionist/'+client_id);
+			modal.find('.modal-body #block_nutritionist').html('Unblock Nutritionist from replying');
+		}else{
+			modal.find('.modal-body #block_nutritionist').attr('href', '/dashboard/block-nutritionist/'+client_id);
+			modal.find('.modal-body #block_nutritionist').html('Block Nutritionist from replying');
+		}
 		if (request != '') {
-		modal.find('.modal-body #admin-request').html('<center>Last Request on '+request+'</center>');
+			modal.find('.modal-body #admin-request').html('<center>Last Request on '+request+'</center>');
 		}else{
 			modal.find('.modal-body #admin-request').html('');
 		}
