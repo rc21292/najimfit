@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('CHATIFY_NAME', 'Chatify Messenger'),
+    'name' => env('CHATIFY_NAME', 'Staff Chat Messenger'),
 
     /*
     |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ return [
     | e.g. : app.test/chatify
     */
 
-    'path' => env('CHATIFY_PATH', 'chatify'),
+    'path' => env('CHATIFY_PATH', 'dashboard/staff-chats'),
 
     /*
     |--------------------------------------------------------------------------

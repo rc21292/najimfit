@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{url('dashboard/staff-chats')}}">
           <span><i class="fab fa-teamspeak"></i>Staff Chats</span>
         </a>
       </li>
@@ -204,7 +204,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{url('dashboard/staff-chats')}}">
           <span><i class="fa fa-male"></i>  Staff Chats</span>
         </a>
       </li>
