@@ -138,7 +138,7 @@
 							</div>
 
 							<div class="ms-panel-body float-left">
-								<button type="button" class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
+								<button type="button" class="btn btn-square btn-success has-icon" onclick="window.location.href='{{ route('client-chats.show',$client->id) }}' "><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
 								<button type="button" class="btn btn-square btn-danger has-icon"><i class="flaticon-alert-1"></i> Consult Team</button>
 							</div>
 							<div class="ms-panel-body float-right">
