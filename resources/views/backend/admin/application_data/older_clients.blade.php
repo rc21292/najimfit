@@ -11,6 +11,7 @@
 				<li class="breadcrumb-item"><a href="{{route('datas.index')}}">Data</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Client List</li>
 			</ol>
+			<a style="float: right;" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>			
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
