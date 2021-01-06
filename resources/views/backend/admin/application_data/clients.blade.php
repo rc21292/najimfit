@@ -7,10 +7,10 @@
 	<div class="col-md-12">
 		<nav aria-label="breadcrumb " class="ms-panel-custom">
 			<ol class="breadcrumb pl-0">
-				<li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
+				<li class="breadcrumb-item"><a href="/dashboard"><i class="material-icons">home</i> Home</a></li>
+				<li class="breadcrumb-item"><a href="{{route('datas.index')}}">Data</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Client List</li>
 			</ol>
-			<a href="{{route('clients.create')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-plus"></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
