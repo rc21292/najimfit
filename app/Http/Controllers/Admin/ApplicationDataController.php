@@ -98,7 +98,6 @@ class ApplicationDataController extends Controller
 
     public function newClients()
     {
-        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = Client::select('clients.*','clients.created_at as assigned_on','clients.id as client_id')
         ->whereMonth('created_at', Carbon::now()->month)
         ->latest()->get();
@@ -139,7 +138,6 @@ class ApplicationDataController extends Controller
 
     public function olderClients()
     {
-        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = Client::select('clients.*','clients.created_at as assigned_on','clients.id as client_id')
         ->where('created_at', '<=', Carbon::now()->subMonth(1)->toDateTimeString())
         ->latest()->get();
