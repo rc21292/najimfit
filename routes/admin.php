@@ -40,6 +40,22 @@ Route::resource('about','AboutUsController');
 Route::resource('faqs','FaqController');
 
 Route::resource('controls','ControlController');
+
+Route::resource('datas','ApplicationDataController');
+
+Route::get('renew-workout-clients','ApplicationDataController@renewWorkoutClients')->name('renew-workout-clients');
+/*
+Route::get('renew-table-clients','ApplicationDataController@renewTableClients')->name('renew-table-clients');
+
+Route::get('clients-by-package/{id}','ApplicationDataController@clientsByPackageId')->name('clients-by-package');
+
+Route::get('older-clients','ApplicationDataController@olderClients')->name('older-clients');
+
+Route::get('new-clients','ApplicationDataController@newClients')->name('new-clients');
+*/
+Route::get('clients-all','ApplicationDataController@allClients')->name('clients-all');
+
+
 Route::resource('notifications','NotificationController');
 Route::resource('subscriptions','SubscriptionController');
 Route::resource('appointments','AppointmentController');
