@@ -188,7 +188,6 @@ class ApplicationDataController extends Controller
 
     public function clientsByPackageId($package_id)
     {
-        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = Client::select('clients.*','clients.created_at as assigned_on','clients.id as client_id')
         ->where('clients.package_id',$package_id)
         ->latest()->get();
