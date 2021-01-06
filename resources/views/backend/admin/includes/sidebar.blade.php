@@ -87,7 +87,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('datas.index')}}">
           <span><i class="fa fa-database"></i>Data</span>
         </a>
       </li>
