@@ -44,7 +44,7 @@ Route::resource('controls','ControlController');
 Route::resource('datas','ApplicationDataController');
 
 Route::get('renew-workout-clients','ApplicationDataController@renewWorkoutClients')->name('renew-workout-clients');
-/*
+
 Route::get('renew-table-clients','ApplicationDataController@renewTableClients')->name('renew-table-clients');
 
 Route::get('clients-by-package/{id}','ApplicationDataController@clientsByPackageId')->name('clients-by-package');
@@ -52,7 +52,7 @@ Route::get('clients-by-package/{id}','ApplicationDataController@clientsByPackage
 Route::get('older-clients','ApplicationDataController@olderClients')->name('older-clients');
 
 Route::get('new-clients','ApplicationDataController@newClients')->name('new-clients');
-*/
+
 Route::get('clients-all','ApplicationDataController@allClients')->name('clients-all');
 
 

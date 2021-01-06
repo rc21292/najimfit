@@ -98,6 +98,7 @@ class ApplicationDataController extends Controller
 
     public function newClients()
     {
+        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = Client::select('clients.*','clients.created_at as assigned_on','clients.id as client_id')
         ->whereMonth('created_at', Carbon::now()->month)
         ->latest()->get();
@@ -138,6 +139,7 @@ class ApplicationDataController extends Controller
 
     public function olderClients()
     {
+        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = Client::select('clients.*','clients.created_at as assigned_on','clients.id as client_id')
         ->where('created_at', '<=', Carbon::now()->subMonth(1)->toDateTimeString())
         ->latest()->get();
@@ -188,6 +190,7 @@ class ApplicationDataController extends Controller
 
     public function clientsByPackageId($package_id)
     {
+        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = Client::select('clients.*','clients.created_at as assigned_on','clients.id as client_id')
         ->where('clients.package_id',$package_id)
         ->latest()->get();
@@ -227,6 +230,7 @@ class ApplicationDataController extends Controller
 
     public function renewTableClients($value='')
     {
+        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = DB::table('nutritionist_clients')
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
