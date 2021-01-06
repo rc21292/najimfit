@@ -228,7 +228,6 @@ class ApplicationDataController extends Controller
 
     public function renewTableClients($value='')
     {
-        echo "<pre>";print_r('working on this!');"</pre>";exit;
         $clients = DB::table('nutritionist_clients')
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
