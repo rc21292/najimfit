@@ -57,7 +57,15 @@ Route::get('clients-all','ApplicationDataController@allClients')->name('clients-
 
 
 Route::resource('notifications','NotificationController');
+
 Route::resource('subscriptions','SubscriptionController');
+
+Route::get('accept-subscriptions','SubscriptionController@AcceptSubscriptions')->name('accept-subscriptions');
+Route::get('close-subscriptions','SubscriptionController@CloseSubscriptions')->name('close-subscriptions');
+Route::get('cancel-subscription','SubscriptionController@CanceSsubscription')->name('cancel-subscription');
+Route::get('extension-subscription','SubscriptionController@ExtensioSsubscription')->name('extension-subscription');
+Route::get('block-subscription','SubscriptionController@BlocSsubscription')->name('block-subscription');
+
 Route::resource('appointments','AppointmentController');
 Route::resource('employees','EmployeeController');
 Route::resource('access','AccesController');
