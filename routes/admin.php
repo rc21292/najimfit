@@ -58,6 +58,11 @@ Route::get('clients-all','ApplicationDataController@allClients')->name('clients-
 
 Route::resource('notifications','NotificationController');
 
+Route::get('send-push-notification','NotificationController@sendPushNotification')->name('send-push-notification');
+Route::get('send-in-chat-broadcast','NotificationController@sendInChatBroadcast')->name('send-in-chat-broadcast');
+Route::get('notifications-history','NotificationController@notificationsHistory')->name('notifications-history');
+Route::get('broadcasts-history','NotificationController@broadcastsHistory')->name('broadcasts-history');
+
 Route::resource('subscriptions','SubscriptionController');
 
 Route::get('accept-subscriptions','SubscriptionController@AcceptSubscriptions')->name('accept-subscriptions');
