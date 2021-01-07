@@ -36,8 +36,20 @@ Route::get('/packages', function () {
     return view('packages');
 });
 
-Route::get('/contact-us', function () {
+Route::get('/aboutus', function () {
+    return view('about_us');
+});
+
+Route::get('/gallery', function () {
+    return view('gallery');
+});
+
+Route::get('/contactus', function () {
     return view('contact_us');
+});
+
+Route::get('/terms-conditions', function () {
+    return view('terms-conditions');
 });
 
 

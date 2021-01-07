@@ -469,7 +469,7 @@
                 <textarea class="form-control" placeholder=" رسالة " rows="5"></textarea>
               </div>
               <div class="col-12 mt-4">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button type="submit" class="btn btn-primary">   إرسال   </button>
               </div>
             </form>
           </div>

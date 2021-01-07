@@ -24,11 +24,11 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="#">شروط و الاحكام   </a>
+            <li class="nav-item"> <a class="nav-link" href="/terms-conditions">شروط و الاحكام   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/contact-us">   اتصل بنا   </a>
+            <li class="nav-item"> <a class="nav-link" href="/contactus">   اتصل بنا   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/about-us">   معلومات عنا   </a>
+            <li class="nav-item"> <a class="nav-link" href="/aboutus">   معلومات عنا   </a>
             </li>
             <li class="nav-item"> <a class="nav-link" href="/gallery">   صالة عرض   </a>
             </li>
