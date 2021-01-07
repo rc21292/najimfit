@@ -23,6 +23,49 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
+
+        $active_subscriptions = DB::table('clients')
+        ->whereNotNull('package_id')
+        ->count('id');
+
+        $waiting_subscriptions = DB::table('clients')
+        ->whereNull('package_id')
+        ->count('id');
+
+        DB::connection()->enableQueryLog();
+        $subscriptions_by_nutritionists = DB::table('nutritionist_clients')
+            ->join('clients','clients.id','nutritionist_clients.client_id')
+            ->join('users','users.id','nutritionist_clients.nutritionist_id')
+            ->select('nutritionist_clients.nutritionist_id','users.name', DB::raw('group_concat(client_id) as client_ids'), DB::raw('count(client_id) as total'))
+            ->whereNotNull('package_id')
+            ->groupBy('nutritionist_clients.nutritionist_id')
+            ->get();
+
+            $total_per_nutritionist = 0;
+            foreach($subscriptions_by_nutritionists as $key => $subscriptions_by_nutritionist) {
+                $total_per_nutritionist += $subscriptions_by_nutritionist->total;
+            }
+
+        $subscriptions_by_nutritionists_total = count($subscriptions_by_nutritionists);
+
+            $average_per_nutritionist = round($total_per_nutritionist/$subscriptions_by_nutritionists_total);
+
+
+        $queries = DB::getQueryLog();
+        $last_query = end($queries);
+
+        // echo "<pre>";print_r($packages);"</pre>";exit;
+
+
+       /* $packages = DB::table('clients')->join('nutritionist_clients','nutritionist_clients.client_id','=','clients.id')
+        ->select('nutritionist_id', DB::raw('group_concat(client_id) as client_ids'), DB::raw('count(package_id) as total'))
+        ->whereNotNull('package_id')
+        ->groupBy('nutritionist_id')
+        ->get();
+
+        echo "<pre>";print_r($packages);"</pre>";exit;*/
+
+
         $user = Auth::User();
         $roles = $user->getRoleNames();
         $role_name =  $roles->implode('', ' ');
@@ -55,7 +98,7 @@ class SubscriptionController extends Controller
             }
         }
 
-        return view('backend.admin.controls.subscriptions.index',compact('clients'))->with('no', 1);
+        return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist'))->with('no', 1);
     }
 
     public function AcceptSubscriptions(Request $request)

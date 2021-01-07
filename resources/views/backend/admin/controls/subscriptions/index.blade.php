@@ -22,19 +22,20 @@
 			<div class="ms-panel-body">
 				<div class="row">
 					<div class="col-sm-4">
-						<b>Active subscriptions</b>: 2000<br>
-						<b>Waiting list</b>: 250<br>
-						<b>Average per nutritionist</b>: 2000<br>
+						<b>Active subscriptions</b>: {{$active_subscriptions}}<br>
+						<b>Waiting list</b>: {{$waiting_subscriptions}}<br>
+						<b>Average per nutritionist</b>: {{$average_per_nutritionist}}<br>
 					</div>
 					<div class="col-sm-4">
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
-					</div>
-					<div class="col-sm-4">
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
+						@php $count = 1; @endphp
+						@foreach($subscriptions_by_nutritionists as $subscriptions_by_nutritionist)
+						@if($count >= round($subscriptions_by_nutritionists_total/2))
+						<!-- </div>
+					<div class="col-sm-4"> -->
+						@endif
+						<b> {{$subscriptions_by_nutritionist->name}} </b>: {{$subscriptions_by_nutritionist->total}} <br>
+						@php $count++ @endphp
+						@endforeach					
 					</div>
 				</div>
 			</div>
