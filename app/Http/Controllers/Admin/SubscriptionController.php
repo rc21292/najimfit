@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\DeferRequest;
+use App\Models\Package;
 use App\Models\Complaint;
 use App\Models\AdminRequest;
 use App\Models\User;
@@ -41,6 +42,10 @@ class SubscriptionController extends Controller
             ->groupBy('nutritionist_clients.nutritionist_id')
             ->get();
 
+            $queries = DB::getQueryLog();
+        $last_query = end($queries);
+
+        // echo "<pre>";print_r($last_query);"</pre>";exit;
             $total_per_nutritionist = 0;
             foreach($subscriptions_by_nutritionists as $key => $subscriptions_by_nutritionist) {
                 $total_per_nutritionist += $subscriptions_by_nutritionist->total;
@@ -51,10 +56,8 @@ class SubscriptionController extends Controller
             $average_per_nutritionist = round($total_per_nutritionist/$subscriptions_by_nutritionists_total);
 
 
-        $queries = DB::getQueryLog();
-        $last_query = end($queries);
+        
 
-        // echo "<pre>";print_r($packages);"</pre>";exit;
 
 
        /* $packages = DB::table('clients')->join('nutritionist_clients','nutritionist_clients.client_id','=','clients.id')
@@ -103,29 +106,55 @@ class SubscriptionController extends Controller
 
     public function AcceptSubscriptions(Request $request)
     {
-
+        DB::table('packages')->update(['is_accept_subscriptions' => 1]);        
+        return redirect()->back()->with('success', 'Successfully enabled Accepting Subscriptions!');
     }
 
     public function CloseSubscriptions(Request $request)
-    {
-
+    {   
+        DB::table('packages')->update(['is_accept_subscriptions' => 0]);   
+        return redirect()->back()->with('success', 'Successfully disabled Accepting Subscriptions!');
     }
 
     public function CancelSubscription(Request $request)
     {
-
+        return redirect()->back()->with('success', 'Successfully blocked Nutritionist from replying!');
     }
 
     public function ExtensionSubscription(Request $request)
     {
-
+        return redirect()->back()->with('success', 'Successfully blocked Nutritionist from replying!');
     }
     
-    public function BlockSubscription(Request $request)
+    public function BlockUserFromApp(Request $request)
     {
+        $clients = Client::latest()->select('firstname','lastname','id')->get();
 
+        return view('backend.admin.controls.subscriptions.block_user',compact('clients'))->with('no', 1);
     }
 
+    public function UnblockUserFromApp(Request $request)
+    {
+        $clients = Client::where('blocked_from_app',1)->latest()->select('firstname','lastname','id')->get();
+
+        return view('backend.admin.controls.subscriptions.unblock_user',compact('clients'))->with('no', 1);
+    }
+
+
+    public function BlockClientFromApp(Request $request)
+    {
+        DB::table('clients')->where('id',$request->client)->update(['blocked_from_app' => 1]); 
+
+        return redirect()->route('subscriptions.index')->with('success','Client Blocked from app successfully!');
+    }
+
+
+    public function UnblockClientFromApp(Request $request)
+    {
+        DB::table('clients')->where('id',$request->client)->update(['blocked_from_app' => 0]); 
+
+        return redirect()->route('subscriptions.index')->with('success','Client Unblocked from app successfully!');
+    }
     /**
      * Show the form for creating a new resource.
      *

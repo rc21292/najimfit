@@ -69,7 +69,10 @@ Route::get('accept-subscriptions','SubscriptionController@AcceptSubscriptions')-
 Route::get('close-subscriptions','SubscriptionController@CloseSubscriptions')->name('close-subscriptions');
 Route::get('cancel-subscription','SubscriptionController@CanceSsubscription')->name('cancel-subscription');
 Route::get('extension-subscription','SubscriptionController@ExtensioSsubscription')->name('extension-subscription');
-Route::get('block-subscription','SubscriptionController@BlocSsubscription')->name('block-subscription');
+Route::get('block-user','SubscriptionController@BlockUserFromApp')->name('block-user');
+Route::get('unblock-user','SubscriptionController@UnblockUserFromApp')->name('unblock-user');
+Route::post('block-user-from-app','SubscriptionController@BlockClientFromApp')->name('block-user-from-app');
+Route::post('unblock-user-from-app','SubscriptionController@UnblockClientFromApp')->name('unblock-user-from-app');
 
 Route::resource('appointments','AppointmentController');
 Route::resource('employees','EmployeeController');
@@ -132,6 +135,7 @@ Route::get('client-defer/{id}','ComplaintController@deferClient')->name('defer-c
 Route::post('assign-nutritionist','RequestController@assignToNutritionist')->name('assign-nutritionist');
 Route::post('assign-to-nutritionist','ComplaintController@assignToNutritionist')->name('assign-to-nutritionist');
 Route::post('assign-client-to-nutritionist','ClientChatController@assignToNutritionist')->name('assign-client-to-nutritionist');
+
 Route::resource('complaints','ComplaintController');
 Route::get('post-complaint/{id}','ComplaintController@create')->name('post-complaint');
 

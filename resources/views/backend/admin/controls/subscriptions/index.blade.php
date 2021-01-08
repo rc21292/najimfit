@@ -64,14 +64,15 @@
 				<br>
 				<hr>
 				<div class="row">
-					<div class="col-sm-3">
+					<div class="col-sm-1">
 					</div>
-					<div class="col-sm-9">
+					<div class="col-sm-11">
 						<a href="{{route('accept-subscriptions')}}" class='btn btn-primary btnpro'>Accept Subscriptions</a>
 						<a href="{{route('close-subscriptions')}}" class='btn btn-success btnpro'>Close Subscriptions</a>
 						<a href="{{route('cancel-subscription')}}" class='btn btn-danger btnpro'>Cancel Subscription</a>
-						<a href="{{route('extension-subscription')}}" class='btn btn-info btnpro'>Extension</a> 
-						<a href="{{route('block-subscription')}}" class='btn btn-primary btnpro'>Block Users</a>
+						<a href="{{route('extension-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
+						<a href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from APP</a>
+						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users from App</a>
 					</div>
 				</div>
 			</div>
