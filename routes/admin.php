@@ -67,11 +67,17 @@ Route::resource('subscriptions','SubscriptionController');
 
 Route::get('accept-subscriptions','SubscriptionController@AcceptSubscriptions')->name('accept-subscriptions');
 Route::get('close-subscriptions','SubscriptionController@CloseSubscriptions')->name('close-subscriptions');
-Route::get('cancel-subscription','SubscriptionController@CanceSsubscription')->name('cancel-subscription');
-Route::get('extension-subscription','SubscriptionController@ExtensioSsubscription')->name('extension-subscription');
+Route::get('cancel-subscription','SubscriptionController@cancelSubscription')->name('cancel-subscription');
+Route::post('cancel-subscription','SubscriptionController@cancelSubscriptionByClient')->name('cancel-subscription');
+Route::get('uncancel-subscription','SubscriptionController@uncancelSubscription')->name('uncancel-subscription');
+Route::post('uncancel-subscription','SubscriptionController@uncancelSubscriptionByClient')->name('uncancel-subscription');
+Route::get('extend-subscription','SubscriptionController@ExtendSubscription')->name('extend-subscription');
+Route::post('extend-subscription','SubscriptionController@ExtendSubscriptionByClient')->name('extend-subscription');
 Route::get('block-user','SubscriptionController@BlockUserFromApp')->name('block-user');
 Route::get('unblock-user','SubscriptionController@UnblockUserFromApp')->name('unblock-user');
-Route::post('block-user-from-app','SubscriptionController@BlockClientFromApp')->name('block-user-from-app');
+Route::post('update-suscription-settings','SubscriptionController@updateSuscriptionSettings')->name('update-suscription-settings');
+Route::post('block-user-from-app','Sub
+	scriptionController@BlockClientFromApp')->name('block-user-from-app');
 Route::post('unblock-user-from-app','SubscriptionController@UnblockClientFromApp')->name('unblock-user-from-app');
 
 Route::resource('appointments','AppointmentController');
