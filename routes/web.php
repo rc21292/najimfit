@@ -53,7 +53,9 @@ Route::get('/terms-conditions', function () {
 });
 
 
-
+Route::resource('dashboard/groups','GroupController');
+Route::resource('dashboard/conversations','ConversationController');
+Route::resource('dashboard/group-chat','ChatController');
 
 Auth::routes();
 
