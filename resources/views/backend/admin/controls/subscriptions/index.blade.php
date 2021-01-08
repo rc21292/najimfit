@@ -22,7 +22,7 @@
 			<div class="ms-panel-body">
 				<div class="row">
 					<div class="col-sm-4">
-						<b>Active subscriptions</b>: {{$active_subscriptions}}<br>
+						<b>Active subscriptions</b>: {{$online_active_subscriptions}}<br>
 						<b>Waiting list</b>: {{$waiting_subscriptions}}<br>
 						<b>Average per nutritionist</b>: {{$average_per_nutritionist}}<br>
 					</div>
@@ -33,7 +33,8 @@
 						<!-- </div>
 					<div class="col-sm-4"> -->
 						@endif
-						<b> {{$subscriptions_by_nutritionist->name}} </b>: {{$subscriptions_by_nutritionist->total}} <br>
+						<b> {{$subscriptions_by_nutritionist->name}} </b>: {{$subscriptions_by_nutritionist->total}}
+						 @if($count != round($subscriptions_by_nutritionists_total))<br> @endif
 						@php $count++ @endphp
 						@endforeach					
 					</div>
@@ -46,33 +47,61 @@
 			<div class="ms-panel-body">
 				<div class="row">
 					<div class="col-sm-4">
-						<b>Active subscriptions</b>: 2000<br>
-						<b>Waiting list</b>: 250<br>
-						<b>Average per nutritionist</b>: 2000<br>
+						<b>Active subscriptions</b>: {{$active_subscriptions}}<br>
+						<b>Waiting list</b>: 0<br>
+						<b>Average per nutritionist</b>: {{$active_average_per_nutritionist}}<br>
 					</div>
 					<div class="col-sm-4">
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
-					</div>
-					<div class="col-sm-4">
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
-						<b>Nutritionist 1</b>: 300<br>
+						@php $count = 1; @endphp
+						@foreach($active_subscriptions_by_nutritionists as $subscriptions_by_nutritionist)
+						@if($count >= round($subscriptions_by_nutritionists_total/2))
+						<!-- </div>
+					<div class="col-sm-4"> -->
+						@endif
+						<b> {{$subscriptions_by_nutritionist->name}} </b>: {{$subscriptions_by_nutritionist->total}}
+						 @if($count != round($subscriptions_by_nutritionists_total))<br> @endif
+						@php $count++ @endphp
+						@endforeach					
 					</div>
 				</div>
-				<br>
+				<hr>
+				<form  method="POST" action="{{route('update-suscription-settings')}}" novalidate>
+					<div class="row">
+						@csrf
+						{{method_field('post')}}
+						<div class="col-sm-2">
+							<label for="carbs">Subscriptions Limit</label>
+							<div class="input-group">
+								<input type="text" class="form-control" name="subscriptions_limit" id="carbs" placeholder="Subscriptions Limit" value="{{$subscription_settings->subscriptions_limit}}" required>
+								<div class="invalid-feedback">
+									Please provide Subscriptions Limit.
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label for="fat">Subscriptions Wating List Limit</label>
+							<div class="input-group">
+								<input type="text" class="form-control" name="subscriptions_watinglist_limit" id="fat" placeholder="Subscriptions Wating List Limit" value="{{$subscription_settings->subscriptions_watinglist_limit}}" required>
+								<div class="invalid-feedback">
+									Please provide Subscriptions Wating List Limit.
+								</div>
+							</div>
+						</div>	
+						<div class="col-sm-4">
+							<button class="btn btn-primary mt-4" type="submit">Save</button>
+						</div>
+					</div>
+				</form>
 				<hr>
 				<div class="row">
-					<div class="col-sm-1">
-					</div>
-					<div class="col-sm-11">
+					<div class="col-sm-12">
 						<a href="{{route('accept-subscriptions')}}" class='btn btn-primary btnpro'>Accept Subscriptions</a>
 						<a href="{{route('close-subscriptions')}}" class='btn btn-success btnpro'>Close Subscriptions</a>
 						<a href="{{route('cancel-subscription')}}" class='btn btn-danger btnpro'>Cancel Subscription</a>
-						<a href="{{route('extension-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
-						<a href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from APP</a>
-						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users from App</a>
+						<a href="{{route('uncancel-subscription')}}" class='btn btn-danger btnpro'>Uncancel Subscription</a>
+						<a href="{{route('extend-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
+						<a href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from App</a>
+						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users</a>
 					</div>
 				</div>
 			</div>

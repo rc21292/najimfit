@@ -25,9 +25,19 @@ class SubscriptionController extends Controller
     public function index()
     {
 
+        $active_package_id = Package::where('name','Fitnes Junkie')->value('id');
         $active_subscriptions = DB::table('clients')
-        ->whereNotNull('package_id')
+        ->where('package_id' ,$active_package_id)
         ->count('id');
+
+        $online_active_subscriptions = DB::table('clients')
+        ->whereNotNull('package_id')
+        ->where('package_id', '!=' ,$active_package_id)
+        ->count('id');
+
+        $subscription_settings = DB::table('subscription_settings')
+        ->select('subscriptions_limit','subscriptions_watinglist_limit')
+        ->first();
 
         $waiting_subscriptions = DB::table('clients')
         ->whereNull('package_id')
@@ -38,35 +48,43 @@ class SubscriptionController extends Controller
             ->join('clients','clients.id','nutritionist_clients.client_id')
             ->join('users','users.id','nutritionist_clients.nutritionist_id')
             ->select('nutritionist_clients.nutritionist_id','users.name', DB::raw('group_concat(client_id) as client_ids'), DB::raw('count(client_id) as total'))
+            ->where('package_id', '!=' ,$active_package_id)
             ->whereNotNull('package_id')
             ->groupBy('nutritionist_clients.nutritionist_id')
             ->get();
 
-            $queries = DB::getQueryLog();
-        $last_query = end($queries);
-
-        // echo "<pre>";print_r($last_query);"</pre>";exit;
             $total_per_nutritionist = 0;
             foreach($subscriptions_by_nutritionists as $key => $subscriptions_by_nutritionist) {
                 $total_per_nutritionist += $subscriptions_by_nutritionist->total;
             }
 
-        $subscriptions_by_nutritionists_total = count($subscriptions_by_nutritionists);
+            $subscriptions_by_nutritionists_total = count($subscriptions_by_nutritionists);
 
             $average_per_nutritionist = round($total_per_nutritionist/$subscriptions_by_nutritionists_total);
 
 
+            $active_subscriptions_by_nutritionists = DB::table('nutritionist_clients')
+            ->join('clients','clients.id','nutritionist_clients.client_id')
+            ->join('users','users.id','nutritionist_clients.nutritionist_id')
+            ->select('nutritionist_clients.nutritionist_id','users.name', DB::raw('group_concat(client_id) as client_ids'), DB::raw('count(client_id) as total'))
+            ->where('package_id',$active_package_id)
+            ->groupBy('nutritionist_clients.nutritionist_id')
+            ->get();
+
+            /*Fitnes Junkie
+center packages*/
+
+            $queries = DB::getQueryLog();
+        $last_query = end($queries);
         
+        $active_total_per_nutritionist = 0;
+            foreach($active_subscriptions_by_nutritionists as $key => $active_subscriptions_by_nutritionist) {
+                $active_total_per_nutritionist += $active_subscriptions_by_nutritionist->total;
+            }
 
+        $active_subscriptions_by_nutritionists_total = count($active_subscriptions_by_nutritionists);
 
-
-       /* $packages = DB::table('clients')->join('nutritionist_clients','nutritionist_clients.client_id','=','clients.id')
-        ->select('nutritionist_id', DB::raw('group_concat(client_id) as client_ids'), DB::raw('count(package_id) as total'))
-        ->whereNotNull('package_id')
-        ->groupBy('nutritionist_id')
-        ->get();
-
-        echo "<pre>";print_r($packages);"</pre>";exit;*/
+            $active_average_per_nutritionist = round($active_total_per_nutritionist/$active_subscriptions_by_nutritionists_total);
 
 
         $user = Auth::User();
@@ -101,31 +119,71 @@ class SubscriptionController extends Controller
             }
         }
 
-        return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist'))->with('no', 1);
+        return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist','subscription_settings','active_subscriptions_by_nutritionists','online_active_subscriptions','active_average_per_nutritionist'))->with('no', 1);
     }
 
     public function AcceptSubscriptions(Request $request)
     {
-        DB::table('packages')->update(['is_accept_subscriptions' => 1]);        
+        DB::table('packages')->update(['is_accept_subscriptions' => 1]); 
+        DB::table('subscription_settings')->update(['accept_subscriptions' => 1]);         
         return redirect()->back()->with('success', 'Successfully enabled Accepting Subscriptions!');
     }
 
     public function CloseSubscriptions(Request $request)
     {   
-        DB::table('packages')->update(['is_accept_subscriptions' => 0]);   
+        DB::table('packages')->update(['is_accept_subscriptions' => 0]);
+        DB::table('subscription_settings')->update(['close_subscriptions' => 1]);     
+        DB::table('subscription_settings')->update(['accept_subscriptions' => 0]);     
         return redirect()->back()->with('success', 'Successfully disabled Accepting Subscriptions!');
+    }
+
+    public function cancelSubscriptionByClient(Request $request)
+    {
+        DB::table('clients')->where('id',$request->client)->update(['is_subscription_canceled' => 1]); 
+        return redirect()->route('subscriptions.index')->with('success','Client Blocked from app successfully!');
     }
 
     public function CancelSubscription(Request $request)
     {
-        return redirect()->back()->with('success', 'Successfully blocked Nutritionist from replying!');
+        $clients = Client::latest()->select('firstname','lastname','id')->get();
+
+        return view('backend.admin.controls.subscriptions.cancel_subscription',compact('clients'))->with('no', 1);
     }
 
-    public function ExtensionSubscription(Request $request)
+
+    public function uncancelSubscriptionByClient(Request $request)
     {
-        return redirect()->back()->with('success', 'Successfully blocked Nutritionist from replying!');
+        DB::table('clients')->where('id',$request->client)->update(['is_subscription_canceled' => 0]); 
+        return redirect()->route('subscriptions.index')->with('success','Client Blocked from app successfully!');
     }
-    
+
+    public function UncancelSubscription(Request $request)
+    {
+        $clients = Client::latest()->where('is_subscription_canceled',1)->select('firstname','lastname','id')->get();
+
+        return view('backend.admin.controls.subscriptions.uncancel_subscription',compact('clients'))->with('no', 1);
+    }
+
+    public function updateSuscriptionSettings(Request $request)
+    {
+        DB::table('subscription_settings')->update(['subscriptions_limit' => $request->subscriptions_limit, 'subscriptions_watinglist_limit' => $request->subscriptions_watinglist_limit]); 
+
+        return redirect()->back()->with('success', 'Successfully updated subscription Settings!');
+    }
+
+    public function ExtendSubscription(Request $request)
+    {
+        $clients = Client::latest()->select('firstname','lastname','id')->get();
+
+        return view('backend.admin.controls.subscriptions.extend_subscription',compact('clients'))->with('no', 1);
+    }
+
+    public function ExtendSubscriptionByClient(Request $request)
+    {
+         DB::table('clients')->where('id',$request->client)->update(['extend_days' => $request->days]); 
+        return redirect()->route('subscriptions.index')->with('success','Client Suscription extend successfully!');
+    }    
+
     public function BlockUserFromApp(Request $request)
     {
         $clients = Client::latest()->select('firstname','lastname','id')->get();
