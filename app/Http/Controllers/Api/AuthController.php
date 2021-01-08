@@ -79,6 +79,8 @@ class AuthController extends Controller
 		->groupBy('nutritionist_id')
 		->get();
 
+		DB::table('clients')->where('id',$user->id)->update(['device_token' => $request['device_token']]);   
+
 		foreach($nutritionists as $nutritionist){
 			if($nutritionist->client_total < 30){
 				DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
@@ -366,6 +368,7 @@ class AuthController extends Controller
 		if ($user) {
 			if (Hash::check($request->password, $user->password)) {
 				$token = $user->createToken('Laravel Password Grant Client')->accessToken;
+				DB::table('clients')->where('id',$user->id)->update(['device_token' => $request['device_token']]);   
 				$response = ['token' => $token];
 				return response($response, 200);
 			} else {
