@@ -94,7 +94,6 @@
 				</form>
 				<hr>
 				<div class="row">
-					<div class="col-sm-12">
 						<a href="{{route('accept-subscriptions')}}" class='btn btn-primary btnpro'>Accept Subscriptions</a>
 						<a href="{{route('close-subscriptions')}}" class='btn btn-success btnpro'>Close Subscriptions</a>
 						<a href="{{route('cancel-subscription')}}" class='btn btn-danger btnpro'>Cancel Subscription</a>
@@ -102,7 +101,6 @@
 						<a href="{{route('extend-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
 						<a href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from APP</a>
 						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users from App</a>
-					</div>
 				</div>
 			</div>
 		</div>
