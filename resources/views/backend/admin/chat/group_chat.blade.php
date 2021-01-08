@@ -180,7 +180,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
-      <th scope="col">Action</th>
+{{--       <th scope="col">Action</th> --}}
   </tr>
 </thead>
 <tbody>
@@ -189,7 +189,7 @@
     <tr>
       <th scope="row">1</th>
       <td>{{$participant->name}}</td>
-      <td><button class="btn btn-danger" id="buttonremove" value="{{ $participant->id }}"><i class="fas fa-user-minus"></i></button></td>
+      {{-- <td><button class="btn btn-danger" id="buttonremove" value="{{ $participant->id }}"><i class="fas fa-user-minus"></i></button></td> --}}
   </tr>
   @endforeach
   @endif
