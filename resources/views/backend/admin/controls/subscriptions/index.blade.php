@@ -109,7 +109,7 @@
 						<a href="{{route('uncancel-subscription')}}" class='btn btn-danger btnpro'>Uncancel Subscription</a>
 						<a href="{{route('extend-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
 						<a href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from App</a>
-						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users</a>
+						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users from App</a>
 						<a href="{{route('custom-messages')}}" class='btn btn-primary btnpro'>Custom Messages</a>
 					</div>
 				</div>
