@@ -92,7 +92,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('meeting.index')}}">
           <span><i class="fa fa-handshake"></i>Share and Meetings</span>
         </a>
       </li>

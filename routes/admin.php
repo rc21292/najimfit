@@ -173,4 +173,6 @@ Route::post('/fullcalendar/create','FullCalendarController@create');
 Route::post('/fullcalendar/update','FullCalendarController@update');
 
 Route::post('/fullcalendar/delete','FullCalendarController@destroy');
+
+Route::resource('/meeting', 'MeetingController');
 });
