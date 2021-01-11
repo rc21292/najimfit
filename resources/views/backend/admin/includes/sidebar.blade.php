@@ -148,13 +148,13 @@
 
     <!-- Navigation -->
     <ul class="accordion ms-main-aside fs-14" id="side-nav-accordion">
-      @can('product-list')
+      {{-- @can('product-list')
       <li class="menu-item">
         <a href="{{ route('products.index') }}">
           <span><i class="material-icons fs-16">face</i>Products</span>
         </a>
       </li>
-      @endcan
+      @endcan --}}
       <li class="menu-item">
         <a href="/chatify">
           <span><i class="fab fa-stack-exchange"></i>Chats</span>
