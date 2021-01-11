@@ -79,6 +79,8 @@ Route::post('update-suscription-settings','SubscriptionController@updateSuscript
 Route::post('block-user-from-app','Sub
 	scriptionController@BlockClientFromApp')->name('block-user-from-app');
 Route::post('unblock-user-from-app','SubscriptionController@UnblockClientFromApp')->name('unblock-user-from-app');
+Route::get('custom-messages','SubscriptionController@customMessages')->name('custom-messages');
+Route::post('update-custom-messages','SubscriptionController@updateCustomMessages')->name('update-custom-messages');
 
 Route::resource('appointments','AppointmentController');
 Route::resource('employees','EmployeeController');
