@@ -19,7 +19,7 @@ class ChatController extends Controller
         $users = User::where('id', '<>', auth()->user()->id)->get();
         $user = auth()->user();
 
-        return view('backend.admin.chat.group_chat', ['groups' => $groups, 'users' => $users, 'user' => $user]);
+        return view('backend.admin.chat.new_groupchat', ['groups' => $groups, 'users' => $users, 'user' => $user]);
     }
 
     /**

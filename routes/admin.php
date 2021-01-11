@@ -76,10 +76,9 @@ Route::post('extend-subscription','SubscriptionController@ExtendSubscriptionByCl
 Route::get('block-user','SubscriptionController@BlockUserFromApp')->name('block-user');
 Route::get('unblock-user','SubscriptionController@UnblockUserFromApp')->name('unblock-user');
 Route::post('update-suscription-settings','SubscriptionController@updateSuscriptionSettings')->name('update-suscription-settings');
-Route::post('block-user-from-app','SubscriptionController@BlockClientFromApp')->name('block-user-from-app');
+Route::post('block-user-from-app','Sub
+	scriptionController@BlockClientFromApp')->name('block-user-from-app');
 Route::post('unblock-user-from-app','SubscriptionController@UnblockClientFromApp')->name('unblock-user-from-app');
-Route::get('custom-messages','SubscriptionController@customMessages')->name('custom-messages');
-Route::post('update-custom-messages','SubscriptionController@updateCustomMessages')->name('update-custom-messages');
 
 Route::resource('appointments','AppointmentController');
 Route::resource('employees','EmployeeController');
@@ -176,4 +175,6 @@ Route::post('/fullcalendar/update','FullCalendarController@update');
 Route::post('/fullcalendar/delete','FullCalendarController@destroy');
 
 Route::resource('/meeting', 'MeetingController');
+
+Route::get('/meeting-notifications','MeetingController@notifications');
 });

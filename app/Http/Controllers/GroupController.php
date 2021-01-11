@@ -56,7 +56,7 @@ class GroupController extends Controller
         $users = User::where('id', '<>', auth()->user()->id)->get();
         $user = auth()->user();
 
-        return view('backend.admin.chat.group_chat', ['groups' => $groups, 'users' => $users, 'user' => $user]);
+        return view('backend.admin.chat.new_groupchat', ['groups' => $groups, 'users' => $users, 'user' => $user]);
 
     }
 
@@ -79,7 +79,7 @@ class GroupController extends Controller
         $group_name = Group::where('id',$id)->value('name');
         $participants = DB::table('group_user')->join('users','users.id','=','group_user.user_id')->select('users.*')->where('group_user.group_id',$id)->get();
         
-        return view('backend.admin.chat.group_chat', ['groups' => $groups, 'users' => $users, 'user' => $user,'conversations' => $conversations,'group_id'=>$id,'count'=> $count, 'group_name'=>$group_name,'participants'=>$participants]);
+        return view('backend.admin.chat.new_groupchat', ['groups' => $groups, 'users' => $users, 'user' => $user,'conversations' => $conversations,'group_id'=>$id,'count'=> $count, 'group_name'=>$group_name,'participants'=>$participants]);
     }
 
     /**

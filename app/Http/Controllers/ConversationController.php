@@ -22,9 +22,15 @@ class ConversationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $new_count =Conversation::where('group_id',$request->group_id)->count();
+        if ($new_count > $request->message_count){
+            $new_message = Conversation::where('group_id',$request->group_id)->latest()->first();
+        }else{
+            $new_message = 0;
+        }
+        return response(['success' => $new_message, 'new_count' => $new_count]);
     }
 
     /**

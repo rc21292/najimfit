@@ -26,6 +26,10 @@
         <li class="ms-nav-item ms-nav-user dropdown">
           <a href="/dashboard/admin-requests" title="Admin Requests" class="text-disabled ms-has-notification">{{{ App\Helper::getAdminRequestsCount()}}} <i class="fa fa-envelope" aria-hidden="true"></i></a>
         </li>
+        <li class="ms-nav-item ms-nav-user dropdown">
+          <a href="{{url('dashboard/meeting-notifications')}}" title="Notifications" class="text-disabled ms-has-notification">0 <i class="flaticon-bell"></i></a>
+        </li>
+        
         @php
       }
       @endphp        

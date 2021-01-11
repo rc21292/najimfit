@@ -12,10 +12,10 @@ class MeetingController extends Controller
 {
 
 	public function __construct()
-    {
-        $this->middleware('auth');
-    }
-  
+	{
+		$this->middleware('auth');
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +23,9 @@ class MeetingController extends Controller
      */
     public function index()
     {
-        $meetings = DB::table('meetings')->get();
+    	$meetings = DB::table('meetings')->get();
     	
-        return view('backend.admin.meeting.index',compact('meetings'))->with('no', 1);
+    	return view('backend.admin.meeting.index',compact('meetings'))->with('no', 1);
     }
 
     /**
@@ -35,9 +35,9 @@ class MeetingController extends Controller
      */
     public function create()
     {
-        $users = User::where('id','!=',Auth::User()->id)->get();
+    	$users = User::where('id','!=',Auth::User()->id)->get();
     	
-        return view('backend.admin.meeting.create',compact('users'));
+    	return view('backend.admin.meeting.create',compact('users'));
     }
 
     /**
@@ -48,25 +48,25 @@ class MeetingController extends Controller
      */
     public function store(Request $request)
     {
-        $meeting_id = DB::table('meetings')->insertGetId([
-        	'name' => $request->name,
-            'description' => $request->description,
-            'date' =>$request->date,
-            'start' => $request->start,
-            'end' =>  $request->end,
-            'link' => $request->link,
-            'participants' => json_encode($request->users)
-        ]);
+    	$meeting_id = DB::table('meetings')->insertGetId([
+    		'name' => $request->name,
+    		'description' => $request->description,
+    		'date' =>$request->date,
+    		'start' => $request->start,
+    		'end' =>  $request->end,
+    		'link' => $request->link,
+    		'participants' => json_encode($request->users)
+    	]);
 
-        foreach($request->users as $user){
-        	DB::table('meeting_notifications')->insert([
-        	'user_id' => $user,
-            'meeting_id' => $meeting_id,
-            'message' => 'You have been invited by Admin to Join '.$request->name. ' on'. $request->date .'. Click Here to Join <a href="'.$request->link.'"></a>',
-        ]);
-        }
+    	foreach($request->users as $user){
+    		DB::table('meeting_notifications')->insert([
+    			'user_id' => $user,
+    			'meeting_id' => $meeting_id,
+    			'message' => 'You have been invited by Admin to Join '.$request->name. ' on'. $request->date .'. Click Here to Join: '.$request->link,
+    		]);
+    	}
 
-        return redirect()->route('meeting.index')->with(['success'=>'Meeting Saved and All Participants have been invited Successfully!']);
+    	return redirect()->route('meeting.index')->with(['success'=>'Meeting Saved and All Participants have been invited Successfully!']);
     }
     /**
      * Display the specified resource.
@@ -88,10 +88,10 @@ class MeetingController extends Controller
     public function edit($id)
     {
     	$users = User::where('id','!=',Auth::User()->id)->get();
-        $meeting = DB::table('meetings')->where('id',$id)->first();
-        $meeting->participants = json_decode($meeting->participants);
-        return view('backend.admin.meeting.edit',compact('meeting','id','users'));
-        
+    	$meeting = DB::table('meetings')->where('id',$id)->first();
+    	$meeting->participants = json_decode($meeting->participants);
+    	return view('backend.admin.meeting.edit',compact('meeting','id','users'));
+
     }
 
     /**
@@ -103,16 +103,16 @@ class MeetingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $meeting_id = DB::table('meetings')->where('id',$id)->update([
-        	'name' => $request->name,
-            'description' => $request->description,
-            'date' =>$request->date,
-            'start' => $request->start,
-            'end' =>  $request->end,
-            'link' => $request->link,
-            'participants' => json_encode($request->users)
-        ]);
-        return redirect()->route('meeting.index')->with(['success'=>'Meeting has been Updated Successfully !']);
+    	$meeting_id = DB::table('meetings')->where('id',$id)->update([
+    		'name' => $request->name,
+    		'description' => $request->description,
+    		'date' =>$request->date,
+    		'start' => $request->start,
+    		'end' =>  $request->end,
+    		'link' => $request->link,
+    		'participants' => json_encode($request->users)
+    	]);
+    	return redirect()->route('meeting.index')->with(['success'=>'Meeting has been Updated Successfully !']);
     }
 
     /**
@@ -123,9 +123,16 @@ class MeetingController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('meetings')->where('id',$id)->delete();
-        DB::table('meeting_notifications')->where('meeting_id',$id)->delete();
+    	DB::table('meetings')->where('id',$id)->delete();
+    	DB::table('meeting_notifications')->where('meeting_id',$id)->delete();
 
-        return back()->with(['warning'=>'Meeting Deleted Successfully!']);
+    	return back()->with(['warning'=>'Meeting Deleted Successfully!']);
+    }
+
+    public function notifications(){
+
+    	$notifications = DB::table('meeting_notifications')->join('meetings','meetings.id','=','meeting_notifications.meeting_id')->select('meetings.*','meeting_notifications.*')->where('user_id',Auth::User()->id)->get();
+    	return view('backend.admin.meeting.notification',compact('notifications'));
+
     }
 }
