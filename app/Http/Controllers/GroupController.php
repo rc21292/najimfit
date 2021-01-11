@@ -73,7 +73,7 @@ class GroupController extends Controller
         $users = User::where('id', '<>', auth()->user()->id)->get();
         $user = auth()->user();
 
-        $conversations = Conversation::where('group_id',$id)->with('User')->get();
+        $conversations = Conversation::where('group_id',$id)->with('User')->orderBy('id','desc')->take(100)->get();
 
         $count = Conversation::where('group_id',$id)->count();
         $group_name = Group::where('id',$id)->value('name');
