@@ -164,4 +164,13 @@ Route::get('workout-informations','Features\ExerciseController@getworkoutinforma
 Route::post('workout-information','Features\ExerciseController@storeinformation')->name('workout-information');
 Route::patch('workout-information-update','Features\ExerciseController@updateinformation')->name('workout-information-update');
 Route::resource('products','ProductController');
+//fullcalender
+
+Route::get('/fullcalendar','FullCalendarController@index');
+
+Route::post('/fullcalendar/create','FullCalendarController@create');
+
+Route::post('/fullcalendar/update','FullCalendarController@update');
+
+Route::post('/fullcalendar/delete','FullCalendarController@destroy');
 });

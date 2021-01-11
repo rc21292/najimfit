@@ -97,7 +97,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{url('dashboard/fullcalendar')}}">
           <span><i class="fa fa-calendar"></i>Calender</span>
         </a>
       </li>
@@ -214,7 +214,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{url('dashboard/fullcalendar')}}">
           <span><i class="fa fa-calendar"></i>Calender</span>
         </a>
       </li>
