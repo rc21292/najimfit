@@ -36,7 +36,7 @@ class SubscriptionController extends Controller
         ->count('id');
 
         $subscription_settings = DB::table('subscription_settings')
-        ->select('subscriptions_limit','subscriptions_watinglist_limit')
+        ->select('subscriptions_limit','subscriptions_watinglist_limit','accept_subscriptions','close_subscriptions')
         ->first();
 
         $waiting_subscriptions = DB::table('clients')
@@ -119,13 +119,30 @@ center packages*/
             }
         }
 
-        return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist','subscription_settings','active_subscriptions_by_nutritionists','online_active_subscriptions','active_average_per_nutritionist'))->with('no', 1);
+        return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist','subscription_settings','active_subscriptions_by_nutritionists','online_active_subscriptions','active_average_per_nutritionist','subscription_settings'))->with('no', 1);
+    }
+
+    public function customMessages()
+    {        
+        $subscription_settings = DB::table('subscription_settings')
+        ->select('accept_subscription_message','waitinglist_subscription_message')
+        ->first();
+
+        return view('backend.admin.controls.subscriptions.custom_messages',compact('subscription_settings'))->with('no', 1);
+    }
+
+    public function updateCustomMessages(Request $request)
+    {
+       DB::table('subscription_settings')->update(['accept_subscription_message' => $request->accept_subscription_message]);      
+        DB::table('subscription_settings')->update(['waitinglist_subscription_message' => $request->waitinglist_subscription_message]);
+        return redirect()->back()->with('success', 'Custom messages updated!');
     }
 
     public function AcceptSubscriptions(Request $request)
     {
         DB::table('packages')->update(['is_accept_subscriptions' => 1]); 
-        DB::table('subscription_settings')->update(['accept_subscriptions' => 1]);         
+        DB::table('subscription_settings')->update(['accept_subscriptions' => 1]);      
+        DB::table('subscription_settings')->update(['close_subscriptions' => 0]);     
         return redirect()->back()->with('success', 'Successfully enabled Accepting Subscriptions!');
     }
 
@@ -180,7 +197,20 @@ center packages*/
 
     public function ExtendSubscriptionByClient(Request $request)
     {
-         DB::table('clients')->where('id',$request->client)->update(['extend_days' => $request->days]); 
+        DB::table('clients')->where('id',$request->client)->update(['extend_days' => $request->days]); 
+
+        $clients = Client::find($request->client);
+        $current_validity = $clients->validity;
+
+        $date = date_create($current_validity);
+
+        date_add($date, date_interval_create_from_date_string("$request->days days")); 
+
+        $valid_upto =  date_format($date, "Y-m-d"); 
+
+        $clients->validity = $valid_upto;
+        $clients->extend_days = $request->days;
+        $clients->save(); 
         return redirect()->route('subscriptions.index')->with('success','Client Suscription extend successfully!');
     }    
 

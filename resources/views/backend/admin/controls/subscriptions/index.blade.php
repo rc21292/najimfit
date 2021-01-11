@@ -69,10 +69,10 @@
 					<div class="row">
 						@csrf
 						{{method_field('post')}}
-						<div class="col-sm-2">
+						<div class="col-sm-3">
 							<label for="carbs">Subscriptions Limit</label>
 							<div class="input-group">
-								<input type="text" class="form-control" name="subscriptions_limit" id="carbs" placeholder="Subscriptions Limit" value="{{$subscription_settings->subscriptions_limit}}" required>
+								<input type="number" class="form-control" name="subscriptions_limit" id="carbs" placeholder="Subscriptions Limit" value="{{$subscription_settings->subscriptions_limit}}" required>
 								<div class="invalid-feedback">
 									Please provide Subscriptions Limit.
 								</div>
@@ -81,7 +81,7 @@
 						<div class="col-sm-3">
 							<label for="fat">Subscriptions Wating List Limit</label>
 							<div class="input-group">
-								<input type="text" class="form-control" name="subscriptions_watinglist_limit" id="fat" placeholder="Subscriptions Wating List Limit" value="{{$subscription_settings->subscriptions_watinglist_limit}}" required>
+								<input type="number" class="form-control" name="subscriptions_watinglist_limit" id="fat" placeholder="Subscriptions Wating List Limit" value="{{$subscription_settings->subscriptions_watinglist_limit}}" required>
 								<div class="invalid-feedback">
 									Please provide Subscriptions Wating List Limit.
 								</div>
@@ -95,13 +95,22 @@
 				<hr>
 				<div class="row">
 					<div class="col-sm-12">
+						@if($subscription_settings->accept_subscriptions)
+						<a href="javascript:void(0)" class='btn btn-primary btnpro'>Accept Subscriptions</a>
+						@else
 						<a href="{{route('accept-subscriptions')}}" class='btn btn-primary btnpro'>Accept Subscriptions</a>
+						@endif
+						@if($subscription_settings->close_subscriptions)
+						<a href="javascript:void(0)" class='btn btn-success btnpro'>Close Subscriptions</a>
+						@else
 						<a href="{{route('close-subscriptions')}}" class='btn btn-success btnpro'>Close Subscriptions</a>
+						@endif
 						<a href="{{route('cancel-subscription')}}" class='btn btn-danger btnpro'>Cancel Subscription</a>
 						<a href="{{route('uncancel-subscription')}}" class='btn btn-danger btnpro'>Uncancel Subscription</a>
 						<a href="{{route('extend-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
 						<a href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from App</a>
 						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users</a>
+						<a href="{{route('custom-messages')}}" class='btn btn-primary btnpro'>Custom Messages</a>
 					</div>
 				</div>
 			</div>
