@@ -48,7 +48,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<b>Active subscriptions</b>: {{$active_subscriptions}}<br>
-						<b>Waiting list</b>: 0<br>
+						<b>Waiting list</b>: {{$active_waiting_subscriptions}}<br>
 						<b>Average per nutritionist</b>: {{$active_average_per_nutritionist}}<br>
 					</div>
 					<div class="col-sm-4">

@@ -25,7 +25,12 @@ class SubscriptionController extends Controller
     public function index()
     {
 
-        $active_package_id = Package::where('name','Fitnes Junkie')->value('id');
+        // $active_package_id = Package::where('name','Fitnes Junkie')->value('id');
+        $active_package_id = Package::where('name','Center Package')->value('id');
+        if (!empty($active_package_id) || $active_package_id == '') {
+            $active_package_id = 0;
+        }
+
         $active_subscriptions = DB::table('clients')
         ->where('package_id' ,$active_package_id)
         ->count('id');
@@ -40,7 +45,12 @@ class SubscriptionController extends Controller
         ->first();
 
         $waiting_subscriptions = DB::table('clients')
-        ->whereNull('package_id')
+        ->where('is_subscription_in_wating',1)
+        ->count('id');
+
+        $active_waiting_subscriptions = DB::table('clients')
+        ->where('is_subscription_in_wating',1)
+        ->where('package_id',$active_package_id)
         ->count('id');
 
         DB::connection()->enableQueryLog();
@@ -84,7 +94,11 @@ center packages*/
 
         $active_subscriptions_by_nutritionists_total = count($active_subscriptions_by_nutritionists);
 
-            $active_average_per_nutritionist = round($active_total_per_nutritionist/$active_subscriptions_by_nutritionists_total);
+            $active_average_per_nutritionist = @round($active_total_per_nutritionist/$active_subscriptions_by_nutritionists_total);
+
+            if (is_nan($active_average_per_nutritionist)) {
+                $active_average_per_nutritionist = 0;
+            }
 
 
         $user = Auth::User();
@@ -119,7 +133,7 @@ center packages*/
             }
         }
 
-        return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist','subscription_settings','active_subscriptions_by_nutritionists','online_active_subscriptions','active_average_per_nutritionist','subscription_settings'))->with('no', 1);
+        return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','active_waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist','subscription_settings','active_subscriptions_by_nutritionists','online_active_subscriptions','active_average_per_nutritionist','subscription_settings'))->with('no', 1);
     }
 
     public function customMessages()
@@ -252,8 +266,7 @@ center packages*/
 
     public function notifyClientMessage(Request $request)
     {
-        // echo "<pre>";print_r($request->all());"</pre>";exit;
-        return redirect()->route('subscriptions.index')->with('success','Client Unblocked from app successfully!');
+        return redirect()->route('subscriptions.index')->with('success','Client Notified successfully!');
     }
 
 
