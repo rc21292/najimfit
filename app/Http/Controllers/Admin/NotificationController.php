@@ -58,11 +58,68 @@ class NotificationController extends Controller
         return view('backend.admin.controls.notifications.index',compact('clients'))->with('no', 1);
     }
 
-
     public function sendPushNotification(Request $request)
     {
+        $clients = Client::whereNotNull('package_id')->get(); 
+        return view('backend.admin.controls.notifications.notify_clients',compact('clients'))->with('no', 1);
+    }        
+
+    public function postPushNotification(Request $request)
+    {
+
+        $registrationIds = [];
+
+        foreach ($request->client as $value) {
+            $client = Client::find($value);
+            if (!empty($client->device_token) || $client->device_token != '' || $client->device_token) {
+                array_push($registrationIds, $client->device_token);
+            }
+        }
+      
+        define('API_ACCESS_KEY','AAAAaQ_Z6Gc:APA91bHZQUWAbnFfniSKnSk7vSzAgbeWcJzVU-4I68WxVhHKaqtrrJCDX1j73B3KCido9FMm6oTY2HNHAyhNTo0qlIosrklhowbcQYtvLIUAlzYWOCZ7udfEEjYZqjRQ_8--0d5KMYvj');
+
+        $url = 'https://fcm.googleapis.com/fcm/send';
+
+        $message = array( 
+            'title'     => $request->message,
+            'body'      => $request->message,
+            'vibrate'   => 1,
+            'sound'      => 1
+        );
+
+        $fields = array( 
+            'registration_ids' => $registrationIds, 
+            'data'             => $message
+        );
+
+        $headers = array( 
+            'Authorization: key='.API_ACCESS_KEY, 
+            'Content-Type: application/json'
+        );
+
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL,$url);
+        curl_setopt( $ch,CURLOPT_POST,true);
+        curl_setopt( $ch,CURLOPT_HTTPHEADER,$headers);
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER,false);
+        curl_setopt( $ch,CURLOPT_POSTFIELDS,json_encode($fields));
+        $result = curl_exec($ch);
+        $results = json_decode($result);
+        curl_close($ch);
+
+        if (empty($results)) {
+           return redirect()->back()->with('error', 'Unable to Notificatify Clients!');
+        }
+
+        if ($results->failure == 0) {
+            return redirect()->back()->with('success', 'Client Notificatified successfully!');
+        }else{
+            return redirect()->back()->with('error', 'Unable to Notificatify Clients!');
+        }
 
     }
+
     public function sendInChatBroadcast(Request $request)
     {
 
