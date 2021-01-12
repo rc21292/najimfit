@@ -89,7 +89,8 @@ class TeamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('nutritionist_clients')->where('nutritionist_id',$id)->update(['nutritionist_id' => $request->defered_to, 'defered_from' => $request->defered_from]);
+        return redirect()->route('teams.index')->with(['success'=>'All Clients Defered Successfully!']);
     }
 
     /**
