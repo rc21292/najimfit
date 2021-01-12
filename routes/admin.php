@@ -55,6 +55,7 @@ Route::get('new-clients','ApplicationDataController@newClients')->name('new-clie
 
 Route::get('clients-all','ApplicationDataController@allClients')->name('clients-all');
 
+Route::resource('notifications','NotificationController');
 
 Route::post('/send-push-notification','NotificationController@postPushNotification')->name('send-push-notification');
 Route::get('send-push-notification','NotificationController@sendPushNotification')->name('send-push-notification');
