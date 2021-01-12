@@ -66,7 +66,6 @@ class NotificationController extends Controller
 
     public function postPushNotification(Request $request)
     {
-
         $registrationIds = [];
 
         foreach ($request->client as $value) {

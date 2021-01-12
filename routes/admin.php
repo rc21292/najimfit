@@ -69,7 +69,10 @@ Route::resource('subscriptions','SubscriptionController');
 Route::get('accept-subscriptions','SubscriptionController@AcceptSubscriptions')->name('accept-subscriptions');
 Route::get('close-subscriptions','SubscriptionController@CloseSubscriptions')->name('close-subscriptions');
 Route::get('cancel-subscription','SubscriptionController@cancelSubscription')->name('cancel-subscription');
-Route::post('cancel-subscription','SubscriptionController@cancelSubscriptionByClient')->name('cancel-subscription');
+
+Route::get('cancel-client-subscription/{id}','SubscriptionController@cancelSubscriptionByClient')->name('cancel-client-subscription');
+Route::get('uncancel-client-subscription/{id}','SubscriptionController@uncancelSubscriptionByClient')->name('uncancel-client-subscription');
+
 Route::get('uncancel-subscription','SubscriptionController@uncancelSubscription')->name('uncancel-subscription');
 Route::post('uncancel-subscription','SubscriptionController@uncancelSubscriptionByClient')->name('uncancel-subscription');
 Route::get('extend-subscription','SubscriptionController@ExtendSubscription')->name('extend-subscription');
@@ -77,8 +80,8 @@ Route::post('extend-subscription','SubscriptionController@ExtendSubscriptionByCl
 Route::get('block-user','SubscriptionController@BlockUserFromApp')->name('block-user');
 Route::get('unblock-user','SubscriptionController@UnblockUserFromApp')->name('unblock-user');
 Route::post('update-suscription-settings','SubscriptionController@updateSuscriptionSettings')->name('update-suscription-settings');
-Route::post('block-user-from-app','SubscriptionController@BlockClientFromApp')->name('block-user-from-app');
-Route::post('unblock-user-from-app','SubscriptionController@UnblockClientFromApp')->name('unblock-user-from-app');
+Route::get('block-user-from-app/{id}','SubscriptionController@BlockClientFromApp')->name('block-user-from-app');
+Route::get('unblock-user-from-app/{id}','SubscriptionController@UnblockClientFromApp')->name('unblock-user-from-app');
 Route::get('custom-messages','SubscriptionController@customMessages')->name('custom-messages');
 Route::post('update-custom-messages','SubscriptionController@updateCustomMessages')->name('update-custom-messages');
 Route::get('notify-clients','SubscriptionController@notifyClients')->name('notify-clients');

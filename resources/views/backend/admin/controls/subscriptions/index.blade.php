@@ -12,7 +12,16 @@
 				<li class="breadcrumb-item active" aria-current="page">Subscription</li>
 			</ol>
 			<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>		</nav>
-		@include('backend.admin.includes.flashmessage')	`
+		@include('backend.admin.includes.flashmessage')
+		@if($subscription_settings->accept_subscriptions)
+					<div class="alert alert-info" role="alert">
+						<i class="flaticon-information"></i> <strong>Heads up!</strong> Suscription are accepting now, you can close subscriptions by clicking on Accept Subscriptions button.
+					</div>
+					@else
+					<div class="alert alert-info" role="alert">
+						<i class="flaticon-information"></i> <strong>Heads up!</strong> Suscription are closed now, you can accept subscriptions by clicking on Close Subscriptions button.
+					</div>
+					@endif
 	</div>
 	<div class="col-md-12">
 		<div class="ms-panel">
@@ -106,10 +115,8 @@
 						<a style="margin-top:5px;" href="{{route('close-subscriptions')}}" class='btn btn-success btnpro'>Close Subscriptions</a>
 						@endif
 						<a style="margin-top:5px;" href="{{route('cancel-subscription')}}" class='btn btn-danger btnpro'>Cancel Subscription</a>
-						<a style="margin-top:5px;" href="{{route('uncancel-subscription')}}" class='btn btn-danger btnpro'>Uncancel Subscription</a>
 						<a style="margin-top:5px;" href="{{route('extend-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
 						<a style="margin-top:5px;" href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from App</a>
-						<a style="margin-top:5px;" href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users from App</a>
 						<a style="margin-top:5px;" href="{{route('custom-messages')}}" class='btn btn-primary btnpro'>Custom Messages</a>
 						<a style="margin-top:5px;" href="{{route('notify-clients')}}" class='btn btn-primary btnpro'>Notify clients</a>
 					</div>

@@ -12,8 +12,8 @@
 					<div class="col-md-12">
 						<div class="ms-panel">
 							<div class="ms-panel-header">
-								<h6>Block Client from App
-									<a style="float: right;margin-top: -10px" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
+								<h6>Send Notification to Client
+									<a style="float: right;margin-top: -10px" href="{{route('subscriptions.index')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
 							</div>
 							<div class="ms-panel-body">
 								<form id="form-id" action="{{route('notify-clients')}}" method="post">
@@ -21,33 +21,24 @@
 									<div class="modal-body">
 										<div class="ms-form-group has-icon">
 											<label><b>Select Client To send Notification</b></label><br>
-											<select required class="js-example-basic-multiple" id="client_id" name="client" style="width: 100%">
-												<option value="">Select Client</option>
+											<select required class="js-example-basic-multiple" multiple="multiple" id="client_id" name="client[]" style="width: 100%">
+												<option value="all">Select All Clients</option>
 												@foreach($clients as $client)
 												<option value="{{$client->id}}">{{$client->firstname}} {{$client->lastname}}</option>
 												@endforeach
 											</select>
 											<div id="error" style="color: red"></div>
 										</div>
-
-										<div class="ms-form-group has-icon">
-											<div class="checkbox">
-												<label> <input type="checkbox" name="slecte_all" value="1">&nbsp;&nbsp;&nbsp; Select checkbox to send message to All Clients</label>
-											</div>
-										</div>
-
 										@php
 										$accept_subscription_message = DB::table('subscription_settings')
 										->value('accept_subscription_message');
 										@endphp
 
-										
-
 										<div class="ms-form-group has-icon">
-											<label><b>Modify Messages</b></label><br>
-											<textarea name="messages" class="form-control">{{ $accept_subscription_message }}</textarea>
+											<label><b>Modify Message</b></label><br>
+											<textarea name="message" rows="5" class="form-control">{{ $accept_subscription_message }}</textarea>
 											<div id="error" style="color: red"></div>
-										</div>
+										</div> 
 
 									</div>
 									<div class="modal-footer">
@@ -67,14 +58,6 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('.js-example-basic-multiple').select2({
-			tags: true,
-			tokenSeparators: [',', ' ']
-		});
-	});
-</script>
-<script type="text/javascript">
 	$( document ).ready(function() {
 		setTimeout(function() {
 			$('.alert-success').fadeOut('fast');
@@ -84,11 +67,17 @@
 <script type="text/javascript">
 	function submitform(){
 		$("#error").html('');
-		/*if ($("#client_id").val() == '') {
+		$("#error_msg").html('');
+		if ($("#client_id").val() == '') {
 			$("#client_id").focus();
 			$("#error").html('Please select Client');
 			return false;
-		}*/
+		}
+		if ($("textarea#message").val() == '') {
+			$("#message").focus();
+			$("#error_msg").html('Please Enter message');
+			return false;
+		}
 		swal({
 			title: "Are you sure?",
 			text: "to Send message!",
@@ -103,4 +92,26 @@
 		});
 	}
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+			tags: true,
+			tokenSeparators: [',', ' ']
+		});
+	});
+
+
+$('.js-example-basic-multiple').on("select2:select", function (e) { 
+           var data = e.params.data.text;
+           if(data=='Select All Clients'){
+            $(".js-example-basic-multiple > option").prop("selected","selected");
+            $(".js-example-basic-multiple").trigger("change");
+           }
+      });
+
+
+</script>
+
 @endpush

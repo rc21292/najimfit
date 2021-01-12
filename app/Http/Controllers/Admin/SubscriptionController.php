@@ -168,24 +168,24 @@ center packages*/
         return redirect()->back()->with('success', 'Successfully disabled Accepting Subscriptions!');
     }
 
-    public function cancelSubscriptionByClient(Request $request)
+    public function cancelSubscriptionByClient($id)
     {
-        DB::table('clients')->where('id',$request->client)->update(['is_subscription_canceled' => 1]); 
-        return redirect()->route('subscriptions.index')->with('success','Client Blocked from app successfully!');
+        DB::table('clients')->where('id',$id)->update(['is_subscription_canceled' => 1]); 
+        return redirect()->back()->with('success','Client Subscription canceled successfully!');
     }
 
     public function CancelSubscription(Request $request)
     {
-        $clients = Client::latest()->select('firstname','lastname','id')->get();
+        $clients = Client::latest()->whereNotNull('package_id')->get();
 
         return view('backend.admin.controls.subscriptions.cancel_subscription',compact('clients'))->with('no', 1);
     }
 
 
-    public function uncancelSubscriptionByClient(Request $request)
+    public function uncancelSubscriptionByClient($id)
     {
-        DB::table('clients')->where('id',$request->client)->update(['is_subscription_canceled' => 0]); 
-        return redirect()->route('subscriptions.index')->with('success','Client Blocked from app successfully!');
+        DB::table('clients')->where('id',$id)->update(['is_subscription_canceled' => 0]); 
+        return redirect()->back()->with('success','Client Subscription canceled successfully!');
     }
 
     public function UncancelSubscription(Request $request)
@@ -230,7 +230,7 @@ center packages*/
 
     public function BlockUserFromApp(Request $request)
     {
-        $clients = Client::latest()->select('firstname','lastname','id')->get();
+        $clients = Client::latest()->get();
 
         return view('backend.admin.controls.subscriptions.block_user',compact('clients'))->with('no', 1);
     }
@@ -243,19 +243,20 @@ center packages*/
     }
 
 
-    public function BlockClientFromApp(Request $request)
+    public function BlockClientFromApp($id)
     {
-        DB::table('clients')->where('id',$request->client)->update(['blocked_from_app' => 1]); 
+        DB::table('clients')->where('id',$id)->update(['blocked_from_app' => 1]); 
 
-        return redirect()->route('subscriptions.index')->with('success','Client Blocked from app successfully!');
+        return redirect()->back()->with('success', 'Client Blocked from app successfully!');
+
     }
 
-
-    public function UnblockClientFromApp(Request $request)
+    public function UnblockClientFromApp($id)
     {
-        DB::table('clients')->where('id',$request->client)->update(['blocked_from_app' => 0]); 
+        DB::table('clients')->where('id',$id)->update(['blocked_from_app' => 0]); 
 
-        return redirect()->route('subscriptions.index')->with('success','Client Unblocked from app successfully!');
+        return redirect()->back()->with('success', 'Client Unblocked from app successfully!');
+
     }
 
     public function notifyClients()
@@ -266,7 +267,58 @@ center packages*/
 
     public function notifyClientMessage(Request $request)
     {
-        return redirect()->route('subscriptions.index')->with('success','Client Notified successfully!');
+
+        $registrationIds = [];
+
+        foreach ($request->client as $value) {
+            $client = Client::find($value);
+            if (!empty($client->device_token) || $client->device_token != '' || $client->device_token) {
+                array_push($registrationIds, $client->device_token);
+            }
+        }
+      
+        define('API_ACCESS_KEY','AAAAaQ_Z6Gc:APA91bHZQUWAbnFfniSKnSk7vSzAgbeWcJzVU-4I68WxVhHKaqtrrJCDX1j73B3KCido9FMm6oTY2HNHAyhNTo0qlIosrklhowbcQYtvLIUAlzYWOCZ7udfEEjYZqjRQ_8--0d5KMYvj');
+
+        $url = 'https://fcm.googleapis.com/fcm/send';
+
+        $message = array( 
+            'title'     => $request->message,
+            'body'      => $request->message,
+            'vibrate'   => 1,
+            'sound'      => 1
+        );
+
+        $fields = array( 
+            'registration_ids' => $registrationIds, 
+            'data'             => $message
+        );
+
+        $headers = array( 
+            'Authorization: key='.API_ACCESS_KEY, 
+            'Content-Type: application/json'
+        );
+
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL,$url);
+        curl_setopt( $ch,CURLOPT_POST,true);
+        curl_setopt( $ch,CURLOPT_HTTPHEADER,$headers);
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER,false);
+        curl_setopt( $ch,CURLOPT_POSTFIELDS,json_encode($fields));
+        $result = curl_exec($ch);
+        $results = json_decode($result);
+        curl_close($ch);
+
+        if (empty($results)) {
+           return redirect()->back()->with('error', 'Unable to Notificatify Clients!');
+        }
+
+        if ($results->failure == 0) {
+            return redirect()->back()->with('success', 'Client Notificatified successfully!');
+        }else{
+            return redirect()->back()->with('error', 'Unable to Notificatify Clients!');
+        }
+
     }
 
 
