@@ -11,7 +11,6 @@
 				<li class="breadcrumb-item"><a href="{{route('subscriptions.index')}}"> Controls</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Client List</li>
 			</ol>
-			<a href="{{route('clients.create')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-plus"></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
