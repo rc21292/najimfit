@@ -239,9 +239,11 @@
 					group_id:group_id,
 				},
 				success: function(result){
-					window.setTimeout(function () {
-						window.location.reload();
-					}, 30);
+					$('.emojionearea-editor').empty();
+					console.log(result);
+					// window.setTimeout(function () {
+					// 	window.location.reload();
+					// }, 30);
 				}
 			});
 		});
@@ -277,7 +279,7 @@
 		}
 
 		$(document).ready(function(){
-			setInterval(fetchdata,5000);
+			setInterval(fetchdata,2000);
 		});
 	</script>
 	@endpush
