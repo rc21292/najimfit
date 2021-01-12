@@ -243,6 +243,20 @@ center packages*/
 
         return redirect()->route('subscriptions.index')->with('success','Client Unblocked from app successfully!');
     }
+
+    public function notifyClients()
+    {
+         $clients = Client::whereNull('package_id')->get(); 
+         return view('backend.admin.controls.subscriptions.notify_clients',compact('clients'))->with('no', 1);
+    }
+
+    public function notifyClientMessage(Request $request)
+    {
+        // echo "<pre>";print_r($request->all());"</pre>";exit;
+        return redirect()->route('subscriptions.index')->with('success','Client Unblocked from app successfully!');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

@@ -81,6 +81,8 @@ Route::post('block-user-from-app','Sub
 Route::post('unblock-user-from-app','SubscriptionController@UnblockClientFromApp')->name('unblock-user-from-app');
 Route::get('custom-messages','SubscriptionController@customMessages')->name('custom-messages');
 Route::post('update-custom-messages','SubscriptionController@updateCustomMessages')->name('update-custom-messages');
+Route::get('notify-clients','SubscriptionController@notifyClients')->name('notify-clients');
+Route::post('notify-clients','SubscriptionController@notifyClientMessage')->name('notify-clients');
 
 Route::resource('appointments','AppointmentController');
 Route::resource('employees','EmployeeController');
