@@ -178,5 +178,7 @@ Route::post('/fullcalendar/delete','FullCalendarController@destroy');
 
 Route::resource('/meeting', 'MeetingController');
 
+Route::resource('/teams', 'TeamController');
+
 Route::get('/meeting-notifications','MeetingController@notifications');
 });

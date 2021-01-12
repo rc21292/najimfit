@@ -82,7 +82,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{ route('teams.index')}}">
           <span><i class="fas fa-users"></i>Teams</span>
         </a>
       </li>
