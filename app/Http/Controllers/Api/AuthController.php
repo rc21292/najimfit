@@ -274,6 +274,12 @@ class AuthController extends Controller
 
 	public function getpackages(Request $request){
 
+		$close_subscriptions = DB::table('subscription_settings')->value('close_subscriptions');
+
+		if ($close_subscriptions) {
+			return $response = ['success' => false,'message' => 'Subscriptions are closed now!'];
+		}
+
 		$packages = Package::all();
 		foreach ($packages as $row) {
 
@@ -307,7 +313,28 @@ class AuthController extends Controller
 
 	public function selectpackage(Request $request){
 		$user_id = Auth::Client()->id;
+		// echo "<pre>";print_r($user_id);"</pre>";exit;
 		$current_package = Client::find($user_id);
+
+		$subscription_settings = DB::table('subscription_settings')->first();
+
+		$is_subscription_in_wating = 0;
+
+		if ($subscription_settings->subscriptions_reached >= $subscription_settings->subscriptions_limit) 
+		{
+			if ($subscription_settings->subscriptions_wating_list_reached >= $subscription_settings->subscriptions_watinglist_limit) 
+			{
+				DB::table('subscription_settings')->update(['accept_subscriptions'=>0]);
+				DB::table('subscription_settings')->update(['close_subscriptions'=>1]);
+			}else
+			{
+				DB::table('subscription_settings')->update(['subscriptions_wating_list_reached'=> DB::raw('subscriptions_wating_list_reached+1')]);
+				$is_subscription_in_wating = 1;
+			}
+		}else
+		{
+			DB::table('subscription_settings')->update(['subscriptions_reached'=> DB::raw('subscriptions_reached+1')]);
+		}
 
 		$validity = Package::where('id', $request->package_id)->value('validity');
 		if($current_package->validity >= Carbon::now()){
@@ -323,7 +350,7 @@ class AuthController extends Controller
 
 				$today_date = date('Y-m-d');
 
-				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto]);
+				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
 
 				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 				$response = ['success' => 'This package has been assigned to you..!'];
@@ -331,7 +358,7 @@ class AuthController extends Controller
 				$valid_upto = Carbon::now()->addDays($validity);
 				$today_date = date('Y-m-d');
 
-				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date]);
+				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
 
 				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 				$response = ['success' => 'This package has been assigned to you..!'];
@@ -343,7 +370,7 @@ class AuthController extends Controller
 			$valid_upto = Carbon::now()->addDays($validity);
 			$today_date = date('Y-m-d');
 
-			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date]);
+			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
 
 			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 			$response = ['success' => 'This package has been assigned to you..!'];
@@ -365,6 +392,9 @@ class AuthController extends Controller
 			return response(['errors'=>$array], 422);
 		}
 		$user = Client::where('email', $request->email)->first();
+		if ($user->blocked_from_app) {
+			return $response = ['message' => 'You are blocked by admin!'];
+		}
 		if ($user) {
 			if (Hash::check($request->password, $user->password)) {
 				$token = $user->createToken('Laravel Password Grant Client')->accessToken;
@@ -428,6 +458,9 @@ class AuthController extends Controller
 	
 	public function getuserdetails(){
 		$client = Client::find(Auth::Client()->id);
+		/*if ($client->blocked_from_app) {
+			return $response = ['success' => false,'message' => 'You are blocked by admin!'];
+		}*/
 		if(isset($client->avatar)){
 			$client->image = 'https://tegdarco.com/uploads/clients/images/'.$client->avatar;
 		}else{
@@ -455,6 +488,14 @@ class AuthController extends Controller
 		}
 		$client->active_days = $workout_days;
 		$client->kal_burnt = $calories_sum;
+		/*if user subscription canceled*/
+		if ($client->is_subscription_canceled) {
+			$client->package_id = 0;
+			$client->validity = '';
+			$client->package_validity = 'Your subscription is canceled by Admin';
+			$client->subscription_date = '';
+		}
+		/*if user subscription canceled*/
 		$response = ['success' => $client];
 		return response($response, 200);
 	}
