@@ -8,6 +8,11 @@
 		background-color: #e0e0e2;
 	}
 </style>
+<style type="text/css">
+	.hidden{
+		display: none;
+	}
+</style>
 @endsection
 @section('content')
 <div class="ui main container" >
@@ -97,7 +102,8 @@
 							<form id="chat-form">
 								<ul class="ms-list-flex mb-0">
 									<li class="ms-chat-input">
-										<input type="text" id="content" name="content" placeholder="Enter Message" value="" >
+										<input type="text" id="content" name="content" placeholder="Enter Message" value="">
+										<span class="error hidden text-danger">Please write message.</span>
 										@if(isset($group_id))
 										<input type="hidden" name="group_id" id="group_id" value="{{$group_id
 										}}">
@@ -200,6 +206,7 @@
 	@push('scripts')
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('.js-example-basic-multiple').select2();
@@ -221,7 +228,7 @@
 			let message = $('#content').val();
 			let group_id = $('#group_id').val();
 			if (message  === '') {
-				alert('Text-field is empty.');
+				$( ".error" ).removeClass( "hidden" );
 				return false;
 			}
 			$.ajaxSetup({
@@ -239,8 +246,12 @@
 					group_id:group_id,
 				},
 				success: function(result){
+					$( ".error" ).addClass( "hidden" );
 					$('.emojionearea-editor').empty();
+					$('#content').val('');
 					console.log(result);
+					message = '';
+					group_id ='';
 					// window.setTimeout(function () {
 					// 	window.location.reload();
 					// }, 30);
@@ -268,7 +279,9 @@
 				},
 				success: function(response){
 					if(response.success != 0){
-						$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-incoming media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p>'+response.success.message+'</p></div><p class="ms-chat-time">'+response.success.created_at+'</p></div></div>');
+						let date = moment([response.success.created_at]).fromNow(); 
+						
+						$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-incoming media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p>'+response.success.message+'</p></div><p class="ms-chat-time">'+date+'</p></div></div>');
 						$('#message_count').val(response.new_count);
 					}else{
 
