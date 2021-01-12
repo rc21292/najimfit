@@ -239,6 +239,7 @@
 					group_id:group_id,
 				},
 				success: function(result){
+					$('.emojionearea-editor').empty();
 					console.log(result);
 					// window.setTimeout(function () {
 					// 	window.location.reload();
