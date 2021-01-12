@@ -12,7 +12,7 @@
 				<li class="breadcrumb-item active" aria-current="page">Subscription</li>
 			</ol>
 			<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>		</nav>
-		@include('backend.admin.includes.flashmessage')
+		@include('backend.admin.includes.flashmessage')	`
 	</div>
 	<div class="col-md-12">
 		<div class="ms-panel">
@@ -111,6 +111,7 @@
 						<a href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from App</a>
 						<a href="{{route('unblock-user')}}" class='btn btn-primary btnpro'>Unblock Users from App</a>
 						<a href="{{route('custom-messages')}}" class='btn btn-primary btnpro'>Custom Messages</a>
+						<a href="{{route('notify-clients')}}" class='btn btn-primary btnpro'>Notify clients</a>
 					</div>
 				</div>
 			</div>
