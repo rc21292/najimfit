@@ -279,7 +279,7 @@
 				},
 				success: function(response){
 					if(response.success != 0){
-						let date = moment([response.success.created_at]).fromNow(); 
+						let date = "few seconds ago"; 
 						
 						$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-incoming media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p>'+response.success.message+'</p></div><p class="ms-chat-time">'+date+'</p></div></div>');
 						$('#message_count').val(response.new_count);
