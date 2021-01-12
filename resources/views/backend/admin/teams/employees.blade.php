@@ -42,7 +42,8 @@
               <td>{{ $posted_workouts }}</td>
               <td>{{ $renewal_table }}</td>
               <td>{{ $renewal_workout }}</td>
-              <td><a type="button" href="{{ route('teams.edit',$user->id )}}" class="ms-btn-icon btn-pill btn-warning"><i class="flaticon-alert"></i></a></td>
+              <td scope="row"><a href="{{ route('teams.edit',$user->id )}}" class="ms-btn-icon btn-square btn-info"><i class="flaticon-information" style="margin-right: 0px;"></i></a></td>
+
             </tr>
             @endforeach
           </tbody>
