@@ -138,7 +138,7 @@ class ClientsController extends Controller
     ->get();
 
     foreach($nutritionists as $nutritionist){
-        if($nutritionist->client_total < 30){
+        if($nutritionist->client_total < 6){
             DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
             break;
         }
