@@ -136,21 +136,6 @@ center packages*/
         return view('backend.admin.controls.subscriptions.index',compact('clients','active_subscriptions','waiting_subscriptions','active_waiting_subscriptions','subscriptions_by_nutritionists','subscriptions_by_nutritionists_total','average_per_nutritionist','subscription_settings','active_subscriptions_by_nutritionists','online_active_subscriptions','active_average_per_nutritionist','subscription_settings'))->with('no', 1);
     }
 
-    public function customMessages()
-    {        
-        $subscription_settings = DB::table('subscription_settings')
-        ->select('accept_subscription_message','waitinglist_subscription_message','accept_subscription_message_arabic','waitinglist_subscription_message_arabic')
-        ->first();
-
-        return view('backend.admin.controls.subscriptions.custom_messages',compact('subscription_settings'))->with('no', 1);
-    }
-
-    public function updateCustomMessages(Request $request)
-    {
-       DB::table('subscription_settings')->update(['accept_subscription_message' => $request->accept_subscription_message,'accept_subscription_message_arabic' => $request->accept_subscription_message_arabic,'waitinglist_subscription_message' => $request->waitinglist_subscription_message,'waitinglist_subscription_message_arabic' => $request->waitinglist_subscription_message_arabic]);
-        return redirect()->back()->with('success', 'Custom messages updated!');
-    }
-
     public function AcceptSubscriptions(Request $request)
     {
         DB::table('packages')->update(['is_accept_subscriptions' => 1]); 
@@ -254,6 +239,22 @@ center packages*/
 
         return redirect()->back()->with('success', 'Client Unblocked from app successfully!');
 
+    }
+
+
+    public function customMessages()
+    {        
+        $subscription_settings = DB::table('subscription_settings')
+        ->select('accept_subscription_message','waitinglist_subscription_message','accept_subscription_message_arabic','waitinglist_subscription_message_arabic')
+        ->first();
+
+        return view('backend.admin.controls.subscriptions.custom_messages',compact('subscription_settings'))->with('no', 1);
+    }
+
+    public function updateCustomMessages(Request $request)
+    {
+       DB::table('subscription_settings')->update(['accept_subscription_message' => $request->accept_subscription_message,'accept_subscription_message_arabic' => $request->accept_subscription_message_arabic,'waitinglist_subscription_message' => $request->waitinglist_subscription_message,'waitinglist_subscription_message_arabic' => $request->waitinglist_subscription_message_arabic]);
+        return redirect()->back()->with('success', 'Custom messages updated!');
     }
 
     public function notifyClients()
