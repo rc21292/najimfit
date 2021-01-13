@@ -277,7 +277,7 @@ class AuthController extends Controller
 		$close_subscriptions = DB::table('subscription_settings')->value('close_subscriptions');
 
 		if ($close_subscriptions) {
-			return $response = ['success' => false,'message' => 'Subscriptions are closed now!'];
+			return $response = ['success' => false,'message' => ($request->language == "arabic") ? "الاشتراكات مغلقة الآن!" : 'Subscriptions are closed now!'];
 		}
 
 		$packages = Package::all();
@@ -377,8 +377,6 @@ class AuthController extends Controller
 		}
 
 		return response($response, 200);
-
-
 	}
 
 	public function login (Request $request) {

@@ -48,15 +48,17 @@ class CartController extends Controller
 	}
 
 	public function addtocart(Request $request){
-		// echo "<pre>";print_r($request->all());"</pre>";exit;
 		$user_id = Auth::Client()->id;
 		$current_package = Client::find($user_id);
 		$validity = Package::where('id', $request->package)->value('validity');
+
+		$subscription_settings = DB::table('subscription_settings')->first();
+
 		if($current_package->validity >= Carbon::now()){
 			if(DB::table('cart')->where('client_id', $user_id)->where('package_id', $request->package)->exists()){
 				$cart = DB::table('cart')->join('packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description', DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
 				$response = ['success' => $cart , 'message' => 'Package already added to Cart' ];
-				return response($response, 200);
+				// return response($response, 200);
 			}else{
 				if(DB::table('cart')->where('client_id', $user_id)->exists()){
 					DB::table('cart')->where('client_id', $user_id)->delete();
@@ -77,14 +79,14 @@ class CartController extends Controller
 				$cart_id = DB::table('cart')->insertGetId(['client_id' => $user_id, 'package_id' => $request->package, 'subtotal'=> $subtotal, 'quantity'=> $quantity,'discount'=> 0, 'total' => $subtotal]);
 				$cart = DB::table('cart')->join(	'packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description',DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
 				$response = ['success' => $cart];
-				return response($response, 200);
+				// return response($response, 200);
 			}
 			// $response = ['success' => 'You already have an active package. Current Package is Valid Upto '.$current_package->validity];
 		}else{
 			if(DB::table('cart')->where('client_id', $user_id)->where('package_id', $request->package)->exists()){
 				$cart = DB::table('cart')->join('packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description', DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
 				$response = ['success' => $cart , 'message' => 'Package already added to Cart' ];
-				return response($response, 200);
+				// return response($response, 200);
 			}else{
 				if(DB::table('cart')->where('client_id', $user_id)->exists()){
 					DB::table('cart')->where('client_id', $user_id)->delete();
@@ -95,9 +97,21 @@ class CartController extends Controller
 				$cart_id = DB::table('cart')->insertGetId(['client_id' => $user_id, 'package_id' => $request->package, 'subtotal'=> $subtotal, 'quantity'=> $quantity,'discount'=> 0, 'total' => $subtotal]);
 				$cart = DB::table('cart')->join('packages','packages.id','=','cart.package_id')->select('cart.*','packages.name','packages.description',DB::raw("CONCAT('https://tegdarco.com/uploads/packages/', packages.image) AS imageurl"))->where('client_id', $user_id)->get();
 				$response = ['success' => $cart];
+				// return response($response, 200);
+			}
+		}
+
+		if (!$subscription_settings->close_subscriptions) 
+		{
+			if ($subscription_settings->subscriptions_reached >= $subscription_settings->subscriptions_limit) 
+			{
+				$response = ['success' => $cart , 'message' => ($request->language == "arabic") ?$subscription_settings->waitinglist_subscription_message_arabic : $subscription_settings->waitinglist_subscription_message ];
+				return response($response, 200);
+			}else{
 				return response($response, 200);
 			}
 		}
+
 		return response($response, 200);
 	}
 
