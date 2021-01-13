@@ -71,7 +71,14 @@ class NotificationController extends Controller
         foreach ($request->client as $value) {
             $client = Client::find($value);
             if (!empty($client->device_token) || $client->device_token != '' || $client->device_token) {
+                DB::table('notification_histories')->insert(
+                    ['client_id' => $value, 'message' => $request->message]
+                );
                 array_push($registrationIds, $client->device_token);
+            }else{
+                DB::table('notification_histories')->insert(
+                    ['client_id' => $value, 'status' => 0, 'message' => $request->message]
+                );
             }
         }
       
@@ -112,7 +119,7 @@ class NotificationController extends Controller
         }
 
         if ($results->failure == 0) {
-            return redirect()->back()->with('success', 'Client Notificatified successfully!');
+            return redirect()->back()->with('success', 'Clients Notificatified successfully!');
         }else{
             return redirect()->back()->with('error', 'Unable to Notificatify Clients!');
         }

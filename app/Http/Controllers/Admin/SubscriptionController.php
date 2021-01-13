@@ -273,7 +273,14 @@ center packages*/
         foreach ($request->client as $value) {
             $client = Client::find($value);
             if (!empty($client->device_token) || $client->device_token != '' || $client->device_token) {
+                DB::table('notification_histories')->insert(
+                    ['client_id' => $value,'from_subscriptions'=>1, 'message' => $request->message]
+                );
                 array_push($registrationIds, $client->device_token);
+            }else{
+                DB::table('notification_histories')->insert(
+                    ['client_id' => $value, 'status' => 0,'from_subscriptions'=>1, 'message' => $request->message]
+                );
             }
         }
       
