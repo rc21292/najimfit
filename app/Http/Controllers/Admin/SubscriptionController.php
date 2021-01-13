@@ -147,26 +147,21 @@ center packages*/
 
     public function updateCustomMessages(Request $request)
     {
-       DB::table('subscription_settings')->update(['accept_subscription_message' => $request->accept_subscription_message]);      
-       DB::table('subscription_settings')->update(['accept_subscription_message_arabic' => $request->accept_subscription_message_arabic]);      
-        DB::table('subscription_settings')->update(['waitinglist_subscription_message' => $request->waitinglist_subscription_message]);
-        DB::table('subscription_settings')->update(['waitinglist_subscription_message_arabic' => $request->waitinglist_subscription_message_arabic]);
+       DB::table('subscription_settings')->update(['accept_subscription_message' => $request->accept_subscription_message,'accept_subscription_message_arabic' => $request->accept_subscription_message_arabic,'waitinglist_subscription_message' => $request->waitinglist_subscription_message,'waitinglist_subscription_message_arabic' => $request->waitinglist_subscription_message_arabic]);
         return redirect()->back()->with('success', 'Custom messages updated!');
     }
 
     public function AcceptSubscriptions(Request $request)
     {
         DB::table('packages')->update(['is_accept_subscriptions' => 1]); 
-        DB::table('subscription_settings')->update(['accept_subscriptions' => 1]);      
-        DB::table('subscription_settings')->update(['close_subscriptions' => 0]);     
+        DB::table('subscription_settings')->update(['accept_subscriptions' => 1,'close_subscriptions' => 0,'subscriptions_reached' => 0,'subscriptions_wating_list_reached' => 0]);     
         return redirect()->back()->with('success', 'Successfully enabled Accepting Subscriptions!');
     }
 
     public function CloseSubscriptions(Request $request)
     {   
         DB::table('packages')->update(['is_accept_subscriptions' => 0]);
-        DB::table('subscription_settings')->update(['close_subscriptions' => 1]);     
-        DB::table('subscription_settings')->update(['accept_subscriptions' => 0]);     
+        DB::table('subscription_settings')->update(['close_subscriptions' => 1,'accept_subscriptions' => 0]);     
         return redirect()->back()->with('success', 'Successfully disabled Accepting Subscriptions!');
     }
 
