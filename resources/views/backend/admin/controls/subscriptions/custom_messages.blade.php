@@ -32,6 +32,15 @@
 							</div>
 						</div>
 						<div class="col-xl-12 col-md-12 mb-3">
+							<label for="firstname">Messages to blocked user for accepting Subscriptions(Arabic):</label>
+							<div class="input-group">
+								<textarea id="accept_subscription_message_arabic" rows="6" name="accept_subscription_message_arabic" class="form-control" placeholder="Message">{{$subscription_settings->accept_subscription_message_arabic}}</textarea>
+								<div class="invalid-feedback">
+									Please Enter Message.
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-12 col-md-12 mb-3">
 							<label for="lastname">Message to Waitinglist Users:</label>
 							<div class="input-group">
 								<textarea id="waitinglist_subscription_message" rows="6" name="waitinglist_subscription_message" class="form-control" placeholder="Message">{{$subscription_settings->waitinglist_subscription_message}}</textarea>
@@ -40,9 +49,17 @@
 								</div>
 							</div>
 						</div>
-						
+						<div class="col-xl-12 col-md-12 mb-3">
+							<label for="lastname">Message to Waitinglist Users(Arabic):</label>
+							<div class="input-group">
+								<textarea id="waitinglist_subscription_message_arabic" rows="6" name="waitinglist_subscription_message_arabic" class="form-control" placeholder="Message">{{$subscription_settings->waitinglist_subscription_message_arabic}}</textarea>
+								<div class="invalid-feedback">
+									Please Enter Message.
+								</div>
+							</div>
+						</div>						
 					</div>
-					<button class="btn btn-primary float-right" type="submit">Save</button>
+					<button class="btn btn-primary float-right" type="submit">Update</button>
 				</form>
 			</div>
 		</div>

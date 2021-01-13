@@ -139,7 +139,7 @@ center packages*/
     public function customMessages()
     {        
         $subscription_settings = DB::table('subscription_settings')
-        ->select('accept_subscription_message','waitinglist_subscription_message')
+        ->select('accept_subscription_message','waitinglist_subscription_message','accept_subscription_message_arabic','waitinglist_subscription_message_arabic')
         ->first();
 
         return view('backend.admin.controls.subscriptions.custom_messages',compact('subscription_settings'))->with('no', 1);
@@ -148,7 +148,9 @@ center packages*/
     public function updateCustomMessages(Request $request)
     {
        DB::table('subscription_settings')->update(['accept_subscription_message' => $request->accept_subscription_message]);      
+       DB::table('subscription_settings')->update(['accept_subscription_message_arabic' => $request->accept_subscription_message_arabic]);      
         DB::table('subscription_settings')->update(['waitinglist_subscription_message' => $request->waitinglist_subscription_message]);
+        DB::table('subscription_settings')->update(['waitinglist_subscription_message_arabic' => $request->waitinglist_subscription_message_arabic]);
         return redirect()->back()->with('success', 'Custom messages updated!');
     }
 
