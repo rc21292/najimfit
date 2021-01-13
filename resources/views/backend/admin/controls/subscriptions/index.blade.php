@@ -15,11 +15,11 @@
 		@include('backend.admin.includes.flashmessage')
 		@if($subscription_settings->accept_subscriptions)
 					<div class="alert alert-info" role="alert">
-						<i class="flaticon-information"></i> <strong>Heads up!</strong> Suscription are accepting now, you can close subscriptions by clicking on Accept Subscriptions button.
+						<i class="flaticon-information"></i> <strong>Heads up!</strong> Suscription are accepting now, you can close subscriptions by clicking on Close Subscriptions button.
 					</div>
 					@else
 					<div class="alert alert-info" role="alert">
-						<i class="flaticon-information"></i> <strong>Heads up!</strong> Suscription are closed now, you can accept subscriptions by clicking on Close Subscriptions button.
+						<i class="flaticon-information"></i> <strong>Heads up!</strong> Suscription are closed now, you can accept subscriptions by clicking on Accept Subscriptions button.
 					</div>
 					@endif
 	</div>
