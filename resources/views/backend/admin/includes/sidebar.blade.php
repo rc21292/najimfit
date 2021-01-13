@@ -67,7 +67,7 @@
         </a>
       </li>
       <li class="menu-item">
-        <a href="#">
+        <a href="{{route('controls.index')}}">
           <span><i class="fa fa-cogs"></i>Controls</span>
         </a>
       </li>
