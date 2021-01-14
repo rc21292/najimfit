@@ -389,11 +389,11 @@ class AuthController extends Controller
 			$array = implode(',', $validator->errors()->all());
 			return response(['errors'=>$array], 422);
 		}
-		$user = Client::where('email', $request->email)->first();
-		if ($user->blocked_from_app) {
-			return $response = ['message' => 'You are blocked by admin!'];
-		}
+		$user = Client::where('email', $request->email)->first();		
 		if ($user) {
+			if ($user->blocked_from_app) {
+				return $response = ['message' => 'You are blocked by admin!'];
+			}
 			if (Hash::check($request->password, $user->password)) {
 				$token = $user->createToken('Laravel Password Grant Client')->accessToken;
 				DB::table('clients')->where('id',$user->id)->update(['device_token' => $request['device_token']]);   
