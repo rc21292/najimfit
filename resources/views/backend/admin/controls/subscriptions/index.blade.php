@@ -114,9 +114,9 @@
 						@else
 						<a style="margin-top:5px;" href="{{route('close-subscriptions')}}" class='btn btn-success btnpro'>Close Subscriptions</a>
 						@endif
-						<a style="margin-top:5px;" href="{{route('cancel-subscription')}}" class='btn btn-danger btnpro'>Cancel Subscription</a>
+						<a style="margin-top:5px;" href="{{route('cancel-subscription')}}" class='btn btn-danger btnpro'>Cancel / Uncancel Subscription</a>
 						<a style="margin-top:5px;" href="{{route('extend-subscription')}}" class='btn btn-info btnpro'>Extend Subscriptions</a> 
-						<a style="margin-top:5px;" href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block Users from App</a>
+						<a style="margin-top:5px;" href="{{route('block-user')}}" class='btn btn-primary btnpro'>Block / Unblock Users from App</a>
 						<a style="margin-top:5px;" href="{{route('custom-messages')}}" class='btn btn-primary btnpro'>Custom Messages</a>
 						<a style="margin-top:5px;" href="{{route('notify-clients')}}" class='btn btn-primary btnpro'>Notify clients</a>
 					</div>
