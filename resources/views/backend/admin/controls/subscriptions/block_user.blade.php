@@ -67,7 +67,7 @@
 <script>
 	var dataSet18 = [
 	@foreach($clients as $client)
-	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}}"," {{ $client->email }}"," {{ $client->phone }}", @if($client->blocked_from_app) "<a href='{{route('unblock-user-from-app',$client->id)}}' class='btn btn-primary btnpro'>Unblock Client</a>" @else "<a href='{{route('block-user-from-app',$client->id)}}' class='btn btn-primary btnpro'>block Client</a>" @endif],
+	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}}"," {{ $client->email }}"," {{ $client->phone }}", @if($client->blocked_from_app) "<a href='{{route('unblock-user-from-app',$client->id)}}' class='btn btn-primary btnpro'>Unblock Client</a>" @else "<a href='{{route('block-user-from-app',$client->id)}}' class='btn btn-primary btnpro'>Block Client</a>" @endif],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
