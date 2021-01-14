@@ -39,6 +39,12 @@ class ClientsController extends Controller
                 if ($request->input('filter') == 'waiting') {
                     $clients_data->where('clients.is_subscription_in_wating',1);
                 }
+                if ($request->input('filter') == 'block') {
+                    $clients_data->where('clients.blocked_from_app',1);
+                }
+                if ($request->input('filter') == 'unblock') {
+                    $clients_data->where('clients.blocked_from_app',0);
+                }
             }
 
             $clients = $clients_data->get();
@@ -91,6 +97,12 @@ class ClientsController extends Controller
             if ($request->has('filter')) {
                 if ($request->input('filter') == 'waiting') {
                     $clients->where('clients.is_subscription_in_wating',1);
+                }
+                if ($request->input('filter') == 'block') {
+                    $clients->where('clients.blocked_from_app',1);
+                }
+                 if ($request->input('filter') == 'unblock') {
+                    $clients->where('clients.blocked_from_app',0);
                 }
             }        
 

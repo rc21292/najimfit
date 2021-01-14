@@ -11,6 +11,7 @@
 				<li class="breadcrumb-item"><a href="{{route('subscriptions.index')}}"> Controls</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Client List</li>
 			</ol>
+			<a href="{{route('subscriptions.index')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
@@ -18,6 +19,18 @@
 		<div class="ms-panel">
 			<div class="ms-panel-header">
 				<h6>Client List</h6>
+				<div class="" style="float: right; margin-top: -23px;">
+					<!-- <label class="checkbox-inline">
+						<input name="filter" type="checkbox" @if(@$filter=="block") checked @endif value="block">Filter Block Clients
+					</label> -->
+					<select id="filter" class="select-inline" style="height: 40px;" name="filter">
+						<option value="">Select to Filter Clients</option>
+						<option @if(@$filter=="block") selected @endif value="block">Filter Block Clients</option>
+						<option @if(@$filter=="unblock") selected @endif value="unblock">Filter Unblock Clients</option>
+					</select>
+					<button type="button" id="button-filter" class="btn btn-danger"><i class="fa fa-filter"></i>&nbsp;Filter</button>
+					<button type="button" id="reset-filter" class="btn btn-danger"><i class="fa fa-refresh"></i>&nbsp;Reset</button>
+				</div>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
@@ -148,4 +161,35 @@
 		modal.find('.modal-body #client').val(client_id);
 	})
 </script>
+<script type="text/javascript">
+	$('#reset-filter').on('click', function() {
+		url = '{{route('block-user')}}';
+		location = url;
+	});
+	/*$('#button-filter').on('click', function() {
+		if ($('input[name="filter"]:checked').val() === undefined) {
+		url = "{{route('block-user')}}";
+		}else{
+			url = "{{route('block-user')}}";
+		}
+		var filter_type = $('input[name="filter"]:checked').val();
+		if (filter_type) {
+			url += '?filter=' + encodeURIComponent(filter_type);
+		}
+		location = url;
+	});
+	*/
+	$('#button-filter').on('click', function() {
+		if ($('#filter').find(":selected").val() == '') {
+			url = "{{route('block-user')}}";
+		}else{
+			url = "{{route('block-user')}}";
+		}
+		var filter_type = $('#filter').find(":selected").val();
+		if (filter_type) {
+			url += '?filter=' + encodeURIComponent(filter_type);
+		}
+		location = url;
+	});
+  </script>
 @endpush

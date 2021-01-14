@@ -19,10 +19,14 @@
 			<div class="ms-panel-header">
 				<h6>Client List</h6>
 				<div class="" style="float: right; margin-top: -23px;"> 
-					<label class="checkbox-inline">
-						<input name="filter" type="checkbox" @if(@$filter=="waiting") checked @endif value="waiting">Filter Client by Waiting List
-					</label>
+					<select id="filter" class="select-inline" style="height: 40px;" name="filter">
+						<option value="">Select to Filter Clients</option>
+						<option @if(@$filter=="waiting") selected @endif value="waiting">Filter Waiting List Clients</option>
+						<option @if(@$filter=="block") selected @endif value="block">Filter Block Clients</option>
+					</select>
+					
 					<button type="button" id="button-filter" class="btn btn-danger"><i class="fa fa-filter"></i>&nbsp;Filter</button>
+					<button type="button" id="reset-filter" class="btn btn-danger"><i class="fa fa-refresh"></i>&nbsp;Reset</button>
 				</div>
 			</div>
 			<div class="ms-panel-body">
@@ -78,17 +82,21 @@
 	}
 </script>
 <script type="text/javascript">
-	$('#button-filter').on('click', function() {
-		if ($('input[name="filter"]:checked').val() === undefined) {
+	$('#reset-filter').on('click', function() {
 		url = '{{route('clients.index')}}';
+		location = url;
+	});
+	$('#button-filter').on('click', function() {
+		if ($('#filter').find(":selected").val() == '') {
+			url = '{{route('clients.index')}}';
 		}else{
 			url = '{{route('clients.index')}}';
 		}
-		var filter_type = $('input[name="filter"]:checked').val();
+		var filter_type = $('#filter').find(":selected").val();
 		if (filter_type) {
 			url += '?filter=' + encodeURIComponent(filter_type);
 		}
 		location = url;
 	});
-  </script>
+</script>
 @endpush

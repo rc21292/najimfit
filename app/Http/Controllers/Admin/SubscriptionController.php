@@ -212,9 +212,20 @@ center packages*/
 
     public function BlockUserFromApp(Request $request)
     {
-        $clients = Client::latest()->get();
+        $clients = Client::latest();
+        $filter = '';
+        if ($request->has('filter')) {
+            $filter = $request->input('filter');
+            if ($request->input('filter') == 'block') {
+                $clients->where('clients.blocked_from_app',1);
+            }
+            if ($request->input('filter') == 'unblock') {
+                $clients->where('clients.blocked_from_app',0);
+            }
+        }
+        $clients = $clients->get();
 
-        return view('backend.admin.controls.subscriptions.block_user',compact('clients'))->with('no', 1);
+        return view('backend.admin.controls.subscriptions.block_user',compact('clients','filter'))->with('no', 1);
     }
 
     public function UnblockUserFromApp(Request $request)
