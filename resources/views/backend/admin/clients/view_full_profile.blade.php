@@ -133,7 +133,7 @@
 
 						<table class="table ms-profile-information">
 							<tbody>
-								<tr><input type="checkbox" id="blockuser" @if($profile['blocked_from_app']) @else checked @endif data-toggle="toggle" data-on="Block User" data-off="Unblock User" data-onstyle="success" data-offstyle="danger"></tr>
+								<tr><th scope="row"><input type="checkbox" id="blockuser" @if($profile['blocked_from_app']) @else checked @endif data-toggle="toggle" data-on="Block User" data-off="Unblock User" data-onstyle="success" data-offstyle="danger"></th></tr>
 								<tr>
 									<th scope="row">Active Package</th>
 									<td>{{@$client_package->name}}</td>
