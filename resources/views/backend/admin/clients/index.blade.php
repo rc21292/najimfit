@@ -18,7 +18,14 @@
 		<div class="ms-panel">
 			<div class="ms-panel-header">
 				<h6>Client List</h6>
+				<div class="" style="float: right; margin-top: -23px;"> 
+					<label class="checkbox-inline">
+						<input name="filter" type="checkbox" @if(@$filter=="waiting") checked @endif value="waiting">Filter Client by Waiting List
+					</label>
+					<button type="button" id="button-filter" class="btn btn-danger"><i class="fa fa-filter"></i>&nbsp;Filter</button>
+				</div>
 			</div>
+			
 			<div class="ms-panel-body">
 				<div class="table-responsive">
 					<table id="data-table-18" class="table table-striped thead-primary w-100"></table>
@@ -54,7 +61,7 @@
 <script>
 	var dataSet18 = [
 	@foreach($clients as $client)
-	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}}"," {{ $client->phone }}", @if($client->status == 'on')"Enabled" @else "Disabled" @endif , "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('client-chats.show',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='javascript:' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-client-blocked='{{$client->is_client_blocked}}' data-nutri-blocked='{{$client->is_nutri_blocked}}' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note</a> <a class='btn btn-primary btnpro' href='{{route('clients.edit',$client->id)}}'>Edit</a> <a href='javascript:' onclick='submitform({{ $no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{$no}}' action='{{route('clients.destroy',$client->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}} @if($client->is_client_in_wating) <i style='color:red' title='This Client is in Waitinglist' class='fas fa-info-circle'></i> @endif"," {{ $client->phone }}", @if($client->status == 'on')"Enabled" @else "Disabled" @endif , "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('client-chats.show',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='javascript:' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-client-blocked='{{$client->is_client_blocked}}' data-nutri-blocked='{{$client->is_nutri_blocked}}' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note</a> <a class='btn btn-primary btnpro' href='{{route('clients.edit',$client->id)}}'>Edit</a> <a href='javascript:' onclick='submitform({{ $no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{$no}}' action='{{route('clients.destroy',$client->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
@@ -148,4 +155,19 @@
 		modal.find('.modal-body #client').val(client_id);
 	})
 </script>
+
+<script type="text/javascript">
+	$('#button-filter').on('click', function() {
+		if ($('input[name="filter"]:checked').val() === undefined) {
+		url = '{{route('clients.index')}}';
+		}else{
+			url = '{{route('clients.index')}}';
+		}
+		var filter_type = $('input[name="filter"]:checked').val();
+		if (filter_type) {
+			url += '?filter=' + encodeURIComponent(filter_type);
+		}
+		location = url;
+	});
+  </script>
 @endpush

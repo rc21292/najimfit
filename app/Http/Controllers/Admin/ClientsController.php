@@ -21,19 +21,27 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::User();
         $roles = $user->getRoleNames();
         $role_name =  $roles->implode('', ' ');
 
         if($role_name == 'Nutritionist'){
-            $clients = DB::table('nutritionist_clients')
+            $clients_data = DB::table('nutritionist_clients')
             ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
             ->join('clients','clients.id','=','nutritionist_clients.client_id')
             ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-            ->where('nutritionist_clients.nutritionist_id',Auth::User()->id)
-            ->get();
+            ->where('nutritionist_clients.nutritionist_id',Auth::User()->id);
+
+            $filter = $request->input('filter');
+            if ($request->has('filter')) {
+                if ($request->input('filter') == 'waiting') {
+                    $clients_data->where('clients.is_subscription_in_wating',1);
+                }
+            }
+
+            $clients = $clients_data->get();
 
             foreach ($clients as $key => $value) {
                 $req_exists = DeferRequest::where('client_id',$value->client_id)->exists();
@@ -60,6 +68,11 @@ class ClientsController extends Controller
                 }else{
                     $clients[$key]->is_deferd = 0;
                 }
+                $clients[$key]->is_client_in_wating = 0;
+
+                if ($client->is_subscription_in_wating) {
+                    $clients[$key]->is_client_in_wating = 1;
+                }
 
                 if ($exist_complaints) {
                     $clients[$key]->is_complaint = 1;
@@ -67,11 +80,22 @@ class ClientsController extends Controller
                     $clients[$key]->is_complaint = 0;
                 }
             }
-            return view('backend.admin.clients.nutri_index',compact('clients'))->with('no', 1);
+            return view('backend.admin.clients.nutri_index',compact('clients','filter'))->with('no', 1);
 
         }else{
 
-            $clients = Client::latest()->get();
+            $clients = Client::latest();
+
+            $filter = $request->input('filter');
+
+            if ($request->has('filter')) {
+                if ($request->input('filter') == 'waiting') {
+                    $clients->where('clients.is_subscription_in_wating',1);
+                }
+            }        
+
+            $clients = $clients->get();
+
 
             foreach ($clients as $key => $client) {
 
@@ -91,15 +115,19 @@ class ClientsController extends Controller
                 $user_data = User::find($nutritionist_id);
                 $clients[$key]->is_client_blocked = 0;
                 $clients[$key]->is_nutri_blocked = 0;
+                $clients[$key]->is_client_in_wating = 0;
                 if ($client_data->is_blocked) {
                     $clients[$key]->is_client_blocked = 1;
+                }
+                if ($client_data->is_subscription_in_wating) {
+                    $clients[$key]->is_client_in_wating = 1;
                 }
                 if (@$user_data->is_blocked && $client_data->nutri_blocked) {
                     $clients[$key]->is_nutri_blocked = 1;
                 }
             }
 
-            return view('backend.admin.clients.index',compact('clients'))->with('no', 1);
+            return view('backend.admin.clients.index',compact('clients','filter'))->with('no', 1);
         }
     }
 
