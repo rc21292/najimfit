@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('head')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
 <style type="text/css">
 	input {
 		text-align: center;
@@ -36,6 +38,7 @@
 
 <div class="col-xl-12 col-md-12">
 	<div class="col-xl-12">
+		<div class="alert alert-success alertdis" style="display:none"></div>
 		<div class="ms-panel">
 			<div class="ms-panel-body">
 				<div class="row">
@@ -130,6 +133,7 @@
 
 						<table class="table ms-profile-information">
 							<tbody>
+								<tr><input type="checkbox" id="blockuser" @if($profile['blocked_from_app']) @else checked @endif data-toggle="toggle" data-on="Block User" data-off="Unblock User" data-onstyle="success" data-offstyle="danger"></tr>
 								<tr>
 									<th scope="row">Active Package</th>
 									<td>{{@$client_package->name}}</td>
@@ -167,6 +171,7 @@
 				</div>
 				@endsection
 				@push('scripts')
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/js/plugins/piexif.min.js" type="text/javascript"></script>
 <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. 
 	This must be loaded before fileinput.min.js -->
@@ -213,5 +218,36 @@
     ],
     @endif
 });
+
+		$('#blockuser').change(function(e){
+			if($(this).prop('checked'))
+			{
+				var value = 0;
+			}
+			else
+			{
+				value = 1;
+			}
+			e.preventDefault();
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': "{{csrf_token()}}"
+				}
+			});
+			$.ajax({
+				url: "{{ route('block-unblock-user') }}",
+				method: 'post',
+
+				data: {
+					value: value,
+					client_id: "{{ $profile['id'] }}",
+				},
+				success: function(result){
+					$('.alertdis').show();
+					$('.alertdis').html(result.success);
+					 $(window).scrollTop(0);
+				}});
+		});
+
 </script>
 @endpush

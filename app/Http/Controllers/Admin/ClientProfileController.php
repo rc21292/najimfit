@@ -83,6 +83,17 @@ class ClientProfileController extends Controller
         return view('backend.admin.clients.view_full_profile',compact('profile','answers','client','weight','height','client_package'));
     }
 
+    public function blockUnblockUser(Request $request)
+    {
+        DB::table('clients')->where('id',$request->client_id)->update(['blocked_from_app' => $request->value]);
+        if ($request->value == 1) {
+            return response()->json(['success'=>'User blocked successfully!']);
+        }else{
+           return response()->json(['success'=>'User unblocked successfully!']); 
+        }
+        
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
