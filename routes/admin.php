@@ -57,10 +57,21 @@ Route::get('clients-all','ApplicationDataController@allClients')->name('clients-
 
 Route::resource('notifications','NotificationController');
 
-Route::post('/send-push-notification','NotificationController@postPushNotification')->name('send-push-notification');
 Route::get('send-push-notification','NotificationController@sendPushNotification')->name('send-push-notification');
+Route::post('/send-push-notification','NotificationController@postPushNotification')->name('send-push-notification');
+
+Route::post('/send-general-push-notification','NotificationController@postGeneralPushNotification')->name('send-general-push-notification');
+
+Route::post('/send-broadcast-general-push-notification','NotificationController@postBroadcastGeneralPushNotification')->name('send-broadcast-general-push-notification');
+
+Route::get('send-personalized-push-notification','NotificationController@sendPersonalizedPushNotification')->name('send-personalized-push-notification');
+
+Route::get('send-personalized-in-chat-broadcast','NotificationController@sendPersonalizedInChatBroadcast')->name('send-personalized-in-chat-broadcast');
+
+Route::post('send-broadcast-personalized-in-chat-broadcast','NotificationController@postBroadcastPushNotification')->name('send-broadcast-personalized-in-chat-broadcast');
 
 Route::get('send-in-chat-broadcast','NotificationController@sendInChatBroadcast')->name('send-in-chat-broadcast');
+
 Route::get('notifications-history','NotificationController@notificationsHistory')->name('notifications-history');
 Route::get('broadcasts-history','NotificationController@broadcastsHistory')->name('broadcasts-history');
 
