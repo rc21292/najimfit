@@ -12,7 +12,7 @@
 					<div class="col-md-12">
 						<div class="ms-panel">
 							<div class="ms-panel-header">
-								<h6>Send Personalized Notification to Clients
+								<h6>Send Personalized in-chat broadcast Message to Clients
 									<a style="float: right;margin-top: -10px" href="{{route('notifications.index')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i>
 									</a>								
 							</div>
