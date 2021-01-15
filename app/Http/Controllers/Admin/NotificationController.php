@@ -299,18 +299,16 @@ class NotificationController extends Controller
         return view('backend.admin.controls.notifications.broadcasts.personalized.notify_clients',compact('clients'))->with('no', 1);
     }
 
-    public function notificationsHistory(Request $request)
-    {
-        echo "<pre>";print_r('workinng on this page');"</pre>";exit;
-        $notifications_history = DB::table('notification_histories')->join('clients','clients.id','notification_histories.client_id')->select('firstname','lastname','notification_histories.*')->latest('notification_histories.created_at')->get();
-        return view('backend.admin.controls.notifications.notifications_history',compact('notifications_history'))->with('no', 1);
-    }
-
     public function broadcastsHistory(Request $request)
     {
-        echo "<pre>";print_r('workinng on this page');"</pre>";exit;
         $broadcasts_history = DB::table('broadcast_histories')->join('clients','clients.id','broadcast_histories.client_id')->select('firstname','lastname','broadcast_histories.*')->latest('broadcast_histories.created_at')->get();
         return view('backend.admin.controls.notifications.broadcasts_history',compact('broadcasts_history'))->with('no', 1);
+    }
+
+    public function notificationsHistory(Request $request)
+    {
+        $notifications_history = DB::table('notification_histories')->join('clients','clients.id','notification_histories.client_id')->select('firstname','lastname','notification_histories.*')->latest('notification_histories.created_at')->get();
+        return view('backend.admin.controls.notifications.notifications_history',compact('notifications_history'))->with('no', 1);
     }
 
     /**
