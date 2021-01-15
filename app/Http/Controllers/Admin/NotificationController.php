@@ -100,6 +100,7 @@ class NotificationController extends Controller
                 DB::table('notification_histories')->insert(
                     ['client_id' => $value,'message_type' => 'General', 'status' => 0, 'message' => $request->message]
                 );
+                $result = false;
             }
         }
             
