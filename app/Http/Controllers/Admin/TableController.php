@@ -93,7 +93,7 @@ class TableController extends Controller
         $clientmeal->save();
 
         DB::table('nutritionist_clients')->where('client_id',Session::get('client'))->update(['table_status'=>'posted']);
-        return redirect()->route('assign-table.index');
+        return redirect()->route('assign-table.index')->with(['success'=>'Table Assigned Successfully!']);
 
     }
 

@@ -202,6 +202,6 @@ class WorkoutController extends Controller
             DB::table('client_workouts')->where('id',$workout_id)->update(['reps' => $value]);
         }
         DB::table('nutritionist_clients')->where('client_id',Session::get('client_id'))->update(['workout_status'=>'posted']);
-        return redirect()->route('renew-workout.index');
+        return redirect()->route('renew-workout.index')->with(['success'=>'Workout Assigned Successfully!']);
     }
 }
