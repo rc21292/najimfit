@@ -5,6 +5,7 @@ use App\Models\Event;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Response;
+use DB;
 use Auth;
 
 class FullCalendarController extends Controller
@@ -25,7 +26,14 @@ class FullCalendarController extends Controller
 
 
 
-         $data = Event::where('user_id',Auth::User()->id)->whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
+         // $data = Event::where('user_id',Auth::User()->id)->whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
+
+         // $data = DB::table('appointments')->whereDate('date', '>=', $start)->select('appointments.*', DB::raw('CONCAT(firstname, lastname) AS title'), 'appointments.date as start')->get();
+
+         
+$mc = Event::where('user_id',Auth::User()->id)->whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
+$sm = DB::table('appointments')->whereDate('date', '>=', $start)->select('appointments.*', DB::raw('CONCAT(firstname, lastname) AS title'), 'appointments.date as start')->get();
+$data = array_merge($mc->toArray(), $sm->toArray());
 
          return Response::json($data);
 
