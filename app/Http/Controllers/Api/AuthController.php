@@ -216,7 +216,9 @@ class AuthController extends Controller
 				$workout_name = ($request->language == "arabic") ? "غيرمعتمد" :'Not Assigned';
 			}
 
-			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
+			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->where('day',$active_day)->count('id');
+			
+			/*$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');*/
 
 			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->where('day',$active_day)->get();
 
