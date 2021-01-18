@@ -132,6 +132,7 @@ class MeetingController extends Controller
     public function notifications(){
 
     	$notifications = DB::table('meeting_notifications')->join('meetings','meetings.id','=','meeting_notifications.meeting_id')->select('meetings.*','meeting_notifications.*')->where('user_id',Auth::User()->id)->get();
+        $notification_count = DB::table('meeting_notifications')->where('user_id',Auth::User()->id)->where('seen',0)->update(['seen' => 1,]);
     	return view('backend.admin.meeting.notification',compact('notifications'));
 
     }

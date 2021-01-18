@@ -35,6 +35,10 @@ class Helper extends Model
     {
       $user_id = Auth::user()->id;
       return $request_count = AdminRequest::where('status',0)->where('nutritionist_id',$user_id)->count();
-    }
+  }
+  public static function getMeetingnotificationCount()
+  {
+    $notification_count = DB::table('meeting_notifications')->where('user_id',Auth::User()->id)->where('seen',0)->count();
+}
 
- }
+}

@@ -60,7 +60,7 @@
 		</a>
 	</div>
 	<div class="col-xl-3 col-md-6">
-		<a href="{{ route('access.index') }}">
+		<a href="{{ route('users.index') }}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<div class="ms-panel-body media">
 					<i class="fa fa-bell" aria-hidden="true"></i>

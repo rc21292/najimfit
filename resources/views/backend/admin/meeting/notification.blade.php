@@ -13,10 +13,10 @@
       <ul class="ms-list ms-feed ms-twitter-feed ms-recent-support-tickets">
         @foreach($notifications as $notification)
         <li class="ms-list-item">
-            <img src="https://via.placeholder.com/270x270" class="ms-img-round ms-img-small" alt="This is another feature">
+            
             <div class="media-body">
               <div class="d-flex justify-content-between">
-                <h4 class="ms-feed-user mb-0">{{$notification->name}}</h4>
+                <h4 class="ms-feed-user mb-0">Title: {{$notification->name}}</h4>
                 <span class="badge badge-success">@if($notification->seen == 0) Not Seen @else Seen @endif</span>
               </div>
               <span class="my-2 d-block"> <i class="material-icons">date_range</i>{{$notification->date}}</span>

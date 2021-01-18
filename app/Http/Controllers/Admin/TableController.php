@@ -86,14 +86,14 @@ class TableController extends Controller
         $clientmeal->breakfast = implode(', ', $request->breakfast);
         $clientmeal->snacks1 = implode(', ', $request->snack1);
         $clientmeal->lunch = implode(', ', $request->lunch);
-        $clientmeal->snacks2 = implode(', ', $request->snack2);
+        // $clientmeal->snacks2 = implode(', ', $request->snack2);
         $clientmeal->dinner = implode(', ', $request->dinner);
-        $clientmeal->snacks3 = implode(', ', $request->snack3);
+        // $clientmeal->snacks3 = implode(', ', $request->snack3);
         $clientmeal->calorie_range = Session::get('range');
         $clientmeal->save();
 
         DB::table('nutritionist_clients')->where('client_id',Session::get('client'))->update(['table_status'=>'posted']);
-        return redirect()->route('assign-table.index');
+        return redirect()->route('assign-table.index')->with(['success'=>'Table Assigned Successfully!']);
 
     }
 
@@ -214,10 +214,10 @@ class TableController extends Controller
     
     public function foodinfo(Request $request)
     {
-      $calories = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('calories');
-      $carbs = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('carbs');
-      $fat = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('fat');
-      $protein = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->snack2, $request->dinner, $request->snack3])->sum('protein');
+      $calories = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch,  $request->dinner])->sum('calories');
+      $carbs = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->dinner])->sum('carbs');
+      $fat = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->dinner])->sum('fat');
+      $protein = Meal::whereIn('id', [$request->breakfast, $request->snack1 ,$request->lunch, $request->dinner])->sum('protein');
       return response()->json(['calories'=> $calories, 'carbs'=> $carbs, 'fat'=> $fat, 'protein'=> $protein]);
 
   }

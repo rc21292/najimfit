@@ -88,7 +88,6 @@
 									<label for="breakfast">Select Breakfast</label>
 									<div class="input-group">
 										<select multiple="multiple" class="form-control js-example-basic-multiple" id="breakfast" name="breakfast[]" required="">
-											<option value="">Select Breakfast</option>
 											@foreach($breakfasts as $breakfast)
 											<option value="{{$breakfast->id}}" @if(in_array($breakfast->id,$selected_meal_breakfast)) selected @endif>{{$breakfast->food}}</option>
 											@endforeach
@@ -99,10 +98,9 @@
 									</div>
 								</div>
 								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="snack1">Select Snack 1</label>
+									<label for="snack1">Select Snacks</label>
 									<div class="input-group">
 										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack1" name="snack1[]" required="">
-											<option value="">Select Snack 1</option>
 											@foreach($snacks as $snack)
 											<option value="{{$snack->id}}" @if(in_array($snack->id,$selected_meal_snacks1)) selected @endif>{{$snack->food}}</option>
 											@endforeach
@@ -116,7 +114,6 @@
 									<label for="lunch">Select Lunch</label>
 									<div class="input-group">
 										<select multiple="multiple" class="form-control js-example-basic-multiple" id="lunch" name="lunch[]" required="">
-											<option value="">Select Lunch</option>
 											@foreach($lunchs as $lunch)
 											<option value="{{$lunch->id}}" @if(in_array($lunch->id,$selected_meal_lunch)) selected @endif>{{$lunch->food}}</option>
 											@endforeach
@@ -126,20 +123,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="snack2">Select Snack 2</label>
-									<div class="input-group">
-										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack2" name="snack2[]" required="">
-											<option value="">Select Snack 2</option>
-											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}" @if(in_array($snack->id,$selected_meal_snacks2)) selected @endif>{{$snack->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Snack 2
-										</div>
-									</div>
-								</div>
+								
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="dinner">Select Dinner</label>
 									<div class="input-group">
@@ -154,20 +138,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="snack3">Select Snack 3</label>
-									<div class="input-group">
-										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack3" name="snack3[]" required="">
-											<option value="">Select Snack 3</option>
-											@foreach($snacks as $snack)
-											<option value="{{$snack->id}}" @if(in_array($snack->id,$selected_meal_snacks3)) selected @endif>{{$snack->food}}</option>
-											@endforeach
-										</select>
-										<div class="invalid-feedback">
-											Please Select Snack 3
-										</div>
-									</div>
-								</div>
+								
 								<div class="col-xl-6 col-md-12 mb-3">
 									<div class="input-group">
 										<input type="button" class="btn btn-light" name="calculate" value="Calculate Nutrients">
@@ -176,7 +147,7 @@
 							</div>
 							<div class="ms-panel-body float-right">
 								<button type="button" class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
-								<button type="button" class="btn btn-square btn-danger has-icon"><i class="flaticon-alert-1"></i> Consult Team</button>
+								<button type="button" class="btn btn-square btn-danger has-icon" onclick="window.location.href='{{route('group-chat.index')}}'"><i class="flaticon-alert-1"></i> Consult Team</button>
 								<input type="submit" class="btn btn-square btn-warning has-icon" name="submit" value="Send to Client"/>
 							</div>
 						</form>
@@ -203,9 +174,7 @@
 		var breakfast = $('#breakfast :selected').val();
 		var snack1 = $('#snack1 :selected').val();
 		var lunch = $('#lunch :selected').val();
-		var snack2 = $('#snack2 :selected').val();
 		var dinner = $('#dinner :selected').val();
-		var snack3 = $('#snack3 :selected').val();
 		$.ajaxSetup({
 
 			headers: {
@@ -223,9 +192,7 @@
 				breakfast: breakfast,
 				snack1: snack1,
 				lunch: lunch,
-				snack2: snack2,
 				dinner: dinner,
-				snack3: snack3
 			},
 			success: function(result){
 				$('#calories').val(result.calories);

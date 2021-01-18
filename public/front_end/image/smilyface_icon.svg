@@ -1,0 +1,6 @@
+<svg id="_114-clock" data-name="114-clock" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <path id="Shape" d="M32,64A32,32,0,0,1,9.373,9.373,32,32,0,1,1,54.627,54.627,31.787,31.787,0,0,1,32,64ZM32,5.171A26.829,26.829,0,1,0,58.829,32,26.86,26.86,0,0,0,32,5.171Z" fill="#ff6413"/>
+  <circle id="Oval" cx="4" cy="4" r="4" transform="translate(40 20)" fill="#ff6413"/>
+  <circle id="Oval-2" data-name="Oval" cx="4" cy="4" r="4" transform="translate(18 20)" fill="#ff6413"/>
+  <path id="Path_2" data-name="Path 2" d="M0,0S3,6,12,6,23,0,23,0" transform="translate(21 42)" fill="none" stroke="#ff6413" stroke-linecap="round" stroke-miterlimit="10" stroke-width="4"/>
+</svg>
