@@ -129,6 +129,18 @@
 										</div>
 									</div>
 								</div>
+								<div class="col-xl-6 col-md-12">
+									<label for="package_type">Select Package Type</label>
+									<div class="input-group">
+										<select class="form-control" name="type" id="type" required>
+											<option value="online">Online</option>
+											<option value="center">center</option>
+										</select>
+										<div class="invalid-feedback">
+											Select Package type.
+										</div>
+									</div>
+								</div>
 								<div class="col-md-12">
 									<label for="targets">Package Targets</label>
 									<div class="input-group">
