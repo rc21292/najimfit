@@ -17,7 +17,7 @@
         $user = Auth::User();
         $roles = $user->getRoleNames();
         $role_name =  $roles->implode('', ' ');
-
+$notification_count = DB::table('meeting_notifications')->where('user_id',Auth::User()->id)->where('seen',0)->count();
         if($role_name == 'Nutritionist'){
         @endphp
         <li class="ms-nav-item ms-nav-user dropdown">
@@ -27,7 +27,7 @@
           <a href="/dashboard/admin-requests" title="Admin Requests" class="text-disabled ms-has-notification">{{{ App\Helper::getAdminRequestsCount()}}} <i class="fa fa-envelope" aria-hidden="true"></i></a>
         </li>
         <li class="ms-nav-item ms-nav-user dropdown">
-          <a href="{{url('dashboard/meeting-notifications')}}" title="Notifications" class="text-disabled ms-has-notification">0 <i class="flaticon-bell"></i></a>
+          <a href="{{url('dashboard/meeting-notifications')}}" title="Notifications" class="text-disabled ms-has-notification">{{ $notification_count}}<i class="flaticon-bell"></i></a>
         </li>
         
         @php
