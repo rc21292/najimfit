@@ -91,7 +91,17 @@ class CartController extends Controller
 				if(DB::table('cart')->where('client_id', $user_id)->exists()){
 					DB::table('cart')->where('client_id', $user_id)->delete();
 				}
-				$subtotal = Package::find($request->package)->price;
+
+				if ($request->currency) {
+					$amount = Package::find($request->package)->price;
+					$from='SAR';
+					$to=$request->currency;
+					$subtotal = $this->currency_converter($from,$to,$amount);				
+				}else{
+					$subtotal = Package::find($request->package)->price;
+				}
+				
+				// $subtotal = Package::find($request->package)->price;
 				$quantity = 1;
 				Session::put('total',$subtotal);
 				$cart_id = DB::table('cart')->insertGetId(['client_id' => $user_id, 'package_id' => $request->package, 'subtotal'=> $subtotal, 'quantity'=> $quantity,'discount'=> 0, 'total' => $subtotal]);
