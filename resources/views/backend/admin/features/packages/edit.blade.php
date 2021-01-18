@@ -46,131 +46,143 @@
 		</nav>
 	</div>
 
-		<!-- Nav tabs -->
+	<!-- Nav tabs -->
 
-		<div class="ms-panel ms-panel-fh" style="width: 100%">
-			<div class="ms-panel-header">
-				<h6>Package Form</h6>
-			</div>
+	<div class="ms-panel ms-panel-fh" style="width: 100%">
+		<div class="ms-panel-header">
+			<h6>Package Form</h6>
+		</div>
 
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><span class="bfh-languages" data-language="en_US" data-flags="true"></span>English</a></li>
-				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arabic</a></li>
-			</ul>
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="home"><div class="col-xl-8 col-md-12">
-					<div class="ms-panel-body">
-						<form class="needs-validation clearfix" method="POST" id="package" action="{{route('package.update',$package)}}" enctype="multipart/form-data">
-					@csrf
-					{{ method_field('PUT') }}
-					<div class="form-row">
-						<div class="col-md-12">
-							<label for="name">Package Name</label>
-							<div class="input-group">
-								<input type="text" id="name" name="name" class="form-control" placeholder="Package Name" value="{{ $package->name }}" required>
-								<div class="invalid-feedback">
-									Please Enter a Name.
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-6 col-md-12 mb-3">
-							<label for="includes">Package Includes</label>
-							<div class="input-group">
-								<select class="form-control" name="includes" id="includes" required>
-									<option value="both" @if($package->includes == "both") selected @endif>Both Workout & Diet</option>
-									<option value="workout" @if($package->includes == "workout") selected @endif>Workout Only</option>
-									<option value="diet" @if($package->includes == "diet") selected @endif>Diet Only</option>
-								</select>
-								<div class="invalid-feedback">
-									Please select what your Package Includes.
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-6 col-md-12">
-							<label for="sort">Sort Order</label>
-							<div class="input-group">
-								<input type="number" class="form-control" name="sort" id="sort" placeholder="Sort Order" value="{{ $package->sort }}" required >
-								<div class="invalid-feedback">
-									Please provide a Sort Number.
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-6 col-md-12">
-							<div class="input-group">
-								<label for="workout_days">Workout Days</label>
-								<select data-placeholder="Please Select Workout Days" class="js-example-basic-multiple form-control" name="workout_days[]" multiple="multiple" style="width: 100%">
-									<option value="">Please Select days</option>
-									<option @if(in_array(1, $package->workout_days)) selected @endif value="1">1</option>
-									<option @if(in_array(2, $package->workout_days)) selected @endif value="2">2</option>
-									<option @if(in_array(3, $package->workout_days)) selected @endif value="3">3</option>
-									<option @if(in_array(4, $package->workout_days)) selected @endif value="4">4</option>
-									<option @if(in_array(5, $package->workout_days)) selected @endif value="5">5</option>
-									<option @if(in_array(6, $package->workout_days)) selected @endif value="6">6</option>
-									<option @if(in_array(7, $package->workout_days)) selected @endif value="7">7</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-xl-6 col-md-12">
-							<label for="price">Package Price</label>
-							<div class="input-group">
-								<input type="number" class="form-control" name="price" id="price" placeholder="Package Price" value="{{ $package->price }}" required>
-								<div class="invalid-feedback">
-									Please provide a Sort Number.
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-6 col-md-12">
-							<label for="validity">Package Validity (In Days)</label>
-							<div class="input-group">
-								<input type="text" class="form-control" name="validity" id="validity" placeholder="Package Validity (In Days)" value="{{ $package->validity }}" required>
-								<div class="invalid-feedback">
-									Enter Validity For Package.
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label for="targets">Package Targets</label>
-							<div class="input-group">
-								<textarea rows="5" id="targets" name="target" class="form-control" placeholder="Write about those people for whom this Package is adviced." required>{{ $package->target }}</textarea>
-								<div class="invalid-feedback">
-									Please Write about those people for whom this Package is adviced.
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label for="description">Package Description</label>
-							<div class="input-group">
-								<textarea rows="8" id="description" name="description" class="form-control" placeholder="Write about Package." required>{{ $package->description }}</textarea>
-								<div class="invalid-feedback">
-									Please Write about Package.
-								</div>
-							</div>
-						</div>	
-						<div class="col-md-12">
-							<label for="validationCustom12">Upload Image</label>
-							<div class="input-group avat">
-								<div class="kv-avatar">
-									<div class="file-loading">
-										<input id="avatar-2" name="image" type="file" class="form-control">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><span class="bfh-languages" data-language="en_US" data-flags="true"></span>English</a></li>
+			<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Arabic</a></li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="home"><div class="col-xl-8 col-md-12">
+				<div class="ms-panel-body">
+					<form class="needs-validation clearfix" method="POST" id="package" action="{{route('package.update',$package)}}" enctype="multipart/form-data">
+						@csrf
+						{{ method_field('PUT') }}
+						<div class="form-row">
+							<div class="col-md-12">
+								<label for="name">Package Name</label>
+								<div class="input-group">
+									<input type="text" id="name" name="name" class="form-control" placeholder="Package Name" value="{{ $package->name }}" required>
+									<div class="invalid-feedback">
+										Please Enter a Name.
 									</div>
 								</div>
 							</div>
-							<div class="kv-avatar-hint">
-								<small>Note: File-size should be less than 1.5 MB</small>
+							<div class="col-xl-6 col-md-12 mb-3">
+								<label for="includes">Package Includes</label>
+								<div class="input-group">
+									<select class="form-control" name="includes" id="includes" required>
+										<option value="both" @if($package->includes == "both") selected @endif>Both Workout & Diet</option>
+										<option value="workout" @if($package->includes == "workout") selected @endif>Workout Only</option>
+										<option value="diet" @if($package->includes == "diet") selected @endif>Diet Only</option>
+									</select>
+									<div class="invalid-feedback">
+										Please select what your Package Includes.
+									</div>
+								</div>
 							</div>
-							<div id="kv-avatar-errors-2" class="center-block mt-3" style="width:336px;display:none"></div>
-						</div>	
-						<div class="col-md-12 pt-4">
-							<label class="ms-switch">
-								<input type="checkbox" @if($package->status == "on") checked="" @endif name="status">
-								<span class="ms-switch-slider ms-switch-primary square"></span>
-							</label>
-							<span> Enable </span>
-						</div>					
-					</div>
-					<button class="btn btn-primary float-right" type="submit">Save</button>
-				
+							<div class="col-xl-6 col-md-12">
+								<label for="sort">Sort Order</label>
+								<div class="input-group">
+									<input type="number" class="form-control" name="sort" id="sort" placeholder="Sort Order" value="{{ $package->sort }}" required >
+									<div class="invalid-feedback">
+										Please provide a Sort Number.
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6 col-md-12">
+								<div class="input-group">
+									<label for="workout_days">Workout Days</label>
+									<select data-placeholder="Please Select Workout Days" class="js-example-basic-multiple form-control" name="workout_days[]" multiple="multiple" style="width: 100%">
+										<option value="">Please Select days</option>
+										<option @if(in_array(1, $package->workout_days)) selected @endif value="1">1</option>
+										<option @if(in_array(2, $package->workout_days)) selected @endif value="2">2</option>
+										<option @if(in_array(3, $package->workout_days)) selected @endif value="3">3</option>
+										<option @if(in_array(4, $package->workout_days)) selected @endif value="4">4</option>
+										<option @if(in_array(5, $package->workout_days)) selected @endif value="5">5</option>
+										<option @if(in_array(6, $package->workout_days)) selected @endif value="6">6</option>
+										<option @if(in_array(7, $package->workout_days)) selected @endif value="7">7</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xl-6 col-md-12">
+								<label for="price">Package Price</label>
+								<div class="input-group">
+									<input type="number" class="form-control" name="price" id="price" placeholder="Package Price" value="{{ $package->price }}" required>
+									<div class="invalid-feedback">
+										Please provide a Sort Number.
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6 col-md-12">
+								<label for="validity">Package Validity (In Days)</label>
+								<div class="input-group">
+									<input type="text" class="form-control" name="validity" id="validity" placeholder="Package Validity (In Days)" value="{{ $package->validity }}" required>
+									<div class="invalid-feedback">
+										Enter Validity For Package.
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6 col-md-12">
+								<label for="package_type">Select Package Type</label>
+								<div class="input-group">
+									<select class="form-control" name="type" id="type" required>
+										<option value="online" @if($package->type == "online") selected @endif>Online</option>
+										<option value="center" @if($package->type == "center") selected @endif>Center</option>
+									</select>
+									<div class="invalid-feedback">
+										Select Package type.
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<label for="targets">Package Targets</label>
+								<div class="input-group">
+									<textarea rows="5" id="targets" name="target" class="form-control" placeholder="Write about those people for whom this Package is adviced." required>{{ $package->target }}</textarea>
+									<div class="invalid-feedback">
+										Please Write about those people for whom this Package is adviced.
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<label for="description">Package Description</label>
+								<div class="input-group">
+									<textarea rows="8" id="description" name="description" class="form-control" placeholder="Write about Package." required>{{ $package->description }}</textarea>
+									<div class="invalid-feedback">
+										Please Write about Package.
+									</div>
+								</div>
+							</div>	
+							<div class="col-md-12">
+								<label for="validationCustom12">Upload Image</label>
+								<div class="input-group avat">
+									<div class="kv-avatar">
+										<div class="file-loading">
+											<input id="avatar-2" name="image" type="file" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="kv-avatar-hint">
+									<small>Note: File-size should be less than 1.5 MB</small>
+								</div>
+								<div id="kv-avatar-errors-2" class="center-block mt-3" style="width:336px;display:none"></div>
+							</div>	
+							<div class="col-md-12 pt-4">
+								<label class="ms-switch">
+									<input type="checkbox" @if($package->status == "on") checked="" @endif name="status">
+									<span class="ms-switch-slider ms-switch-primary square"></span>
+								</label>
+								<span> Enable </span>
+							</div>					
+						</div>
+						<button class="btn btn-primary float-right" type="submit">Save</button>
+
 					</div>
 				</div>
 			</div>

@@ -119,7 +119,7 @@ class PackageController extends Controller
             $package->image = $path;
         }
         $package->name = $request->name;
-
+        $package->type = $request->type;
         $package->includes = $request->includes;
 
         $package->sort = $request->sort;
@@ -127,7 +127,7 @@ class PackageController extends Controller
         $package->price = $request->price;
 
         $package->validity = $request->validity;
-            
+        
         $workout_days = @implode(',', $request->workout_days);
 
         $str_arr = @explode(",", $workout_days); 
@@ -149,13 +149,13 @@ class PackageController extends Controller
         $package->description = $request->description;
 
         if(isset($request->description)){
-        $package->name_arabic = $request->name_arabic;
+            $package->name_arabic = $request->name_arabic;
         }
         if(isset($request->target_arabic)){
-        $package->target_arabic = $request->target_arabic;
+            $package->target_arabic = $request->target_arabic;
         }
         if(isset($request->description_arabic)){
-        $package->description_arabic = $request->description_arabic;
+            $package->description_arabic = $request->description_arabic;
         }
 
 
