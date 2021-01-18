@@ -155,11 +155,11 @@
         </a>
       </li>
       @endcan --}}
-      <li class="menu-item">
+      <!-- <li class="menu-item">
         <a href="/chatify">
           <span><i class="fab fa-stack-exchange"></i>Chats</span>
         </a>
-      </li>
+      </li> -->
       <li class="menu-item">
         <a href="{{route('intake-substances.index')}}">
           <span><i class="far fa-user-circle"></i>Intake Substances</span>
@@ -208,11 +208,11 @@
           <span><i class="fa fa-male"></i>  Staff Chats</span>
         </a>
       </li>
-      <li class="menu-item">
+      <!-- <li class="menu-item">
         <a href="#">
           <span><i class="material-icons fs-16">equalizer</i>Performance</span>
         </a>
-      </li>
+      </li> -->
       <li class="menu-item">
         <a href="{{url('dashboard/fullcalendar')}}">
           <span><i class="fa fa-calendar"></i>Calender</span>
