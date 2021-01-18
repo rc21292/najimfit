@@ -55,7 +55,7 @@
 						<div class="col-xl-6 col-md-12 mb-3">
 							<label for="phone">Phone</label>
 							<div class="input-group">
-								<input type="number" id="phone" name="phone" class="form-control" placeholder="Phone" value="{{ $client->phone }}" required>
+								<input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="{{ $client->phone }}" required>
 								<div class="invalid-feedback">
 									Please Enter Phone Number.
 								</div>
