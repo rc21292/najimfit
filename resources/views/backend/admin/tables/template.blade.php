@@ -106,7 +106,7 @@
 									</div>
 								</div>
 								<div class="col-xl-6 col-md-12 mb-3">
-									<label for="snack1">Select Snack 1</label>
+									<label for="snack1">Select Snacks</label>
 									<div class="input-group">
 										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack1" name="snack1[]" required="">
 											<option value="">Select Snack 1</option>
@@ -133,10 +133,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
+								{{-- <div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack2">Select Snack 2</label>
 									<div class="input-group">
-										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack2" name="snack2[]" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack2" name="snack2[]" style="display: none;">
 											<option value="">Select Snack 2</option>
 											@foreach($snacks as $snack)
 											<option value="{{$snack->id}}">{{$snack->food}}</option>
@@ -146,7 +146,7 @@
 											Please Select Snack 2
 										</div>
 									</div>
-								</div>
+								</div> --}}
 								<div class="col-xl-6 col-md-12 mb-3">
 									<label for="dinner">Select Dinner</label>
 									<div class="input-group">
@@ -161,10 +161,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xl-6 col-md-12 mb-3">
+								{{-- <div class="col-xl-6 col-md-12 mb-3">
 									<label for="snack3">Select Snack 3</label>
 									<div class="input-group">
-										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack3" name="snack3[]" required="">
+										<select multiple="multiple" class="form-control js-example-basic-multiple" id="snack3" name="snack3[]" style="display: none;">
 											<option value="">Select Snack 3</option>
 											@foreach($snacks as $snack)
 											<option  value="{{$snack->id}}">{{$snack->food}}</option>
@@ -174,7 +174,7 @@
 											Please Select Snack 3
 										</div>
 									</div>
-								</div>
+								</div> --}}
 								<div class="col-xl-6 col-md-12 mb-3">
 									<div class="input-group">
 										<input type="button" class="btn btn-light" name="calculate" value="Calculate Nutrients">
@@ -222,9 +222,7 @@
 			var breakfast = $('#breakfast :selected').val();
 			var snack1 = $('#snack1 :selected').val();
 			var lunch = $('#lunch :selected').val();
-			var snack2 = $('#snack2 :selected').val();
 			var dinner = $('#dinner :selected').val();
-			var snack3 = $('#snack3 :selected').val();
 			$.ajaxSetup({
 
 				headers: {
@@ -242,9 +240,7 @@
 					breakfast: breakfast,
 					snack1: snack1,
 					lunch: lunch,
-					snack2: snack2,
 					dinner: dinner,
-					snack3: snack3
 				},
 				success: function(result){
 					$('#calories').val(result.calories);
