@@ -113,7 +113,7 @@
 							</div>
 							<div class="ms-panel-body float-right">
 								<button type="button" class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
-								<button type="button" class="btn btn-square btn-danger has-icon"><i class="flaticon-alert-1"></i> Consult Team</button>
+								<button type="button" class="btn btn-square btn-danger has-icon" onclick="window.location.href='{{route('group-chat.index')}}'"><i class="flaticon-alert-1"></i> Consult Team</button>
 								<input type="submit" class="btn btn-square btn-warning has-icon" name="submit" value="Send to Client"/>
 							</div>
 						</form>
