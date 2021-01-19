@@ -464,7 +464,12 @@ class AuthController extends Controller
 		if(isset($client->avatar)){
 			$client->image = 'https://tegdarco.com/uploads/clients/images/'.$client->avatar;
 		}else{
-			$client->image = 'https://tegdarco.com/uploads/clients/images/avatar.png';
+			// $client->image = 'https://tegdarco.com/uploads/clients/images/avatar.png';
+			if ($client->gender == "male") {
+				$client->image = 'https://tegdarco.com/uploads/user/male.png';
+			}else{
+				$client->image = 'https://tegdarco.com/uploads/user/images/user/female.png';
+			}
 		}
 
 		$validity = Package::where('id', $client->package_id)->value('validity');
