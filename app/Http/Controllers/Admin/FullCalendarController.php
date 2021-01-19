@@ -32,7 +32,7 @@ class FullCalendarController extends Controller
 
 
            $mc = Event::where('user_id',Auth::User()->id)->whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
-           $sm = DB::table('appointments')->whereDate('start', '>=', $start)->select('appointments.*', DB::raw('CONCAT(firstname, lastname) AS title'))->get();
+           $sm = DB::table('appointments')->whereDate('start', '>=', $start)->select('appointments.*', DB::raw('CONCAT("App: " ,firstname, " ", lastname) AS title'))->get();
            $data = array_merge($mc->toArray(), $sm->toArray());
 
            return Response::json($data);

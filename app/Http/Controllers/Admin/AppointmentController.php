@@ -89,7 +89,7 @@ class AppointmentController extends Controller
     {
          DB::table('appointments')->where('id', $id)->update([
 
-           "firstname" => $request->firstname,
+        "firstname" => $request->firstname,
         "lastname" => $request->lastname,
         "email" => $request->email,
         "phone" => $request->phone,
