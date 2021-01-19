@@ -461,7 +461,7 @@ class AuthController extends Controller
 		/*if ($client->blocked_from_app) {
 			return $response = ['success' => false,'message' => 'You are blocked by admin!'];
 		}*/
-		if(isset($client->avatar)){
+		if(isset($client->avatar) && !empty($client->avatar)){
 			$client->image = 'https://tegdarco.com/uploads/clients/images/'.$client->avatar;
 		}else{
 			// $client->image = 'https://tegdarco.com/uploads/clients/images/avatar.png';
