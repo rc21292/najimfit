@@ -63,10 +63,12 @@
                                 @if($recievr->client_id == $receptorUser->id)
                                 <a href="{{route('chat.show', [$recievr->client_id])}}" class="active item">
                                     {{ $recievr->firstname }} {{ $recievr->lastname }}
+                                    @if($recievr->is_blocked) <i style='color:red' title='This Client is blocked' class='fas fa-info-circle'></i> @endif
                                 </a>
                             @else
                                 <a href="{{route('chat.show', [$recievr->client_id])}}" class="item">
                                     {{ $recievr->firstname }} {{ $recievr->lastname }}
+                                    @if($recievr->is_blocked) <i style='color:red' title='This Client is blocked' class='fas fa-info-circle'></i> @endif
                                 </a>
                             @endif
                             </h6>
@@ -131,7 +133,7 @@
                                 <div class="card-body ms-scrollable">
                                     No Chat .....
                                 </div>
-                                <p id="error-message" style="color: red;text-align: center;"></p>
+                                <p id="error-message" style="color: red;text-align: center;">@if($client->is_blocked) Client is Blocked from responding @endif</p>
                                 <div class="ms-panel-footer pt-0">
                                     <div class="ms-chat-textbox">
                                         <form id="chat-form">

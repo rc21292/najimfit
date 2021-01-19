@@ -53,7 +53,7 @@
                                 <div class="card-body ms-scrollable">
                                     loading chats .....
                                 </div>
-                                <p id="error-message" style="color: red;text-align: center;"></p>
+                                <p id="error-message" style="color: red;text-align: center;">@if($client->is_blocked) Client is Blocked from responding @endif</p>
                                 <div class="ms-panel-footer pt-0">
                                     <div class="ms-chat-textbox">
                                         <form id="chat-form">

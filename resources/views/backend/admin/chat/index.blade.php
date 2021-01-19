@@ -60,7 +60,7 @@
                             <h6>
                                 @if($client->client_id)
                                 <a href="{{route('chat.show', [$client->client_id])}}" class="active item">
-                                    {{ $client->firstname }} {{ $client->lastname }}
+                                    {{ $client->firstname }} {{ $client->lastname }} @if($client->is_blocked) <i style='color:red' title='This Client is blocked' class='fas fa-info-circle'></i> @endif
                                 </a>
                             @else
                                 <a href="{{route('chat.show', [$client->client_id])}}" class="item">
