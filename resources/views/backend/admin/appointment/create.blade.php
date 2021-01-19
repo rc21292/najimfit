@@ -1,4 +1,10 @@
 @extends('layouts.app')
+@section('head')
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css" integrity="sha512-2e0Kl/wKgOUm/I722SOPMtmphkIjECJFpJrTRRyL8gjJSJIP2VofmEbqyApMaMfFhU727K3voz0e5EgE3Zf2Dg==" crossorigin="anonymous" />
+@endsection
 @section('content')
 <div class="row">
 	<div class="col-md-12">
@@ -69,35 +75,53 @@
 							</div>
 						</div>
 						<div class="col-xl-12 col-md-12 mb-3">
-							<label for="date">Appointment Date</label>
+							<label for="start">Appointment Starts:</label>
 							<div class="input-group">
-								<input type="date" id="date" name="date" class="form-control" placeholder="Date" required>
+								<input type="text" id="appointment-start" name="appointment_start" class="form-control" placeholder="Start time" required>
 								<div class="invalid-feedback">
-									Please Enter Date.
+									Please Enter Start Time.
 								</div>
 							</div>
 						</div>
+
 						<div class="col-xl-12 col-md-12 mb-3">
-							<label for="time">Appointment Time</label>
+							<label for="time">Comments</label>
 							<div class="input-group">
-								<input type="time" id="time" name="time" class="form-control" placeholder="Time" required>
-								<div class="invalid-feedback">
-									Please Enter Time.
-								</div>
+								<textarea type="comments" id="comments" name="comments" class="form-control" placeholder="Comments"></textarea>
 							</div>
-						</div>
-						<div class="col-md-12 pt-4">
-							<label class="ms-switch">
-								<input type="checkbox" name="status">
-								<span class="ms-switch-slider ms-switch-primary square"></span>
-							</label>
-							<span> Attended </span>
-						</div>					
+						</div>			
 					</div>
-					<button class="btn btn-primary float-right" type="submit">Save</button>
-				</form>
-			</div>
+					<div class="col-md-12 pt-4">
+						<label class="ms-switch">
+							<input type="checkbox" name="status">
+							<span class="ms-switch-slider ms-switch-primary square"></span>
+						</label>
+						<span> Attended </span>
+					</div>					
+				</div>
+				<button class="btn btn-primary float-right" type="submit">Save</button>
+			</form>
 		</div>
 	</div>
 </div>
+</div>
 @endsection
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+<script type="text/javascript">
+	$(function () {
+		$('#appointment-start').datetimepicker({
+			format:'yyyy:mm:dd:HH:mm:ss',
+			uiLibrary: 'bootstrap4',
+			modal: true,
+			footer: true
+		});
+	});
+</script>
+@endpush

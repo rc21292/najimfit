@@ -32,7 +32,7 @@
 <script>
 	var dataSet8 = [
 	@foreach($appointments as $appointment)
-	[ "{{ $no++ }}" ,"{{ $appointment->firstname }} {{ $appointment->lastname}}","{{$appointment->date}}", "{{ $appointment->time }} " ," {{ $appointment->phone }}", @if($appointment->status == '0')"Pending" @else "Attended" @endif , "<a class='btn btn-primary btnpro' href='{{route('appointments.edit',$appointment->id)}}'>Edit</a> <a href='javascript:' onclick='submitform({{ $no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{$no}}' action='{{route('appointments.destroy',$appointment->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	[ "{{ $no++ }}" ,"{{ $appointment->firstname }} {{ $appointment->lastname}}","{{$appointment->start}}" ," {{ $appointment->phone }}", @if($appointment->status == '0')"Pending" @else "Attended" @endif , "<a class='btn btn-primary btnpro' href='{{route('appointments.edit',$appointment->id)}}'>Edit</a> <a href='javascript:' onclick='submitform({{ $no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{$no}}' action='{{route('appointments.destroy',$appointment->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-10').DataTable( {
@@ -40,8 +40,7 @@
 		columns: [
 		{ title: "Id" },
 		{ title: "Client Name" },
-		{ title: "Date" },
-		{ title: "Start Time" },
+		{ title: "Starts at" },
 		{ title: "Phone" },
 		{ title: "Status" },
 		{ title: "Action" },

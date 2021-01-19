@@ -39,16 +39,18 @@ class AppointmentController extends Controller
 
         DB::table('appointments')->insert([
 
-            "firstname" => $request->firstname,
-            "lastname" => $request->lastname,
-            "email" => $request->email,
-            "phone" => $request->phone,
-            "gender" => $request->gender,
-            "date" =>$request->date,
-            "time" =>$request->time,
-            "status" => isset($request->status) ? "1" : "0",
+        "firstname" => $request->firstname,
+        "lastname" => $request->lastname,
+        "email" => $request->email,
+        "phone" => $request->phone,
+        "gender" => $request->gender,
+        "start" =>$request->appointment_start,
+        "comments" =>$request->comments,
+        "type" => "appointments",
+        "color" =>"#ffb3b3",
+        "status" => isset($request->status) ? "1" : "0",
 
-        ]);
+    ]);
 
         return redirect()->route('appointments.index')->with('success','Appointment Added successfully');
     }
@@ -87,14 +89,16 @@ class AppointmentController extends Controller
     {
          DB::table('appointments')->where('id', $id)->update([
 
-            "firstname" => $request->firstname,
-            "lastname" => $request->lastname,
-            "email" => $request->email,
-            "phone" => $request->phone,
-            "gender" => $request->gender,
-            "date" =>$request->date,
-            "time" =>$request->time,
-            "status" => isset($request->status) ? "1" : "0",
+           "firstname" => $request->firstname,
+        "lastname" => $request->lastname,
+        "email" => $request->email,
+        "phone" => $request->phone,
+        "gender" => $request->gender,
+        "start" =>$request->appointment_start,
+        "comments" =>$request->comments,
+        "type" => "appointments",
+        "color" =>"#ffb3b3",
+        "status" => isset($request->status) ? "1" : "0",
 
         ]);
 

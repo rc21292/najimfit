@@ -185,13 +185,15 @@ Route::patch('workout-information-update','Features\ExerciseController@updateinf
 Route::resource('products','ProductController');
 //fullcalender
 
-Route::get('/fullcalendar','FullCalendarController@index');
+Route::get('/fullcalendar','FullCalendarController@index')->name('fullcalendar-index');
 
-Route::post('/fullcalendar/create','FullCalendarController@create');
+Route::post('/fullcalendar/create','FullCalendarController@create')->name('fullcalendar-create');
 
-Route::post('/fullcalendar/update','FullCalendarController@update');
+Route::post('/fullcalendar/update','FullCalendarController@update')->name('fullcalendar-update');
 
-Route::post('/fullcalendar/delete','FullCalendarController@destroy');
+Route::post('/fullcalendar/delete','FullCalendarController@destroy')->name('fullcalendar-destroy');
+Route::post('/fullcalendar/event','FullCalendarController@save_event')->name('fullcalendar-save-event');
+Route::post('/fullcalendar/appointment','FullCalendarController@save_appointment')->name('fullcalendar-save-appointment');
 
 Route::resource('/meeting', 'MeetingController');
 
