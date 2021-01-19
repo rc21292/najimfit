@@ -79,14 +79,20 @@ class NotificationController extends Controller
 
         $clients = array();
 
-        foreach ($request->labels as $key => $label) {
-            
-        $client_ids = DB::table('client_labels')->where('label',$label)->pluck('client_id');
-        foreach ($client_ids as $client_id) {
-            if (!in_array($client_id, $clients)) {
-            array_push($clients, $client_id);
-            }
+        if ($request->all_clients) {
+            $labels = array('High Priority','Diabetic','Sick');
+        }else{
+            $labels = $request->labels;
         }
+
+        foreach ($labels as $key => $label) {
+            
+            $client_ids = DB::table('client_labels')->where('label',$label)->pluck('client_id');
+            foreach ($client_ids as $client_id) {
+                if (!in_array($client_id, $clients)) {
+                    array_push($clients, $client_id);
+                }
+            }
         }
         foreach ($clients as $value) {
             $client = Client::find($value);
@@ -103,7 +109,7 @@ class NotificationController extends Controller
                 $result = false;
             }
         }
-            
+        
 
 
         if ($result) {
@@ -118,7 +124,13 @@ class NotificationController extends Controller
     {
         $registrationIds = [];
 
-        foreach ($request->client as $value) {
+        if ($request->all_clients) {
+            $clients = Client::latest()->pluck('id')->toArray(); 
+        }else{
+            $clients = $request->client;
+        }
+
+        foreach ($clients as $value) {
             $client = Client::find($value);
             $message = str_replace('{client_name}', $client->firstname.' '.$client->lastname, $request->message);
             if (!empty($client->device_token) || $client->device_token != '' || $client->device_token) {
@@ -145,9 +157,9 @@ class NotificationController extends Controller
     {
          $receptor = Client::where('id',$receiver_id)->first();
         $sender = User::where('id',$sender_id)->first();
-     /*   if ($sender->is_blocked && $receptor->nutri_blocked) {
-            return response(['data' => '']);
-        }*/
+        if ($sender->is_blocked && $receptor->nutri_blocked) {
+            return false;
+        }
 
         $input = array();
         $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
@@ -189,7 +201,13 @@ class NotificationController extends Controller
 
         $clients = array();
 
-        foreach ($request->labels as $key => $label) {
+        if ($request->all_clients) {
+            $labels = array('High Priority','Diabetic','Sick');
+        }else{
+            $labels = $request->labels;
+        }
+
+        foreach ($labels as $key => $label) {
             
         $client_ids = DB::table('client_labels')->where('label',$label)->pluck('client_id');
         foreach ($client_ids as $client_id) {
@@ -221,18 +239,23 @@ class NotificationController extends Controller
     public function postBroadcastPushNotification(Request $request)
     {
         $registrationIds = [];
+        if ($request->all_clients) {
+            $clients = Client::latest()->pluck('id')->toArray(); 
+        }else{
+            $clients = $request->client;
+        }
 
-        foreach ($request->client as $value) {
+        foreach ($clients as $value) {
             $client = Client::find($value);
             $nutritionist_id = DB::table('nutritionist_clients')->where('client_id',$client->id)->value('nutritionist_id');
             if (!$nutritionist_id) {
                 return redirect()->back()->with('success', 'Clients Not Assigneed to any nutritionist!');
             }
-                $message = str_replace('{client_name}', $client->firstname.' '.$client->lastname, $request->message);
-                DB::table('broadcast_histories')->insert(
-                    ['client_id' => $value,'message_type' => 'Broadcasts', 'message' => $message]
-                );
-                $result = $this->sendInchatMessage($value,$nutritionist_id,$message);
+            $message = str_replace('{client_name}', $client->firstname.' '.$client->lastname, $request->message);
+            DB::table('broadcast_histories')->insert(
+                ['client_id' => $value,'message_type' => 'Broadcasts', 'message' => $message]
+            );
+            $result = $this->sendInchatMessage($value,$nutritionist_id,$message);
         }         
 
         if ($result) {
@@ -240,7 +263,6 @@ class NotificationController extends Controller
         }else{
             return redirect()->back()->with('warning', 'Unable to Notificatify Clients!');
         }
-
     }
 
     public function sendFcmMessage($token,$message)

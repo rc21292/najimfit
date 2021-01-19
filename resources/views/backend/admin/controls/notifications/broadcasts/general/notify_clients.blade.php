@@ -21,12 +21,22 @@
 									<div class="modal-body">
 										<div class="ms-form-group has-icon">
 											<label>Select Label(s)</label><br>
-											<select class="js-example-basic-multiple" name="labels[]" multiple="multiple" style="width: 100%">
+											<select class="js-example-basic-multiple" name="labels[]" multiple="multiple" id="client_id" style="width: 100%">
 												<option value="High Priority">High Priority</option>
 												<option value="Diabetic" >Diabetic</option>
 												<option value="Sick" >Sick</option>
 											</select>
+											<div id="error" style="color: red"></div>
 										</div>
+
+										<div class="ms-form-group has-icon">
+											<div class="checkbox">
+												<label>
+													<input name="all_clients" value="1" type="checkbox" class="check" id="checkAll"> check, checkbox to send notification to all clients.
+												</label>
+											</div>
+										</div>
+
 										<div class="ms-form-group has-icon">
 											<label><b>message: </b></label><br>
 											<textarea name="message" id="message" rows="5" class="form-control"></textarea>
@@ -61,10 +71,14 @@
 	function submitform(){
 		$("#error").html('');
 		$("#error_msg").html('');
-		if ($("#client_id").val() == '') {
-			$("#client_id").focus();
-			$("#error").html('Please select Client');
-			return false;
+		if (!$("#checkAll").is(":checked")) 
+		{
+			if ($("#client_id").val() == '') 
+			{
+				$("#client_id").focus();
+				$("#error").html('Please select Label');
+				return false;
+			}		
 		}
 		if ($("textarea#message").val() == '') {
 			$("#message").focus();

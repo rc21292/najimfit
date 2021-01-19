@@ -30,6 +30,15 @@
 											</select>
 											<div id="error" style="color: red"></div>
 										</div>
+
+										<div class="ms-form-group has-icon">
+											<div class="checkbox">
+												<label>
+													<input name="all_clients" value="1" type="checkbox" class="check" id="checkAll"> check, checkbox to send Message to all clients.
+												</label>
+											</div>
+										</div>
+
 										<div class="ms-form-group has-icon">
 											<label><b>message: </b></label><br>
 											<textarea name="message" id="message" rows="5" class="form-control">Hey {{ '{client_name}' }}!  </textarea>
@@ -63,13 +72,19 @@
 <script type="text/javascript">
 	function submitform(){
 		$("#error").html('');
-		$("#error_msg").html('');
-		if ($("#client_id").val() == '') {
-			$("#client_id").focus();
-			$("#error").html('Please select Client');
-			return false;
+		$("#error_msg").html('');		
+		if (!$("#checkAll").is(":checked")) 
+		{
+			if ($("#client_id").val() == '') 
+			{
+				$("#client_id").focus();
+				$("#error").html('Please select Client');
+				return false;
+			}		
 		}
-		if ($("textarea#message").val() == '') {
+
+		if ($("textarea#message").val() == '') 
+		{
 			$("#message").focus();
 			$("#error_msg").html('Please Enter message');
 			return false;
