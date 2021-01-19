@@ -192,6 +192,9 @@ Route::post('/fullcalendar/create','FullCalendarController@create')->name('fullc
 Route::post('/fullcalendar/update','FullCalendarController@update')->name('fullcalendar-update');
 
 Route::post('/fullcalendar/delete','FullCalendarController@destroy')->name('fullcalendar-destroy');
+
+Route::post('/fullcalendar/destroy/appointment','FullCalendarController@delete')->name('fullcalendar-delete');
+
 Route::post('/fullcalendar/event','FullCalendarController@save_event')->name('fullcalendar-save-event');
 Route::post('/fullcalendar/appointment','FullCalendarController@save_appointment')->name('fullcalendar-save-appointment');
 

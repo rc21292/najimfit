@@ -346,30 +346,56 @@
 
 				var deleteMsg = confirm("Do you really want to delete?");
 
+
 				if (deleteMsg) {
+					if(event.type == 'appointments'){
 
-					$.ajax({
+						$.ajax({
 
-						type: "POST",
+							type: "POST",
 
-						url: SITEURL + '/dashboard/fullcalendar/delete',
+							url: SITEURL + '/dashboard/fullcalendar/destroy/appointment',
 
-						data: "&id=" + event.id,
+							data: "&id=" + event.id,
 
-						success: function (response) {
+							success: function (response) {
 
-							if(parseInt(response) > 0) {
+								if(parseInt(response) > 0) {
 
-								$('#calendar').fullCalendar('removeEvents', event.id);
+									$('#calendar').fullCalendar('removeEvents', event.id);
 
-								displayMessage("Deleted Successfully");
+									displayMessage("Deleted Successfully");
+
+								}
 
 							}
 
-						}
+						});
 
-					});
+					}else{
+						$.ajax({
 
+							type: "POST",
+
+							url: SITEURL + '/dashboard/fullcalendar/delete',
+
+							data: "&id=" + event.id,
+
+							success: function (response) {
+
+								if(parseInt(response) > 0) {
+
+									$('#calendar').fullCalendar('removeEvents', event.id);
+
+									displayMessage("Deleted Successfully");
+
+								}
+
+							}
+
+						});
+
+					}
 				}
 
 			}
