@@ -295,7 +295,8 @@ class AuthController extends Controller
 				if($i % 4 == 0 ) {
 					$j++;
 					$i=0;
-					$table_breakfast_calories =0 ;
+					$table_breakfast_calories =0;
+					$breakfast_group_add = array();
 				}
 
 				$table_breakfast_calories += $value1['breakfast_calories'];
@@ -402,7 +403,8 @@ class AuthController extends Controller
 				if($i % 4 == 0 ) {
 					$j++;
 					$i=0;
-					$table_lunch_calories =0 ;
+					$table_lunch_calories =0;
+					$lunch_group_add = array();
 				}
 
 				$table_lunch_calories += $value1['lunch_calories'];
@@ -456,7 +458,8 @@ class AuthController extends Controller
 				if($i % 4 == 0 ) {
 					$j++;
 					$i=0;
-					$table_dinner_calories =0 ;
+					$table_dinner_calories =0;
+					$dinner_group_add = array();
 				}
 
 				$table_dinner_calories += $value1['dinner_calories'];
