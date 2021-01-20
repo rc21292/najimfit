@@ -60,38 +60,29 @@ class TableController extends Controller
 			foreach ($data_breakfast as $key => $breakfast) 
 			{
 				$breakfast_detail =Meal::find($breakfast);
-				// echo "<pre>";print_r($breakfast_detail);"</pre>";exit;
 				$table_break_fast[$key]['breakfast_name'] = ($request->language == 'arabic') ? $breakfast_detail->food_arabic :  $breakfast_detail->food;
-				if(isset($breakfast_detail->image)){
-					$table_break_fast[$key]['breakfast_image'] = 'https://tegdarco.com/uploads/meals/'.$breakfast_detail->image;
-				}else{
-					$table_break_fast[$key]['breakfast_image'] = 'https://tegdarco.com/uploads/meals/meal.png';
-				}
 				$table_break_fast[$key]['breakfast_calories'] = $breakfast_detail->calories;
-				$table_break_fast[$key]['breakfast_carbs'] = $breakfast_detail->carbs;
-				$table_break_fast[$key]['breakfast_protein'] = $breakfast_detail->protein;
-				$table_break_fast[$key]['breakfast_fat'] = $breakfast_detail->fat;
-				if(isset($breakfast_detail->quantity)){
-					$table_break_fast[$key]['breakfast_quantity'] = $breakfast_detail->quantity;
-				}
-
-				if(isset($breakfast_detail->weight)){
-					$table_break_fast[$key]['breakfast_weight'] = $breakfast_detail->weight.' gm';
-				}
-
-				if(isset($breakfast_detail->spoon)){
-					$table_break_fast[$key]['breakfast_spoon'] = $breakfast_detail->spoon;
-				}
 			}
 
-			$table_breakfast_data = [];
-			$table_breakfast_calories = 0;
 			$i = 0;
+			$breakfast_group = array();
+			$j = 1;
 			foreach ($table_break_fast as $key1 => $value1) {
-				$key1 = $key1+1;
-				$table_breakfast_data[$i]['foodDetails']['foodName'] = $value1['breakfast_name'];
-				$table_breakfast_data[$i]['foodDetails']['foodCallery'] = $value1['breakfast_calories'];
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_breakfast_calories =0 ;
+				}
+
 				$table_breakfast_calories += $value1['breakfast_calories'];
+
+				$breakfast_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['breakfast_name'],
+					'foodCallery' => $value1['breakfast_calories'],
+
+				);
+				$breakfast_group[$j]['calorie'] = $table_breakfast_calories;
+
 				$i++;
 			}
 
@@ -101,41 +92,33 @@ class TableController extends Controller
 
 			foreach ($data_snacks1 as $key => $snacks1) 
 			{
-
 				$snacks1_detail =Meal::find($snacks1);
-				$table_data_snacks1[$key]['snacks1_name'] = ($request->language == 'arabic') ? $snacks1_detail->food_arabic : $snacks1_detail->food;
-				if(isset($breakfast_detail->image)){
-					$table_data_snacks1[$key]['snacks1_image'] = 'https://tegdarco.com/uploads/meals/'.$snacks1_detail->image;
-				}else{
-					$table_data_snacks1[$key]['snacks1_image'] = 'https://tegdarco.com/uploads/meals/meal.png';
-				}
-				$table_data_snacks1[$key]['snacks1_calories'] = $snacks1_detail->calories;
-				$table_data_snacks1[$key]['snacks1_carbs'] = $snacks1_detail->carbs;
-				$table_data_snacks1[$key]['snacks1_protein'] = $snacks1_detail->protein;
-				$table_data_snacks1[$key]['snacks1_fat'] = $snacks1_detail->fat;
-				if(isset($snacks1_detail->quantity)){
-					$table_data_snacks1[$key]['snacks1_quantity'] = $snacks1_detail->quantity;
-				}
-
-				if(isset($snacks1_detail->weight)){
-					$table_data_snacks1[$key]['snacks1_weight'] = $snacks1_detail->weight.' gm';
-				}
-
-				if(isset($snacks1_detail->spoon)){
-					$table_data_snacks1[$key]['snacks1_spoon'] = $snacks1_detail->spoon;
-				}
+				$table_data_snacks1[$key]['snacks_name'] = ($request->language == 'arabic') ? $snacks1_detail->food_arabic : $snacks1_detail->food;
+				
+				$table_data_snacks1[$key]['snacks_calories'] = $snacks1_detail->calories;
 			}
 
-			$table_snacks1 = [];
-			$table_snacks1_calories = 0;
 			$i = 0;
+			$snacks_group = array();
+			$j = 1;
 			foreach ($table_data_snacks1 as $key1 => $value1) {
-				$key1 = $key1+1;
-				$table_snacks1[$i]['foodDetails']['foodName'] = $value1['snacks1_name'];
-				$table_snacks1[$i]['foodDetails']['foodCallery'] = $value1['snacks1_calories'];
-				$table_snacks1_calories += $value1['snacks1_calories'];
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_snacks_calories =0 ;
+				}
+
+				$table_snacks_calories += $value1['snacks_calories'];
+
+				$snacks_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['snacks_name'],
+					'foodCallery' => $value1['snacks_calories'],
+
+				);
+				$snacks_group[$j]['calorie'] = $table_snacks_calories;
+
 				$i++;
-			}			
+			}
 
 			$data_lunch = explode(', ', $lunch);
 
@@ -145,76 +128,29 @@ class TableController extends Controller
 			{
 				$lunch_detail =Meal::find($lunch);
 				$table_data_lunch[$key]['lunch_name'] = ($request->language == 'arabic') ? $lunch_detail->food_arabic : $lunch_detail->food;
-				if(isset($lunch_detail->image)){
-					$table_data_lunch[$key]['lunch_image'] = 'https://tegdarco.com/uploads/meals/'.$lunch_detail->image;
-				}else{
-					$table_data_lunch[$key]['lunch_image'] = 'https://tegdarco.com/uploads/meals/meal.png';			
-				}
 				$table_data_lunch[$key]['lunch_calories'] = $lunch_detail->calories;
-				$table_data_lunch[$key]['lunch_carbs'] = $lunch_detail->carbs;
-				$table_data_lunch[$key]['lunch_protein'] = $lunch_detail->protein;
-				$table_data_lunch[$key]['lunch_fat'] = $lunch_detail->fat;
-				if(isset($lunch_detail->quantity)){
-					$table_data_lunch[$key]['lunch_quantity'] = $lunch_detail->quantity;
-				}
-
-				if(isset($lunch_detail->weight)){
-					$table_data_lunch[$key]['lunch_weight'] = $lunch_detail->weight.' gm';
-				}
-
-				if(isset($lunch_detail->spoon)){
-					$table_data_lunch[$key]['lunch_spoon'] = $lunch_detail->spoon;
-				}
 			}
 
-			$table_lunch = [];
-			$table_lunch_calories = 0;
 			$i = 0;
+			$lunch_group = array();
+			$j = 1;
 			foreach ($table_data_lunch as $key1 => $value1) {
-				$key1 = $key1+1;
-				$table_lunch[$i]['foodDetails']['foodName'] = $value1['lunch_name'];
-				$table_lunch[$i]['foodDetails']['foodCallery'] = $value1['lunch_calories'];
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_lunch_calories =0 ;
+				}
+
 				$table_lunch_calories += $value1['lunch_calories'];
+
+				$lunch_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['lunch_name'],
+					'foodCallery' => $value1['lunch_calories'],
+
+				);
+				$lunch_group[$j]['calorie'] = $table_lunch_calories;
+
 				$i++;
-			}
-
-			$data_snacks2 = explode(', ', $snacks2);
-
-			$table_data_snacks2 = [];
-
-			foreach ($data_snacks2 as $key => $snacks2) 
-			{
-				$snacks2_detail =Meal::find($snacks2);
-				$table_data_snacks2[$key]['snacks2_name'] = $snacks2_detail->food;
-				if(isset($snacks2_detail->image)){
-					$table_data_snacks2[$key]['snacks2_image'] = 'https://tegdarco.com/uploads/meals/'.$snacks2_detail->image;
-				}else{
-					$table_data_snacks2[$key]['snacks2_image'] = 'https://tegdarco.com/uploads/meals/meal.png';			
-				}
-				$table_data_snacks2[$key]['snacks2_calories'] = $snacks2_detail->calories;
-				$table_data_snacks2[$key]['snacks2_carbs'] = $snacks2_detail->carbs;
-				$table_data_snacks2[$key]['snacks2_protein'] = $snacks2_detail->protein;
-				$table_data_snacks2[$key]['snacks2_fat'] = $snacks2_detail->fat;
-				if(isset($snacks2_detail->quantity)){
-					$table_data_snacks2[$key]['snacks2_quantity'] = $snacks2_detail->quantity;
-				}
-
-				if(isset($snacks2_detail->weight)){
-					$table_data_snacks2[$key]['snacks2_weight'] = $snacks2_detail->weight.' gm';
-				}
-
-				if(isset($snacks2_detail->spoon)){
-					$table_data_snacks2[$key]['snacks2_spoon'] = $snacks2_detail->spoon;
-				}
-			}
-
-			$table_snacks2 = [];
-			$table_snacks2_calories = 0;
-			foreach ($table_data_snacks2 as $key1 => $value1) {
-				$key1 = $key1+1;
-				$table_snacks2['food'.$key1]['foodName'] = $value1['snacks2_name'];
-				$table_snacks2['food'.$key1]['foodCallery'] = $value1['snacks2_calories'];
-				$table_snacks2_calories += $value1['snacks2_calories'];
 			}
 
 			$data_dinner = explode(', ', $dinner);
@@ -225,115 +161,81 @@ class TableController extends Controller
 			{
 				$dinner_detail =Meal::find($dinner);
 				$table_data_dinner[$key]['dinner_name'] = ($request->language == 'arabic') ? $dinner_detail->food_arabic : $dinner_detail->food;
-				if(isset($dinner_detail->image)){
-					$table_data_dinner[$key]['dinner_image'] = 'https://tegdarco.com/uploads/meals/'.$dinner_detail->image;
-				}else{
-					$table_data_dinner[$key]['dinner_image'] = 'https://tegdarco.com/uploads/meals/meal.png';			
-				}
-
 				$table_data_dinner[$key]['dinner_calories'] = $dinner_detail->calories;
-				$table_data_dinner[$key]['dinner_carbs'] = $dinner_detail->carbs;
-				$table_data_dinner[$key]['dinner_protein'] = $dinner_detail->protein;
-				$table_data_dinner[$key]['dinner_fat'] = $dinner_detail->fat;
-				if(isset($dinner_detail->quantity)){
-					$table_data_dinner[$key]['dinner_quantity'] = $dinner_detail->quantity;
-				}
-
-				if(isset($dinner_detail->weight)){
-					$table_data_dinner[$key]['dinner_weight'] = $dinner_detail->weight.' gm';
-				}
-
-				if(isset($dinner_detail->spoon)){
-					$table_data_dinner[$key]['dinner_spoon'] = $dinner_detail->spoon;
-				}
 			}
 
-			$table_dinner = [];
-			$table_dinner_calories = 0;
 			$i = 0;
+			$dinner_group = array();
+			$j = 1;
 			foreach ($table_data_dinner as $key1 => $value1) {
-				$key1 = $key1+1;
-				$table_dinner[$i]['foodDetails']['foodName'] = $value1['dinner_name'];
-				$table_dinner[$i]['foodDetails']['foodCallery'] = $value1['dinner_calories'];
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_dinner_calories =0 ;
+				}
+
 				$table_dinner_calories += $value1['dinner_calories'];
+
+				$dinner_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['dinner_name'],
+					'foodCallery' => $value1['dinner_calories'],
+
+				);
+				$dinner_group[$j]['calorie'] = $table_dinner_calories;
+
 				$i++;
 			}
 
-			$data_snacks3 = explode(', ', $snacks3);
-			$table_data_snacks3 = [];
 
-			foreach ($data_snacks3 as $key => $snacks3) 
-			{
-				$snacks3_detail =Meal::find($snacks3);
-				$table_data_snacks3[$key]['snacks3_name'] = $snacks3_detail->food;
-				if(isset($snacks3_detail->image)){
-					$table_data_snacks3[$key]['snacks3_image'] = 'https://tegdarco.com/uploads/meals/'.$snacks3_detail->image;
-				}else{
-					$table_data_snacks3[$key]['snacks3_image'] = 'https://tegdarco.com/uploads/meals/meal.png';			
-				}
+			/// Mustaqueem -- Do same for other diets
+			$i= 1;
+			foreach($breakfast_group as $group) {
+				$data[] = array(
+					'foodCategory' => ($request->language == 'arabic') ? "فطور":'breakFast' . $i,
+					'foods' => $group['groups'],
+					'foodcalary' => $group['calorie'],
 
-				$table_data_snacks3[$key]['snacks3_calories'] = $snacks3_detail->calories;
-				$table_data_snacks3[$key]['snacks3_carbs'] = $snacks3_detail->carbs;
-				$table_data_snacks3[$key]['snacks3_protein'] = $snacks3_detail->protein;
-				$table_data_snacks3[$key]['snacks3_fat'] = $snacks3_detail->fat;
-				if(isset($snacks3_detail->quantity)){
-					$table_data_snacks3[$key]['snacks3_quantity'] = $snacks3_detail->quantity;
-				}
-
-				if(isset($snacks3_detail->weight)){
-					$table_data_snacks3[$key]['snacks3_weight'] = $snacks3_detail->weight.' gm';
-				}
-
-				if(isset($snacks3_detail->spoon)){
-					$table_data_snacks3[$key]['snacks3_spoon'] = $snacks3_detail->spoon;
-				}
+				);
+				$i++;
 			}
 
-			$table_snacks3 = [];
-			$table_snacks3_calories = 0;
-			foreach ($table_data_snacks3 as $key1 => $value1) {
-				$key1 = $key1+1;
-				$table_snacks3['food'.$key1]['foodName'] = $value1['snacks3_name'];
-				$table_snacks3['food'.$key1]['foodCallery'] = $value1['snacks3_calories'];
-				$table_snacks3_calories += $value1['snacks3_calories'];
+			$i= 1;
+			foreach($lunch_group as $group) {
+				$data[] = array(
+					'foodCategory' => ($request->language == 'arabic') ? "فطور":'lunch' . $i,
+					'foods' => $group['groups'],
+					'foodcalary' => $group['calorie'],
+
+				);
+				$i++;
 			}
 
-			$table->total_calorie_range = $table->calorie_range;
+			$i= 1;
+			foreach($dinner_group as $group) {
+				$data[] = array(
+					'foodCategory' => ($request->language == 'arabic') ? "فطور":'dinner' . $i,
+					'foods' => $group['groups'],
+					'foodcalary' => $group['calorie'],
 
-			unset($table->calorie_range);
-			unset($table->table_id);
+				);
+				$i++;
+			}
 
+			$i= 1;
+			foreach($snacks_group as $group) {
+				$data[] = array(
+					'foodCategory' => ($request->language == 'arabic') ? "فطور":'snacks' . $i,
+					'foods' => $group['groups'],
+					'foodcalary' => $group['calorie'],
+
+				);
+				$i++;
+			}
 
 			$dites = [
 				'success' => true,
 				'message' => 'Diets data fetched successfully',
-				'data' => 
-				[
-					0 => 
-					[
-						'foodCategory' => ($request->language == 'arabic') ? "فطور":'breakFast',
-						'foodcalary' => $table_breakfast_calories,
-						'foods' => $table_breakfast_data,
-					],
-					1 => 
-					[
-						'foodCategory' => ($request->language == 'arabic') ? 'غداء':'lunch',
-						'foodcalary' => $table_lunch_calories,
-						'foods' => $table_lunch,
-					],
-					2 => 
-					[
-						'foodCategory' => ($request->language == 'arabic') ? 'عشاء':'dinner',
-						'foodcalary' => $table_dinner_calories,
-						'foods' => $table_dinner,
-					],
-					3 => 
-					[
-						'foodCategory' => ($request->language == 'arabic') ? 'وجبات الخفيفة':'snacks',
-						'foodcalary' => $table_snacks1_calories,
-						'foods' => $table_snacks1
-					],
-				],
+				'data' => $data 
 			];
 
 			return $dites;
@@ -358,6 +260,18 @@ class TableController extends Controller
 			return response(['success' => false,'message' => 'Diet not assigned by Nutrionist','data'=>[]], 422);
 		}
 
+	}
+
+
+	function fill_chunck($array, $parts) {
+		$t = 0;
+		$result = array_fill(0, $parts - 1, array());
+		$max = ceil(count($array) / $parts);
+		foreach($array as $v) {
+			count($result[$t]) >= $max and $t ++;
+			$result[$t][] = $v;
+		}
+		return $result;
 	}
 
 	public function getBreakFastApi(){
