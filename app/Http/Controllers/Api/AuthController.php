@@ -21,6 +21,9 @@ use App\Models\PrivacyPolicy;
 use App\Models\AboutUs;
 use File;
 use Image;
+use App\Models\ClientTable;
+use App\Models\Meals\Meal;
+use App\Models\Meals\TableCategory;
 use App\Models\QuestionCategory;
 class AuthController extends Controller
 {
@@ -229,6 +232,8 @@ class AuthController extends Controller
 			return $response = ['success' => false,'message' => 'No data found'];
 		}
 
+		$calories_sum = $this->calCaloryBurnt(Auth::Client()->id);
+
 		$validity = $user->validity;
 		$package_subscription_date = $user->subscription_date;
 
@@ -239,6 +244,101 @@ class AuthController extends Controller
 		} 
 
 		return $response = ['success' => true,'active_day' => $active_day,'validity' => $validity, 'kal_burnt' => $calories_sum,'exercises'=>$workout_days,'workout'=>$workout_name,'workout_days' => $package['workout_days'],'off_days' => $package['off_days'], 'assign_date' => $assign_date, 'package_subscription_date' => $package_subscription_date];
+	}
+
+	public function calCaloryBurnt($client_id)
+	{
+
+		$table = ClientTable::where('client_id',$client_id)->first();
+
+		if(isset($table)){
+
+			$category = $table->table_id ;
+			$breakfast= $table->breakfast;
+			$snacks1= $table->snacks1;
+			$lunch= $table->lunch;
+			$dinner= $table->dinner;
+			unset($table->breakfast);
+			unset($table->snacks1);
+			unset($table->lunch);
+			unset($table->snacks2);
+			unset($table->dinner);
+			unset($table->snacks3);
+			unset($table->calories);
+			unset($table->carbs);
+			unset($table->fat);
+			unset($table->created_at);
+			unset($table->updated_at);
+
+
+			$table->category = TableCategory::find($category)->name;
+
+			$data_breakfast = explode(', ', $breakfast);
+
+			$table_break_fast = [];
+
+			foreach ($data_breakfast as $key => $breakfast) 
+			{
+				$breakfast_detail =Meal::find($breakfast);
+				$table_break_fast[$key]['breakfast_calories'] = $breakfast_detail->calories;
+			}
+
+			$table_data_breakfast_max = max(array_column($table_break_fast,'breakfast_calories'));
+			$table_data_breakfast_min = min(array_column($table_break_fast,'breakfast_calories'));
+
+			$data_snacks1 = explode(', ', $snacks1);
+
+			$table_data_snacks1 = [];
+
+			foreach ($data_snacks1 as $key => $snacks1) 
+			{
+				$snacks1_detail =Meal::find($snacks1);
+
+				$table_data_snacks1[$key]['snacks_calories'] = $snacks1_detail->calories;
+			}
+
+			$table_data_snacks1_max = max(array_column($table_data_snacks1,'snacks_calories'));
+			$table_data_snacks1_min = min(array_column($table_data_snacks1,'snacks_calories'));
+
+
+			$data_lunch = explode(', ', $lunch);
+
+			$table_data_lunch = [];
+
+			foreach ($data_lunch as $key => $lunch) 
+			{
+				$lunch_detail =Meal::find($lunch);
+				$table_data_lunch[$key]['lunch_calories'] = $lunch_detail->calories;
+			}
+
+			$table_data_lunch_max = max(array_column($table_data_lunch,'lunch_calories'));
+			$table_data_lunch_min = min(array_column($table_data_lunch,'lunch_calories'));
+
+			$data_dinner = explode(', ', $dinner);
+
+			$table_data_dinner = [];
+
+			foreach ($data_dinner as $key => $dinner) 
+			{
+				$dinner_detail =Meal::find($dinner);
+				$table_data_dinner[$key]['dinner_calories'] = $dinner_detail->calories;
+			}
+
+			$table_data_dinner_max = max(array_column($table_data_dinner,'dinner_calories'));
+			$table_data_dinner_min = min(array_column($table_data_dinner,'dinner_calories'));
+	
+			$i= 1;
+			$cal_max = 0;
+			$cal_min = 0;
+
+			$cal_max = $table_data_dinner_max+$table_data_lunch_max+$table_data_snacks1_max+$table_data_breakfast_max;
+			$cal_min = $table_data_dinner_min+$table_data_lunch_min+$table_data_snacks1_min+$table_data_breakfast_min;
+		
+
+			return $cal_min.'-'.$cal_max;
+
+
+		}
 	}
 
 	public function selectgender(Request $request){
@@ -487,6 +587,8 @@ class AuthController extends Controller
 			$workout_days = DB::table('client_workouts')->where('client_id',Auth::Client()->id)->where('status','completed')->count('id');
 
 			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
+
+			echo "<pre>";print_r($workouts);"</pre>";exit;
 			foreach ($workouts as $key => $workout) {
 				$calories_sum += explode('-', $workout->calories)[1];
 			}
