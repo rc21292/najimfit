@@ -202,6 +202,7 @@ class ClientChatController extends Controller
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id','users.id as user_id')
+        ->latest('clients.created_at')
     // ->where('nutritionist_clients.table_status','due')
         ->get();
 
@@ -212,6 +213,13 @@ class ClientChatController extends Controller
                 $request_data = AdminRequest::where('client_id',$client->client_id)->latest()->first();
                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
             }
+
+            $client_lables = DB::table('client_labels')
+                         ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+                         ->where('client_id', $client->client_id)
+                         ->groupBy('client_id')
+                         ->first();
+             $clients[$key]->lables = @$client_lables->lables;
 
             $client_data = Client::find($client->client_id);
             $user_data = User::find($client->user_id);
@@ -224,6 +232,30 @@ class ClientChatController extends Controller
                 $clients[$key]->is_nutri_blocked = 1;
             }
         }
+
+        /*foreach ($clients as $key => $user) {
+
+            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+            $clients[$key]->timestamp = '';
+            $database = $factory->createDatabase();
+
+            $createPosts = $database->getReference('chats')->orderByChild('sender_receiver')->equalTo((string)$user->client_id.'_'.$user->user_id)->getSnapshot()->getValue();
+            if (count($createPosts) == 0) {
+                continue;
+            }
+
+            $keys = array_keys(array_combine(array_keys($createPosts), array_column($createPosts, 'is_read')),0);
+
+            $createPostse = $database->getReference('chats')->orderByChild('id')->equalTo((string)$keys[0])->getSnapshot()->getValue();
+
+
+            if (count($createPostse) > 0) {
+                $clients[$key]->timestamp = date("d-m-Y h:i:sa", array_values($createPostse)[0]["timestamp"]);
+            }
+
+        }*/
+        
 
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
@@ -259,6 +291,7 @@ class ClientChatController extends Controller
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id','users.id as user_id')
         ->where('nutritionist_clients.nutritionist_id',$id)
+        ->latest('clients.created_at')
         // ->where('nutritionist_clients.table_status','due')
         ->get();
 
@@ -269,6 +302,14 @@ class ClientChatController extends Controller
             $user_data = User::find($user->user_id);
             $clients[$key]->is_client_blocked = 0;
             $clients[$key]->is_nutri_blocked = 0;
+
+            $client_lables = DB::table('client_labels')
+                         ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+                         ->where('client_id', $user->client_id)
+                         ->groupBy('client_id')
+                         ->first();
+             $clients[$key]->lables = @$client_lables->lables;
+
             if ($client_data->is_blocked) 
             {
                 $clients[$key]->is_client_blocked = 1;
@@ -284,7 +325,7 @@ class ClientChatController extends Controller
                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
             }
             
-            $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+            /*$factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
             $clients[$key]->timestamp = '';
             $database = $factory->createDatabase();
@@ -301,7 +342,7 @@ class ClientChatController extends Controller
 
             if (count($createPostse) > 0) {
                     $clients[$key]->timestamp = date("d-m-Y h:i:sa", array_values($createPostse)[0]["timestamp"]);
-            }
+            }*/
 
         }
 
