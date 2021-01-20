@@ -232,6 +232,7 @@ class AuthController extends Controller
 			return $response = ['success' => false,'message' => 'No data found'];
 		}
 
+		// $calories_sum = $this->calCaloryBurntOld(Auth::Client()->id);
 		$calories_sum = $this->calCaloryBurnt(Auth::Client()->id);
 
 		$validity = $user->validity;
@@ -247,6 +248,263 @@ class AuthController extends Controller
 	}
 
 	public function calCaloryBurnt($client_id)
+	{
+		$table = ClientTable::where('client_id',$client_id)->first();
+
+		if(isset($table)){
+
+			$category = $table->table_id ;
+			$breakfast= $table->breakfast;
+			$snacks1= $table->snacks1;
+			$lunch= $table->lunch;
+			$snacks2= $table->snacks2;
+			$dinner= $table->dinner;
+			$snacks3= $table->snacks3;
+			unset($table->breakfast);
+			unset($table->snacks1);
+			unset($table->lunch);
+			unset($table->snacks2);
+			unset($table->dinner);
+			unset($table->snacks3);
+			unset($table->calories);
+			unset($table->carbs);
+			// unset($table->protein);
+			unset($table->fat);
+			unset($table->created_at);
+			unset($table->updated_at);
+
+
+			$table->category = TableCategory::find($category)->name;
+
+			$data_breakfast = explode(', ', $breakfast);
+
+			$table_break_fast = [];
+
+			foreach ($data_breakfast as $key => $breakfast) 
+			{
+				$breakfast_detail =Meal::find($breakfast);
+				$table_break_fast[$key]['breakfast_name'] = $breakfast_detail->food;
+				$table_break_fast[$key]['breakfast_calories'] = $breakfast_detail->calories;
+			}
+
+			$i = 0;
+			$breakfast_group = array();
+			$breakfast_group_add = array();
+			$j = 1;
+			foreach ($table_break_fast as $key1 => $value1) {
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_breakfast_calories =0 ;
+				}
+
+				$table_breakfast_calories += $value1['breakfast_calories'];
+
+				$breakfast_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['breakfast_name'],
+					'foodCallery' => $value1['breakfast_calories'],
+
+				);
+				$breakfast_group[$j]['calorie'] = $table_breakfast_calories;
+				array_push($breakfast_group_add, $value1['breakfast_calories']);
+				$breakfast_group[$j]['calorie_arr'] = $breakfast_group_add;
+
+				$i++;
+			}
+
+
+			foreach ($breakfast_group as $key => $value) {
+				$breakfast_group[$key]['calorie_min'] = min($value['calorie_arr']);
+				$breakfast_group[$key]['calorie_max'] = max($value['calorie_arr']);
+				unset($breakfast_group[$key]['calorie_arr']);
+			}
+
+
+			$value_max = array_sum(array_column($breakfast_group,'calorie_max'));
+			$value_min = array_sum(array_column($breakfast_group,'calorie_min'));
+
+			foreach ($breakfast_group as $key => $value) {
+				$breakfast_group['min'] = $value_min;
+				$breakfast_group['max'] = $value_max;
+			}
+
+
+			$data_snacks1 = explode(', ', $snacks1);
+
+			$table_data_snacks1 = [];
+
+			foreach ($data_snacks1 as $key => $snacks1) 
+			{
+				$snacks1_detail =Meal::find($snacks1);
+				$table_data_snacks1[$key]['snacks_name'] = $snacks1_detail->food;
+				
+				$table_data_snacks1[$key]['snacks_calories'] = $snacks1_detail->calories;
+			}
+
+			$i = 0;
+			$snacks_group = array();
+			$snacks_group_add = array();
+			$j = 1;
+			foreach ($table_data_snacks1 as $key1 => $value1) {
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_snacks_calories =0 ;
+					$snacks_group_add = array();
+				}
+
+				$table_snacks_calories += $value1['snacks_calories'];
+				array_push($snacks_group_add, $value1['snacks_calories']);
+
+				$snacks_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['snacks_name'],
+					'foodCallery' => $value1['snacks_calories'],
+
+				);
+				$snacks_group[$j]['calorie'] = $table_snacks_calories;
+				$snacks_group[$j]['calorie_arr'] = $snacks_group_add;
+
+				$i++;
+			}
+
+			foreach ($snacks_group as $key => $value) {
+				$snacks_group[$key]['calorie_min'] = min($value['calorie_arr']);
+				$snacks_group[$key]['calorie_max'] = max($value['calorie_arr']);
+				unset($snacks_group[$key]['calorie_arr']);
+			}
+
+
+			$value_max = array_sum(array_column($snacks_group,'calorie_max'));
+			$value_min = array_sum(array_column($snacks_group,'calorie_min'));
+
+			foreach ($snacks_group as $key => $value) {
+				$snacks_group['min'] = $value_min;
+				$snacks_group['max'] = $value_max;
+			}
+
+
+			$data_lunch = explode(', ', $lunch);
+
+			$table_data_lunch = [];
+
+			foreach ($data_lunch as $key => $lunch) 
+			{
+				$lunch_detail =Meal::find($lunch);
+				$table_data_lunch[$key]['lunch_name'] = $lunch_detail->food;
+				$table_data_lunch[$key]['lunch_calories'] = $lunch_detail->calories;
+			}
+
+			$i = 0;
+			$lunch_group = array();
+			$lunch_group_add = array();
+			$j = 1;
+			foreach ($table_data_lunch as $key1 => $value1) {
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_lunch_calories =0 ;
+				}
+
+				$table_lunch_calories += $value1['lunch_calories'];
+
+				$lunch_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['lunch_name'],
+					'foodCallery' => $value1['lunch_calories'],
+
+				);
+
+				array_push($lunch_group_add, $value1['lunch_calories']);
+				$lunch_group[$j]['calorie_arr'] = $lunch_group_add;
+
+				$lunch_group[$j]['calorie'] = $table_lunch_calories;
+
+				$i++;
+			}
+
+
+			foreach ($lunch_group as $key => $value) {
+				$lunch_group[$key]['calorie_min'] = min($value['calorie_arr']);
+				$lunch_group[$key]['calorie_max'] = max($value['calorie_arr']);
+				unset($lunch_group[$key]['calorie_arr']);
+			}
+
+
+			$value_max = array_sum(array_column($lunch_group,'calorie_max'));
+			$value_min = array_sum(array_column($lunch_group,'calorie_min'));
+
+			foreach ($lunch_group as $key => $value) {
+				$lunch_group['min'] = $value_min;
+				$lunch_group['max'] = $value_max;
+			}
+
+			$data_dinner = explode(', ', $dinner);
+
+			$table_data_dinner = [];
+
+			foreach ($data_dinner as $key => $dinner) 
+			{
+				$dinner_detail =Meal::find($dinner);
+				$table_data_dinner[$key]['dinner_name'] = $dinner_detail->food;
+				$table_data_dinner[$key]['dinner_calories'] = $dinner_detail->calories;
+			}
+
+			$i = 0;
+			$dinner_group = array();
+			$dinner_group_add = array();
+			$j = 1;
+			foreach ($table_data_dinner as $key1 => $value1) {
+				if($i % 4 == 0 ) {
+					$j++;
+					$i=0;
+					$table_dinner_calories =0 ;
+				}
+
+				$table_dinner_calories += $value1['dinner_calories'];
+
+				$dinner_group[$j]['groups'][]['foodDetails'] = array(
+					'foodName' => $value1['dinner_name'],
+					'foodCallery' => $value1['dinner_calories'],
+
+				);
+				$dinner_group[$j]['calorie'] = $table_dinner_calories;
+				array_push($dinner_group_add, $value1['dinner_calories']);
+				$dinner_group[$j]['calorie_arr'] = $dinner_group_add;
+
+				$i++;
+			}
+
+
+			foreach ($dinner_group as $key => $value) {
+				$dinner_group[$key]['calorie_min'] = min($value['calorie_arr']);
+				$dinner_group[$key]['calorie_max'] = max($value['calorie_arr']);
+				unset($dinner_group[$key]['calorie_arr']);
+			}
+
+
+			$value_max = array_sum(array_column($dinner_group,'calorie_max'));
+			$value_min = array_sum(array_column($dinner_group,'calorie_min'));
+
+			foreach ($dinner_group as $key => $value) {
+				$dinner_group['min'] = $value_min;
+				$dinner_group['max'] = $value_max;
+			}
+
+
+			/// Mustaqueem -- Do same for other diets
+			$i= 1;
+			$data_min = 0;
+			$data_max = 0;
+
+			$data_min = $breakfast_group['min']+$lunch_group['min']+$dinner_group['min']+$snacks_group['min'];
+			$data_max = $breakfast_group['max']+$lunch_group['max']+$dinner_group['max']+$snacks_group['max'];
+
+			return $data_min.'-'.$data_max;
+
+			
+		}
+	}
+
+	public function calCaloryBurntOld($client_id)
 	{
 
 		$table = ClientTable::where('client_id',$client_id)->first();
