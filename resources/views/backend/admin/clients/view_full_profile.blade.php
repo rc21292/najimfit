@@ -68,6 +68,23 @@
 		<div class="row">
 			<div class="col-sm-9">
 				<div class="ms-panel ms-panel-body text-center">
+
+					<div class="ms-panel">
+						<div class="col-md-12">
+
+							<table class="">
+								<tbody>
+
+									<tr >
+										<th style="line-height: 35px;" scope="row">Assigned Lables: </th>
+										<td>{{  @$client_lables->lables }}</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+
 					<form class="needs-validation clearfix" action="{{route('client-full-profile.update',$profile->id)}}" method="POST" novalidate="" enctype="multipart/form-data">
 						@csrf
 						{{ method_field('PUT') }}

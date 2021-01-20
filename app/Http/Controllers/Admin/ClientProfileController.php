@@ -64,6 +64,13 @@ class ClientProfileController extends Controller
         $client = Client::find($id);
         $weight = DB::table('client_answers')->where('client_id',$id)->where('question_id',9)->value('answer');
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
+
+        $client_lables = DB::table('client_labels')
+                    ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+                    ->where('client_id', $id)
+                    ->groupBy('client_id')
+                    ->first();
+
         // $table_id = ClientTable::where('client_id',$id)->value('table_id');
         // $table = TableCategory::find($table_id)->name;
         // $selected_meal = ClientTable::where('client_id',$id)->first();
@@ -80,7 +87,7 @@ class ClientProfileController extends Controller
         }
 
 
-        return view('backend.admin.clients.view_full_profile',compact('profile','answers','client','weight','height','client_package'));
+        return view('backend.admin.clients.view_full_profile',compact('profile','answers','client','weight','height','client_package','client_lables'));
     }
 
     public function blockUnblockUser(Request $request)
