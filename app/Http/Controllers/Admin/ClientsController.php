@@ -246,7 +246,7 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         $client = CLient::where('id',$id)->delete();
-        return redirect()->route('danger.index')
+        return redirect()->route('clients.index')
         ->with('warning','Client Deleted successfully');
     }
 
