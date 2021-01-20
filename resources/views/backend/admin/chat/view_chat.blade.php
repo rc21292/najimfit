@@ -13,39 +13,39 @@
                     <div class="ms-panel-header">
 
                         <div class="row">
-                    <div class="col-sm-2">
-                        <div class="ms-chat-user-container media clearfix">
-                                <div class="ms-chat-status ms-status-online ms-chat-img mr-3 align-self-center">
-                                    @if($client->avatar)
-                                    <img style='width:55px; height:55px;' src="/uploads/clients/images/{{ $client->avatar}}" class="ms-img-round" alt="people">
-                                    @else
-                                    <img style='width:55px; height:55px;' src="https://via.placeholder.com/270x270" class="ms-img-round" alt="people">
-                                    @endif
-                                </div>
-                                <div class="media-body ms-chat-user-info mt-1">
-                                    <p><b>{{$client->firstname}} {{$client->lastname}}</b></p>
+                            <div class="col-sm-2">
+                                <div class="ms-chat-user-container media clearfix">
+                                    <div class="ms-chat-status ms-status-online ms-chat-img mr-3 align-self-center">
+                                        @if($client->avatar)
+                                        <img style='width:55px; height:55px;' src="/uploads/clients/images/{{ $client->avatar}}" class="ms-img-round" alt="people">
+                                        @else
+                                        <img style='width:55px; height:55px;' src="https://via.placeholder.com/270x270" class="ms-img-round" alt="people">
+                                        @endif
+                                    </div>
+                                    <div class="media-body ms-chat-user-info mt-1">
+                                        <p><b>{{$client->firstname}} {{$client->lastname}}</b></p>
 
+                                    </div>
                                 </div>
                             </div>
-                    </div>
-                    <div class="col-sm-2 pt-3">
-                        <p>ID: NJMF{{$client->id}}</p>
-                    </div>
-                    <div class="col-sm-2 pt-3">
-                        <p>Gender: {{ucfirst($client->gender)}}</p>
-                    </div>
-                    <div class="col-sm-2 pt-3">
-                        <p>Age: 26 Years</p>
-                    </div>
-                    <div class="col-sm-2 pt-3">
-                        <p>Weight: {{ $weight }}</p>
-                    </div>
-                    <div class="col-sm-2 pt-3">
-                        <p>Height: {{ $height }}</p>
-                    </div>
-                </div>
-
-                        
+                            <div class="col-sm-2 pt-3">
+                                <p>ID: NJMF{{$client->id}}</p>
+                            </div>
+                            <div class="col-sm-2 pt-3">
+                                <p>Gender: {{ucfirst($client->gender)}}</p>
+                            </div>
+                            <div class="col-sm-2 pt-3">
+                                <p>Age: 26 Years</p>
+                            </div>
+                            <div class="col-sm-2 pt-3">
+                                <p>Weight: {{ $weight }}</p>
+                            </div>
+                            <div class="col-sm-2 pt-3">
+                                <p>Height: {{ $height }}
+                                    <a style="float: right;margin-top: -10px" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>
+                                </p>
+                            </div>
+                        </div>                        
                     </div>
                     <div class="ms-panel-body ms-scrollable">
                         <div class="row">           
@@ -54,7 +54,7 @@
                                     loading chats .....
                                 </div>
                                 <div class="ms-panel-footer pt-0">
-                                    
+
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-12" style="border: 1px dotted #00ff08;">
@@ -100,7 +100,7 @@
                                         <tr>
                                             <td>Pakage Name:</td>       
                                         </tr>
-                                       
+
                                     </tbody>
                                 </table>
                             </div>
