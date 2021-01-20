@@ -66,7 +66,7 @@
 <script>
 	var dataSet18 = [
 	@foreach($clients as $client)
-	[ "{{ $no++ }}" ,"{{ $client->firstname }} {{ $client->lastname}} @if($client->is_client_in_wating) <i style='color:red' title='This Client is in Waitinglist' class='fas fa-info-circle'></i> @endif"," {{ $client->phone }}", @if($client->status == 'on')"Enabled" @else "Disabled" @endif , "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('client-chats.show',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='javascript:' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-client-blocked='{{$client->is_client_blocked}}' data-nutri-blocked='{{$client->is_nutri_blocked}}' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note</a> <a class='btn btn-primary btnpro' href='{{route('clients.edit',$client->id)}}'>Edit</a> <a href='javascript:' onclick='submitform({{ $no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{$no}}' action='{{route('clients.destroy',$client->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+	[ "{{ $no++ }}" ,"<a href='{{route('client-full-profile.show',$client->id)}}' >{{ $client->firstname }} {{ $client->lastname}}</a> @if($client->is_client_in_wating) <i style='color:red' title='This Client is in Waitinglist' class='fas fa-info-circle'></i> @endif"," {{ $client->phone }}", "{{{ $client->lables}}}", "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('client-chats.show',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='javascript:' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-client-blocked='{{$client->is_client_blocked}}' data-nutri-blocked='{{$client->is_nutri_blocked}}' data-toggle='modal' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note</a> <a class='btn btn-primary btnpro' href='{{route('clients.edit',$client->id)}}'>Edit</a> <a href='javascript:' onclick='submitform({{ $no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{$no}}' action='{{route('clients.destroy',$client->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
@@ -75,7 +75,7 @@
 		{ title: "Id" },
 		{ title: "Client Name" },
 		{ title: "Phone" },
-		{ title: "Status" },
+		{ title: "Lables" },
 		{ title: "Action" },
 		],
 

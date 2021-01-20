@@ -111,6 +111,14 @@ class ClientsController extends Controller
 
             foreach ($clients as $key => $client) {
 
+               $client_lables = DB::table('client_labels')
+                                ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+                                ->where('client_id', $client->id)
+                                ->groupBy('client_id')
+                                ->first();
+                                // echo "<pre>";print_r($client_lables);"</pre>";exit;
+                                $clients[$key]->lables = @$client_lables->lables;
+
                 $nutritionist_id = DB::table('nutritionist_clients')
                 ->where('client_id', $client->id)
                 ->value('nutritionist_id');
