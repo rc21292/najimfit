@@ -18,6 +18,17 @@
 <div class="ui main container" >
 	<div class="ui grid">
 		<div class="row">
+			<div class="col-md-12">
+				<nav aria-label="breadcrumb " class="ms-panel-custom">
+					<ol class="breadcrumb pl-0">
+						<li class="breadcrumb-item"><a href="/dashboard"><i class="material-icons">home</i> Home</a></li>
+						<li class="breadcrumb-item"><a href="{{url('dashboard/staff-chats')}}">Staff Chats</a></li>
+						<li class="breadcrumb-item"><a href="{{url('dashboard/group-chat')}}">Group Chats</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Group chats with staff</li>
+					</ol>
+					<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
+				</nav>
+			</div>
 			<div class="col-xl-4 col-md-12">
 				<div class="ms-panel ms-panel-fh ms-widget">
 					<div class="ms-panel-header">

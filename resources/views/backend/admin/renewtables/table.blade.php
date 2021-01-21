@@ -23,7 +23,7 @@
 				<li class="breadcrumb-item"><a href="{{url()->previous()}}">Client List</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Assign Table</li>
 			</ol>
-			<a href="{{ url()->previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>
+			<a href="{{ route('all-renew-clients') }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>

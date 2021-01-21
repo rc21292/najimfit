@@ -13,8 +13,9 @@
 						<div class="ms-panel">
 							<div class="ms-panel-header">
 								<h6>Assign Labels to Client 
+									<!-- {{ URL::previous() }} -->
 
-									<a style="float: right;margin-top: -10px" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
+									<a style="float: right;margin-top: -10px" href="{{ route('clients.index') }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
 							</div>
 							<div class="ms-panel-body">
 								<form action="{{route('labels.store')}}" method="post">
