@@ -57,7 +57,7 @@
 	var dataSet18 = [
 	@foreach($clients as $client)
 	[
-	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "{{{ $client->lables}}}", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('mark-unread',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-client-blocked='{{$client->is_client_blocked}}' data-nutri-blocked='{{$client->is_nutri_blocked}}' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutritionist</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
+	"{{ $no++}}" ,"<a href='{{route('client-chats.show',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a><p style='margin-left:40px;'>ID: {{ $client->client_id }}</p>", "{{{ $client->lables}}}", "{{{ $client->chat_status }}}", "<a href='{{route('client-full-profile.show',$client->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('mark-unread',$client->client_id)}}' class='btn btn-success btnpro'>Mark Unread</a><a href='javascript:' data-toggle='modal' data-request-date='{{$client->is_requested}}'  data-client='{{$client->client_id}}' data-client-blocked='{{$client->is_client_blocked}}' data-nutri-blocked='{{$client->is_nutri_blocked}}' data-target='#myModal' class='btn btn-danger btnpro'>Actions</a><a href='{{route('send-note',$client->client_id)}}' class='btn btn-info btnpro'>Send Note to Nutri.</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
 	@endforeach
 	];
 
@@ -67,6 +67,7 @@
 		{ title: "Id" },
 		{ title: "Client Name" },
 		{ title: "Labels" },
+		{ title: "Chat Status" },
 		{ title: "Action" },
 		{ title: "Nutritionist" },
 

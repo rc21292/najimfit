@@ -225,11 +225,18 @@ class ClientChatController extends Controller
             $user_data = User::find($client->user_id);
             $clients[$key]->is_client_blocked = 0;
             $clients[$key]->is_nutri_blocked = 0;
+            $clients[$key]->chat_status = "";
             if ($client_data->is_blocked) {
                 $clients[$key]->is_client_blocked = 1;
+                 $clients[$key]->chat_status = 'Client Blocked';
             }
             if ($user_data->is_blocked && $client_data->nutri_blocked) {
                 $clients[$key]->is_nutri_blocked = 1;
+                 $clients[$key]->chat_status = 'Nutritionist Blocked';
+            }
+
+            if (($client_data->is_blocked) && ($user_data->is_blocked && $client_data->nutri_blocked)) {
+                $clients[$key]->chat_status = 'Client & Nutritionist Blocked';
             }
         }
 
@@ -309,14 +316,19 @@ class ClientChatController extends Controller
                          ->groupBy('client_id')
                          ->first();
              $clients[$key]->lables = @$client_lables->lables;
+             $clients[$key]->chat_status = '';
 
-            if ($client_data->is_blocked) 
-            {
+           if ($client_data->is_blocked) {
                 $clients[$key]->is_client_blocked = 1;
+                 $clients[$key]->chat_status = 'Client Blocked';
             }
-            if ($user_data->is_blocked && $client_data->nutri_blocked) 
-            {
+            if ($user_data->is_blocked && $client_data->nutri_blocked) {
                 $clients[$key]->is_nutri_blocked = 1;
+                 $clients[$key]->chat_status = 'Nutritionist Blocked';
+            }
+
+            if (($client_data->is_blocked) && ($user_data->is_blocked && $client_data->nutri_blocked)) {
+                $clients[$key]->chat_status = 'Client & Nutritionist Blocked';
             }
 
             $is_exists = AdminRequest::where('client_id',$user->client_id)->exists();
