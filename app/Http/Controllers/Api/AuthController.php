@@ -849,7 +849,6 @@ class AuthController extends Controller
 
 			$workouts = DB::table('client_workouts')->select('client_workouts.id','exercises.id as exercise_id','calories','status')->join('exercises','exercises.id','client_workouts.exercise')->where('client_id',Auth::Client()->id)->where('status','completed')->get();
 
-			echo "<pre>";print_r($workouts);"</pre>";exit;
 			foreach ($workouts as $key => $workout) {
 				$calories_sum += explode('-', $workout->calories)[1];
 			}
