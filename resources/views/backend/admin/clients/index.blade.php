@@ -34,7 +34,7 @@
 			<div class="ms-panel-body">
 				<div class="table-responsive">
 					<table id="data-table-18" class="table table-striped thead-primary w-100"></table>
-					<p><b><span style="color: red;">Legen</span> <i style='color:red' title='This Client is in Waitinglist' class='fas fa-info-circle'></i> : <span style="color: red;">Waiting list customer</span></b></p>
+					<p><b><span style="color: red;">Legend</span> <i style='color:red' title='This Client is in Waitinglist' class='fas fa-info-circle'></i> : <span style="color: red;">Waiting list customer</span></b></p>
 				</div>
 			</div>
 		</div>
