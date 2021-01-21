@@ -34,7 +34,7 @@
 										<div class="ms-form-group has-icon">
 											<div class="checkbox">
 												<label>
-													<input name="all_clients" value="1" type="checkbox" class="check" id="checkAll">Send Message to all clients.
+													<input name="all_clients" value="1" type="checkbox" class="check" id="checkAll"> Send Message to all clients.
 												</label>
 											</div>
 										</div>
