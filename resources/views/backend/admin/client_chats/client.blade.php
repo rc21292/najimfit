@@ -12,7 +12,7 @@
 				<li class="breadcrumb-item"><a href="{{route('client-chats.index')}}">Chats</a></li>
 				<li class="breadcrumb-item active" aria-current="page">nutritionist Clients List</li>
 			</ol>
-			<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
+			<a href="{{ route('client-chats.index') }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>

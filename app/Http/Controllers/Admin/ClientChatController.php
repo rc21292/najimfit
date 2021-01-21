@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\AdminRequest;
 use App\Models\Note;
 use DB;
+use URL;
 use Carbon\Carbon;
 use Session;
 use Auth;
@@ -262,8 +263,9 @@ class ClientChatController extends Controller
             }
 
         }*/
-        
 
+       Session::forget('back_notes_url');
+        Session::put('back_notes_url', URL::current());
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
 
@@ -357,7 +359,9 @@ class ClientChatController extends Controller
             }*/
 
         }
-
+        Session::forget('back_notes_url');
+        Session::put('back_notes_url', URL::current());
+        // echo "<pre>";print_r(Session::get('back_notes_url'));"</pre>";exit;
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
 

@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use Auth;
+use Session;
+use URL;
 use Spatie\Permission\Traits\HasRoles;
 
 class ClientsController extends Controller
@@ -145,6 +147,9 @@ class ClientsController extends Controller
                     $clients[$key]->is_nutri_blocked = 1;
                 }
             }
+
+            Session::forget('back_notes_url');
+            Session::put('back_notes_url', route('clients.index'));
 
             return view('backend.admin.clients.index',compact('clients','filter'))->with('no', 1);
         }
