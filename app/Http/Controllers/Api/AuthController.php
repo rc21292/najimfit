@@ -63,15 +63,26 @@ class AuthController extends Controller
 
 		$validator = Validator::make($request->all(), [
 			'phone' => 'unique:clients',
+		]);
+		if ($validator->fails())
+		{
+			$array = implode(',', $validator->errors()->all());
+			if ($request->language == "arabic") {
+				return response(["success"=> 2,"message"=>"رقم الهاتف المحمول مأخوذ بالفعل"], 422);
+			}
+			return response(["success"=> 2,"message"=>"Mobile number is already taken"], 422);
+		}
+
+		$validator = Validator::make($request->all(), [
 			'email' => 'unique:clients'
 		]);
 		if ($validator->fails())
 		{
 			$array = implode(',', $validator->errors()->all());
 			if ($request->language == "arabic") {
-				return response(["success"=> 2,"message"=>"الجوال أو البريد الإلكتروني موجود بالفعل"], 422);
+				return response(["success"=> 2,"message"=>"تم إستلام البريد الإلكتروني"], 422);
 			}
-			return response(["success"=> 2,"message"=>'Mobile or Email already exists'], 422);
+			return response(["success"=> 2,"message"=>"Email is already taken"], 422);
 		}
 
 		$request['password']=Hash::make($request['password']);
