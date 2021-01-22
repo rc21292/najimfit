@@ -50,6 +50,7 @@ class ContactController extends Controller
         $contact->message = $request->message;
 
         $contact->save();
+        return back()->with('success', 'Thank you for contact us!');
 
         $data = array(
                  'name' => $request->get('name'),
@@ -76,7 +77,6 @@ class ContactController extends Controller
 
 
         
-        return back()->with('success', 'Thank you for contact us!');
     }
 
     /**
