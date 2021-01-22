@@ -61,11 +61,8 @@ class HomeController extends Controller
 
             $user = Auth::User();
             $total_clients = Client::join('nutritionist_clients','nutritionist_clients.client_id','clients.id')->where('nutritionist_id',Auth::User()->id)->count();
-            $total_requests = DeferRequest::count();
-            $total_complaints = Complaint::count();
             $total_notes = Note::where('nutritionist_id',Auth::user()->id)->count();
             $total_users = User::count();
-            $total_meetings = DB::table('meetings')->count();
             $total_staff_chat = DB::table('messages')->where('from_id',Auth::User()->id)->orWhere('to_id',Auth::User()->id)->count();
 
 
@@ -93,7 +90,7 @@ class HomeController extends Controller
             ->where('nutritionist_id',Auth::user()->id)
             ->count();   
 
-            return view('home',compact('total_clients','table_renewals','workout_renewals','table_due','workout_due','total_requests','total_complaints','total_notes','total_users','total_meetings','total_client_chat','total_staff_chat'));
+            return view('home',compact('total_clients','table_renewals','workout_renewals','table_due','workout_due','total_notes','total_users','total_client_chat','total_staff_chat'));
         }else{
 
             $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
