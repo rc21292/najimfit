@@ -4,6 +4,7 @@
 @endsection
 @role('Admin')
 @section('content')
+<h2>Dashboard</h2>
 <div class="row">
     <div class="col-xl-3 col-md-6">
         <a href="{{ route('client-chats.index')}}">
@@ -135,6 +136,57 @@
         </a>
     </div>
 
+
+
+    <div class="col-xl-3 col-md-6">
+        <a href="{{ route('teams.index')}}">
+            <div class="ms-card card-gradient-info ms-widget ms-infographics-widget">
+                <div class="ms-card-body pos media">
+                    <div class="media-body">
+                        <h6>Teams</h6>
+                        <p class="ms-card-change"> {{$total_users}}</p>
+                    </div>
+                </div>
+                <i class="fas fa-users"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <a href="{{ route('meeting.index')}}">
+            <div class="ms-card card-gradient-secondary ms-widget ms-infographics-widget">
+                <div class="ms-card-body media">
+                    <div class="media-body">
+                        <h6>Share & Meetings</h6>
+                        <p class="ms-card-change"> {{ $total_meetings }}</p>
+                    </div>
+                </div>
+                <i class="fa fa-handshake"></i>
+            </div>
+        </a>
+    </div>
+
+
+
+    <div class="col-xl-3 col-md-6">
+        <a href="{{ route('notes.index')}}">
+            <div class="ms-card card-gradient-secondary ms-widget ms-infographics-widget">
+                <div class="ms-card-body media">
+                    <div class="media-body">
+                        <h6>Notes</h6>
+                        <p class="ms-card-change"> {{ $total_notes }}</p>
+                    </div>
+                </div>
+                <i class="far fa-clipboard"></i>
+            </div>
+        </a>
+    </div>
+
+
+</div>
+<h2>Quick Links</h2>
+<div class="row">    
+    <br>
     <div class="col-xl-3 col-md-6">
         <a href="{{ route('controls.index')}}">
             <div class="ms-card card-gradient-secondary ms-widget ms-infographics-widget">
@@ -164,36 +216,6 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-        <a href="{{ route('teams.index')}}">
-            <div class="ms-card card-gradient-info ms-widget ms-infographics-widget">
-                <div class="ms-card-body pos media">
-                    <div class="media-body">
-                        <h6>Teams</h6>
-                        <p class="ms-card-change"> {{$total_users}}</p>
-                    </div>
-                </div>
-                <i class="fas fa-users"></i>
-            </div>
-        </div>
-    </a>
-</div>
-
-<div class="row">
-    <div class="col-xl-3 col-md-6">
-        <a href="{{ route('meeting.index')}}">
-            <div class="ms-card card-gradient-secondary ms-widget ms-infographics-widget">
-                <div class="ms-card-body media">
-                    <div class="media-body">
-                        <h6>Share & Meetings</h6>
-                        <p class="ms-card-change"> {{ $total_meetings }}</p>
-                    </div>
-                </div>
-                <i class="fa fa-handshake"></i>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-xl-3 col-md-6">
         <a href="{{ route('fullcalendar-index')}}">
             <div class="ms-card card-gradient-success ms-widget ms-infographics-widget">
                 <div class="ms-card-body media">
@@ -206,21 +228,6 @@
             </div>
         </a>
     </div>
-
-    <div class="col-xl-3 col-md-6">
-        <a href="{{ route('notes.index')}}">
-            <div class="ms-card card-gradient-secondary ms-widget ms-infographics-widget">
-                <div class="ms-card-body media">
-                    <div class="media-body">
-                        <h6>Notes</h6>
-                        <p class="ms-card-change"> {{ $total_notes }}</p>
-                    </div>
-                </div>
-                <i class="far fa-clipboard"></i>
-            </div>
-        </a>
-    </div>
-
     <div class="col-xl-3 col-md-6">
         <a href="{{ route('my-account.index')}}">
             <div class="ms-card card-gradient-warning ms-widget ms-infographics-widget">
@@ -233,12 +240,13 @@
                 <i class="fas fa-id-card"></i>
             </div>
         </a>
-    </div>
+    </div>  
 </div>
 @endsection
 @endrole
 @role('Nutritionist')
 @section('content')
+<h2>Dashboard</h2>
 <div class="row">
 
     <div class="col-xl-3 col-md-6">
@@ -367,6 +375,10 @@
         </div>
     </div> --}}
 
+    
+</div>
+<h2>Quick Links</h2>
+<div class="row">
     <div class="col-xl-3 col-md-6">
         <a href="{{ route('fullcalendar-index')}}">
             <div class="ms-card card-gradient-success ms-widget ms-infographics-widget">
