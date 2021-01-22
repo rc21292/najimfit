@@ -48,6 +48,8 @@ Route::get('/contactus', function () {
     return view('contact_us');
 });
 
+Route::resource('contact-us', 'ContactController');
+
 Route::get('/terms-conditions', function () {
     return view('terms-conditions');
 });
