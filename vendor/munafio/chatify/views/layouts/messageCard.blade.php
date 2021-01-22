@@ -12,7 +12,7 @@
             {!! ($message == null && $attachment != null && @$attachment[2] != 'file') ? $attachment[1] : nl2br($message) !!}
           </p>
         </div>
-        <p class="ms-chat-time" style="background-color: white; color: black !important;box-shadow: none; max-width: 100%;">{{ $time }}</p>
+        <p class="ms-chat-time" style="background-color: #fafaff; color: black !important;box-shadow: none; max-width: 100%;">{{ $time }}</p>
         @if(@$attachment[2] == 'file')
         <a href="{{ route(config('chatify.attachments.route'),['fileName'=>$attachment[0]]) }}" class="file-download">
           <span class="fas fa-file"></span> {{$attachment[1]}}</a>
@@ -43,7 +43,7 @@
             {!! ($message == null && $attachment != null && @$attachment[2] != 'file') ? $attachment[1] : nl2br($message) !!}
           </p>
         </div>
-        <p class="ms-chat-time" style="background-color: white; color: black !important;box-shadow: none; max-width: 100%;">{{ $time }}</p>
+        <p class="ms-chat-time" style="background-color: #fafaff; color: black !important;box-shadow: none; max-width: 100%;">{{ $time }}</p>
 
         @if(@$attachment[2] == 'file')
         <a href="{{ route(config('chatify.attachments.route'),['fileName'=>$attachment[0]]) }}" class="file-download">
