@@ -51,7 +51,11 @@ class ContactController extends Controller
 
         $contact->save();
 
-        $data = array('name'=>"Virat Gandhi");
+        $data = array(
+                 'name' => $request->get('name'),
+                 'email' => $request->get('email'),
+                 'user_message' => $request->get('message'),
+             );
       \Mail::send('contact_email', $data, function($message) {
          $message->to('abc@gmail.com', 'Tutorials Point')->subject
             ('Laravel HTML Testing Mail');
