@@ -38,6 +38,7 @@ Route::resource('privacy-policy','PrivacyPolicyController');
 Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
 Route::resource('faqs','FaqController');
+Route::resource('gallery','GalleryController');
 
 Route::resource('controls','ControlController');
 
