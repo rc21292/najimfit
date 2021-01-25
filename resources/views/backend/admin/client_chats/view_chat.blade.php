@@ -59,7 +59,7 @@
                                         <form id="chat-form">
                                             <ul class="ms-list-flex mb-0">
                                                 <li class="ms-chat-input">
-                                                    <input type="text" id="content" name="content" placeholder="Enter Message" value="" >
+                                                    <textarea rows="-3" id="content" name="content" placeholder="Enter Message" ></textarea>
                                                 </li>
                                                 <li style="margin-top: -16px; margin-left: 3px;">
                                                     <button type="submit" class="btn btn-primary">Send</button>
