@@ -82,6 +82,16 @@ class RenewTableController extends Controller
         ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','posted')
         ->get();
 
+        foreach ($clients as $key => $client) {
+
+          $client_lables = DB::table('client_labels')
+          ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+          ->where('client_id', $client->client_id)
+          ->groupBy('client_id')
+          ->first();
+          $clients[$key]->lables = @$client_lables->lables;
+        }
+
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());
 
@@ -176,6 +186,16 @@ class RenewTableController extends Controller
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
         ->where('nutritionist_clients.table_status','posted')
         ->get();
+
+        foreach ($clients as $key => $client) {
+
+          $client_lables = DB::table('client_labels')
+          ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+          ->where('client_id', $client->client_id)
+          ->groupBy('client_id')
+          ->first();
+          $clients[$key]->lables = @$client_lables->lables;
+        }
 
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());

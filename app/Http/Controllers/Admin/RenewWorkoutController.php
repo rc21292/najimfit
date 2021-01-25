@@ -91,6 +91,16 @@ class RenewWorkoutController extends Controller
         ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.workout_status','posted')
         ->get();
 
+        foreach ($clients as $key => $client) {
+
+          $client_lables = DB::table('client_labels')
+          ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+          ->where('client_id', $client->client_id)
+          ->groupBy('client_id')
+          ->first();
+          $clients[$key]->lables = @$client_lables->lables;
+        }
+
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());
 
@@ -155,6 +165,16 @@ class RenewWorkoutController extends Controller
 
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());
+
+        foreach ($clients as $key => $client) {
+
+          $client_lables = DB::table('client_labels')
+          ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+          ->where('client_id', $client->client_id)
+          ->groupBy('client_id')
+          ->first();
+          $clients[$key]->lables = @$client_lables->lables;
+        }
 
         return view('backend.admin.renew-workout.client',compact('clients'))->with('no', 1);
     }

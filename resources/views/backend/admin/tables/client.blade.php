@@ -55,7 +55,7 @@
 	var dataSet18 = [
 	@foreach($clients as $client)
 	[
-	"{{ $no++}}" ,"<a href='{{route('assign-table.edit',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a>", "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('client-chats.show',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='javascript:' data-toggle='modal' data-target='#myModal' style='display:none;' class='btn btn-danger btnpro'>Actions</a><a href='{{route('clients.edit',$client->id)}}' style='display:none;' class='btn btn-info btnpro'>Send Note</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
+	"{{ $no++}}" ,"<a href='{{route('assign-table.edit',$client->client_id)}}'><img src='https://via.placeholder.com/216x62' style='width:50px; height:30px;'> {{ $client->firstname }} {{ $client->lastname}}</a>", "{{{ $client->lables}}}", "<a href='{{route('client-full-profile.show',$client->id)}}' class='btn btn-primary btnpro'>Profile</a><a href='{{route('labels.show',$client->client_id)}}'class='btn btn-primary btnpro'>Labels</a><a href='{{route('client-chats.show',$client->id)}}' class='btn btn-success btnpro'>Chat</a><a href='javascript:' data-toggle='modal' data-target='#myModal' style='display:none;' class='btn btn-danger btnpro'>Actions</a><a href='{{route('clients.edit',$client->id)}}' style='display:none;' class='btn btn-info btnpro'>Send Note</a>","{{ $client->assigned_on}}<br>{{ $client->name }}"],
 	@endforeach
 	];
 
@@ -64,6 +64,7 @@
 		columns: [
 		{ title: "Id" },
 		{ title: "Client Name" },
+		{ title: "Labels" },
 		{ title: "Action" },
 		{ title: "Nutritionist" },
 
