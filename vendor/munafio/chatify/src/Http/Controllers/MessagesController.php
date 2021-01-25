@@ -11,6 +11,7 @@ use Chatify\Facades\ChatifyMessenger as Chatify;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Cookie;
 
 
 class MessagesController extends Controller
@@ -56,6 +57,15 @@ class MessagesController extends Controller
             : \Request::route()->getName();
 
         // prepare id
+
+            $cookie_data = Cookie::get('staff_chat_id');
+
+            if(isset($cookie_data) && !empty($cookie_data))
+            {
+               $id = $cookie_data;
+           }
+
+           
         return view('Chatify::pages.app', [
             'id' => ($id == null) ? 0 : $route . '_' . $id,
             'route' => $route,
@@ -217,6 +227,10 @@ class MessagesController extends Controller
      */
     public function seen(Request $request)
     {
+        
+        $lifetime = time() + 60 * 60 * 24 * 365; 
+
+        Cookie::queue('staff_chat_id', $request['id'], $lifetime);
         // make as seen
         $seen = Chatify::makeSeen($request['id']);
         // send the response

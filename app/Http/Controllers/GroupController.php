@@ -6,6 +6,7 @@ use App\Group;
 use DB;
 use App\Conversation;
 use Illuminate\Http\Request;
+use Cookie;
 
 class GroupController extends Controller
 {
@@ -68,6 +69,11 @@ class GroupController extends Controller
      */
     public function show($id)
     {
+
+        $lifetime = time() + 60 * 60 * 24 * 365; 
+
+        Cookie::queue('group_chat_id', $id, $lifetime);
+
         $groups = auth()->user()->groups;
 
         $users = User::where('id', '<>', auth()->user()->id)->get();
