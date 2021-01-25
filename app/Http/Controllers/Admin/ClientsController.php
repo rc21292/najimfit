@@ -150,6 +150,8 @@ class ClientsController extends Controller
 
             Session::forget('back_notes_url');
             Session::put('back_notes_url', route('clients.index'));
+            Session::forget('back_lables_url');
+            Session::put('back_lables_url', URL::current());
 
             return view('backend.admin.clients.index',compact('clients','filter'))->with('no', 1);
         }

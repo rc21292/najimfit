@@ -12,6 +12,7 @@ use App\Models\Meals\Meal;
 use App\Models\Package;
 use App\Models\ClientTable;
 use DB;
+use URL;
 use Session;
 use Auth;
 use Spatie\Permission\Traits\HasRoles;
@@ -112,6 +113,9 @@ class TableController extends Controller
         ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','due')
         ->get();
 
+        Session::forget('back_lables_url');
+        Session::put('back_lables_url', URL::current());
+
         return view('backend.admin.tables.client',compact('clients'))->with('no', 1);
     }
 
@@ -143,6 +147,9 @@ class TableController extends Controller
     	$weight = DB::table('client_answers')->where('client_id',$id)->where('question_id',9)->value('answer');
 
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
+
+        Session::forget('back_cunsult_team_url');
+        Session::put('back_cunsult_team_url', URL::current());
 
         if ($selected_table) {
             return view('backend.admin.renewtables.table',compact('client','weight','height','tables','answers','selected_table','table_id','range'));
@@ -181,6 +188,10 @@ class TableController extends Controller
     	->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
         ->where('nutritionist_clients.table_status','due')
         ->get();
+
+        Session::forget('back_lables_url');
+        Session::put('back_lables_url', URL::current());
+
         return view('backend.admin.tables.client',compact('clients'))->with('no', 1);
     }
 

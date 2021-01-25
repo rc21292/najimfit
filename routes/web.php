@@ -54,6 +54,7 @@ Route::get('/terms-conditions', function () {
     return view('terms-conditions');
 });
 
+Route::post('newsletter/store','NewsletterController@store');
 
 Route::resource('dashboard/groups','GroupController');
 Route::resource('dashboard/conversations','ConversationController');

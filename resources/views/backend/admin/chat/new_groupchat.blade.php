@@ -26,7 +26,7 @@
 						<li class="breadcrumb-item"><a href="{{url('dashboard/group-chat')}}">Group Chats</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Group chats with staff</li>
 					</ol>
-					<a href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
+					<a href="{{ url(Session::get('back_cunsult_team_url')) }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
 				</nav>
 			</div>
 			<div class="col-xl-4 col-md-12">

@@ -16,6 +16,7 @@ use DB;
 use Session;
 use Spatie\Permission\Traits\HasRoles;
 use Auth;
+use URL;
 
 class RenewTableController extends Controller
 {
@@ -81,6 +82,9 @@ class RenewTableController extends Controller
         ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','posted')
         ->get();
 
+        Session::forget('back_lables_url');
+        Session::put('back_lables_url', URL::current());
+
         return view('backend.admin.renewtables.client',compact('clients'))->with('no', 1);
     }
 
@@ -114,6 +118,10 @@ class RenewTableController extends Controller
         $weight = DB::table('client_answers')->where('client_id',$id)->where('question_id',9)->value('answer');
 
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
+
+        Session::forget('back_cunsult_team_url');
+        Session::put('back_cunsult_team_url', URL::current());
+
         if ($selected_table) {
             return view('backend.admin.renewtables.table',compact('client','weight','height','tables','answers','selected_table','table_id','range'));
         }else{
@@ -168,6 +176,10 @@ class RenewTableController extends Controller
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
         ->where('nutritionist_clients.table_status','posted')
         ->get();
+
+        Session::forget('back_lables_url');
+        Session::put('back_lables_url', URL::current());
+
         return view('backend.admin.renewtables.client',compact('clients'))->with('no', 1);
     }
 

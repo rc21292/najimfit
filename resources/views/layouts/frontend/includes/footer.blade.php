@@ -85,9 +85,25 @@
             <div class="footertitle">النشرة الإخبارية</div>
             <div class="disc">اشترك في النشرة الإخبارية لدينا للحصول على أحدث النصائح الصحية</div>
             <div class="subscribe_form">
-              <form class="subscribe_form">
+              @if (\Session::has('success'))
+              <div class="alert alert-success">
+                <p>{{ \Session::get('success') }}</p>
+              </div><br />
+              @endif
+              @if (\Session::has('failure'))
+              <div class="alert alert-danger">
+                <p>{{ \Session::get('failure') }}</p>
+              </div><br />
+              @endif
+              <form class="subscribe_form" method="post" action="{{url('newsletter/store')}}">
+                @csrf
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="  إيميلك الإلكتروني  ">
+                  <input type="email"  name="email" class="form-control @error('email') is-invalid @enderror" placeholder="  إيميلك الإلكتروني  ">
+                  @error('email')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
                 </div>
                 <button type="submit" class="btn btn-primary">إرسال</button>
                 <div class="clearfix"></div>

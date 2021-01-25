@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Cookie;
-use Session;
-use URL;
 
-class ChatController extends Controller
+use Illuminate\Http\Request;
+use DB;
+
+class NewsletterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,27 +14,21 @@ class ChatController extends Controller
      */
     public function index()
     {
+        // return view('newsletter');
+    }
 
-        $groups = auth()->user()->groups;
+    public function store(Request $request)
+    {
 
-        $users = User::where('id', '<>', auth()->user()->id)->get();
-        $user = auth()->user();
+    	$this->validate($request, [
+    		'email' => 'required|email',
+    	]);
+    	DB::table('newsletter_subscriptions')->insert(
+    		['email' => $request->email, 'status' => 0]
+    	);
 
-        $cookie_data = Cookie::get('group_chat_id');
-
-        Session::forget('back_cunsult_team_url');
-        Session::put('back_cunsult_team_url', URL::previous());
-
-
-        if(isset($cookie_data) && !empty($cookie_data))
-        {
-            return redirect()->route('groups.show',Cookie::get('group_chat_id'));
-
-        }else{
-            return redirect()->route('groups.show',1);
-        }
-
-        return view('backend.admin.chat.new_groupchat', ['groups' => $groups, 'users' => $users, 'user' => $user]);
+    	return redirect('/')->with('success', 'Thanks For Subscribing our newsletter!');
+    	
     }
 
     /**
@@ -55,10 +47,7 @@ class ChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.

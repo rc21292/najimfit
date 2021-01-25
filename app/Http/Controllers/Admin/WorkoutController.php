@@ -14,6 +14,7 @@ use App\Models\ClientWorkout;
 use DB;
 use Session;
 use Auth;
+use URL;
 
 class WorkoutController extends Controller
 {
@@ -94,6 +95,9 @@ class WorkoutController extends Controller
       ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.workout_status','due')
       ->get();
 
+      Session::forget('back_lables_url');
+      Session::put('back_lables_url', URL::current());
+
       return view('backend.admin.workout.client',compact('clients'))->with('no', 1);
   }
 
@@ -115,6 +119,8 @@ class WorkoutController extends Controller
         $client_workouts = DB::table('client_workouts')->where('client_id',$id)->get();
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
 
+        Session::forget('back_cunsult_team_url');
+        Session::put('back_cunsult_team_url', URL::current());
         
         return view('backend.admin.workout.table',compact('client','weight','height','workouts','answers','exercises','client_workouts','no_days'));
     }
@@ -150,6 +156,10 @@ class WorkoutController extends Controller
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
         ->where('nutritionist_clients.workout_status','due')
         ->get();
+
+        Session::forget('back_lables_url');
+        Session::put('back_lables_url', URL::current());
+
         return view('backend.admin.workout.client',compact('clients'))->with('no', 1);
     }
     public function setsession(Request $request){
