@@ -39,6 +39,7 @@ Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
 Route::resource('faqs','FaqController');
 Route::resource('gallery','GalleryController');
+Route::post('gallery-delete-image/{gallery}', 'GalleryController@deleteimage')->name('gallery-image-delete');
 
 Route::resource('controls','ControlController');
 

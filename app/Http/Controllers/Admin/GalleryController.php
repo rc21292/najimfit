@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
+use Image;
+use File;
 
 class GalleryController extends Controller
 {
@@ -16,27 +18,27 @@ class GalleryController extends Controller
     public function index()
     {
         $images = Gallery::latest()->get();
-        // echo '<pre>'; print_r($images->toArray()); echo '</pre>'; die();
         return view('backend.admin.gallery.index',compact('images'))->with('no',1);
     }
 
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
 
+        $input = $request->all();
+        if ($request->has('image')) {
 
-        $input['image'] = time().'.'.$request->image->getClientOriginalExtension();
-        $request->image->move(public_path('images'), $input['image']);
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/gallery/'.$path),100);
+            $input['image'] = $path;
 
-
-        $input['title'] = $request->title;
+        }
         Gallery::create($input);
-
         return redirect()->route('gallery.index')->with('success','Image Uploaded successfully.');
+
     }
 
     /**
@@ -74,9 +76,9 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Gallery $gallery)
     {
-        //
+        return view('backend.admin.gallery.edit', compact('gallery'));
     }
 
     /**
@@ -86,9 +88,46 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Gallery $gallery)
     {
-        //
+        if ($request->has('image')) {
+
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            // $profileimage = Image::make($file)->resize(553, 285);
+            $profileimage->save(public_path('uploads/gallery/'.$path),100);
+
+        }
+        if ($request->has('image')) {
+            $gallery->image = $path;
+        }
+        $gallery->title = $request->title;
+
+        $gallery->description = $request->description;
+
+        if(isset($request->title_arabic)){
+            $gallery->title_arabic = $request->title_arabic;
+        }
+
+        if(isset($request->description_arabic)){
+            $gallery->description_arabic = $request->description_arabic;
+        }
+
+
+        if ($request->has('status')) {
+
+            $gallery->status = $request->status;
+
+        }else{
+
+            $gallery->status = "off";
+        }
+        
+        $gallery->save();
+
+        return redirect()->route('gallery.index')->with(['success'=>'Gallery Updated Successfully!']);
     }
 
     /**
@@ -97,6 +136,15 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function deleteimage(Gallery $gallery)
+    {
+        $image = public_path('uploads/gallery/'.$gallery->image);
+        File::delete($image);
+        $gallery->update(['image' => null]);
+        return response()->json(["success"=>'deleted']);
+    }
+
     public function destroy($id)
     {
         Gallery::find($id)->delete();

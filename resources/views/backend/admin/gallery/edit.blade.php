@@ -58,14 +58,15 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="ms-panel-body">
-                <form class="needs-validation clearfix" method="POST" action="{{route('gallery.store')}}" enctype="multipart/form-data">
+            <div class="ms-panel-body">                
+                <form class="needs-validation clearfix" method="POST" action="{{route('gallery.update',$gallery)}}" enctype="multipart/form-data">
                     @csrf
+                        {{ method_field('PUT') }}
                     <div class="form-row">
                         <div class="col-md-6">
                             <label for="title">Title</label>
                             <div class="input-group">
-                                <input type="text" id="title" name="title" class="form-control" placeholder="Title" required>
+                                <input type="text" id="title" name="title" value="{{ $gallery->title }}" class="form-control" placeholder="Title" required>
                                 <div class="invalid-feedback">
                                     Please Enter a Name.
                                 </div>
@@ -75,7 +76,7 @@
                         <div class="col-md-6">
                             <label for="title">Title(in Arabic)</label>
                             <div class="input-group">
-                                <input type="text" dir="rtl" id="title" name="title_arabic" dir="rtl" class="form-control" placeholder="اسم الحزمة">
+                                <input type="text" dir="rtl" id="title" name="title_arabic" value="{{ $gallery->title_arabic }}" dir="rtl" class="form-control" placeholder="اسم الحزمة">
                                 <div class="invalid-feedback">
                                     Please Enter a Title.
                                 </div>
@@ -85,7 +86,7 @@
                         <div class="col-md-6">
                             <label for="description">Description</label>
                             <div class="input-group">
-                                <textarea rows="8" id="description" name="description" class="form-control" placeholder="Description" required></textarea>
+                                <textarea rows="8" id="description" name="description" class="form-control" placeholder="Description" required>{{ $gallery->description }}</textarea>
                                 <div class="invalid-feedback">
                                     Please Write Description 
                                 </div>
@@ -96,7 +97,7 @@
                         <div class="col-md-6">
                             <label for="description">Description(in Arabic)</label>
                             <div class="input-group">
-                                <textarea rows="8" id="description" dir="rtl" name="description_arabic" class="form-control" placeholder="أدخل الوصف"></textarea>
+                                <textarea rows="8" id="description" dir="rtl" name="description_arabic" class="form-control" placeholder="أدخل الوصف">{{ $gallery->description_arabic }}</textarea>
                                 <div class="invalid-feedback">
                                     Please Write Description.
                                 </div>
@@ -148,11 +149,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/themes/fas/theme.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
     <script>
-
-        $("#avatar-2").fileinput({
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+            $("#avatar-2").fileinput({
             theme:'fas',
             overwriteInitial: false,
-            maxFileSize: 3500,
+            maxFileSize: 1500,
             showClose: false,
             showCaption: false,
             showBrowse: false,
@@ -164,8 +169,19 @@
             msgErrorClass: 'alert alert-block alert-danger',
             defaultPreviewContent: '<img src="/backend/assets/img/media.png" alt="Your Avatar"><h6 class="text-muted">Upload Image</h6>',
             layoutTemplates: {main2: '{preview} {remove} {browse}'},
-            allowedFileExtensions: ["jpg", "png", "gif"]
-        });
+            allowedFileExtensions: ["jpg", "png", "gif"],
+            @if(isset($gallery->image))
+            initialPreview: [
+            "{{asset('uploads/gallery/'.$gallery->image)}}"
+            ],
+             initialPreviewAsData: true, // defaults markup
+
+    initialPreviewFileType: 'image', // image is the default and can be overridden in config below
+    initialPreviewConfig: [
+    {caption: "{{$gallery->image}}", url: "{{route('gallery-image-delete',$gallery)}}", key: {{$gallery->id}} }
+    ],
+    @endif
+});
     </script>
     <script type="text/javascript">
     $(document).ready(function() {

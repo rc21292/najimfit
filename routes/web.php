@@ -32,17 +32,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/packages', function () {
-    return view('packages');
-});
+Route::resource('packages','PackageController');
+Route::resource('gallery','GalleryController');
 
 Route::get('/aboutus', function () {
     return view('about_us');
 });
 
-Route::get('/gallery', function () {
+/*Route::get('/gallery', function () {
     return view('gallery');
-});
+});*/
 
 Route::get('/contactus', function () {
     return view('contact_us');
