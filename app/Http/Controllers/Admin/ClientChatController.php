@@ -41,6 +41,7 @@ class ClientChatController extends Controller
             return redirect()->route('client_chats.index',Auth::User()->id);
 
         }else{
+
             DB::enableQueryLog();
             $total_clients = Client::count();
             $users = User::role('Nutritionist')
@@ -100,6 +101,7 @@ class ClientChatController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
@@ -188,6 +190,7 @@ class ClientChatController extends Controller
 
         return response(['data' => $set->getvalue()], 200);
     }
+
 
     /**
      * Display the specified resource.
