@@ -51,18 +51,6 @@ class ContactController extends Controller
 
         $contact->save();
 
-     /*   $data = array(
-                 'name' => $request->get('name'),
-                 'email' => $request->get('email'),
-                 'user_message' => $request->get('message'),
-             );
-      \Mail::send('contact_email', $data, function($message) {
-         $message->to('abc@gmail.com', 'Tutorials Point')->subject
-            ('Laravel HTML Testing Mail');
-         $message->from('er.krishna.mishra@gmail.com','Virat Gandhi');
-      });*/
-      
-
          \Mail::send('contact_email',
              array(
                  'name' => $request->get('name'),
@@ -71,11 +59,11 @@ class ContactController extends Controller
              ), function($message) use ($request)
                {
                   $message->from('hello@najimfit.com');
-                  $message->to('er.krishna.mishra@gmail.com');
+                  $message->to('er.krishna.mishra@gmail.com')->subject
+            ("New contact us mail");
                });
 
         return back()->with('success', 'Thank you for contact us!');
-
         
     }
 
