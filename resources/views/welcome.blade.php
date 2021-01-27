@@ -245,49 +245,9 @@
                 </div>
               </div>
             @endforeach
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery3.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة تاكل تشوكلت تنحف</div>
-              <figcaption>
-                <h2>  باقة تاكل تشوكلت تنحف   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery2.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة تاكل تشوكلت تنحف</div>
-              <figcaption>
-                <h2>  باقة تاكل تشوكلت تنحف   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
+           
           </div>
-          <div class="grid">
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery3.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة حياتك نباتية</div>
-              <figcaption>
-                <h2>  باقة حياتك نباتية   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery4.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة الحالات الصحية</div>
-              <figcaption>
-                <h2>  باقة الحالات الصحية   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery5.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة تحكم في شهيتك</div>
-              <figcaption>
-                <h2>   باقة تحكم في شهيتك   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-          </div>
+
         </div>
       </div>
     </div>
