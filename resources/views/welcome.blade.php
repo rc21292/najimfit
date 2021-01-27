@@ -456,17 +456,38 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
+          @if(Session::has('success'))
+              <div class="alert alert-success">
+              {{ Session::get('success') }}
+               </div>
+           @endif
           <div class="contactform">
             <h6>  اتصل  </h6>
-            <form class="row">
+            <form method="post" class="row" action="contact-us">
+              {{csrf_field()}}
               <div class="form-group col-md-6">
-                <input type="text" class="form-control" placeholder="البريد الإلكتروني">
+                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="   اسم   ">
+                @error('name')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
               </div>
               <div class="form-group col-md-6">
-                <input type="email" class="form-control" placeholder="اسم">
+                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="   البريد الإلكتروني   ">
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
               </div>
               <div class="form-group col-md-12">
-                <textarea class="form-control" placeholder=" رسالة " rows="5"></textarea>
+                <textarea class="form-control @error('message') is-invalid @enderror" name="message" placeholder="    رسالة    " rows="5"></textarea>
+                @error('message')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
               </div>
               <div class="col-12 mt-4">
                 <button type="submit" class="btn btn-primary">   إرسال   </button>

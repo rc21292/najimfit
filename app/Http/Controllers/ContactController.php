@@ -59,7 +59,7 @@ class ContactController extends Controller
              ), function($message) use ($request)
                {
                   $message->from('hello@najimfit.com');
-                  $message->to('er.krishna.mishra@gmail.com')->subject
+                  $message->to('hello@najimfit.com')->subject
             ("New contact us mail");
                });
 
