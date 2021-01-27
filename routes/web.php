@@ -28,10 +28,11 @@ Route::get(
 );
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+Route::resource('/','WelcomeController');
 Route::resource('packages','PackageController');
 Route::resource('gallery','GalleryController');
 

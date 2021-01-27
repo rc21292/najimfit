@@ -192,7 +192,7 @@
       <div class="row">
         <div class="col-sm-6 col-xs-6">
           <div class="gallerytopbtn text-left">
-            <button type="button" class="btn btn-primary">عرض الكل</button>
+            <a type="button" href="/packages" class="btn btn-primary">عرض الكل</a>
           </div>
         </div>
         <div class="col-sm-6 col-xs-6">
@@ -200,57 +200,54 @@
         </div>
         <div class="col-sm-12 col-xs-12 padding">
           <div class="grid">
+            @foreach($packages as $package)
             <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery1.jpg')}}" alt="img01" class="img-fluid">
-              <div class="gridtitle">باقة ارفع حرقك</div>
+              <img src="{{asset('uploads/packages/'.$package->image)}}" alt="img01" class="img-fluid">
+              <div class="gridtitle">{{ $package->name_arabic }}</div>
               <figcaption>
-                <h2>  باقة ارفع حرقك  </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
+                <h2> {{ $package->name_arabic }} </h2>
+                <p>{{$package->description_arabic}}</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter{{ $package->id }}">   المزيد   </a>
               </figcaption>
             </figure>
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery3.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة تاكل تشوكلت تنحف</div>
-              <figcaption>
-                <h2>  باقة تاكل تشوكلت تنحف   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery2.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة تاكل تشوكلت تنحف</div>
-              <figcaption>
-                <h2>  باقة تاكل تشوكلت تنحف   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
+
+             <div class="modal fade bd-example-modal-lg my-modal" id="exampleModalCenter{{ $package->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="popupimg">
+                          <img src="{{asset('uploads/packages/'.$package->image)}}" alt="image" class="img-fluid">
+                        </div>
+                      </div>
+                      <div class="col-sm-8">
+                        <div class="popupright">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="modaldetail">
+                              <div class="modal-heading">{{ $package->name_arabic }}</div>
+                              <p>{{$package->description_arabic}}</p>
+                              <div class="modal-heading2">مميزات الباقة:</div>
+                              <p>{{ $package->target_arabic }}</p>
+                              <div class="item-name">سعر الباقة:</div>
+                              <div class="price">دينار بحريني <span>{{ $package->price}}</span>
+                              </div>
+                              <div class="modalbtn"> <a href="#" class="btn btn-light">   تواصل الدفع   </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+           
           </div>
-          <div class="grid">
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery3.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة حياتك نباتية</div>
-              <figcaption>
-                <h2>  باقة حياتك نباتية   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery4.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة الحالات الصحية</div>
-              <figcaption>
-                <h2>  باقة الحالات الصحية   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-            <figure class="effect-ming">
-              <img src="{{asset('front_end/image/gallery5.jpg')}}" alt="img02" class="img-fluid">
-              <div class="gridtitle">باقة تحكم في شهيتك</div>
-              <figcaption>
-                <h2>   باقة تحكم في شهيتك   </h2>
-                <p>كن ماذا لو كان من واقفاً هناك لحظة انطلاقك قد أصابه الرعب من التغيير الذي وصلت له؟! أن تغير من نفسك ومن الناس هي قوة من استطاع أن يحاربها ليغير من نفسه ومن العالم س</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">   المزيد   </a>
-              </figcaption>
-            </figure>
-          </div>
+
         </div>
       </div>
     </div>
