@@ -159,7 +159,7 @@
 									</div>
 								</div>
 							</div>	
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<label for="validationCustom12">Upload Image</label>
 								<div class="input-group avat">
 									<div class="kv-avatar">
@@ -172,7 +172,21 @@
 									<small>Note: File-size should be less than 1.5 MB</small>
 								</div>
 								<div id="kv-avatar-errors-2" class="center-block mt-3" style="width:336px;display:none"></div>
-							</div>	
+							</div>
+							<div class="col-md-6">
+								<label for="validationCustom12">Upload Image</label>
+								<div class="input-group avat">
+									<div class="kv-avatar">
+										<div class="file-loading">
+											<input id="avatar-3" name="image_popup" type="file" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="kv-avatar-hint">
+									<small>Note: File-size should be less than 1.5 MB</small>
+								</div>
+								<div id="kv-avatar-errors-3" class="center-block mt-3" style="width:336px;display:none"></div>
+							</div>		
 							<div class="col-md-12 pt-4">
 								<label class="ms-switch">
 									<input type="checkbox" @if($package->status == "on") checked="" @endif name="status">
@@ -274,6 +288,39 @@
     initialPreviewFileType: 'image', // image is the default and can be overridden in config below
     initialPreviewConfig: [
     {caption: "{{$package->image}}", url: "{{route('package-image-delete',$package)}}", key: {{$package->id}} }
+    ],
+    @endif
+});
+</script>
+
+
+	<script>
+
+		$("#avatar-3").fileinput({
+			theme:'fas',
+			overwriteInitial: false,
+			maxFileSize: 1500,
+			showClose: false,
+			showCaption: false,
+			showBrowse: false,
+			browseOnZoneClick: true,
+			removeLabel: '',
+			removeIcon: '<i class="flaticon-trash"></i> Remove Image',
+			removeTitle: 'Cancel or reset changes',
+			elErrorContainer: '#kv-avatar-errors-3',
+			msgErrorClass: 'alert alert-block alert-danger',
+			defaultPreviewContent: '<img src="/backend/assets/img/media.png" alt="Your Avatar"><h6 class="text-muted">Upload Image</h6>',
+			layoutTemplates: {main2: '{preview} {remove} {browse}'},
+			allowedFileExtensions: ["jpg", "png", "gif"],
+			@if(isset($package->image_popup))
+			initialPreview: [
+			"{{asset('uploads/packages/dashboard/popup/'.$package->image_popup)}}"
+			],
+			 initialPreviewAsData: true, // defaults markup
+
+    initialPreviewFileType: 'image', // image is the default and can be overridden in config below
+    initialPreviewConfig: [
+    {caption: "{{$package->image_popup}}", url: "{{route('package-image-delete',$package)}}", key: {{$package->id}} }
     ],
     @endif
 });

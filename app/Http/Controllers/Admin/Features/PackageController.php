@@ -63,6 +63,17 @@ class PackageController extends Controller
 
         }
 
+        if ($request->has('image_popup')) {
+
+            $file = $request->file('image_popup');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/packages/dashboard/popup/'.$path),100);
+            $input['image_popup'] = $path;
+
+        }
+
         $workout_days = @implode(',', $request->workout_days);
 
         $str_arr = @explode (",", $workout_days); 
@@ -114,7 +125,6 @@ class PackageController extends Controller
      */
     public function update(Request $request, Package $package)
     {
-
         if ($request->has('image')) {
 
             $file = $request->file('image');
@@ -134,6 +144,18 @@ class PackageController extends Controller
             $profileimage = Image::make($file);
             $profileimage->save(public_path('uploads/packages/dashboard/'.$path),100);
             $package->image_full = $path;
+
+        }
+
+
+        if ($request->has('image_popup')) {
+
+            $file = $request->file('image_popup');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/packages/dashboard/popup/'.$path),100);
+            $package->image_popup = $path;
 
         }
 
