@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use File;
+use DB;
 use Image;
 use Session;
 
@@ -237,6 +238,7 @@ class PackageController extends Controller
         $image_full = public_path('uploads/packages/dashboard/'.$package->image_full);
         File::delete($image_full);
         $package->update(['image_full' => null]);
+        DB::table('packages')->where('id', $package->id)->update(['image_full' => null]);
         return response()->json(["success"=>'deleted']);
     }
 
@@ -244,9 +246,8 @@ class PackageController extends Controller
     {
         $image_popup = public_path('uploads/packages/dashboard/popup/'.$package->image_popup);
         File::delete($image_popup);
-        echo '<pre>'; print_r($package); echo '</pre>'; 
         $package->update(['image_popup' => null]);
-        echo '<pre>'; print_r($package); echo '</pre>'; die();
+        DB::table('packages')->where('id', $package->id)->update(['image_popup' => null]);
         return response()->json(["success"=>'deleted']);
     }
 }
