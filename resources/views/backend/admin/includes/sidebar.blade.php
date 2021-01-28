@@ -82,6 +82,11 @@
         </a>
       </li>
       <li class="menu-item">
+        <a href="{{route('gallery.index')}}">
+          <span><i class="fa fa-cogs"></i>Gallery</span>
+        </a>
+      </li>
+      <li class="menu-item">
         <a href="{{ route('teams.index')}}">
           <span><i class="fas fa-users"></i>Teams</span>
         </a>
