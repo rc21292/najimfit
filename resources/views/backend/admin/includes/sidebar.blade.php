@@ -1,6 +1,6 @@
   <!-- Sidebar Navigation Left -->
   <aside id="ms-side-nav" class="side-nav fixed ms-aside-scrollable ms-aside-left">
-    @role('Admin')
+    @hasanyrole('Admin|Staff')
     <!-- Logo -->
     <div class="logo-sn ms-d-block-lg">
       <a class="pl-0 ml-0 text-center" href="{{route('home')}}"> <img src="{{asset('backend/assets/img/admin.png')}}" alt="logo"> </a>
@@ -139,8 +139,8 @@
 
       <!-- /Apps -->
     </ul>
-    @endrole
-    @hasanyrole('Nutritionist|Staff')
+    @endhasanyrole
+    @hasrole('Nutritionist')
     <!-- Logo -->
     <div class="logo-sn ms-d-block-lg">
       <a class="pl-0 ml-0 text-center" href="{{route('home')}}"> <img src="{{asset('backend/assets/img/nutritionist.png')}}" alt="logo"> </a>
@@ -234,5 +234,5 @@
 
       <!-- /Apps -->
     </ul>
-    @endhasanyrole
+    @endrole
   </aside>
