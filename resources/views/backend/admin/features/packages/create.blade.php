@@ -174,7 +174,7 @@
 									<div id="kv-avatar-errors-2" class="center-block mt-3" style="width:336px;display:none"></div>
 								</div>	
 								<div class="col-md-6">
-									<label for="validationCustom12">Upload Image</label>
+									<label for="validationCustom12">Upload Popup Image</label>
 									<div class="input-group avat">
 										<div class="kv-avatar">
 											<div class="file-loading">
