@@ -60,6 +60,12 @@ class MyProfileController extends Controller
 
         $user = User::find($user_id);
         $user->name = $request->name;
+        if(isset($request->description)){
+            $user->description = $request->description;
+        }
+        if(isset($request->description_arabic)){
+            $user->description_arabic = $request->description_arabic;
+        }
         if ($request->has('image')) {
             $user->avatar = $path;
         }

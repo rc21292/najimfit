@@ -57,11 +57,29 @@
 								Enter Name
 							</div>							
 						</div>
-					</div>
+					</div>				
 					<div class="col-md-12">
 						<label for="validationCustom11">Email</label>
 						<div class="input-group">
 							<input type="email" class="form-control" name="sort" id="validationCustom11" placeholder="Sort Order" required="" value="{{$profile['email']}}" disabled>
+						</div>
+					</div>
+						<div class="col-md-12">
+						<label for="description">Description</label>
+						<div class="input-group">
+							<textarea rows="8" id="description" name="description" class="form-control" placeholder="Write Description." required>{{ $profile['description'] }}</textarea>
+							<div class="invalid-feedback">
+								Please Write Description.
+							</div>
+						</div>
+					</div>	
+					<div class="col-md-12">
+						<label for="description_arabic">Description(in Arabic)</label>
+						<div class="input-group">
+							<textarea rows="8" id="description_arabic" dir="rtl" name="description_arabic" class="form-control" placeholder="Write Description(in Arabic)">{{$profile['description_arabic']}}</textarea>
+							<div class="invalid-feedback">
+								Please Write Description.
+							</div>
 						</div>
 					</div>
 					<div class="col-md-12">
