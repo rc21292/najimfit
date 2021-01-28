@@ -216,7 +216,7 @@
                     <div class="row">
                       <div class="col-sm-4">
                         <div class="popupimg">
-                          <img src="{{asset('uploads/packages/dashboard/'.$package->image_full)}}" alt="image" class="img-fluid">
+                          <img src="{{asset('uploads/packages/dashboard/popup/'.$package->image_popup)}}" alt="image" class="img-fluid">
                         </div>
                       </div>
                       <div class="col-sm-8">
