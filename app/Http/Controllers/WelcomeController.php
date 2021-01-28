@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\User;
 
 class WelcomeController extends Controller
 {
@@ -16,7 +17,9 @@ class WelcomeController extends Controller
     {
         
         $packages = Package::latest()->take(6)->get();
-        return view('welcome',compact('packages'))->with('no', 1);
+        $staffs = User::role('Staff')->take(3)->get();
+        // echo '<pre>'; print_r($staffs->toArray()); echo '</pre>'; die();
+        return view('welcome',compact('packages','staffs'))->with('no', 1);
     }
 
     /**
