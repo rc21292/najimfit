@@ -64,7 +64,26 @@
 							<input type="email" class="form-control" name="sort" id="validationCustom11" placeholder="Sort Order" required="" value="{{$profile['email']}}" disabled>
 						</div>
 					</div>
-						<div class="col-md-12">
+					<div class="col-md-12">
+						<label for="tagline">Tagline</label>
+						<div class="input-group">
+							<input type="text" rows="8" id="tagline" name="tagline" class="form-control" placeholder="Write Tagline." required value="{{ $profile['tagline'] }}" >
+							<div class="invalid-feedback">
+								Please Write Tagline.
+							</div>
+						</div>
+					</div>	
+
+					<div class="col-md-12">
+						<label for="tagline_arabic">Tagline(in Arabic)</label>
+						<div class="input-group">
+							<input type="text" rows="8" id="tagline_arabic" name="tagline_arabic" class="form-control" placeholder="Write Tagline(in Arabic)." required value="{{ $profile['tagline_arabic'] }}" >
+							<div class="invalid-feedback">
+								Please Write Tagline(in Arabic).
+							</div>
+						</div>
+					</div>	
+					<div class="col-md-12">
 						<label for="description">Description</label>
 						<div class="input-group">
 							<textarea rows="8" id="description" name="description" class="form-control" placeholder="Write Description." required>{{ $profile['description'] }}</textarea>
@@ -82,6 +101,42 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-md-12">
+						<label for="facebook_link">Facebook Link</label>
+						<div class="input-group">
+							<input type="text" rows="8" id="facebook_link" name="facebook_link" class="form-control" placeholder="Write Facebook Link." value="{{ $profile['facebook_link'] }}" >
+							<div class="invalid-feedback">
+								Please Write Facebook Link.
+							</div>
+						</div>
+					</div>	
+					<div class="col-md-12">
+						<label for="twitter_link">Twitter Link</label>
+						<div class="input-group">
+							<input type="text" rows="8" id="twitter_link" name="twitter_link" class="form-control" placeholder="Write Twitter Link." value="{{ $profile['twitter_link'] }}" >
+							<div class="invalid-feedback">
+								Please Write Twitter Link.
+							</div>
+						</div>
+					</div>	
+					<div class="col-md-12">
+						<label for="instagarm_link">Instagram Link</label>
+						<div class="input-group">
+							<input type="text" rows="8" id="instagarm_link" name="instagarm_link" class="form-control" placeholder="Write Instagram Link." value="{{ $profile['instagarm_link'] }}" >
+							<div class="invalid-feedback">
+								Please Write Instagram Link.
+							</div>
+						</div>
+					</div>	
+					<div class="col-md-12">
+						<label for="youtube_link">Youtube Link</label>
+						<div class="input-group">
+							<input type="text" rows="8" id="youtube_link" name="youtube_link" class="form-control" placeholder="Write Youtube Link." value="{{ $profile['youtube_link'] }}" >
+							<div class="invalid-feedback">
+								Please Write Youtube Link.
+							</div>
+						</div>
+					</div>	
 					<div class="col-md-12">
 						<label for="validationCustom12">Upload Image</label>
 						<div class="input-group avat">

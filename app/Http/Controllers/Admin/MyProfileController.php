@@ -46,6 +46,7 @@ class MyProfileController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::User()->id;
+        $user = User::find($user_id);
         if ($request->has('image')) {
 
             $file = $request->file('image');
@@ -55,10 +56,25 @@ class MyProfileController extends Controller
             $profileimage->save(public_path('uploads/user/'.$path),100);
 
         }
+
+        if ($request->has('image')) {
+            $user->avatar = $path;
+        }
+
+        if ($request->has('image')) {
+
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/user/dashboard/'.$path),100);
+            $user->image = $path;
+
+        }
         
         //Save Category in Database
 
-        $user = User::find($user_id);
+        
         $user->name = $request->name;
         if(isset($request->description)){
             $user->description = $request->description;
@@ -66,9 +82,19 @@ class MyProfileController extends Controller
         if(isset($request->description_arabic)){
             $user->description_arabic = $request->description_arabic;
         }
-        if ($request->has('image')) {
-            $user->avatar = $path;
+
+        if(isset($request->tagline)){
+            $user->tagline = $request->tagline;
         }
+        if(isset($request->tagline_arabic)){
+            $user->tagline_arabic = $request->tagline_arabic;
+        }
+
+        $user->facebook_link = $request->facebook_link;
+        $user->twitter_link = $request->twitter_link;
+        $user->instagarm_link = $request->instagarm_link;
+        $user->youtube_link = $request->youtube_link;
+        
      $user->save();
 
      return redirect()->route('my-account.index')->with(['success'=>'Saved Successfully!']);
