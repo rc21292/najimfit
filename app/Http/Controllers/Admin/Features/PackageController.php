@@ -125,6 +125,7 @@ class PackageController extends Controller
      */
     public function update(Request $request, Package $package)
     {
+        // echo '<pre>'; print_r($request->all()); echo '</pre>'; die();
         if ($request->has('image')) {
 
             $file = $request->file('image');
@@ -231,6 +232,19 @@ class PackageController extends Controller
         $image = public_path('uploads/packages/'.$package->image);
         File::delete($image);
         $package->update(['image' => null]);
+        // return response()->json(["success"=>'deleted']);
+
+        $image_full = public_path('uploads/packages/dashboard/'.$package->image_full);
+        File::delete($image_full);
+        $package->update(['image_full' => null]);
+        return response()->json(["success"=>'deleted']);
+    }
+
+    public function deletepopupimage(Package $package)
+    {
+        $image = public_path('uploads/packages/dashboard/popup/'.$package->image);
+        File::delete($image);
+        $package->update(['image_popup' => null]);
         return response()->json(["success"=>'deleted']);
     }
 }

@@ -20,6 +20,7 @@ Route::post('question-delete-image/{question}', 'Features\QuestionController@del
 // Package Route
 Route::resource('package','Features\PackageController');
 Route::post('package-delete-image/{package}', 'Features\PackageController@deleteimage')->name('package-image-delete');
+Route::post('package-delete-image-popup/{package}', 'Features\PackageController@deletepopupimage')->name('package-image-delete-popup');
 // Workout Category Route
 Route::resource('workout-category','Features\WorkoutCategoryController');
 

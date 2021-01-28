@@ -320,7 +320,7 @@
 
     initialPreviewFileType: 'image', // image is the default and can be overridden in config below
     initialPreviewConfig: [
-    {caption: "{{$package->image_popup}}", url: "{{route('package-image-delete',$package)}}", key: {{$package->id}} }
+    {caption: "{{$package->image_popup}}", url: "{{route('package-image-delete-popup',$package)}}", key: {{$package->id}} }
     ],
     @endif
 });
