@@ -48,10 +48,19 @@ class PackageController extends Controller
             $path = time().$name;
             $profileimage = Image::make($file)->resize(553, 285);
             $profileimage->save(public_path('uploads/packages/'.$path),100);
+            $input['image'] = $path;
 
         }
+
         if ($request->has('image')) {
-            $input['image'] = $request->$path;
+
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/packages/dashboard/'.$path),100);
+            $input['image_full'] = $path;
+
         }
 
         $workout_days = @implode(',', $request->workout_days);
@@ -113,11 +122,21 @@ class PackageController extends Controller
             $path = time().$name;
             $profileimage = Image::make($file)->resize(553, 285);
             $profileimage->save(public_path('uploads/packages/'.$path),100);
+            $package->image = $path;
 
         }
+
         if ($request->has('image')) {
-            $package->image = $path;
+
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/packages/dashboard/'.$path),100);
+            $package->image_full = $path;
+
         }
+
         $package->name = $request->name;
         $package->type = $request->type;
         $package->includes = $request->includes;
