@@ -31,11 +31,24 @@ class GalleryController extends Controller
             $file = $request->file('image');
             $name = $file->getClientOriginalName();
             $path = time().$name;
-            $profileimage = Image::make($file);
+            // $profileimage = Image::make($file);
+            $profileimage = Image::make($file)->resize(334, 260);
             $profileimage->save(public_path('uploads/gallery/'.$path),100);
             $input['image'] = $path;
 
         }
+
+        if ($request->has('image')) {
+
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/gallery/popup/'.$path),100);
+            $input['image_popup'] = $path;
+
+        }
+
         Gallery::create($input);
         return redirect()->route('gallery.index')->with('success','Image Uploaded successfully.');
 
@@ -95,14 +108,24 @@ class GalleryController extends Controller
             $file = $request->file('image');
             $name = $file->getClientOriginalName();
             $path = time().$name;
-            $profileimage = Image::make($file);
-            // $profileimage = Image::make($file)->resize(553, 285);
+            // $profileimage = Image::make($file);
+            $profileimage = Image::make($file)->resize(300, 260);
             $profileimage->save(public_path('uploads/gallery/'.$path),100);
+            $gallery->image = $path;
 
         }
+
         if ($request->has('image')) {
-            $gallery->image = $path;
+
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $path = time().$name;
+            $profileimage = Image::make($file);
+            $profileimage->save(public_path('uploads/gallery/popup/'.$path),100);
+            $gallery->image_popup = $path;
+
         }
+
         $gallery->title = $request->title;
 
         $gallery->description = $request->description;
@@ -141,7 +164,11 @@ class GalleryController extends Controller
     {
         $image = public_path('uploads/gallery/'.$gallery->image);
         File::delete($image);
-        $gallery->update(['image' => null]);
+
+        $image_popup = public_path('uploads/gallery/popup/'.$gallery->image);
+        File::delete($image_popup);
+        $gallery->update(['image' => null, 'image_popup' => null]);
+
         return response()->json(["success"=>'deleted']);
     }
 

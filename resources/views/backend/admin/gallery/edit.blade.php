@@ -58,6 +58,7 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home"><div class="col-xl-8 col-md-12">
             <div class="ms-panel-body">                
                 <form class="needs-validation clearfix" method="POST" action="{{route('gallery.update',$gallery)}}" enctype="multipart/form-data">
                     @csrf
@@ -83,7 +84,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <label for="description">Description</label>
                             <div class="input-group">
                                 <textarea rows="8" id="description" name="description" class="form-control" placeholder="Description" required>{{ $gallery->description }}</textarea>
@@ -102,7 +103,7 @@
                                     Please Write Description.
                                 </div>
                             </div>
-                        </div> 
+                        </div>  --}}
 
                         <div class="col-md-6">
                             <label for="validationCustom12">Upload Image</label>
@@ -130,6 +131,7 @@
                 </form>
 
             </div>
+        </div>
         </div>
     </div>
 </div>

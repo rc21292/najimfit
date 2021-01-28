@@ -82,7 +82,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <label for="description">Description</label>
                             <div class="input-group">
                                 <textarea rows="8" id="description" name="description" class="form-control" placeholder="Description" required></textarea>
@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                         </div> 
-
+ --}}
                         <div class="col-md-6">
                             <label for="validationCustom12">Upload Image</label>
                             <div class="input-group avat">
@@ -148,7 +148,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/themes/fas/theme.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
     <script>
-
         $("#avatar-2").fileinput({
             theme:'fas',
             overwriteInitial: false,
