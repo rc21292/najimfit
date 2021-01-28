@@ -26,7 +26,7 @@
               @foreach($packages as $package)
               <div class="col-sm-4 col-xs-12">
                 <figure class="effect-ming">
-                  <img src="{{asset('uploads/packages/'.$package->image)}}" alt="img01" class="img-fluid">
+                  <img src="{{asset('uploads/packages/dashboard/'.$package->image_full)}}" alt="img01" class="img-fluid">
                   <div class="gridtitle">   {{ $package->name_arabic }}   </div>
                   <figcaption>
                     <h2>{{ $package->name_arabic }}</h2>
@@ -41,7 +41,7 @@
                     <div class="row">
                       <div class="col-sm-4">
                         <div class="popupimg">
-                          <img src="{{asset('uploads/packages/'.$package->image)}}" alt="image" class="img-fluid">
+                          <img src="{{asset('uploads/packages/dashboard/'.$package->image_full)}}" alt="image" class="img-fluid">
                         </div>
                       </div>
                       <div class="col-sm-8">
