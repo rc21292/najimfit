@@ -140,7 +140,7 @@
       <!-- /Apps -->
     </ul>
     @endrole
-    @role('Nutritionist')
+    @hasanyrole('Nutritionist|Staff')
     <!-- Logo -->
     <div class="logo-sn ms-d-block-lg">
       <a class="pl-0 ml-0 text-center" href="{{route('home')}}"> <img src="{{asset('backend/assets/img/nutritionist.png')}}" alt="logo"> </a>
@@ -234,5 +234,5 @@
 
       <!-- /Apps -->
     </ul>
-    @endrole
+    @endhasanyrole
   </aside>
