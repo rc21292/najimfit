@@ -244,7 +244,9 @@ class PackageController extends Controller
     {
         $image_popup = public_path('uploads/packages/dashboard/popup/'.$package->image_popup);
         File::delete($image_popup);
+        echo '<pre>'; print_r($package); echo '</pre>'; 
         $package->update(['image_popup' => null]);
+        echo '<pre>'; print_r($package); echo '</pre>'; die();
         return response()->json(["success"=>'deleted']);
     }
 }
