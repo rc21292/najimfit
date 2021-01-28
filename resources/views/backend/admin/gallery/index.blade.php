@@ -35,7 +35,7 @@
     var dataSet18 = [
 
     @foreach($images as $image)
-    [ "{{ @$no++ }}" ,"{{ $image->title }}","<a class='thumbnail fancybox' rel='ligthbox' href='/images/{{ $image->image }}'> <img height='200' class='img-responsive' alt='' src='/images/{{ $image->image }}' />  <div class='text-center'> <small class='text-muted'>{{ $image->title }}</small>  </div> </a>", "<a href='javascript:' onclick='submitform({{ @$no }});' class='btn btn-danger btnpro'>Delete</a><form id='delete-form{{@$no}}' action='{{route('gallery.destroy',$image->id)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+    [ "{{ @$no++ }}" ,"{{ $image->title }}","{{ $image->title_arabic }}", "<a href='{{route('gallery.edit',$image)}}'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('gallery.destroy',$image)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
     @endforeach
     ];
     var tablepackage = $('#data-table-18').DataTable( {
@@ -43,7 +43,7 @@
         columns: [
         { title: "Id" },
         { title: "Title" },
-        { title: "Image" },
+        { title: "Title Arabic" },
         { title: "Action" },
         ],
 
