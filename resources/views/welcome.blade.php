@@ -314,14 +314,16 @@
   <section class="section5">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-6 padding">
+        @php $i = 0; @endphp
+        @foreach($blogs as $blog)
+        <div class="col-sm-6 padding show-on-click show-blog-{{ $blog->id}}" @if($i == 0) style="display: block;" @else style="display: none;" @endif>
           <div class="leftbox2">
-            <h5>  لماذا نحن  </h5>
-            <p>الحياة ليست خطاً واحداً، لايمكنك الاستمرار بخط مستقيم مدى حياتك فهذه طبيعة الحياة ولأنك بشر وقابل للتشكيل على أي جنب يناسبك ولكن أين البداية التي ستقودك بلا ألم! ستنزل من دوامة التعب إلى خط الراحة وسنساعدك لتكون أنت كما أردت ومثل ماكنت تريد أن تكون بحياتك الخاصة المبنية على شخصيتك وكيانك. هو ليس برنامج غذائي وحسب، بل هو شخصك الآخر الذي سيعيش معك كل حياتك من أول نفس لك في هذا العالم حتى اللحظة التي تنظر فيها لهذه الكلمة.</p>
-            <p>من شخص الى كيان.. ومن أول نفس لك في هذا العالم حتى أعمق نقطة في حياتك في هذه اللحظة. هدفنا تغيير العالم.. لنأخذ بيدك حتى تعانق شعلة التغيير..</p>
-            <p>نحن شركة تقدم خدمات صحية تثقيفية بشكل غيرمسبوق، ونقوم بهيكلة النمط الغذائي لعملائنا بطريقة مختلفة وغير تقليدية عبر إعادة برمجة غذائك بما يتناسب مع حياتك الحالية بدون أي ضغط أو إرادة مزيفة أو مؤقتة.. فنحن معك في كل مكان.. في منصات التواصل الإجتماعي أوالتواصل الفعلي والمرئي.. نتواجد معك في جميع أنحاء العالم.</p>
+            <h5>{{ $blog->title_arabic }}</h5>
+            <p>{{ $blog->description_arabic }}</p>
           </div>
         </div>
+        @php $i++; @endphp
+        @endforeach    
         <div class="col-sm-6 padding">
           <div id="blogCarousel" class="carousel slide container-blog postion" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -330,59 +332,26 @@
             </ol>
             <!-- Carousel items -->
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              @php $i = 0; @endphp
+              @foreach($blogs as $blog)
+              <div class="carousel-item @if($i == 0) active @endif">
                 <div class="row">
-                  <div class="col-md-4">
+                  @foreach($blogs_data as $blog_data)
+                  <div class="col-md-4 show-hide-blog" data-id="{{ $blog_data->id }}" >
                     <div class="item-box-blog">
                       <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/carousel3.jpg')}}" class="img-fluid">
+                        <img alt="" src="{{asset('uploads/blogs/'.$blog_data->image)}}" class="img-fluid">
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/carousel1.jpg')}}" class="img-fluid">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/carousel2.jpg')}}" class="img-fluid">
-                      </div>
-                    </div>
-                  </div>
+                  @endforeach
+                  
                 </div>
                 <!--.row-->
               </div>
               <!--.item-->
-              <div class="carousel-item ">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/carousel3.jpg')}}" class="img-fluid">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/carousel1.jpg')}}" class="img-fluid">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/carousel2.jpg')}}" class="img-fluid">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--.row-->
-              </div>
+              @php $i++; @endphp
+              @endforeach    
               <!--.item-->
             </div>
             <!--.carousel-inner-->
@@ -394,7 +363,7 @@
   <!--Section-Five-End-->
   <!--Section-Six-Start-->
   <section class="section6">
-    <div class="container">
+    <div class="container" id="myDivContact">
       <div class="row">
         <div class="col-sm-12">
           @if(Session::has('success'))
@@ -407,7 +376,7 @@
             <form method="post" class="row" action="contact-us">
               {{csrf_field()}}
               <div class="form-group col-md-6">
-                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="   اسم   ">
+                <input type="text" name="name" required class="form-control @error('name') is-invalid @enderror" placeholder="   اسم   ">
                 @error('name')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
@@ -415,7 +384,7 @@
                 @enderror
               </div>
               <div class="form-group col-md-6">
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="   البريد الإلكتروني   ">
+                <input type="email" name="email" required class="form-control @error('email') is-invalid @enderror" placeholder="   البريد الإلكتروني   ">
                 @error('email')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
@@ -423,7 +392,7 @@
                 @enderror
               </div>
               <div class="form-group col-md-12">
-                <textarea class="form-control @error('message') is-invalid @enderror" name="message" placeholder="    رسالة    " rows="5"></textarea>
+                <textarea required class="form-control @error('message') is-invalid @enderror" name="message" placeholder="    رسالة    " rows="5"></textarea>
                 @error('message')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
@@ -442,5 +411,15 @@
 
 @endsection
 @push('scripts')
-
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.show-hide-blog').on('click', function() {
+    alert($(this).data('id'));
+    $(".show-on-click").css('display', 'none');
+    alert($(".show-blog-"+$(this).data('id')));
+    $(".show-blog-"+$(this).data('id')).css('display', 'block');
+    // console.log(this.dataset.id, $(this).data().id, $(this).data('id'));
+  });
+});
+</script>
 @endpush
