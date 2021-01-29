@@ -16,6 +16,9 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::latest()->get();
+        foreach ($contacts as $key => $contact) {
+            $contacts[$key]->message = preg_replace('/\s\s+/', ' ', $contact->message);
+        }
         return view('backend.admin.contacts.index',compact('contacts'))->with('no',1);
     }
 
