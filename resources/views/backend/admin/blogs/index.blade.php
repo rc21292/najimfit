@@ -35,7 +35,7 @@
     var dataSet18 = [
 
     @foreach($images as $image)
-    [ "{{ @$no++ }}" ,"{{ $image->title }}","{{ $image->title_arabic }}", "<a href='{{route('blogs.edit',$image)}}'><i class='fas fa-pencil-alt ms-text-primary'></i></a> <a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('blogs.destroy',$image)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>"],
+    [ "{{ @$no++ }}" ,"{{ $image->title }}","{{ $image->title_arabic }}", "<a href='{{route('blogs.edit',$image)}}'><i class='fas fa-pencil-alt ms-text-primary'></i></a> @if($loop->index == 0) <i class='far fa-trash-alt ms-text-danger'></i> @else<a href='javascript:' onclick='submitform({{ $no }});'><i class='far fa-trash-alt ms-text-danger'></i></a><form id='delete-form{{$no}}' action='{{route('blogs.destroy',$image)}}' method='POST'><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='DELETE'></form>@endif"],
     @endforeach
     ];
     var tablepackage = $('#data-table-18').DataTable( {

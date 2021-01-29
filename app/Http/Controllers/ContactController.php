@@ -51,17 +51,17 @@ class ContactController extends Controller
 
         $contact->save();
 
-         // \Mail::send('contact_email',
-         //     array(
-         //         'name' => $request->get('name'),
-         //         'email' => $request->get('email'),
-         //         'user_message' => $request->get('message'),
-         //     ), function($message) use ($request)
-         //       {
-         //          $message->from('hello@najimfit.com');
-         //          $message->to('hello@najimfit.com')->subject
-         //    ("New contact us mail");
-         //       });
+         \Mail::send('contact_email',
+             array(
+                 'name' => $request->get('name'),
+                 'email' => $request->get('email'),
+                 'user_message' => $request->get('message'),
+             ), function($message) use ($request)
+               {
+                  $message->from('hello@najimfit.com');
+                  $message->to('hello@najimfit.com')->subject
+            ("New contact us mail");
+               });
 
         return back()->with('success', 'Thank you for contact us!');
         
