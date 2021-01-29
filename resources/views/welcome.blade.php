@@ -414,9 +414,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
   $('.show-hide-blog').on('click', function() {
-    alert($(this).data('id'));
     $(".show-on-click").css('display', 'none');
-    alert($(".show-blog-"+$(this).data('id')));
     $(".show-blog-"+$(this).data('id')).css('display', 'block');
     // console.log(this.dataset.id, $(this).data().id, $(this).data('id'));
   });
