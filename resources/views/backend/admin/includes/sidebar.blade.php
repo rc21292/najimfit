@@ -21,6 +21,18 @@
         </ul>
       </li>
 
+      <li class="menu-item">
+        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements-catalog" aria-expanded="false" aria-controls="form-elements">
+          <span><i class="fas fa-plus"></i>Catalogs</span>
+        </a>
+        <ul id="form-elements-catalog" class="collapse" aria-labelledby="form-elements-catalog" data-parent="#side-nav-accordion">
+          <li> <a href="{{ route('gallery.index') }}">Gallery</a> </li>
+          <li> <a href="{{ route('blogs.index') }}">Blogs</a> </li>
+          <li> <a href="{{ route('contacts.index') }}">Contact Us Queries</a> </li>
+          <li> <a href="{{ route('newsletters.index') }}">Newsletter Subscriptions</a> </li>
+        </ul>
+      </li>
+
       <!-- /Advanced UI Elements -->
 
       <li class="menu-item">
