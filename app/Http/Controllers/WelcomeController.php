@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\User;
+use App\Models\Blog;
 
 class WelcomeController extends Controller
 {
@@ -17,9 +18,10 @@ class WelcomeController extends Controller
     {
         
         $packages = Package::latest()->take(6)->get();
+        $blogs = Blog::latest()->take(3)->get();
+        $blogs_data = Blog::inRandomOrder()->limit(3)->get();
         $staffs = User::role('Staff')->take(3)->get();
-        // echo '<pre>'; print_r($staffs->toArray()); echo '</pre>'; die();
-        return view('welcome',compact('packages','staffs'))->with('no', 1);
+        return view('welcome',compact('packages','staffs','blogs','blogs_data'))->with('no', 1);
     }
 
     /**

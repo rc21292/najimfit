@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
+use App\Models\NewsletterSubscription;
 
 class NewsletterController extends Controller
 {
@@ -14,31 +15,8 @@ class NewsletterController extends Controller
      */
     public function index()
     {
-        // return view('newsletter');
-    }
-
-    public function store(Request $request)
-    {
-
-    	$this->validate($request, [
-    		'email' => 'required|email',
-    	]);
-    	DB::table('newsletter_subscriptions')->insert(
-    		['email' => $request->email, 'status' => 0]
-    	);
-
-        \Mail::send('newsletter_email',
-             array(
-                 'email' => $request->get('email'),
-             ), function($message) use ($request)
-               {
-                  $message->from('hello@najimfit.com');
-                  $message->to('hello@najimfit.com')->subject
-            ("Newsletter Subscription mail");
-               });
-
-    	return redirect('/')->with('success', 'Thanks For Subscribing our newsletter!');
-    	
+        $newsletters = NewsletterSubscription::latest()->get();
+        return view('backend.admin.newsletter.index',compact('newsletters'))->with('no',1);
     }
 
     /**
@@ -57,7 +35,10 @@ class NewsletterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
+    public function store(Request $request)
+    {
+        //
+    }
 
     /**
      * Display the specified resource.

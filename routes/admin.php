@@ -40,7 +40,9 @@ Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
 Route::resource('faqs','FaqController');
 Route::resource('gallery','GalleryController');
+Route::resource('contacts','ContactController');
 Route::resource('blogs','BlogController');
+Route::resource('newsletters','NewsletterController');
 Route::post('gallery-delete-image/{gallery}', 'GalleryController@deleteimage')->name('gallery-image-delete');
 Route::post('blog-delete-image/{blog}', 'BlogController@deleteimage')->name('blog-image-delete');
 
