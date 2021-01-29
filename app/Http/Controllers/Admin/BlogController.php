@@ -17,7 +17,7 @@ class BlogController extends Controller
      */
      public function index()
     {
-        $images = Blog::latest()->get();
+        $images = Blog::all();
         return view('backend.admin.blogs.index',compact('images'))->with('no',1);
     }
 
