@@ -84,21 +84,21 @@
           <div class="footer_widget">
             <div class="footertitle">النشرة الإخبارية</div>
             <div class="disc">اشترك في النشرة الإخبارية لدينا للحصول على أحدث النصائح الصحية</div>
-            <div class="subscribe_form">
-              @if (\Session::has('success'))
+            <div class="subscribe_form" id="myDiv">
+              @if (\Session::has('success_news'))
               <div class="alert alert-success">
-                <p>{{ \Session::get('success') }}</p>
-              </div><br />
+                <p>{{ \Session::get('success_news') }}</p>
+              </div><br/>
               @endif
-              @if (\Session::has('failure'))
+              @if (\Session::has('failure_news'))
               <div class="alert alert-danger">
-                <p>{{ \Session::get('failure') }}</p>
-              </div><br />
+                <p>{{ \Session::get('success_news') }}</p>
+              </div><br/>
               @endif
               <form class="subscribe_form" method="post" action="{{url('newsletter/store')}}">
                 @csrf
                 <div class="form-group">
-                  <input type="email"  name="email" class="form-control @error('email') is-invalid @enderror" placeholder="  إيميلك الإلكتروني  ">
+                  <input type="email"  required name="email" class="form-control @error('email') is-invalid @enderror" placeholder="  إيميلك الإلكتروني  ">
                   @error('email')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
@@ -167,5 +167,16 @@
          });
  
     });
+
+
+    @if (\Session::has('success_news'))
+      $(window).scrollTop($('#myDiv').offset().top);
+    @endif
+
+    @if (\Session::has('success'))
+      $(window).scrollTop($('#myDivContact').offset().top);
+    @endif
+
+    
   </script> 
   @stack('scripts')

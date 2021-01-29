@@ -81,10 +81,17 @@
           <span><i class="fa fa-cogs"></i>Coupons</span>
         </a>
       </li>
+
       <li class="menu-item">
-        <a href="{{route('gallery.index')}}">
-          <span><i class="fa fa-cogs"></i>Gallery</span>
+        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements-catalog" aria-expanded="false" aria-controls="form-elements">
+          <span><i class="fas fa-plus"></i>Catalogs</span>
         </a>
+        <ul id="form-elements-catalog" class="collapse" aria-labelledby="form-elements-catalog" data-parent="#side-nav-accordion">
+          <li> <a href="{{ route('gallery.index') }}">Gallery</a> </li>
+          <li> <a href="{{ route('blogs.index') }}">Blogs</a> </li>
+          <li> <a href="{{ route('contacts.index') }}">Contact Us Queries</a> </li>
+          <li> <a href="{{ route('newsletters.index') }}">Newsletter Subscriptions</a> </li>
+        </ul>
       </li>
       <li class="menu-item">
         <a href="{{ route('teams.index')}}">
@@ -124,17 +131,16 @@
 
       <!-- Form Elements -->
       <li class="menu-item">
-        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements" aria-expanded="false" aria-controls="form-elements">
+        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements-settings" aria-expanded="false" aria-controls="form-elements-settings">
           <span><i class="material-icons fs-16">settings</i>Settings</span>
         </a>
-        <ul id="form-elements" class="collapse" aria-labelledby="form-elements" data-parent="#side-nav-accordion">
+        <ul id="form-elements-settings" class="collapse" aria-labelledby="form-elements-settings" data-parent="#side-nav-accordion">
           <li> <a href="{{route('diet-informations.index')}}">Diet Informations</a> </li>
           <li> <a href="{{route('terms-and-conditions.index')}}">Terms & Conditions</a> </li>
           <li> <a href="{{route('privacy-policy.index')}}">Privacy Policy</a> </li>
           <li> <a href="{{route('gdpr.index')}}">GDPR</a> </li>
           <li> <a href="{{route('about.index')}}">About</a> </li>
           <li> <a href="{{route('faqs.index')}}">Faqs</a> </li>
-
           <li> <a href="#">My Profile</a> </li>
           <li> <a href="#">Social Media Links</a> </li>
           <li> <a href="#">Contact Details</a> </li>

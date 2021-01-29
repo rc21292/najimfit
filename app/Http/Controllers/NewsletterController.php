@@ -33,11 +33,11 @@ class NewsletterController extends Controller
              ), function($message) use ($request)
                {
                   $message->from('hello@najimfit.com');
-                  $message->to('hello@najimfit.com')->subject
+                  $message->to('er.krishna.mishra@gmail.com')->subject
             ("Newsletter Subscription mail");
                });
 
-    	return redirect('/')->with('success', 'Thanks For Subscribing our newsletter!');
+    	return redirect('/')->with('success_news', 'Thanks For Subscribing our newsletter!');
     	
     }
 
