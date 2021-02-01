@@ -1,4 +1,13 @@
 @extends('layouts.app')
+@section('head')
+<style type="text/css">
+	.boxes {
+ height: 355px;
+ overflow: auto;
+ width: 400px;
+}
+</style>
+@endsection
 @section('content')
 <div class="row">
 	<div class="col-lg-12 margin-tb">
@@ -29,9 +38,10 @@
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="form-group">
 			<strong>Permission:</strong>
 			<br/>
+			<br/>
+		<div class="form-group boxes">
 			@foreach($permission as $value)
 			<label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
 				{{ $value->name }}</label>
