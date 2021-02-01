@@ -2,7 +2,7 @@
 @section('head')
 <title>Admin |Dashboard</title>
 @endsection
-@role('Admin')
+@role('Admin|Staff')
 @section('content')
 <h2>Dashboard</h2>
 <div class="row">

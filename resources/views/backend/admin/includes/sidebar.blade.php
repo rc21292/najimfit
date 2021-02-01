@@ -63,11 +63,13 @@
           <span><i class="far fa-user-circle"></i>Intake Substances</span>
         </a>
       </li>  
+      @can('clients')
       <li class="menu-item">
         <a href="{{route('clients.index')}}">
           <span><i class="far fa-user-circle"></i>Clients</span>
         </a>
       </li>
+      @endcan
       <li class="menu-item">
         <a href="{{route('requests.index')}}">
           <span><i class="fa fa-anchor"></i>Requests</span>
@@ -141,9 +143,9 @@
           <li> <a href="{{route('gdpr.index')}}">GDPR</a> </li>
           <li> <a href="{{route('about.index')}}">About</a> </li>
           <li> <a href="{{route('faqs.index')}}">Faqs</a> </li>
-          <li> <a href="#">My Profile</a> </li>
+          {{-- <li> <a href="#">My Profile</a> </li>
           <li> <a href="#">Social Media Links</a> </li>
-          <li> <a href="#">Contact Details</a> </li>
+          <li> <a href="#">Contact Details</a> </li> --}}
         </ul>
       </li>
       <!-- /Form Elements -->
@@ -201,7 +203,7 @@
       </li>
       <li class="menu-item">
         <a href="{{route('chat.index')}}">
-          <span><i class="flaticon-chat"></i></i>client Chats</span>
+          <span><i class="flaticon-chat"></i></i>Client Chats</span>
         </a>
       </li>
       <li class="menu-item">
@@ -231,7 +233,7 @@
       </li>
 
       <!-- Form Elements -->
-      <li class="menu-item">
+      {{-- <li class="menu-item">
         <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements" aria-expanded="false" aria-controls="form-elements">
           <span><i class="material-icons fs-16">settings</i>Settings</span>
         </a>
@@ -240,7 +242,7 @@
           <li> <a href="#">Social Media Links</a> </li>
           <li> <a href="#">Contact Details</a> </li>
         </ul>
-      </li>
+      </li> --}}
       <!-- /Form Elements -->
 
       <!-- /Apps -->

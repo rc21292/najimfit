@@ -23,6 +23,13 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:clients']);
+
+    }
+
     public function index(Request $request)
     {
         $user = Auth::User();
