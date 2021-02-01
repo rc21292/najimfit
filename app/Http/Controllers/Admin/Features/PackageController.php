@@ -17,6 +17,13 @@ class PackageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:add-features']);
+        $this->middleware(['permission:new-packages']);
+    }
+
     public function index()
     {
         $packages = Package::all();

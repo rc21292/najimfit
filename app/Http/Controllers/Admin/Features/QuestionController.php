@@ -20,6 +20,13 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:add-features']);
+        $this->middleware(['permission:new-questionnaire']);
+    }
+    
     public function index()
     {
         $questions = Question::all();

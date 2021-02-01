@@ -30,6 +30,11 @@ class ClientChatController extends Controller
 
     private $user_ids = [];
 
+    function __construct()
+    {
+        $this->middleware(['permission:chats']);
+    }
+
     public function index()
     {
         $user = Auth::User();

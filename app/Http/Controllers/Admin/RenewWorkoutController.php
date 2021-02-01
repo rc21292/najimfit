@@ -23,6 +23,13 @@ class RenewWorkoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+      $this->middleware(['permission:workouts']);
+      $this->middleware(['permission:renew-workout']);
+      
+    }
     
     public function index()
     {

@@ -18,6 +18,12 @@ class ControlController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+      $this->middleware(['permission:controls']);
+    }
+    
     public function index()
     {
         $user = Auth::User();

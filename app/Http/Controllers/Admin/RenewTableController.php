@@ -25,6 +25,14 @@ class RenewTableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+      $this->middleware(['permission:tables']);
+      $this->middleware(['permission:renew-tables']);
+      
+    }
+
     public function index()
     {
         $user = Auth::User();

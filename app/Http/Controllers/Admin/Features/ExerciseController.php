@@ -17,6 +17,13 @@ class ExerciseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:add-features']);
+        $this->middleware(['permission:new-workouts']);
+    }
+    
     public function index()
     {
         $exercises = DB::table('exercises')->join('workout_categories','workout_categories.id','=','exercises.category')->select('exercises.*','workout_categories.name as category')->get();

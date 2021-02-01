@@ -10,6 +10,13 @@ use File;
 
 class BlogController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware(['permission:catalogs']);
+        $this->middleware(['permission:blogs']);
+    }
+
     /**
      * Display a listing of the resource.
      *

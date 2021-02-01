@@ -10,6 +10,12 @@ use Auth;
 
 class FullCalendarController extends Controller
 {
+
+  public function __construct()
+  {
+    $this->middleware(['permission:calender']);
+  }
+
   public function index()
 
   {

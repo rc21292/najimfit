@@ -13,6 +13,13 @@ class NewsletterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:catalogs']);
+        $this->middleware(['permission:newsletter-subscriptions']);
+    }
+    
     public function index()
     {
         $newsletters = NewsletterSubscription::latest()->get();

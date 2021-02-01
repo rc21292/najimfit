@@ -13,6 +13,14 @@ class TableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:add-features']);
+        $this->middleware(['permission:new-tables']);  
+        
+    }
+
     public function index()
     {
         $categories = TableCategory::all();

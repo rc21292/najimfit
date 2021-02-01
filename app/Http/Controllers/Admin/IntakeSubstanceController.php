@@ -18,6 +18,11 @@ use App\Helper;
 class IntakeSubstanceController extends Controller
 {
 
+    function __construct()
+    {
+      $this->middleware(['permission:intake-substances']);
+    }
+
     public function sendNotice($value='')
     {
          $user = Client::where('id', $id)->first();

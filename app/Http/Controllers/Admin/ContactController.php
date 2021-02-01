@@ -13,6 +13,13 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:catalogs']);
+        $this->middleware(['permission:contact-us-queries']);
+    }
+    
     public function index()
     {
         $contacts = Contact::latest()->get();

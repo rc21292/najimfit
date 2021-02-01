@@ -17,6 +17,12 @@ class RequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+      $this->middleware(['permission:requests']);
+    }
+
     public function index()
     {
         $user = Auth::User();

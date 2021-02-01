@@ -14,6 +14,11 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    function __construct()
+    {
+      $this->middleware(['permission:teams']);
+    }
+
     public function index()
     {
     	$roles = \Spatie\Permission\Models\Role::withCount('users')->get();

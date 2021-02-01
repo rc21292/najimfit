@@ -18,6 +18,12 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware(['permission:notes']);
+    }
+    
     public function index()
     {
         $user = Auth::User();

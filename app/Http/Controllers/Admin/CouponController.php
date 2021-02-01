@@ -15,6 +15,12 @@ class CouponController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+      $this->middleware(['permission:coupons']);
+    }
+    
     public function index()
     {
         $coupons = Coupon::Join('packages','packages.id','=','coupons.package_id')->select('coupons.id','coupons.name','coupons.code','packages.name as package','coupons.type', 'coupons.discount', 'coupons.status')->get();
