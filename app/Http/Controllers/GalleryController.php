@@ -13,12 +13,7 @@ class GalleryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    function __construct()
-    {
-        $this->middleware(['permission:catalogs']);
-        $this->middleware(['permission:gallery']);
-    }
-
+    
     public function index()
     {
         $galleries = Gallery::latest()->get();
