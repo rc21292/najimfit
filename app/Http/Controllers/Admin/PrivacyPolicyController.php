@@ -14,6 +14,13 @@ class PrivacyPolicyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:settings']);
+        $this->middleware(['permission:privacy-policy']);
+    }
+    
     public function index()
     {
         $privacy_policy = PrivacyPolicy::first();

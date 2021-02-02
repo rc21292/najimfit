@@ -17,6 +17,8 @@ class FaqController extends Controller
     protected $faq;
     public function __construct(Faq $faq)
     {
+        $this->middleware(['permission:settings']);
+        $this->middleware(['permission:faqs']);
         $this->faq = $faq;
     }
     

@@ -14,6 +14,13 @@ class AboutUsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:settings']);
+        $this->middleware(['permission:about']);
+    }
+    
     public function index()
     {
         $about = AboutUs::first();

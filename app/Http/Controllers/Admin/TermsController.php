@@ -13,6 +13,14 @@ class TermsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    function __construct()
+    {
+        $this->middleware(['permission:settings']);
+        $this->middleware(['permission:terms-&-conditions']);
+    }
+    
     public function index()
     {
         $term = Term::first();

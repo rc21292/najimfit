@@ -14,6 +14,14 @@ class DietInformationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    function __construct()
+    {
+        $this->middleware(['permission:settings']);
+        $this->middleware(['permission:diet-informations']);
+    }
+    
     public function index()
     {
         $diet_informations = DietInformation::latest()->get();

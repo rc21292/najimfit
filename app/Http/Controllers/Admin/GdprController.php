@@ -14,6 +14,13 @@ class GdprController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['permission:settings']);
+        $this->middleware(['permission:gdpr']);
+    }
+
     public function index()
     {
         $gdprs = Gdpr::first();
