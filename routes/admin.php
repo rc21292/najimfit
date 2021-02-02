@@ -40,6 +40,8 @@ Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
 Route::resource('faqs','FaqController');
 Route::resource('gallery','GalleryController');
+Route::resource('performance','PerformanceController');
+Route::get('getOrgById', 'PerformanceController@getOrgById');
 Route::resource('contacts','ContactController');
 Route::resource('blogs','BlogController');
 Route::resource('newsletters','NewsletterController');
