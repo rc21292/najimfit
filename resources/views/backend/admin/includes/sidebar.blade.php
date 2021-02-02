@@ -21,7 +21,7 @@
           @can('new-workouts')
           <li> <a href="{{ route('exercise.index') }}">New Workouts</a> </li>
            @endcan
-          @can('new-package')
+          @can('new-packages')
           <li> <a href="{{ route('package.index') }}">New Packages</a> </li>
            @endcan
           @can('new-questionnaire')
@@ -313,12 +313,12 @@
           <span><i class="fa fa-male"></i>  Staff Chats</span>
         </a>
       </li>
-      <!-- 
+      
       <li class="menu-item">
-        <a href="#">
+        <a href="{{ route('performance.index') }}">
           <span><i class="material-icons fs-16">equalizer</i>Performance</span>
         </a>
-      </li> -->
+      </li>
       <li class="menu-item">
         <a href="{{url('dashboard/fullcalendar')}}">
           <span><i class="fa fa-calendar"></i>Calender</span>
