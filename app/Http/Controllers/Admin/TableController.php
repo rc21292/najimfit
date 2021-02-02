@@ -24,10 +24,10 @@ class TableController extends Controller
 
   function __construct()
   {
-    $this->middleware('permission:admin-table-list|admin-table-edit', ['only' => ['index','show']]);
+    /*$this->middleware('permission:admin-table-list|admin-table-edit', ['only' => ['index','show']]);
     $this->middleware('permission:admin-table-store', ['only' => ['store']]);
     $this->middleware('permission:admin-table-edit', ['only' => ['edit']]);
-    $this->middleware('permission:admin-table-clients', ['only' => ['allclients']]);
+    $this->middleware('permission:admin-table-clients', ['only' => ['allclients']]);*/
     $this->middleware(['permission:tables']);
     $this->middleware(['permission:assign-tables']);
     
