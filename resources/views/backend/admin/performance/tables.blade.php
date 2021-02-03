@@ -21,7 +21,7 @@
 		</a>
 	</div>
 	<div class="col-xl-3 col-md-6">
-		<a href="{{ route('performance-complaints') }}">
+		<a href="{{ route('performance-tables') }}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<div class="ms-panel-body media">
 					<i class="material-icons">person</i>
@@ -35,7 +35,7 @@
 	</div>
 
 	<div class="col-xl-3 col-md-6">
-		<a href="{{ route('performance-tables') }}">
+		<a href="{{ route('performance-complaints') }}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<div class="ms-panel-body media">
 					<i class="material-icons">person</i>
@@ -52,7 +52,7 @@
 		<div class="ms-panel">
 			<hr>
 			<div class="ms-panel-header">
-				<h6>Chats/day:</h6>
+				<h6>Tables/day:</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="row">
@@ -62,7 +62,7 @@
 								<div class="tab-content">
 									<div role="tabpanel" class="tab-pane fade active show" id="tab13">
 										<div class="ms-panel-body">
-											<canvas id="bar-chart"></canvas>
+											<canvas id="tables-bar-chart"></canvas>
 										</div>
 									</div>
 								</div>
@@ -77,5 +77,5 @@
 </div>
 @endsection
 @push('scripts')
-<script src="{{asset('backend/assets/js/index-chart.js')}}"> </script>
+<script src="{{asset('backend/assets/js/index-tables-chart.js')}}"> </script>
 @endpush

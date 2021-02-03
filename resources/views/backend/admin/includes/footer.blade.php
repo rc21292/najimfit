@@ -18,7 +18,7 @@
 
   <script src="{{asset('backend/assets/js/datatables.min.js')}}"> </script>
   <script src="{{asset('backend/assets/js/data-tables.js')}}"> </script>
-      <script src="{{asset('backend/assets/js/index-chart.js')}}"> </script>
+      
  {{-- <script src="{{asset('backend/assets/js/table-line.js')}}"> </script>
       <script src="{{asset('backend/assets/js/datamaps.all.min.js')}}"> </script>
       <script src="{{asset('backend/assets/js/index-map.js')}}"> </script>
