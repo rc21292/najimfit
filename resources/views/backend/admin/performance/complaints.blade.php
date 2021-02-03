@@ -11,7 +11,7 @@
 		<a href="{{ route('performance.index') }}" class="active">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<div class="ms-panel-body media">
-					<i class="material-icons">person</i>
+					<i class="flaticon-chat"></i>
 					<div class="media-body">
 						<h6>Chats/day</h6>
 						<span></span>
@@ -24,7 +24,7 @@
 		<a href="{{ route('performance-tables') }}">
 			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<div class="ms-panel-body media">
-					<i class="material-icons">person</i>
+					<i class="fas fa-table"></i>
 					<div class="media-body">
 						<h6>Tables/day</h6>
 						<span></span>
