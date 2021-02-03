@@ -199,7 +199,7 @@ class PerformanceController extends Controller
             $new_array[$date_key]['total']++; 
         }
 
-
+        $neee = array();
         $data_array = array_values($new_array);
         foreach ($data_array as $key => $value) {
 
