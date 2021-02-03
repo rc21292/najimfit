@@ -230,7 +230,7 @@ class PerformanceController extends Controller
          $month = date("Y",strtotime("-1 year"));
          $year = date("Y");;
          $month = date("m",strtotime("-1 month"));
-         // $month = date('m');
+         $month = date('m');
          $nutritionist_id = Auth::user()->id;
          $order_shipped_graph = DB::select("
             SELECT Year(created_at)  AS 'year',
