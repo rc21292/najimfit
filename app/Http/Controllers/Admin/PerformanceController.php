@@ -101,167 +101,7 @@ class PerformanceController extends Controller
         //
     }
 
-    public function getMonthOrders() {
 
-        // $clients = DB::table('nutritionist_clients')
-        // ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
-        // ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        // ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-        // ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','due')
-        // ->get();
-
-       // $order_shipped_graph  = DB::select("select day(created_at) as day count(id) as total_amount from nutritionist_clients where workout_status = 'due' group by day(created_at)order by day desc");
-
-        $sub = \Carbon\Carbon::now()->subMonth();
-        $order_shipped_graph = DB::select("SELECT year(created_at) AS 'year',
-        month(created_at) AS 'month',
-        day(created_at) AS 'day',
-        COUNT(*) AS 'orders'
-        FROM      nutritionist_clients    
-        GROUP BY  year(created_at),
-        month(created_at),
-        day(created_at)
-        ORDER BY  year(created_at) desc ,month(created_at) desc , day(created_at) desc limit 10 ");
-
-
-        foreach ($order_shipped_graph as $key => $value) {
-
-        $dateObj   = \DateTime::createFromFormat('!m', $value->month);
-        $monthName = $dateObj->format('M'); 
-
-        $order_shipped_graph[$key]->monthFull = 'Day-'.$value->day;
-      }
-
-      return response()->json([
-        'data' => $order_shipped_graph,
-      ]);
-
-
-        echo '<pre>'; print_r($order_shipped_graph); echo '</pre>'; die();
-
-
-
-       $visitorTraffic = DB::table('nutritionist_clients')->where('created_at', '>=', \Carbon\Carbon::now()->subMonth())
-                        ->groupBy(DB::raw('Date(created_at)'))
-                        ->orderBy('created_at', 'DESC')->get();
-
-                        echo '<pre>'; print_r($visitorTraffic); echo '</pre>'; die();
-
-        foreach ($order_shipped_graph as $key => $value) {
-
-            $dateObj   = \DateTime::createFromFormat('!m', $value->month);
-            $monthName = $dateObj->format('F'); 
-
-            $order_shipped_graph[$key]->monthFull = $monthName;
-        }
-       return response()->json([
-        'data' => $order_shipped_graph,
-    ]);
-   }
-
-    public function getOrgById() {
-
-        // $clients = DB::table('nutritionist_clients')
-        // ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
-        // ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        // ->select('clients.*','users.name','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
-        // ->where('nutritionist_clients.nutritionist_id',$id)->where('nutritionist_clients.table_status','due')
-        // ->get();
-
-       // $order_shipped_graph  = DB::select("select day(created_at) as day count(id) as total_amount from nutritionist_clients where workout_status = 'due' group by day(created_at)order by day desc");
-
-        $sub = \Carbon\Carbon::now()->subMonth();
-        $order_shipped_graph = DB::select("SELECT year(created_at) AS 'year',
-        month(created_at) AS 'month',
-        day(created_at) AS 'day',
-        count(id) as total_amount
-        FROM      nutritionist_clients    
-        GROUP BY  year(created_at),
-        month(created_at),
-        day(created_at)
-        ORDER BY  year(created_at) desc ,month(created_at) desc , day(created_at) desc limit 10 ");
-
-
-        foreach ($order_shipped_graph as $key => $value) {
-
-        $dateObj   = \DateTime::createFromFormat('!m', $value->month);
-        $monthName = $dateObj->format('M'); 
-
-        $order_shipped_graph[$key]->monthFull = 'Day'.$value->day;
-      }
-
-      return response()->json([
-        'data' => $order_shipped_graph,
-      ]);
-
-
-        echo '<pre>'; print_r($order_shipped_graph); echo '</pre>'; die();
-
-
-
-       $visitorTraffic = DB::table('nutritionist_clients')->where('created_at', '>=', \Carbon\Carbon::now()->subMonth())
-                        ->groupBy(DB::raw('Date(created_at)'))
-                        ->orderBy('created_at', 'DESC')->get();
-
-                        echo '<pre>'; print_r($visitorTraffic); echo '</pre>'; die();
-
-        foreach ($order_shipped_graph as $key => $value) {
-
-            $dateObj   = \DateTime::createFromFormat('!m', $value->month);
-            $monthName = $dateObj->format('F'); 
-
-            $order_shipped_graph[$key]->monthFull = $monthName;
-        }
-       return response()->json([
-        'data' => $order_shipped_graph,
-    ]);
-   }
-
-
-
-
-
-   /*
-      public function getMonthOrders() {
-
-      $order_shipped_graph = DB::select("SELECT year(created_at) AS 'year',
-        month(created_at) AS 'month',
-        day(created_at) AS 'day',
-        COUNT(*) AS 'orders'
-        FROM      orders                          
-        GROUP BY  year(created_at),
-        month(created_at),
-        day(created_at)
-        ORDER BY  year(created_at) desc ,month(created_at) desc , day(created_at) desc limit 10 ");
-
-      foreach ($order_shipped_graph as $key => $value) {
-
-        $dateObj   = \DateTime::createFromFormat('!m', $value->month);
-        $monthName = $dateObj->format('M'); 
-
-        $order_shipped_graph[$key]->monthFull = $monthName;
-      }
-
-      return response()->json([
-        'data' => $order_shipped_graph,
-      ]);
-    }
-
-    public function getOrgById() {
-       $order_shipped_graph = DB::select('select year(created_at) as year, month(created_at) as month, count(id) as total_amount from orders where order_status_id = 2 group by year(created_at), month(created_at) order by year desc, month Desc limit 3');
-
-        foreach ($order_shipped_graph as $key => $value) {
-
-            $dateObj   = \DateTime::createFromFormat('!m', $value->month);
-            $monthName = $dateObj->format('F'); 
-
-            $order_shipped_graph[$key]->monthFull = $monthName;
-        }
-       return response()->json([
-        'data' => $order_shipped_graph,
-    ]);
-   }
-    */
 
    public function tables()
    {
@@ -270,18 +110,28 @@ class PerformanceController extends Controller
 
    public function getTablesPerDay()
    {
-       
-        $sub = \Carbon\Carbon::now()->subMonth();
-        $order_shipped_graph = DB::select("SELECT year(created_at) AS 'year',
-        month(created_at) AS 'month',
-        day(created_at) AS 'day',
-        COUNT(*) AS 'orders'
-        FROM      nutritionist_clients    
-        GROUP BY  year(created_at),
-        month(created_at),
-        day(created_at)
-        ORDER BY  year(created_at) desc ,month(created_at) desc , day(created_at) desc limit 10 ");
-
+         $month = date("Y",strtotime("-1 year"));
+         $year = date("Y");;
+         $month = date("m",strtotime("-1 month"));
+         $month = date('m');
+         $nutritionist_id = Auth::user()->id;
+         $order_shipped_graph = DB::select("
+            SELECT Year(created_at)  AS 'year',
+                   Month(created_at) AS 'month',
+                   Day(created_at)   AS 'day',
+                   Count(*)          AS 'orders'
+            FROM   nutritionist_clients
+            WHERE  nutritionist_id = $nutritionist_id
+                   AND Month(created_at) = $month
+                   AND Year(created_at) = $year
+            GROUP  BY Year(created_at),
+                      Month(created_at),
+                      Day(created_at)
+            ORDER  BY Year(created_at) DESC,
+                      Month(created_at) DESC,
+                      Day(created_at) DESC
+            LIMIT  100 
+            ");
 
         foreach ($order_shipped_graph as $key => $value) {
 
@@ -289,6 +139,7 @@ class PerformanceController extends Controller
         $monthName = $dateObj->format('M'); 
 
         $order_shipped_graph[$key]->monthFull = 'Day-'.$value->day;
+        $order_shipped_graph[$key]->monthName = $monthName;
       }
 
       return response()->json([
@@ -298,48 +149,106 @@ class PerformanceController extends Controller
    }
 
    public function getchatsPerDay()
-   {
-       
-        $sub = \Carbon\Carbon::now()->subMonth();
-        $order_shipped_graph = DB::select("SELECT year(created_at) AS 'year',
-        month(created_at) AS 'month',
-        day(created_at) AS 'day',
-        COUNT(*) AS 'orders'
-        FROM      nutritionist_clients    
-        GROUP BY  year(created_at),
-        month(created_at),
-        day(created_at)
-        ORDER BY  year(created_at) desc ,month(created_at) desc , day(created_at) desc limit 10 ");
+       {
+
+        $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+        $database = $factory->createDatabase();
+
+        $incoming = $database->getReference('chats')->orderByChild('receiver_id')->equalTo((string)Auth::user()->id)->getSnapshot()->getValue();
+
+        $incoming_msg = array_filter($incoming, function (array $userData) {
+            return $userData['message_from'] == 'user';
+        });
+
+        $outgoing = $database->getReference('chats')->orderByChild('sender_id')->equalTo((int)Auth::user()->id)->getSnapshot()->getValue();
+
+        $outgoing_msg = array_filter($outgoing, function (array $userData) {
+            return $userData['message_from'] == 'nutri';
+        });
+
+        $result = array_merge($incoming_msg, $outgoing_msg);
+
+        $thisMonth = date('m');
+
+        $thisMonth = date("m",strtotime("-1 month"));
 
 
-        foreach ($order_shipped_graph as $key => $value) {
+        $array2 = array_filter($result, function ($val) use ($thisMonth) {
+            $month_name =  date('m',strtotime($val['timestamp']));
+            return $month_name == $thisMonth;
+        });
 
-        $dateObj   = \DateTime::createFromFormat('!m', $value->month);
-        $monthName = $dateObj->format('M'); 
+        $date_count = array();
 
-        $order_shipped_graph[$key]->monthFull = 'Day-'.$value->day;
-      }
 
-      return response()->json([
-        'data' => $order_shipped_graph,
-      ]);
+        foreach ($array2 as $key2 => $value2) {
+            $array2[$key2]['date'] = date('Y-m-d',strtotime($value2['timestamp']));
+            $array2[$key2]['day'] = date('d',strtotime($value2['timestamp']));
+            $array2[$key2]['month'] = date('m',strtotime($value2['timestamp']));
+            $array2[$key2]['year'] = date('Y',strtotime($value2['timestamp']));
+        }
 
-   }
+
+        $new_array = array();
+        foreach($array2 as $v) {
+            $date_key = strtotime($v['date']); 
+            if(!isset($new_array[$date_key])) { 
+                $new_array[$date_key] = array_merge($v, array('total' => 0));
+            }
+            $new_array[$date_key]['total']++; 
+        }
+
+
+        $data_array = array_values($new_array);
+        foreach ($data_array as $key => $value) {
+
+            $dateObj   = \DateTime::createFromFormat('!m', $value['month']);
+            $monthName = $dateObj->format('M'); 
+
+            $neee[$key]['monthFull'] = 'Day-'.$value['day'];
+            $neee[$key]['monthName'] = $monthName;
+            $neee[$key]['orders'] = $value['total'];
+            $neee[$key]['day'] = $value['day'];
+            $neee[$key]['month'] = $value['month'];
+            $neee[$key]['year'] = $value['year'];
+        }
+
+
+        return response()->json([
+            'data' => $obj = json_decode(json_encode($neee))
+        ]);
+
+        return response()->json([
+            'data' => $obj = json_decode(json_encode($order_shipped_graph))
+        ]);
+
+    }
 
    public function getComplaintsPerDay()
    {
-       
-        $sub = \Carbon\Carbon::now()->subMonth();
-        $order_shipped_graph = DB::select("SELECT year(created_at) AS 'year',
-        month(created_at) AS 'month',
-        day(created_at) AS 'day',
-        COUNT(*) AS 'orders'
-        FROM      nutritionist_clients    
-        GROUP BY  year(created_at),
-        month(created_at),
-        day(created_at)
-        ORDER BY  year(created_at) desc ,month(created_at) desc , day(created_at) desc limit 10 ");
-
+         $month = date("Y",strtotime("-1 year"));
+         $year = date("Y");;
+         $month = date("m",strtotime("-1 month"));
+         $month = date('m');
+         $nutritionist_id = Auth::user()->id;
+         $order_shipped_graph = DB::select("
+            SELECT Year(created_at)  AS 'year',
+                   Month(created_at) AS 'month',
+                   Day(created_at)   AS 'day',
+                   Count(*)          AS 'orders'
+            FROM   complaints
+            WHERE  nutritionist_id = $nutritionist_id
+                   AND Month(created_at) = $month
+                   AND Year(created_at) = $year
+            GROUP  BY Year(created_at),
+                      Month(created_at),
+                      Day(created_at)
+            ORDER  BY Year(created_at) DESC,
+                      Month(created_at) DESC,
+                      Day(created_at) DESC
+            LIMIT  100 
+            ");
 
         foreach ($order_shipped_graph as $key => $value) {
 
@@ -347,6 +256,7 @@ class PerformanceController extends Controller
         $monthName = $dateObj->format('M'); 
 
         $order_shipped_graph[$key]->monthFull = 'Day-'.$value->day;
+        $order_shipped_graph[$key]->monthName = $monthName;
       }
 
       return response()->json([
