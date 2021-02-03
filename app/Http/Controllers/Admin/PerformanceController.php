@@ -113,8 +113,29 @@ class PerformanceController extends Controller
          $month = date("Y",strtotime("-1 year"));
          $year = date("Y");;
          $month = date("m",strtotime("-1 month"));
-         // $month = date('m');
+         $month = date('m');
          $nutritionist_id = Auth::user()->id;
+
+          $order_shipped_graph = DB::select("
+            SELECT Year(created_at)  AS 'year',
+                   Month(created_at) AS 'month',
+                   Day(created_at)   AS 'day',
+                   Count(*)          AS 'orders'
+            FROM   nutritionist_clients
+            WHERE  nutritionist_id = $nutritionist_id
+                   AND Month(created_at) = $month
+                   AND Year(created_at) = $year
+            GROUP  BY Year(created_at),
+                      Month(created_at),
+                      Day(created_at)
+            ORDER  BY Year(created_at) DESC,
+                      Month(created_at) DESC,
+                      Day(created_at) DESC
+            LIMIT  100 
+            ");
+          if (empty($order_shipped_graph)) {             
+            $month = date("m",strtotime("-1 month"));
+        }
          $order_shipped_graph = DB::select("
             SELECT Year(created_at)  AS 'year',
                    Month(created_at) AS 'month',
@@ -148,8 +169,9 @@ class PerformanceController extends Controller
 
    }
 
-   public function getchatsPerDay()
-       {
+   public function getchatsPerDay(){
+
+        $thisMonth = date('m');
 
         $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
@@ -169,12 +191,17 @@ class PerformanceController extends Controller
 
         $result = array_merge($incoming_msg, $outgoing_msg);
 
-        $thisMonth = date('m');
+        $array_merge = array_filter($result, function ($val) use ($thisMonth) {
+            $month_name =  date('m',strtotime($val['timestamp']));
+            return $month_name == $thisMonth;
+        });
 
-        $thisMonth = date("m",strtotime("-1 month"));
+        if ( count($array_merge) <= 0 ) {           
 
+            $thisMonth = date("m",strtotime("-1 month"));
+        }
 
-        $array2 = array_filter($result, function ($val) use ($thisMonth) {
+         $array_merge = array_filter($result, function ($val) use ($thisMonth) {
             $month_name =  date('m',strtotime($val['timestamp']));
             return $month_name == $thisMonth;
         });
@@ -182,16 +209,16 @@ class PerformanceController extends Controller
         $date_count = array();
 
 
-        foreach ($array2 as $key2 => $value2) {
-            $array2[$key2]['date'] = date('Y-m-d',strtotime($value2['timestamp']));
-            $array2[$key2]['day'] = date('d',strtotime($value2['timestamp']));
-            $array2[$key2]['month'] = date('m',strtotime($value2['timestamp']));
-            $array2[$key2]['year'] = date('Y',strtotime($value2['timestamp']));
+        foreach ($array_merge as $key2 => $value2) {
+            $array_merge[$key2]['date'] = date('Y-m-d',strtotime($value2['timestamp']));
+            $array_merge[$key2]['day'] = date('d',strtotime($value2['timestamp']));
+            $array_merge[$key2]['month'] = date('m',strtotime($value2['timestamp']));
+            $array_merge[$key2]['year'] = date('Y',strtotime($value2['timestamp']));
         }
 
 
         $new_array = array();
-        foreach($array2 as $v) {
+        foreach($array_merge as $v) {
             $date_key = strtotime($v['date']); 
             if(!isset($new_array[$date_key])) { 
                 $new_array[$date_key] = array_merge($v, array('total' => 0));
@@ -232,6 +259,28 @@ class PerformanceController extends Controller
          $month = date("m",strtotime("-1 month"));
          $month = date('m');
          $nutritionist_id = Auth::user()->id;
+         $order_shipped_graph = DB::select("
+            SELECT Year(created_at)  AS 'year',
+                   Month(created_at) AS 'month',
+                   Day(created_at)   AS 'day',
+                   Count(*)          AS 'orders'
+            FROM   complaints
+            WHERE  nutritionist_id = $nutritionist_id
+                   AND Month(created_at) = $month
+                   AND Year(created_at) = $year
+            GROUP  BY Year(created_at),
+                      Month(created_at),
+                      Day(created_at)
+            ORDER  BY Year(created_at) DESC,
+                      Month(created_at) DESC,
+                      Day(created_at) DESC
+            LIMIT  100 
+            ");
+
+         if (empty($order_shipped_graph)) {
+             $month = date("m",strtotime("-1 month"));
+         }
+
          $order_shipped_graph = DB::select("
             SELECT Year(created_at)  AS 'year',
                    Month(created_at) AS 'month',
