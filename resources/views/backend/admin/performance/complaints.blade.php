@@ -36,7 +36,7 @@
 
 	<div class="col-xl-3 col-md-6">
 		<a href="{{ route('performance-complaints') }}">
-			<div class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
+			<div style="background: ghostwhite;" class="ms-panel ms-widget ms-panel-hoverable has-border ms-has-new-msg ms-notification-widget">
 				<div class="ms-panel-body media">
 					<i class="material-icons">person</i>
 					<div class="media-body">
