@@ -191,6 +191,12 @@ class ExerciseController extends Controller
    public function getworkoutinformation(){
     $categories = DB::table('workout_information')->get();
 
+    foreach ($categories as $key => $category) {
+            $categories[$key]->information = preg_replace('/\s\s+/', ' ', $category->information);
+            $categories[$key]->informationinformation_arabic = preg_replace('/\s\s+/', ' ', $category->information_arabic);
+        }
+
+
     return view('backend.admin.features.workouts.information',compact('categories'))->with('no', 1);
 }
 }
