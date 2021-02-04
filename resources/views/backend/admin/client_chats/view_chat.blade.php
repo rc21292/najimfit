@@ -171,7 +171,7 @@
 
         // chats
         var users_name = [];
-        var id3 = "{{ $senderUser->id }}_{{ $receptorUser->id }}";
+        var id3 = "{{ @$senderUser->id }}_{{ @$receptorUser->id }}";
      firebase.database().ref('/chats').orderByChild("sender_receiver").equalTo(id3.trim()).on('value', function(snapshot) {
             var chat_element = "";
             if(snapshot.val() != null) {
@@ -183,7 +183,7 @@
                     if (sender_receiver.trim() == id3.trim()) {
                         var chat_name = childData.name,
                         chat_content = escapeHtml(childData.content);
-                        if (childData.sender_id == '{{ $receptorUser->id }}' && childData.message_from == 'user') {
+                        if (childData.sender_id == '{{ @$receptorUser->id }}' && childData.message_from == 'user') {
                             chat_element += '<div class="chat-item ms-chat-bubble ms-chat-message media ms-chat-incoming clearfix '+childData.type+'">';
                             @if($client->avatar)
                              chat_element += '<div class="chat-item ms-chat-status ms-status-online ms-chat-img">'+
@@ -303,7 +303,7 @@
                     data: {
                         content: chat_content.val().trim(),
                         sender_id: '{{$senderUser->id}}',
-                        receiver_id: '{{$receptorUser->id}}'
+                        receiver_id: '{{@$receptorUser->id}}'
                     },
                     method: 'post',
                     headers: {
