@@ -197,7 +197,7 @@
                         }else{
                             chat_element += '<div class="chat-item ms-chat-bubble ms-chat-message ms-chat-outgoing media clearfix '+childData.type+'">';
                              chat_element += '<div class="ms-chat-status ms-status-online ms-chat-img">'+
-                        '<img src="/uploads/user/{{ $senderUser->avater}}"  alt="people">'+
+                        '<img src="/uploads/user/{{ @$senderUser->avater}}"  alt="people">'+
                         '</div>';
                         }
                         chat_element += '<div class="media-body">';
@@ -302,7 +302,7 @@
                     url: '{{ route('client-chats.store') }}',
                     data: {
                         content: chat_content.val().trim(),
-                        sender_id: '{{$senderUser->id}}',
+                        sender_id: '{{@$senderUser->id}}',
                         receiver_id: '{{@$receptorUser->id}}'
                     },
                     method: 'post',
