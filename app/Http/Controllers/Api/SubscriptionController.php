@@ -24,7 +24,11 @@ class SubscriptionController extends Controller
 		$client = Client::find(Auth::id());
 		if(isset($client->package_id)){
 			$client->current_package_id = $client->package_id;
-			$client->current_package_name = Package::find($client->package_id)->name;
+			if (Package::find($client->package_id)) {
+				$client->current_package_name = Package::find($client->package_id)->name;
+			}else{
+				$client->current_package_name = '';
+			}
 			$client->current_package_validity = $client->validity;
 			$client->current_package_subscription_date = $client->subscription_date;
 			$datework = Carbon::createFromDate($client->validity);
