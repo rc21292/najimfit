@@ -26,11 +26,14 @@ class SubscriptionController extends Controller
 			$client->current_package_id = $client->package_id;
 			if (Package::find($client->package_id)) {
 				$client->current_package_name = Package::find($client->package_id)->name;
+				$client->current_package_validity = $client->validity;
+				$client->current_package_subscription_date = $client->subscription_date;
 			}else{
+				$client->current_package_id = '';
 				$client->current_package_name = '';
+				$client->current_package_validity = '';
+				$client->current_package_subscription_date = '';
 			}
-			$client->current_package_validity = $client->validity;
-			$client->current_package_subscription_date = $client->subscription_date;
 			$datework = Carbon::createFromDate($client->validity);
 			$now = Carbon::now();
 			$days = $datework->diffInDays($now);
