@@ -38,6 +38,7 @@ Route::resource('terms-and-conditions','TermsController');
 Route::resource('privacy-policy','PrivacyPolicyController');
 Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
+Route::resource('settings','SettingController');
 Route::resource('faqs','FaqController');
 Route::resource('gallery','GalleryController');
 Route::get('performance','PerformanceController@index')->name('performance.index');

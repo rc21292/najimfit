@@ -217,6 +217,9 @@
           @can('diet-informations')
           <li> <a href="{{route('diet-informations.index')}}">Diet Informations</a> </li>
           @endcan
+          @can('diet-informations')
+          <li> <a href="{{route('settings.index')}}">Settings</a> </li>
+          @endcan
           @can('terms-&-conditions')
           <li> <a href="{{route('terms-and-conditions.index')}}">Terms & Conditions</a> </li>
           @endcan
