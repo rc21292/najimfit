@@ -52,6 +52,7 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
+        ini_set('memory_limit', '8192M');
         $input = $request->all();
         if ($request->has('image')) {
 
@@ -137,6 +138,7 @@ class PackageController extends Controller
      */
     public function update(Request $request, Package $package)
     {
+        ini_set('memory_limit', '8192M');
         // echo '<pre>'; print_r($request->all()); echo '</pre>'; die();
         if ($request->has('image')) {
 
