@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Features;
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use Illuminate\Http\Request;
