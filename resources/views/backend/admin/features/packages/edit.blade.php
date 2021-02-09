@@ -169,7 +169,7 @@
 									</div>
 								</div>
 								<div class="kv-avatar-hint">
-									<small>Note: File-size should be less than 1.5 MB</small>
+									<small>Note: File-size should be less than 5 MB</small>
 								</div>
 								<div id="kv-avatar-errors-2" class="center-block mt-3" style="width:336px;display:none"></div>
 							</div>
@@ -183,7 +183,7 @@
 									</div>
 								</div>
 								<div class="kv-avatar-hint">
-									<small>Note: File-size should be less than 1.5 MB</small>
+									<small>Note: File-size should be less than 5 MB</small>
 								</div>
 								<div id="kv-avatar-errors-3" class="center-block mt-3" style="width:336px;display:none"></div>
 							</div>		
@@ -266,7 +266,7 @@
 		$("#avatar-2").fileinput({
 			theme:'fas',
 			overwriteInitial: false,
-			maxFileSize: 1500,
+			maxFileSize: 5000,
 			showClose: false,
 			showCaption: false,
 			showBrowse: false,
@@ -299,7 +299,7 @@
 		$("#avatar-3").fileinput({
 			theme:'fas',
 			overwriteInitial: false,
-			maxFileSize: 1500,
+			maxFileSize: 5000,
 			showClose: false,
 			showCaption: false,
 			showBrowse: false,
