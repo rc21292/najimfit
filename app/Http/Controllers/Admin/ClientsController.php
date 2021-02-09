@@ -94,7 +94,25 @@ class ClientsController extends Controller
                 }else{
                     $clients[$key]->is_complaint = 0;
                 }
+
+                 $client_lables = DB::table('client_labels')
+                         ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+                         ->where('client_id', $client->id)
+                         ->groupBy('client_id')
+                         ->first();
+             $clients[$key]->lables = @$client_lables->lables;
             }
+
+            Session::forget('back_complaints_url');
+            Session::put('back_complaints_url', URL::current());
+            
+            Session::forget('back_request_url');
+            Session::put('back_request_url', URL::current());
+
+            Session::forget('back_lables_url');
+            Session::put('back_lables_url', URL::current());
+
+
             return view('backend.admin.clients.nutri_index',compact('clients','filter'))->with('no', 1);
 
         }else{

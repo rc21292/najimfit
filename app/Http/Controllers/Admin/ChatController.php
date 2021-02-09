@@ -9,11 +9,15 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\ClientTable;
 use App\Models\Package;
+use App\Models\AdminRequest;
+use App\Models\Note;
 use Auth;
 use DB;
 use Carbon\Carbon;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
+use Session;
+use URL;
 putenv('GOOGLE_APPLICATION_CREDENTIALS='.__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
 
 class ChatController extends Controller
@@ -34,9 +38,82 @@ class ChatController extends Controller
         $chat = ''; 
         $receptorUser = '';
 
+
+        ini_set('max_execution_time', 300); 
+        $clients = DB::table('nutritionist_clients')
+        ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
+        ->join('clients','clients.id','=','nutritionist_clients.client_id')
+        ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id','users.id as user_id')
+        ->latest('clients.created_at')
+    // ->where('nutritionist_clients.table_status','due')
+        ->where('nutritionist_clients.nutritionist_id',$user->id)->get();
+
+        foreach ($clients as $key => $client) {
+            $clients[$key]->is_requested = '';
+            $is_exists = AdminRequest::where('client_id',$client->client_id)->exists();
+            if ($is_exists) {
+                $request_data = AdminRequest::where('client_id',$client->client_id)->latest()->first();
+                $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
+            }
+
+            $exist_requests = DB::table('requests')
+                ->where('client_id', $client->client_id)
+                ->exists();
+                $exist_complaints = DB::table('complaints')
+                ->where('client_id', $client->client_id)
+                ->exists();
+                if ($exist_requests) {
+                    $clients[$key]->is_deferd = 1;
+                }else{
+                    $clients[$key]->is_deferd = 0;
+                }
+
+                 if ($exist_complaints) {
+                    $clients[$key]->is_complaint = 1;
+                }else{
+                    $clients[$key]->is_complaint = 0;
+                }
+
+            $client_lables = DB::table('client_labels')
+                         ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+                         ->where('client_id', $client->client_id)
+                         ->groupBy('client_id')
+                         ->first();
+             $clients[$key]->lables = @$client_lables->lables;
+
+            $client_data = Client::find($client->client_id);
+            $user_data = User::find($client->user_id);
+            $clients[$key]->is_client_blocked = 0;
+            $clients[$key]->is_nutri_blocked = 0;
+            $clients[$key]->chat_status = "";
+            if ($client_data->is_blocked) {
+                $clients[$key]->is_client_blocked = 1;
+                 $clients[$key]->chat_status = 'Client Blocked';
+            }
+            if ($user_data->is_blocked && $client_data->nutri_blocked) {
+                $clients[$key]->is_nutri_blocked = 1;
+                 $clients[$key]->chat_status = 'Nutritionist Blocked';
+            }
+
+            if (($client_data->is_blocked) && ($user_data->is_blocked && $client_data->nutri_blocked)) {
+                $clients[$key]->chat_status = 'Client & Nutritionist Blocked';
+            }
+        }
+
+
         if($role_name == 'Nutritionist'){
 
-            return view('backend.admin.chat.index', compact('receptorUser', 'chat', 'users','clients'));
+             Session::forget('back_complaints_url');
+            Session::put('back_complaints_url', URL::current());
+            
+            Session::forget('back_request_url');
+            Session::put('back_request_url', URL::current());
+
+            Session::forget('back_lables_url');
+            Session::put('back_lables_url', URL::current());
+
+
+            return view('backend.admin.chat.index', compact('receptorUser', 'chat', 'users','clients'))->with('no',1);
 
         }else{
             return view('backend.admin.chat.index', compact('client','client_table','weight','height','receptorUser', 'chat', 'users','package'));
