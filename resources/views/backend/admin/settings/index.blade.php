@@ -11,6 +11,7 @@
 				<li class="breadcrumb-item active" aria-current="page">Settings</li>
 			</ol>
 		</nav>
+		@include('backend.admin.includes.flashmessage')
 	</div>
 	<div class="col-xl-12 col-md-12">
 		<div class="ms-panel ms-panel-fh">
