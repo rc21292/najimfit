@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Features;
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use Illuminate\Http\Request;
@@ -13,6 +9,7 @@ use File;
 use DB;
 use Image;
 use Session;
+use App\Models\Client;
 
 class PackageController extends Controller
 {
@@ -139,7 +136,6 @@ class PackageController extends Controller
     public function update(Request $request, Package $package)
     {
         ini_set('memory_limit', '8192M');
-        // echo '<pre>'; print_r($request->all()); echo '</pre>'; die();
         if ($request->has('image')) {
 
             $file = $request->file('image');
@@ -237,6 +233,10 @@ class PackageController extends Controller
      */
     public function destroy(Package $package)
     {
+        $clients_count = Client::where('package_id', $package->id)->count();
+        if ($clients_count > 0) {
+           return redirect()->route('package.index')->with(['warning'=>'You cannot delete this package already assigned to client!']);
+        }
         $package->delete();
         return redirect()->route('package.index')->with(['warning'=>'Package Deleted Successfully!']);
     }
@@ -246,7 +246,6 @@ class PackageController extends Controller
         $image = public_path('uploads/packages/'.$package->image);
         File::delete($image);
         $package->update(['image' => null]);
-        // return response()->json(["success"=>'deleted']);
 
         $image_full = public_path('uploads/packages/dashboard/'.$package->image_full);
         File::delete($image_full);
