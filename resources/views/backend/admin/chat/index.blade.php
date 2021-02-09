@@ -11,7 +11,7 @@
                 <li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Clients List</li>
             </ol>
-            <a href="{{ route('chat.index') }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a>
+            {{-- <a href="{{ route('chat.index') }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></i></a> --}}
         </nav>
         @include('backend.admin.includes.flashmessage')
     </div>

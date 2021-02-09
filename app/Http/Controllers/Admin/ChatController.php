@@ -112,6 +112,9 @@ class ChatController extends Controller
             Session::forget('back_lables_url');
             Session::put('back_lables_url', URL::current());
 
+             Session::forget('back_chat_url');
+            Session::put('back_chat_url', URL::previous());
+
 
             return view('backend.admin.chat.index', compact('receptorUser', 'chat', 'users','clients'))->with('no',1);
 
@@ -257,6 +260,9 @@ class ChatController extends Controller
         $chat = $id; 
 
         if($role_name == 'Nutritionist'){
+
+            Session::forget('back_chat_url');
+            Session::put('back_chat_url', URL::previous());
 
             return view('backend.admin.chat.nut_chat', compact('client','client_table','weight','height','receptorUser', 'chat', 'users','package','clients'));
 

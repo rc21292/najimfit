@@ -9,6 +9,8 @@ use App\Models\DeferRequest;
 use App\Models\User;
 use App\Models\Client;
 use Auth;
+use Session;
+use URL;
 
 class RequestController extends Controller
 {
@@ -31,6 +33,9 @@ class RequestController extends Controller
 
         if($role_name == 'Nutritionist')
         {
+            Session::forget('back_requests_url');
+            Session::put('back_requests_url', URL::previous());
+
             $requests = DeferRequest::where('nutritionist_id',$user->id)->get();
             return view('backend.admin.requests.nutritionist.index',compact('requests'))->with('no', 1);
         }else{

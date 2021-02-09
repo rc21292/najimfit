@@ -9,6 +9,8 @@ use App\Models\Complaint;
 use App\Models\User;
 use App\Models\Client;
 use Auth;
+use Session;
+use URL;
 
 class ComplaintController extends Controller
 {
@@ -31,6 +33,10 @@ class ComplaintController extends Controller
 
         if($role_name == 'Nutritionist')
         {
+
+            Session::forget('back_complaints_url');
+            Session::put('back_complaints_url', URL::previous());
+
             $complaints = Complaint::where('nutritionist_id',$user->id)->latest()->get();
             return view('backend.admin.complaints.nutritionist.index',compact('complaints'))->with('no', 1);
         }else{

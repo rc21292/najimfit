@@ -99,9 +99,9 @@
 								</div>
 							</div>
 							<div class="col-md-12">
-								<label for="validationCustom10">Last Name</label>
+								<label for="validationCustom21">Last Name</label>
 								<div class="input-group">
-									<input type="text" class="form-control" name="lastname" id="validationCustom10" placeholder="Name" required="" value="{{$profile['lastname']}}">	
+									<input type="text" class="form-control" name="lastname" id="validationCustom21" placeholder="Name" required="" value="{{$profile['lastname']}}">	
 									<div class="invalid-feedback" >
 										Last Name
 									</div>							

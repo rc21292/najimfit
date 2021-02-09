@@ -17,6 +17,7 @@
 		<div class="ms-panel">
 			<div class="ms-panel-header">
 				<h6>Request List</h6>
+				<a style="float: right;margin-top: -27px;" href="{{ url(Session::get('back_requests_url')) }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>	
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
