@@ -14,6 +14,7 @@
 		<div class="ms-panel ms-panel-fh">
 			<div class="ms-panel-header">
 				<h6>Request Form</h6>
+				<a style="float: right;margin-top: -27px;" href="{{ url(Session::get('back_request_url')) }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>	
 			</div>
 			<div class="ms-panel-body">
 				<form class="needs-validation clearfix" method="POST" action="{{route('requests.store')}}" novalidate>
