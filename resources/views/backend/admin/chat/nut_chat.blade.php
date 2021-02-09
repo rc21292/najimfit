@@ -137,11 +137,14 @@
                                 <div class="ms-panel-footer pt-0">
                                     <div class="ms-chat-textbox">
                                         <form id="chat-form">
-
-                                            <textarea rows="7" id="content" name="content" placeholder="Enter Message" ></textarea>
-
-                                            
-                                            <button type="submit" class="btn btn-primary">Send</button>
+                                            <ul class="ms-list-flex mb-0">
+                                                <li class="ms-chat-input">
+                                                    <textarea id="content" name="content" placeholder="Enter Message" ></textarea>
+                                                </li>
+                                                <li style="margin-top: -16px; margin-left: 3px;">
+                                                    <button type="submit" class="btn btn-primary">Send</button>
+                                                </li>
+                                            </ul>
                                         </form>
                                     </div>
                                 </div>
