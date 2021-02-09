@@ -278,7 +278,7 @@
 			msgErrorClass: 'alert alert-block alert-danger',
 			defaultPreviewContent: '<img src="/backend/assets/img/media.png" alt="Your Avatar"><h6 class="text-muted">Upload Image</h6>',
 			layoutTemplates: {main2: '{preview} {remove} {browse}'},
-			allowedFileExtensions: ["jpg", "png", "gif"],
+			allowedFileExtensions: ["jpeg", "jpg", "png", "gif"],
 			@if(isset($package->image))
 			initialPreview: [
 			"{{asset('uploads/packages/'.$package->image)}}"
@@ -311,7 +311,7 @@
 			msgErrorClass: 'alert alert-block alert-danger',
 			defaultPreviewContent: '<img src="/backend/assets/img/media.png" alt="Your Avatar"><h6 class="text-muted">Upload Image</h6>',
 			layoutTemplates: {main2: '{preview} {remove} {browse}'},
-			allowedFileExtensions: ["jpg", "png", "gif"],
+			allowedFileExtensions: ["jpeg", "jpg", "png", "gif"],
 			@if(isset($package->image_popup))
 			initialPreview: [
 			"{{asset('uploads/packages/dashboard/popup/'.$package->image_popup)}}"
