@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Session;
 
 class LabelController extends Controller
 {
@@ -50,6 +51,7 @@ class LabelController extends Controller
                 'label'=> $request->customized_lable,
         ]);
         }
+        return redirect()->to(Session::get('back_lables_url'))->with('success','Labels Saved successfully');
         return redirect()->back()->with('success','Labels Saved successfully');
         
     }

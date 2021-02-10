@@ -12,6 +12,7 @@ use App\Models\Meals\TableCategory;
 use App\Models\Meals\Meal;
 use App\Models\Package;
 use DB;
+use Session;
 
 class ClientProfileController extends Controller
 {
@@ -143,7 +144,7 @@ class ClientProfileController extends Controller
         }
     
         $client->save();
-
+        return redirect()->to(Session::get('back_profiles_url'))->with('success','Profile Saved Successfully');
      return redirect()->route('client-full-profile.show',$id)->with(['success'=>'Profile Saved Successfully!']);
     }
 

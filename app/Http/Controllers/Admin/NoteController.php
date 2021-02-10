@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Note;
 use App\Models\Client;
 use Auth;
-
+use Session;
 
 class NoteController extends Controller
 {
@@ -73,7 +73,7 @@ class NoteController extends Controller
 
         $user = Note::create($input);
         
-        return redirect()->route('notes.index')->with('success','Note Created successfully');
+        return redirect()->to(Session::get('back_notes_url'))->with('success','Note Created successfully');
     }
 
     /**

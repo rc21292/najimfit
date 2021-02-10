@@ -276,6 +276,10 @@ class ClientChatController extends Controller
         Session::put('back_notes_url', URL::current());
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());
+        Session::forget('back_defer_client_url');
+        Session::put('back_defer_client_url', URL::current());
+        Session::forget('back_profiles_url');
+        Session::put('back_profiles_url', URL::current());
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
 
@@ -373,6 +377,10 @@ class ClientChatController extends Controller
         Session::put('back_notes_url', URL::current());
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());
+        Session::forget('back_defer_client_url');
+        Session::put('back_defer_client_url', URL::current());
+        Session::forget('back_profiles_url');
+        Session::put('back_profiles_url', URL::current());
         return view('backend.admin.client_chats.client',compact('clients'))->with('no', 1);
     }
 
@@ -419,7 +427,7 @@ class ClientChatController extends Controller
     public function assignToNutritionist(Request $request)
     {
         DB::table('nutritionist_clients')->where('client_id',$request->client_id)->update(['nutritionist_id'=>$request->nutritionist]);
-        return redirect()->route('client-chats.index')->with('success','Client Assigned to Nutritionist successfully');
+        return redirect()->to(Session::get('back_defer_client_url'))->with('success','Client Assigned to Nutritionist successfully');
     }
 
     /**

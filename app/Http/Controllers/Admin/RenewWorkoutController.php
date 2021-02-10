@@ -111,6 +111,9 @@ class RenewWorkoutController extends Controller
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());
 
+        Session::forget('back_profiles_url');
+      Session::put('back_profiles_url', URL::current());
+
         return view('backend.admin.renew-workout.client',compact('clients'))->with('no', 1);
     }
 
@@ -172,6 +175,9 @@ class RenewWorkoutController extends Controller
 
         Session::forget('back_lables_url');
         Session::put('back_lables_url', URL::current());
+
+        Session::forget('back_profiles_url');
+      Session::put('back_profiles_url', URL::current());
 
         foreach ($clients as $key => $client) {
 

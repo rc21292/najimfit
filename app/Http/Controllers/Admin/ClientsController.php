@@ -112,6 +112,9 @@ class ClientsController extends Controller
             Session::forget('back_lables_url');
             Session::put('back_lables_url', URL::current());
 
+            Session::forget('back_profiles_url');
+        Session::put('back_profiles_url', URL::current());
+
 
             return view('backend.admin.clients.nutri_index',compact('clients','filter'))->with('no', 1);
 
@@ -177,6 +180,10 @@ class ClientsController extends Controller
             Session::put('back_notes_url', route('clients.index'));
             Session::forget('back_lables_url');
             Session::put('back_lables_url', URL::current());
+            Session::forget('back_defer_client_url');
+            Session::put('back_defer_client_url', URL::current());
+            Session::forget('back_profiles_url');
+            Session::put('back_profiles_url', URL::current());
 
             return view('backend.admin.clients.index',compact('clients','filter'))->with('no', 1);
         }

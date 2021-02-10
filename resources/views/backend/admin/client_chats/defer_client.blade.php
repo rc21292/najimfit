@@ -14,7 +14,7 @@
 							<div class="ms-panel-header">
 								<h6>Assign Client to Nutritionist 
 
-									<a style="float: right;margin-top: -10px" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
+									<a style="float: right;margin-top: -10px" href="{{ url(Session::get('back_profiles_url')) }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>								
 							</div>
 							<div class="ms-panel-body">
 								<form id="form-id" action="{{route('assign-client-to-nutritionist')}}" method="post">

@@ -59,7 +59,7 @@
 					</div>
 					<div class="col-sm-2 pt-3">
 						<p>Height: {{ $height }}
-						<a style="float: right;margin-top: -10px" href="{{ URL::previous() }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a></p>
+						<a style="float: right;margin-top: -10px" href="{{ url(Session::get('back_profiles_url')) }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a></p>
 					</div>
 				</div>
 			</div>
