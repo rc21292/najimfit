@@ -78,7 +78,8 @@ class PackageController extends Controller
             $file = $request->file('image_popup');
             $name = $file->getClientOriginalName();
             $path = time().$name;
-            $profileimage = Image::make($file);
+
+            $profileimage = Image::make($file)->resize(540, 900);
             $profileimage->save(public_path('uploads/packages/dashboard/popup/'.$path),100);
             $input['image_popup'] = $path;
 
@@ -164,7 +165,7 @@ class PackageController extends Controller
             $file = $request->file('image_popup');
             $name = $file->getClientOriginalName();
             $path = time().$name;
-            $profileimage = Image::make($file);
+            $profileimage = Image::make($file)->resize(540, 900);
             $profileimage->save(public_path('uploads/packages/dashboard/popup/'.$path),100);
             $package->image_popup = $path;
 
