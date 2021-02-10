@@ -14,6 +14,7 @@ use App\Models\ClientTable;
 use App\Models\Package;
 use App\Models\Client;
 use App\Helper;
+use URL;
 
 class IntakeSubstanceController extends Controller
 {
@@ -125,6 +126,9 @@ class IntakeSubstanceController extends Controller
                 return $item->diet_type;
             });
         }
+
+        Session::forget('back_intake_url');
+        Session::put('back_intake_url', URL::current());
 
         return view('backend.admin.intake-substances.show',compact('intake_subs'))->with('no', 1);
     }

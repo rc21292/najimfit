@@ -7,9 +7,7 @@
 	<div class="col-lg-12 margin-tb">
 		<div class="pull-left">
 			<h2> Intake Substances</h2>
-		</div>
-		<div class="pull-right">
-			<a class="btn btn-primary" href="{{ route('intake-substances.index') }}"> Back</a>
+			<a style="float: right;margin-top: -20px" href="{{ url(Session::get('back_intake_url')) }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>
 		</div>
 	</div>
 </div>

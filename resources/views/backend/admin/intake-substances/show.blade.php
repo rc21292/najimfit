@@ -17,6 +17,7 @@
 		<div class="ms-panel">
 			<div class="ms-panel-header">
 				<h6>Intake Substances List</h6>
+				<a style="float: right; margin-top: -25px" href="{{ route('intake-substances.index') }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
