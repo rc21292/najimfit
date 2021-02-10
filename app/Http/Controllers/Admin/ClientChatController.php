@@ -431,7 +431,17 @@ class ClientChatController extends Controller
 
     public function assignToNutritionist(Request $request)
     {
-        DB::table('nutritionist_clients')->where('client_id',$request->client_id)->update(['nutritionist_id'=>$request->nutritionist]);
+
+        $nutri_count = DB::table('nutritionist_clients')->where('client_id',$request->client_id)->count();
+
+        if ($nutri_count > 0) {
+
+            DB::table('nutritionist_clients')->where('client_id',$request->client_id)->update(['nutritionist_id'=>$request->nutritionist]);
+        }else{
+            
+            DB::table('nutritionist_clients')->insert(['client_id'=>$request->client_id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$request->nutritionist]);
+        }
+
         return redirect()->to(Session::get('back_defer_client_url'))->with('success','Client Assigned to Nutritionist successfully');
     }
 
