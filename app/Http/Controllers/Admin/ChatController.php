@@ -202,7 +202,12 @@ class ChatController extends Controller
 
         $client_table = ClientTable::select('calories','carbs','protein','fat')->where('client_id',$client_id)->first();
 
-        $package = Package::where('id',$client->package_id)->value('name');
+        if (isset($client->package_id) && !empty($client->package_id)) {
+            $package = Package::where('id',$client->package_id)->value('name');
+        }else{
+            $package = '';
+        }
+
 
         $weight = DB::table('client_answers')->where('client_id',$client_id)->where('question_id',9)->value('answer');
 
