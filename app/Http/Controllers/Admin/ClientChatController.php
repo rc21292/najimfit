@@ -389,7 +389,12 @@ class ClientChatController extends Controller
         $nutritionist_id = DB::table('nutritionist_clients')->where('client_id',$id)->value('nutritionist_id');
         $client_name = DB::table('clients')->where('id',$id)->value('firstname').' '.DB::table('clients')->where('id',$id)->value('lastname');
         $nutritionist_name = User::where('id',$nutritionist_id)->value('name');
-        $nutritionists = User::whereNotIn('id',[$nutritionist_id,'1'])->get();
+        if (isset($nutritionist_id) && !empty($nutritionist_id)) {
+            $nutritionists = User::role('Nutritionist')->whereNotIn('id',[$nutritionist_id])->get();
+        }else{
+           $nutritionists = User::role('Nutritionist')->get();
+       }
+        // $nutritionists = User::whereNotIn('id',[$nutritionist_id,'1'])->get();
         $client_id = $id;
         return view('backend.admin.client_chats.defer_client',compact('id','nutritionists','nutritionist_name','client_name','client_id'));
     }
