@@ -207,7 +207,7 @@
               <figcaption>
                 <h2> {{ $package->name_arabic }} </h2>
                 @php
-                  $string = \Str::of($package->description_arabic)->words(40, ' .....');
+                  $string = \Str::of($package->description_arabic)->words(45, ' .....');
                 @endphp
                 <p>{{$string}}</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter{{ $package->id }}">   المزيد   </a>
               </figcaption>
