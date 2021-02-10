@@ -24,17 +24,17 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/terms-conditions">شروط و الاحكام   </a>
+            <li class="nav-item {{ Request::is('terms-conditions') ? 'active' : '' }}"> <a class="nav-link" href="/terms-conditions">شروط و الاحكام   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/contactus">   اتصل بنا   </a>
+            <li class="nav-item {{ Request::is('contactus') ? 'active' : '' }}"> <a class="nav-link" href="/contactus">   اتصل بنا   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/aboutus">   معلومات عنا   </a>
+            <li class="nav-item {{ Request::is('aboutus') ? 'active' : '' }}"> <a class="nav-link" href="/aboutus">   معلومات عنا   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/gallery">   صالة عرض   </a>
+            <li class="nav-item {{ Request::is('gallery') ? 'active' : '' }}"> <a class="nav-link" href="/gallery">   صالة عرض   </a>
             </li>
-            <li class="nav-item"> <a class="nav-link" href="/packages">  خدماتنا  </a>
+            <li class="nav-item {{ Request::is('packages') ? 'active' : '' }}"> <a class="nav-link" href="/packages">  خدماتنا  </a>
             </li>
-            <li class="nav-item active"> <a class="nav-link" href="/">  الصفحة الرئيسية   </a>
+            <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"> <a class="nav-link" href="/">  الصفحة الرئيسية   </a>
             </li>
           </ul>
         </div>
