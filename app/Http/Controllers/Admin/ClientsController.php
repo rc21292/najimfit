@@ -211,26 +211,32 @@ class ClientsController extends Controller
         $input['password'] = Hash::make($input['password']);
         if ($request->has('status')) {
 
-           $input['status'] = $request->status;
+            $input['status'] = $request->status;
 
-       }else{
+        }else{
 
-        $input['status'] = "off";
-    }
-    $user = Client::create($input);
-    $nutritionists = DB::table('nutritionist_clients')
-    ->select('nutritionist_id', DB::raw('count(*) as client_total'))
-    ->groupBy('nutritionist_id')
-    ->get();
-
-    foreach($nutritionists as $nutritionist){
-        if($nutritionist->client_total < 6){
-            DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
-            break;
+            $input['status'] = "off";
         }
+
+        $user = Client::create($input);
+
+        $nutritionists = DB::table('nutritionist_clients')
+        ->select('nutritionist_id', DB::raw('count(*) as client_total'))
+        ->groupBy('nutritionist_id')
+        ->inRandomOrder()
+        ->get();
+
+        $no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+
+        foreach($nutritionists as $nutritionist){
+            if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
+                DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
+                break;
+            }
+        }
+
+        return redirect()->route('clients.index')->with('success','Client Created successfully');
     }
-    return redirect()->route('clients.index')->with('success','Client Created successfully');
-}
 
     /**
      * Display the specified resource.
