@@ -66,7 +66,7 @@ class ClientChatController extends Controller
 
             $database = $factory->createDatabase();
 
-            $createPosts = $database->getReference('chats')->orderByChild('is_read')->equalTo(0)->getSnapshot()->getValue();
+            $createPosts = $database->getReference('chats')->orderByChild('is_read')->equalTo((string)0)->getSnapshot()->getValue();
 
             $filtered = array_filter($createPosts, function (array $userData) {
                 $userEmail = $userData['receiver_id'] ?? '';
@@ -80,7 +80,7 @@ class ClientChatController extends Controller
 
                 $database = $factory->createDatabase();
 
-                $createPosts = $database->getReference('chats')->orderByChild('is_read')->equalTo(0)->getSnapshot()->getValue();
+                $createPosts = $database->getReference('chats')->orderByChild('is_read')->equalTo((string)0)->getSnapshot()->getValue();
                 $count = 0;
                 foreach ($createPosts as $createPost) {
                     if ($createPost["receiver_id"] == $user->id && $createPost['message_from'] == 'user' ) {
