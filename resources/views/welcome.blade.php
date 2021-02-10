@@ -206,7 +206,10 @@
               <div class="gridtitle">{{ $package->name_arabic }}</div>
               <figcaption>
                 <h2> {{ $package->name_arabic }} </h2>
-                <p>{{$package->description_arabic}}</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter{{ $package->id }}">   المزيد   </a>
+                @php
+                  $string = \Str::of($package->description_arabic)->words(40, ' .....');
+                @endphp
+                <p>{{$string}}</p> <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter{{ $package->id }}">   المزيد   </a>
               </figcaption>
             </figure>
 
