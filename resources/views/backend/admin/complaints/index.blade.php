@@ -99,7 +99,7 @@
 		var modal = $(this)
 		modal.find('.modal-body #view_profile').attr('href', '/dashboard/client-full-profile/'+client_id);
 		modal.find('.modal-body #defer_client').attr('href', '/dashboard/client-defer/'+request_id);
-		modal.find('.modal-body #view_chat').attr('href', '/dashboard/show-chat/'+request_id);
+		modal.find('.modal-body #view_chat').attr('href', '/dashboard/show-chat/'+client_id);
 		modal.find('.modal-body #view_table').attr('href', '/dashboard/assign-table/'+client_id+'/edit');
 		modal.find('.modal-body #view_workout').attr('href', '/dashboard/assign-workout/'+client_id+'/edit');
 		modal.find('.modal-body #client').val(client_id);
