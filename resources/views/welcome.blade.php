@@ -202,7 +202,7 @@
           <div class="grid">
             @foreach($packages as $package)
             <figure class="effect-ming">
-              <img src="{{asset('uploads/packages/dashboard/'.$package->image_full)}}" alt="img01" class="img-fluid">
+              <img style="width: 600px !important; height: 300px !important;" src="{{asset('uploads/packages/dashboard/'.$package->image_full)}}" alt="img01" class="img-fluid">
               <div class="gridtitle">{{ $package->name_arabic }}</div>
               <figcaption>
                 <h2> {{ $package->name_arabic }} </h2>

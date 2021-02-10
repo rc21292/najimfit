@@ -26,7 +26,7 @@
               @foreach($packages as $package)
               <div class="col-sm-4 col-xs-12">
                 <figure class="effect-ming">
-                  <img src="{{asset('uploads/packages/dashboard/'.$package->image_full)}}" alt="img01" class="img-fluid">
+                  <img style="width: 350px !important; height: 225px !important;" src="{{asset('uploads/packages/dashboard/'.$package->image_full)}}" alt="img01" class="img-fluid">
                   <div class="gridtitle">   {{ $package->name_arabic }}   </div>
                   <figcaption>
                     <h2>{{ $package->name_arabic }}</h2>
