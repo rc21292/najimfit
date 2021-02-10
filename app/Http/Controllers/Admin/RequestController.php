@@ -39,6 +39,8 @@ class RequestController extends Controller
             $requests = DeferRequest::where('nutritionist_id',$user->id)->get();
             return view('backend.admin.requests.nutritionist.index',compact('requests'))->with('no', 1);
         }else{
+            Session::forget('back_profiles_url');
+            Session::put('back_profiles_url', URL::previous());
             $requests = DeferRequest::where('status',0)->get();
             return view('backend.admin.requests.index',compact('requests'))->with('no', 1);
         }

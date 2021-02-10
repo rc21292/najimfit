@@ -40,6 +40,8 @@ class ComplaintController extends Controller
             $complaints = Complaint::where('nutritionist_id',$user->id)->latest()->get();
             return view('backend.admin.complaints.nutritionist.index',compact('complaints'))->with('no', 1);
         }else{
+            Session::forget('back_profiles_url');
+            Session::put('back_profiles_url', URL::previous());
             $complaints = Complaint::latest()->get();
             return view('backend.admin.complaints.index',compact('complaints'))->with('no', 1);
         }
