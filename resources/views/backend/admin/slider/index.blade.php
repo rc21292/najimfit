@@ -8,7 +8,7 @@
         <nav aria-label="breadcrumb " class="ms-panel-custom">
             <ol class="breadcrumb pl-0">
                 <li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Slider</li>
+                <li class="breadcrumb-item active" aria-current="page">Sliders</li>
             </ol>
             <a href="{{route('slider.create')}}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-plus"></i></a>
         </nav>

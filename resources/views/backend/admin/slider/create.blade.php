@@ -41,8 +41,8 @@
         <nav aria-label="breadcrumb " class="ms-panel-custom">
             <ol class="breadcrumb pl-0">
                 <li class="breadcrumb-item"><a href="/"><i class="material-icons">home</i> Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('slider.index')}}">Blogs</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Blog Create</li>
+                <li class="breadcrumb-item"><a href="{{ route('slider.index')}}">Sliders</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Slider Create</li>
             </ol>
             <a href="{{ route('slider.index') }}" class="ms-btn-icon btn-square btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i></a> 
         </nav>
@@ -52,7 +52,7 @@
 
     <div class="ms-panel ms-panel-fh" style="width: 100%">
         <div class="ms-panel-header">
-            <h6>Blog Create Form</h6>
+            <h6>Slider Create Form</h6>
         </div>
 
 
