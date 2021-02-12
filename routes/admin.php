@@ -41,6 +41,7 @@ Route::resource('about','AboutUsController');
 Route::resource('settings','SettingController');
 Route::resource('faqs','FaqController');
 Route::resource('gallery','GalleryController');
+Route::resource('slider','SliderController');
 Route::get('performance','PerformanceController@index')->name('performance.index');
 Route::get('performance/tables','PerformanceController@tables')->name('performance-tables');
 Route::get('performance/complaints','PerformanceController@complaints')->name('performance-complaints');
@@ -51,7 +52,10 @@ Route::resource('contacts','ContactController');
 Route::resource('blogs','BlogController');
 Route::resource('newsletters','NewsletterController');
 Route::post('gallery-delete-image/{gallery}', 'GalleryController@deleteimage')->name('gallery-image-delete');
+Route::post('slider-delete-image/{slider}', 'SliderController@deleteimage')->name('slider-image-delete');
 Route::post('blog-delete-image/{blog}', 'BlogController@deleteimage')->name('blog-image-delete');
+
+Route::post('articleImages','AboutUsController@uploadImage')->name('articleImages');
 
 Route::resource('controls','ControlController');
 
