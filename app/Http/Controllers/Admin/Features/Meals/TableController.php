@@ -95,9 +95,9 @@ class TableController extends Controller
      * @param  \App\Models\Meals\TableCategory  $tableCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TableCategory $tableCategory)
+    public function destroy($id)
     {
-        $tableCategory->delete();
+        TableCategory::where('id',$id)->delete();
 
         return back()->with(['warning'=>'Table Category Deleted Successfully!']);
     }
