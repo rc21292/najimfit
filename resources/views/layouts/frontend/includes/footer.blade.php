@@ -24,7 +24,7 @@
         <div class="col-sm-2 col-xs-12">
           <div class="footer_widget">
             <div class="footertitle">ابقى على تواصل</div>
-            <p>info@najimfitness.com
+            <p>info@tegdarco.com
               <br>7536, Janabiyah
               <br>Bahrain</p>
           </div>
