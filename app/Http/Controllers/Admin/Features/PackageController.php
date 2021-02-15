@@ -75,13 +75,13 @@ class PackageController extends Controller
 
         if ($request->has('image_popup')) {
 
-            $file = $request->file('image_popup');
-            $name = $file->getClientOriginalName();
-            $path = time().$name;
+            $popupfile = $request->file('image_popup');
+            $popupname = $popupfile->getClientOriginalName();
+            $popuppath = time().$popupname;
 
-            $profileimage = Image::make($file)->resize(540, 900);
-            $profileimage->save(public_path('uploads/packages/dashboard/popup/'.$path),100);
-            $input['image_popup'] = $path;
+            $popupprofileimage = Image::make($popupfile)->resize(540, 900);
+            $popupprofileimage->save(public_path('uploads/packages/dashboard/popup/'.$popuppath),100);
+            $input['image_popup'] = $popuppath;
 
         }
 
