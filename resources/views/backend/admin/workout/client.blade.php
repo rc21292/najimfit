@@ -18,7 +18,7 @@
 	<div class="col-md-12">
 		<div class="ms-panel">
 			<div class="ms-panel-header">
-				<h6>Clients with Renewal Workouts</h6>
+				<h6>Clients with Pending Workouts</h6>
 			</div>
 			<div class="ms-panel-body">
 				<div class="table-responsive">
