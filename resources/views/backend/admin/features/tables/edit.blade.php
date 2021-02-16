@@ -122,7 +122,7 @@
 						<div class="col-xl-6 col-md-12">
 							<label for="calories">Calories Range (in Cal)</label>
 							<div class="input-group">
-								<input type="text" class="form-control" name="calories" id="calories" placeholder="Calories Range (in Cal)" value="{{$meal->calories}}" required>
+								<input type="number" class="form-control" name="calories" id="calories" placeholder="Calories Range (in Cal)" value="{{$meal->calories}}" required>
 								<div class="invalid-feedback">
 									Enter Calorie Range.
 								</div>
