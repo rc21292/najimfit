@@ -37,6 +37,9 @@
           <span><i class="fas fa-plus"></i>Catalogs</span>
         </a>
         <ul id="form-elements-catalog" class="collapse" aria-labelledby="form-elements-catalog" data-parent="#side-nav-accordion">
+           @can('newsletter-subscriptions')
+          <li> <a href="{{ route('slider.index') }}">Slider</a> </li>
+           @endcan
           @can('gallery')
           <li> <a href="{{ route('gallery.index') }}">Gallery</a> </li>
            @endcan
