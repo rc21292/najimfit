@@ -38,7 +38,7 @@
 		<div class="ms-panel-header">
 			<div class="row">
 				<div class="col-sm-9">
-					<h5>My Profile {{$profile->avatar}}</h5>
+					<h5>My Profile</h5>
 				</div>
 				<div class="col-sm-3">
 					<a class="btn btn-danger" href="{{route('my-account.index')}}"><i class="fas fa-arrow-circle-left pr-2"></i> REFRESH</a>
