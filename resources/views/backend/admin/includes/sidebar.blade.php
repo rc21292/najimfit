@@ -40,6 +40,9 @@
            @can('newsletter-subscriptions')
           <li> <a href="{{ route('slider.index') }}">Slider</a> </li>
            @endcan
+           @can('newsletter-subscriptions')
+          <li> <a href="{{ route('aboutus.index') }}">About Us</a> </li>
+           @endcan
           @can('gallery')
           <li> <a href="{{ route('gallery.index') }}">Gallery</a> </li>
            @endcan
