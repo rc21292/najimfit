@@ -16,8 +16,8 @@
         <h3 class="h3-responsive"> {{ $slider->title_arabic }} </h3>
         <p>{{$slider->description_arabic}}</p>
         <div class="form-group btn-inline">
-          <button type="button" class="btn btn-primary">انضم إلينا</button>
-          <button type="button" class="btn btn-secondary">البرامج</button>
+          <button type="button" onclick="location.href='{{route('packages.index')}}';" class="btn btn-primary">انضم إلينا</button>
+          <button type="button" onclick="location.href='{{url('/aboutus')}}';" class="btn btn-secondary">البرامج</button>
         </div>
       </div>
       <img src="{{asset('uploads/slider/'.$slider->image)}}" alt="{{ $slider->title_arabic }}">
