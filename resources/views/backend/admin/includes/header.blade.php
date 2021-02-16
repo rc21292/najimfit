@@ -34,7 +34,7 @@ $notification_count = DB::table('meeting_notifications')->where('user_id',Auth::
       }
       @endphp        
         <li class="ms-nav-item ms-nav-user dropdown">
-          <a href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img class="ms-user-img ms-img-round float-right" src="{{asset('backend/assets/img/avatar.png')}}" alt="people"> </a>
+          <a href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img class="ms-user-img ms-img-round float-right" src="@if(isset(Auth::User()->avatar)){{URL::asset('/uploads/user').'/'.Auth::User()->avatar}} @else {{asset('backend/assets/img/avatar.png')}} @endif" alt="people"> </a>
           <ul class="dropdown-menu dropdown-menu-right user-dropdown" aria-labelledby="userDropdown">
             <li class="dropdown-menu-header">
               <h6 class="dropdown-header ms-inline m-0"><span class="text-disabled">Welcome Admin</span></h6>
