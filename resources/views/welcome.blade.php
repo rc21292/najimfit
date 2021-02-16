@@ -16,7 +16,7 @@
         <h3 class="h3-responsive"> {{ $slider->title_arabic }} </h3>
         <p>{{$slider->description_arabic}}</p>
         <div class="form-group btn-inline">
-          <button type="button" onclick="location.href='{{url('/aboutus')}}';" class="btn btn-primary">انضم إلينا</button>
+          <button type="button" onclick="location.href='{{route('contact-us.index')}}';" class="btn btn-primary">انضم إلينا</button>
           <button type="button" onclick="location.href='{{route('packages.index')}}';" class="btn btn-secondary">البرامج</button>
         </div>
       </div>
@@ -355,16 +355,16 @@
           <form method="post" class="row" action="contact-us">
             {{csrf_field()}}
             <div class="form-group col-md-6">
-              <input type="text" name="name" required class="form-control @error('name') is-invalid @enderror" placeholder="   اسم   ">
-              @error('name')
+              <input type="email" name="email" required class="form-control @error('email') is-invalid @enderror" placeholder="   البريد الإلكتروني   ">
+              @error('email')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
               </span>
               @enderror
             </div>
             <div class="form-group col-md-6">
-              <input type="email" name="email" required class="form-control @error('email') is-invalid @enderror" placeholder="   البريد الإلكتروني   ">
-              @error('email')
+              <input type="text" name="name" required class="form-control @error('name') is-invalid @enderror" placeholder="   اسم   ">
+              @error('name')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
               </span>
