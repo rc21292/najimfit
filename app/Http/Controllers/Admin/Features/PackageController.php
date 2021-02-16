@@ -9,6 +9,7 @@ use File;
 use DB;
 use Image;
 use Session;
+use Carbon\Carbon;
 use App\Models\Client;
 
 class PackageController extends Controller
@@ -102,6 +103,43 @@ class PackageController extends Controller
 
         $new_package = Package::create($input);
         return redirect()->route('package.index')->with(['success'=>'Package Saved Successfully!']);
+    }
+
+
+    public function assignPackageToCLient(Request $request)
+    {
+        $client_id = $request->client_id;
+        $package_id = $request->package_id;
+        $user_id = $client_id;
+
+        $current_package = Client::find($user_id);
+
+        if (!isset($current_package->package_id) && empty($current_package->package_id)) {
+
+            $validity = Package::where('id', $package_id)->value('validity');
+            if (!isset($validity) && empty($validity)) {
+                return redirect()->back()->with(['success'=>'Package not Exists!']);
+
+            }
+            $is_subscription_in_wating = 0;
+
+            $valid_upto = Carbon::now()->addDays($validity);
+            $today_date = date('Y-m-d');
+
+            Client::where('id',$user_id)->update(['package_id' => $package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
+
+            return redirect()->back()->with(['success'=>'This package has been assigned to you..!']);
+
+        }else{
+
+            return redirect()->back()->with(['success'=>'Package already Assigned!']);
+        }
+    }
+
+
+    public function assignPackage($client_id,$package_id)
+    {
+        return view('backend.admin.features.packages.assign-package',compact('client_id','package_id'));
     }
 
     /**

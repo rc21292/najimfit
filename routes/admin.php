@@ -67,6 +67,9 @@ Route::get('renew-table-clients','ApplicationDataController@renewTableClients')-
 
 Route::get('clients-by-package/{id}','ApplicationDataController@clientsByPackageId')->name('clients-by-package');
 
+Route::get('assign-package/{id}/{package_id}','Features\PackageController@assignPackage')->name('assign-package');
+Route::post('assign-package-to-client','Features\PackageController@assignPackageToCLient')->name('assign-package-to-client');
+
 Route::get('older-clients','ApplicationDataController@olderClients')->name('older-clients');
 
 Route::get('new-clients','ApplicationDataController@newClients')->name('new-clients');
