@@ -144,12 +144,13 @@ class MyProfileController extends Controller
     {
         //
     }
-    public function deleteimage($avater){
-        $image = public_path('uploads/user/'.$avater);
+
+    public function deleteimage($id){
+        $image = public_path('uploads/user/'.Auth::User()->avatar);
         File::delete($image);
         $user_id = Auth::User()->id;
         $user = User::find($user_id);
-        $user->avatar = null;
+        $user->avatar = Null;
         $user->save();
         return response()->json(["success"=>'deleted']);
     }

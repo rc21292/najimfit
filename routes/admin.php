@@ -1,12 +1,12 @@
 <?php  
-
+ 
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'],'namespace'=>'Admin'], function() {
 
 // Profile Account
 Route::resource('my-account', 'MyProfileController');
-Route::post('account-delete-image/{account}', 'MyProfileController@deleteimage')->name('account-image-delete');
+Route::post('account-delete-image/{id}', 'MyProfileController@deleteimage')->name('account-delete-image');
 // User Route
 Route::resource('roles','RoleController');
 Route::resource('chat','ChatController');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app') 
 @section('head')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -38,7 +38,7 @@
 		<div class="ms-panel-header">
 			<div class="row">
 				<div class="col-sm-9">
-					<h5>My Profile</h5>
+					<h5>My Profile {{$profile->avatar}}</h5>
 				</div>
 				<div class="col-sm-3">
 					<a class="btn btn-danger" href="{{route('my-account.index')}}"><i class="fas fa-arrow-circle-left pr-2"></i> REFRESH</a>
@@ -192,7 +192,7 @@
 			msgErrorClass: 'alert alert-block alert-danger',
 			defaultPreviewContent: '<img src="/backend/assets/img/media.png" alt="Your Avatar"><h6 class="text-muted">Upload Image</h6>',
 			layoutTemplates: {main2: '{preview} {remove} {browse}'},
-			allowedFileExtensions: ["jpg", "png", "gif"],
+			allowedFileExtensions: ["jpg", "png", "gif", "jpeg"],
 			@if(isset($profile->avatar))
 			initialPreview: [
 			"{{asset('uploads/user/'.$profile->avatar)}}"
@@ -201,7 +201,7 @@
 
     initialPreviewFileType: 'image', // image is the default and can be overridden in config below
     initialPreviewConfig: [
-    {caption: "{{$profile->avatar}}", url: "{{route('account-image-delete',$profile->avatar)}}", key: {{$profile->id}} }
+    {caption: "{{$profile->avatar}}", url: "{{route('account-delete-image',$profile)}}", key: {{$profile->id}} }
     ],
     @endif
 });
