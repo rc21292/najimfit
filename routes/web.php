@@ -36,9 +36,7 @@ Route::resource('/','WelcomeController');
 Route::resource('packages','PackageController');
 Route::resource('gallery','GalleryController');
 
-Route::get('/aboutus', function () {
-    return view('about_us');
-});
+Route::get('/aboutus', 'Admin\AboutController@create');
 
 /*Route::get('/gallery', function () {
     return view('gallery');

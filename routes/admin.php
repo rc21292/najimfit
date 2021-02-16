@@ -38,6 +38,7 @@ Route::resource('terms-and-conditions','TermsController');
 Route::resource('privacy-policy','PrivacyPolicyController');
 Route::resource('gdpr','GdprController');
 Route::resource('about','AboutUsController');
+Route::resource('aboutus','AboutController');
 Route::resource('settings','SettingController');
 Route::resource('faqs','FaqController');
 Route::resource('gallery','GalleryController');
@@ -66,9 +67,6 @@ Route::get('renew-workout-clients','ApplicationDataController@renewWorkoutClient
 Route::get('renew-table-clients','ApplicationDataController@renewTableClients')->name('renew-table-clients');
 
 Route::get('clients-by-package/{id}','ApplicationDataController@clientsByPackageId')->name('clients-by-package');
-
-Route::get('assign-package/{id}/{package_id}','Features\PackageController@assignPackage')->name('assign-package');
-Route::post('assign-package-to-client','Features\PackageController@assignPackageToCLient')->name('assign-package-to-client');
 
 Route::get('older-clients','ApplicationDataController@olderClients')->name('older-clients');
 
