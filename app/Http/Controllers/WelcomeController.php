@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\User;
 use App\Models\Blog;
+use App\Models\Slider;
 
 class WelcomeController extends Controller
 {
@@ -16,12 +17,12 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        
+        $sliders = Slider::latest()->take(4)->get();
         $packages = Package::latest()->take(6)->get();
         $blogs = Blog::take(3)->get();
         $blogs_data = Blog::take(3)->get();
         $staffs = User::role('Staff')->take(3)->get();
-        return view('welcome',compact('packages','staffs','blogs','blogs_data'))->with('no', 1);
+        return view('welcome',compact('packages','staffs','blogs','blogs_data','sliders'))->with('no', 1);
     }
 
     /**
