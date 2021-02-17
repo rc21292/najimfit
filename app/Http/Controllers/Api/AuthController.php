@@ -155,6 +155,17 @@ class AuthController extends Controller
 		curl_close($x);
 	}
 
+	public function inAppPurchase()
+	{
+		$settings = DB::table('settings')->where('name','in_app_purchase')->first();
+		if ($settings->value == 0) {
+			$data = 'No';
+		}else{
+			$data = 'Yes';
+		}
+		return $response = ['success' => true,'message' => 'Data fetched successfully','data' => $data];
+	}
+
 	public function sendSms(Request $request)
 	{
 		$id = config('services.twilio.account_sid');

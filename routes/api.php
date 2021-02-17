@@ -25,6 +25,8 @@ Route::middleware('auth:api')->group(function () {
 
 	Route::post('/select-gender', 'Api\AuthController@selectgender')->name('selectgender.api');
 
+	Route::get('/in-app-purchase', 'Api\AuthController@inAppPurchase')->name('inapppurchase.api');
+
 	Route::post('/get-questions', 'Api\QuestionController@getquestions')->name('getquestions.api');
 
 	Route::post('/save-order', 'Api\AuthController@selectpackage')->name('selectpackage.api');
