@@ -21,7 +21,7 @@ class WelcomeController extends Controller
         $packages = Package::latest()->take(6)->get();
         $blogs = Blog::take(3)->get();
         $blogs_data = Blog::take(3)->get();
-        $staffs = User::role('Staff')->take(3)->get();
+        $staffs = User::role('Staff')->latest()->get();
         return view('welcome',compact('packages','staffs','blogs','blogs_data','sliders'))->with('no', 1);
     }
 
