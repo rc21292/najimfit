@@ -13,7 +13,7 @@
 		</nav>
 		@include('backend.admin.includes.flashmessage')
 	</div>
-	<div class="col-xl-12 col-md-12">
+	<div class="col-xl-6 col-md-6">
 		<div class="ms-panel ms-panel-fh">
 			<div class="ms-panel-header">
 				<h6>Update Settings</h6>
@@ -22,6 +22,21 @@
 				<form class="needs-validation clearfix" method="POST" action="{{route('settings.store')}}" enctype="multipart/form-data">
 					@csrf
 					@foreach($settings as $key => $setting)
+					@if($setting->name == 'in_app_purchase')
+
+					<div class="col-md-12">
+						<label for="term">{{ ucwords(str_replace('_', ' ', $setting->name)) }}</label>
+						<div class="input-group">
+							<select name="{{ $setting->name }}" class="form-control" required>
+								<option value="1" @if ($setting->value == 1) selected @endif>Yes</option>
+								<option value="0" @if ($setting->value == 0) selected @endif>No</option>
+							</select>
+							<div class="invalid-feedback">
+								Mention {{ $key }}
+							</div>
+						</div>
+					</div>
+					@else
 					<div class="col-md-12">
 						<label for="term">{{ ucwords(str_replace('_', ' ', $setting->name)) }}</label>
 						<div class="input-group">
@@ -31,9 +46,10 @@
 							</div>
 						</div>
 					</div>
+					@endif
 					@endforeach
 
-								<input type="submit" name="Update" value="Update" class="btn btn-primary">	
+					<input type="submit" name="Update" value="Update" class="btn btn-primary">	
 				</form>
 			</div>
 		</div>
