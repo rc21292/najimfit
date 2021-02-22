@@ -185,8 +185,6 @@
 
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 <script type="text/javascript">
 	$(function () {
@@ -266,7 +264,7 @@
 				//var title = prompt('Event Title:');
 
 
-
+				title='';
 				if (title) {
 
 					var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");

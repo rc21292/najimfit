@@ -298,7 +298,10 @@
       <div class="col-sm-6 padding show-on-click show-blog-{{ $blog->id}}" @if($i == 0) style="display: block;" @else style="display: none;" @endif>
         <div class="leftbox2">
           <h5>{{ $blog->title_arabic }}</h5>
-          <p>{{ $blog->description_arabic }}</p>
+           @php
+              $desc = \Str::of($blog->description_arabic)->words(40, ' .....');
+              @endphp
+          <p>{{ $desc }}</p>
         </div>
       </div>
       @php $i++; @endphp

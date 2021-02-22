@@ -7,6 +7,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'],'namespace'=>'Ad
 // Profile Account
 	Route::resource('my-account', 'MyProfileController');
 	Route::post('account-delete-image/{id}', 'MyProfileController@deleteimage')->name('account-delete-image');
+	Route::post('saveRecording','ClientChatController@saveRecording')->name('save-recording');
 // User Route
 	Route::resource('roles','RoleController');
 	Route::resource('chat','ChatController');
