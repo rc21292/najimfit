@@ -127,14 +127,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'],'namespace'=>'Ad
 	Route::resource('notes','NoteController');
 	Route::get('send-note/{id}','NoteController@sendNote')->name('send-note');
 
-<<<<<<< HEAD
+
 	Route::resource('client-chats','ClientChatController');
 	Route::get('mark-unread/{id}','ClientChatController@markUnread')->name('mark-unread');
 	Route::get('block-nutritionist/{id}','ClientChatController@blockNutritionist')->name('block-nutritionist');
 	Route::get('unblock-nutritionist/{id}','ClientChatController@unblockNutritionist')->name('unblock-nutritionist');
 	Route::get('block-client/{id}','ClientChatController@blockClient')->name('block-client');
 	Route::get('unblock-client/{id}','ClientChatController@unblockClient')->name('unblock-client');
-=======
 Route::resource('client-chats','ClientChatController');
 Route::post('saveRecording','ClientChatController@saveRecording')->name('save-recording');
 
@@ -143,7 +142,6 @@ Route::get('block-nutritionist/{id}','ClientChatController@blockNutritionist')->
 Route::get('unblock-nutritionist/{id}','ClientChatController@unblockNutritionist')->name('unblock-nutritionist');
 Route::get('block-client/{id}','ClientChatController@blockClient')->name('block-client');
 Route::get('unblock-client/{id}','ClientChatController@unblockClient')->name('unblock-client');
->>>>>>> d2a09b004c59f61f2dcfde70b2a68dc492185dfb
 
 	Route::get('nutritionist-clients/{id}','ClientChatController@showClients')->name('nutritionist-clients');
 
