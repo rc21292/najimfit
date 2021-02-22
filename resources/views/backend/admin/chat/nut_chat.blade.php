@@ -155,7 +155,7 @@
                                                     <ul id="playlist"></ul>
                                                 </li>
                                                 <li style="margin-top: -16px; margin-left: 3px;">
-                                                    <a class="RecordButton" style="font-size: 20px;" href="javascript:void(0);"><i class="fa fa-microphone circle-icon" aria-hidden="true"></i></a>
+                                                    <a class="RecordButton" style="display: none; font-size: 20px;" href="javascript:void(0);"><i class="fa fa-microphone circle-icon" aria-hidden="true"></i></a>
                                                 <button style="display: none;" title="Record a Message" class=" sendRecordingButton btn btn-primary"><i class="fa fa-microphone fa-5x circle-icon" aria-hidden="true"></i> </button>
                                                  <button style="display: none;" class=" cancelRecordingButton btn btn-primary">Cancel Recording</button>
                                                     <button type="submit" class="sendMessage btn btn-primary">Send</button>
