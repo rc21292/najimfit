@@ -159,7 +159,7 @@
             $("#avatar-2").fileinput({
             theme:'fas',
             overwriteInitial: false,
-            maxFileSize: 1500,
+            maxFileSize: 3500,
             showClose: false,
             showCaption: false,
             showBrowse: false,
