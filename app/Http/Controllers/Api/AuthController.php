@@ -668,7 +668,7 @@ class AuthController extends Controller
 			return $response = ['success' => false,'message' => ($request->language == "arabic") ? "الاشتراكات مغلقة الآن!" : 'Subscriptions are closed now!'];
 		}
 
-		$packages = Package::all();
+		$packages = Package::where('status','on')->get();
 		foreach ($packages as $row) {
 
 			if ($request->currency) {

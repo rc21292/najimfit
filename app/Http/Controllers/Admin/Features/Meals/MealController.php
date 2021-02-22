@@ -166,11 +166,11 @@ class MealController extends Controller
      */
     public function destroy($id)
     {
-        $meal = Meal::find($id);
+        $meal = Meal::find($id)->first();
         $image = public_path('uploads/meals/'.$meal->image);
         File::delete($image);
         $meal->delete();
-        return redirect()->route('meals.index')->with(['warning'=>'Meal Deleted Successfully!']);
+        return redirect()->route('meals.show',$meal->table_id)->with(['warning'=>'Meal Deleted Successfully!']);
     }
 
     public function deleteimage(Meal $meal)
@@ -179,5 +179,13 @@ class MealController extends Controller
         File::delete($image);
         $meal->update(['image' => null]);
         return response()->json(["success"=>'deleted']);
+    }
+
+    public function massDelete(Request $request)
+    {   
+        $ids = $request->ids;
+        Meal::whereIn('id',explode(",",$ids))->delete();
+
+        return redirect()->route('meals.show',2)->with(['warning'=>'Meal Deleted Successfully!']);
     }
 }
