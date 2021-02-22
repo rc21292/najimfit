@@ -166,7 +166,7 @@ class MealController extends Controller
      */
     public function destroy($id)
     {
-        $meal = Meal::find($id)->first();
+        $meal = Meal::find($id);
         $image = public_path('uploads/meals/'.$meal->image);
         File::delete($image);
         $meal->delete();
