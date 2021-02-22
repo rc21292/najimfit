@@ -31,8 +31,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'],'namespace'=>'Ad
 // Meals Route
 	Route::resource('meals','Features\Meals\MealController');
 
-	Route::delete('meals_massdestroy', 'Features\Meals\MealController@massDelete')->name('meals.mass_destroy');
-
 // Coupons Route
 	Route::resource('coupons','CouponController');
 	Route::post('meal-delete-image/{meal}', 'Features\Meals\MealController@deleteimage')->name('meal-image-delete');
@@ -134,14 +132,14 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'],'namespace'=>'Ad
 	Route::get('unblock-nutritionist/{id}','ClientChatController@unblockNutritionist')->name('unblock-nutritionist');
 	Route::get('block-client/{id}','ClientChatController@blockClient')->name('block-client');
 	Route::get('unblock-client/{id}','ClientChatController@unblockClient')->name('unblock-client');
-Route::resource('client-chats','ClientChatController');
-Route::post('saveRecording','ClientChatController@saveRecording')->name('save-recording');
+	Route::resource('client-chats','ClientChatController');
+	Route::post('saveRecording','ClientChatController@saveRecording')->name('save-recording');
 
-Route::get('mark-unread/{id}','ClientChatController@markUnread')->name('mark-unread');
-Route::get('block-nutritionist/{id}','ClientChatController@blockNutritionist')->name('block-nutritionist');
-Route::get('unblock-nutritionist/{id}','ClientChatController@unblockNutritionist')->name('unblock-nutritionist');
-Route::get('block-client/{id}','ClientChatController@blockClient')->name('block-client');
-Route::get('unblock-client/{id}','ClientChatController@unblockClient')->name('unblock-client');
+	Route::get('mark-unread/{id}','ClientChatController@markUnread')->name('mark-unread');
+	Route::get('block-nutritionist/{id}','ClientChatController@blockNutritionist')->name('block-nutritionist');
+	Route::get('unblock-nutritionist/{id}','ClientChatController@unblockNutritionist')->name('unblock-nutritionist');
+	Route::get('block-client/{id}','ClientChatController@blockClient')->name('block-client');
+	Route::get('unblock-client/{id}','ClientChatController@unblockClient')->name('unblock-client');
 
 	Route::get('nutritionist-clients/{id}','ClientChatController@showClients')->name('nutritionist-clients');
 
