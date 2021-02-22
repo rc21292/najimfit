@@ -313,13 +313,12 @@ class ClientChatController extends Controller
         if ($request->file('audio_data')->getSize() <= 0) {
             return response(['data' => ''], 200);
         }
-        
+
         $file = $request->file('audio_data');
         $input = $file->getPathName();
         $output = '/uploads/recordings/'.date('YmdHis').'-'.$file->getClientOriginalName().".mp3";
         move_uploaded_file($input, public_path().$output);
          // move_uploaded_file($input, '/home2/najimfit/public_html'.$output);
-
         $receptor = Client::where('id',$request->receiver_id)->first();
         $sender = User::where('id',$request->sender_id)->first();
         if ($sender->is_blocked && $receptor->nutri_blocked) {
