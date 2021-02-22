@@ -299,7 +299,7 @@
         <div class="leftbox2">
           <h5>{{ $blog->title_arabic }}</h5>
            @php
-              $desc = \Str::of($blog->description_arabic)->words(22, ' .....');
+              $desc = \Str::of($blog->description_arabic)->words(40, ' .....');
               @endphp
           <p>{{ $desc }}</p>
         </div>
