@@ -307,6 +307,56 @@ class ClientChatController extends Controller
         return view('backend.admin.client_chats.view_chat', compact('client','client_table','weight','height','receptorUser','senderUser','notes', 'chat','package'));
     }
 
+
+    public function saveRecording(Request $request)
+    {
+
+        $file = $request->file('audio_data');
+        $input = $file->getPathName();
+        $output = '/uploads/recordings/'.date('YmdHis').'-'.$file->getClientOriginalName().".mp3";
+        move_uploaded_file($input, public_path().$output);
+
+        $receptor = Client::where('id',$request->receiver_id)->first();
+        $sender = User::where('id',$request->sender_id)->first();
+        if ($sender->is_blocked && $receptor->nutri_blocked) {
+            return response(['data' => '']);
+        }
+
+        $input = $request->all();
+        $factory = (new Factory)->withServiceAccount(__DIR__.'/test-tegdarco-firebase-adminsdk-ohk7s-6c3ea5636a.json');
+
+        $database = $factory->createDatabase();
+
+        $createPost    =   $database->getReference('chats')->getvalue(); 
+        $last_key =  @end(array_keys($createPost))+1;
+
+        $ref = 'chats/'.$last_key;  
+
+        $input['id'] = $last_key;
+        $input['content'] = ' ';
+        $input['message_from'] = 'nutri';
+        $input['is_read'] = 0;
+        $input['from_admin'] = 1;
+        $input['sender_id'] = $sender->id;
+        $input['recording'] = url('/').$output;
+        $input['sender_name'] = $sender->name;
+        $input['receiver_name'] = $receptor->firstname.' '.$receptor->lastname;
+        $input['sender_image'] = $sender->avatar;
+        if ($receptor->avater) {
+            $input['receiver_image'] = $receptor->avater;
+        }else{
+            $input['receiver_image'] = 'avatar.png';
+        }
+        $input['sender_receiver'] = $sender->id.'_'.$input['receiver_id'];
+        $input['timestamp'] = NOW();
+        $input['created_on'] = Carbon::now()->timestamp;
+        $set = $database->getReference($ref)->update($input);
+
+        return response(['data' => $set->getvalue()], 200);
+
+    }
+
+
     public function showClients($id)
     {
         $clients = DB::table('nutritionist_clients')

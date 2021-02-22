@@ -125,6 +125,8 @@ Route::resource('notes','NoteController');
 Route::get('send-note/{id}','NoteController@sendNote')->name('send-note');
 
 Route::resource('client-chats','ClientChatController');
+Route::post('saveRecording','ClientChatController@saveRecording')->name('save-recording');
+
 Route::get('mark-unread/{id}','ClientChatController@markUnread')->name('mark-unread');
 Route::get('block-nutritionist/{id}','ClientChatController@blockNutritionist')->name('block-nutritionist');
 Route::get('unblock-nutritionist/{id}','ClientChatController@unblockNutritionist')->name('unblock-nutritionist');
