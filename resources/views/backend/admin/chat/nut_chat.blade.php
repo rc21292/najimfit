@@ -293,7 +293,7 @@
                         if (chat_content != ' ') {                
                             chat_element += chat_content;
                         }else{
-                            chat_element += '<audio id="audio" controls><source src="'+ childData.recording +'" type="audio/mp3"></audio>';
+                            chat_element += '<audio controls><source src="'+ childData.recording +'" type="audio/mp3"></audio>';
                         }
 
                         // chat_element += chat_content;
