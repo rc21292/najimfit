@@ -419,11 +419,11 @@
         });
     </script>
 
-    <script type="text/javascript" src="https://unpkg.com/mic-recorder-to-mp3@2.2.2/dist/index.js"></script>
+     <script type="text/javascript" src="https://unpkg.com/mic-recorder-to-mp3@2.2.2/dist/index.js"></script>
     <script type="text/javascript">
 
         var timer = 0,
-        timeTotal = 61800,
+        timeTotal = 62400,
         timeCount = 20,
         timeStart = 0,
         cFlag;
@@ -444,8 +444,8 @@
             timeStart = new Date().getTime();
 
             recorder.start().then(() => {
-                $('#error-message').html('');
                 animateUpdate();
+                $('#error-message').html('');
                 stopbutton.textContent = 'Send Recording';
                 $(".cancelRecordingButton").show();
                 $(".emojionearea").hide();
@@ -472,8 +472,8 @@
 
                 var fd=new FormData();
                 receiver_id: '{{$receptorUser->id}}'
-                fd.append("receiver_id", "{{$receptorUser->id}}");
-                fd.append("sender_id", "{{@Auth::user()->id}}");
+                fd.append("receiver_id", "{{@$receptorUser->id}}");
+                fd.append("sender_id", "{{@$senderUser->id}}");
                 fd.append("audio_data",blob, "voice-recording");
                 $.ajax({
                     headers: {
@@ -526,7 +526,7 @@
             console.log('min',min);
             var  cancelRecording = $("#cancelRecording").val();
             console.log('cancel',cancelRecording);
-            if ((percentage == 61800) && (cancelRecording != '1')) {
+            if ((percentage == 62400) && (cancelRecording != '1')) {
                 stopRecording();
             }
             $('#pbar_innerdiv').css("width", x + "%");
