@@ -5,10 +5,13 @@
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" />
 <style type="text/css">
-    .circle-icon {
+.circle-icon {
+    background-color: #45e345 !important; 
+    color: white !important;
     background: #ffc0c0;
     padding:10px;
     border-radius: 50%;
+    font-size: 18px;
 }
 </style>
 <div id="app" class="ui main container" >
@@ -147,16 +150,16 @@
                                             <ul class="ms-list-flex mb-0">
                                                 <li class="ms-chat-input">
                                                     <textarea rows="-3" id="content" name="content" placeholder="Enter Message" ></textarea>
-                                                    <div id="pbar_outerdiv" style=" display: none;  width: 195; height: 15px; border: 1px solid grey; z-index: 1; position: relative; border-radius: 5px; -moz-border-radius: 5px;">
+                                                    <div id="pbar_outerdiv" style="width: 94%; display: none;  width: 195; height: 15px; border: 1px solid grey; z-index: 1; position: relative; border-radius: 5px; -moz-border-radius: 5px;">
                                                         <div id="pbar_innerdiv" style="background-color: lightblue; z-index: 2; height: 100%; width: 0%;"></div>
                                                         <div id="pbar_innertext" style="z-index: 3; position: absolute; top: -4px; left: 0; height: 100%; color: black; font-weight: bold; text-align: center;">0&nbsp;s</div>
                                                         <p>Recording in progress....</p>
                                                     </div>
                                                 </li>
-                                                <li style="margin-top: -16px; margin-left: 3px;">
-                                                    <a class="RecordButton" style="font-size: 20px;" href="javascript:void(0);"><i class="fa fa-microphone circle-icon" aria-hidden="true"></i></a>
-                                                <button style="display: none;" title="Record a Message" class=" sendRecordingButton btn btn-primary"><i class="fa fa-microphone fa-5x circle-icon" aria-hidden="true"></i> </button>
-                                                 <button style="display: none;" class=" cancelRecordingButton btn btn-primary">Cancel Recording</button>
+                                                <li style=" margin-left: 3px;">
+                                                    <a title="Record a voice message" class="RecordButton" href="javascript:void(0);"><i class="fa fa-microphone circle-icon" aria-hidden="true"></i></a>
+                                                <a style="display: none;" title="Send audio message" class=" sendRecordingButton"><i class="fa fa-paper-plane circle-icon" aria-hidden="true"></i> </a>
+                                                 <a title="Cancel Recording" style="display: none;" class=" cancelRecordingButton"><i class="fa fa-times circle-icon" aria-hidden="true"></i></a>
                                                     <button type="submit" class="sendMessage btn btn-primary">Send</button>
                                                 </li>
                                                 <input type="hidden" value="0" id="cancelRecording" name="cancelRecording">
@@ -442,11 +445,11 @@
             clearTimeout(timer);
             cFlag = true;
             timeStart = new Date().getTime();
+                $('#error-message').html('');
 
             recorder.start().then(() => {
-                $('#error-message').html('');
                 animateUpdate();
-                stopbutton.textContent = 'Send Recording';
+                $("#cancelRecording").val(0);
                 $(".cancelRecordingButton").show();
                 $(".emojionearea").hide();
                 $(".sendMessage").hide();
@@ -454,7 +457,6 @@
                 $("#pbar_outerdiv").trigger('click');
                 $('.sendRecordingButton').show();
                 $('.RecordButton').hide();
-                stopbutton.classList.toggle('btn-danger');
                 stopbutton.removeEventListener('click', startRecording);
                 stopbutton.addEventListener('click', stopRecording);
             }).catch((e) => {
@@ -473,18 +475,23 @@
                 fd.append("receiver_id", "{{$receptorUser->id}}");
                 fd.append("sender_id", "{{@Auth::user()->id}}");
                 fd.append("audio_data",blob, "voice-recording");
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $("meta[name=csrf-token]").attr('content')
-                    },
-                    url: "{{ route('save-recording') }}",
-                    data: fd,
-                    method: 'POST',
-                    contentType: false,
-                    processData: false,
-                    success: function(data) {
-                    }
-                });
+                var  cancelRecording = $("#cancelRecording").val();
+                if ((cancelRecording != '1')) {
+
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $("meta[name=csrf-token]").attr('content')
+                        },
+                        url: "{{ route('save-recording') }}",
+                        data: fd,
+                        method: 'POST',
+                        contentType: false,
+                        processData: false,
+                        success: function(data) {
+                        }
+                    });
+                }
 
                 $(".sendRecordingButton").hide();
                 $(".cancelRecordingButton").hide();
@@ -559,9 +566,10 @@
         $(".cancelRecordingButton").click(function () 
         {
             $("#cancelRecording").val(1);
-            stopbutton.textContent = 'Start recording';
+            stopRecording();
+          /*  stopbutton.textContent = 'Start recording';
             stopbutton.classList.remove('btn-danger');
-            stopbutton.classList.add('btn-primary');
+            stopbutton.classList.add('btn-primary');*/
             $(".emojionearea").show();
             $(".sendMessage").show();
             $(".sendRecordingButton").hide();
