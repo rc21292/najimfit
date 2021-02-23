@@ -182,7 +182,14 @@
                         }
                         chat_element += '<div class="media-body">';
 
-                        chat_element += '<div class="ms-chat-text"><p>';                
+                        chat_element += '<div class="ms-chat-text"><p>';         
+
+                        if (chat_content != ' ') {                
+                            chat_element += chat_content;
+                        }else{
+                            chat_element += '<audio controls><source src="'+ childData.recording +'" type="audio/mp3"></audio>';
+                        }       
+                        
                         chat_element += chat_content;
 
                         chat_element += '</p></div>';
