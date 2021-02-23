@@ -469,11 +469,6 @@
                     type: blob.type,
                     lastModified: Date.now()
                 });
-
-                let duration = buffer.duration;
-            console.log('dura',duration);
-            document.write('size',duration);
-
                 var fd=new FormData();
                 fd.append("receiver_id", "{{$receptorUser->id}}");
                 fd.append("sender_id", "{{@Auth::user()->id}}");
