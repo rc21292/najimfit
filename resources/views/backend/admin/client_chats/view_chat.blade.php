@@ -223,7 +223,8 @@
                         chat_element += '<div class="ms-chat-text"><p>';
                         chat_element += chat_content;
                     }else{
-                        chat_element += '<div class="ms-chat-text"><p style="background:none !important; margin-top:-18px;margin-bottom:-14px;">';
+                        // chat_element += '<div class="ms-chat-text"><p style="background:none !important; margin-top:-18px;margin-bottom:-14px;">';
+                        chat_element += '<div class="ms-chat-text"><p>';
                          chat_element += '<audio id="audio" controls><source src="'+ childData.recording +'" type="audio/mp3"></audio>';
                     }
 
