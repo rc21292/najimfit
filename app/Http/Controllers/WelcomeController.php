@@ -18,7 +18,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $sliders = Slider::latest()->take(4)->get();
-        $packages = Package::latest()->take(6)->get();
+        $packages = Package::where('status','on')->latest()->take(6)->get();
         $blogs = Blog::take(3)->get();
         $blogs_data = Blog::take(3)->get();
         $staffs = User::role('Staff')->latest()->get();
