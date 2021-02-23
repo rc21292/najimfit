@@ -218,7 +218,6 @@
                         }
                         chat_element += '<div class="media-body">';
 
-
                         if (chat_content != ' ') {                
                         chat_element += '<div class="ms-chat-text"><p>';
                         chat_element += chat_content;
