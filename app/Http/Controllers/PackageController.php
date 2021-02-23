@@ -17,7 +17,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $packages = Package::latest()->get();
+        $packages = Package::where('status','on')->latest()->get();
         return view('packages',compact('packages'))->with('no', 1);
     }
 
