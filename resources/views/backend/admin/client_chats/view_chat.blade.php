@@ -77,7 +77,7 @@
                                                     </div>
                                                 </li>
                                                 <li style=" margin-left: 3px;">
-                                                    <a title="Record a voice message" class="RecordButton" href="javascript:void(0);"><i class="fa fa-microphone circle-icon" aria-hidden="true"></i></a>
+                                                    <a style="display: none;" title="Record a voice message" class="RecordButton" href="javascript:void(0);"><i class="fa fa-microphone circle-icon" aria-hidden="true"></i></a>
                                                 <a style="display: none;" title="Send audio message" class=" sendRecordingButton"><i class="fa fa-paper-plane circle-icon" aria-hidden="true"></i> </a>
                                                  <a title="Cancel Recording" style="display: none;" class=" cancelRecordingButton"><i class="fa fa-times circle-icon" aria-hidden="true"></i></a>
                                                     <button type="submit" class="sendMessage btn btn-primary">Send</button>
@@ -237,7 +237,7 @@
                         var monthShortNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
                         ];
-                        
+
                         let formatted_date = (monthShortNames[current_datetime.getMonth()])+ " " + current_datetime.getDate() + ", " + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + " " + (current_datetime.getHours() >= 12 ? 'pm' : 'am');
                         var date1 = new Date(childData.timestamp);
                         var date2 = new Date();
