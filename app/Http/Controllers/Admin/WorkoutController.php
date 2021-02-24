@@ -75,11 +75,12 @@ class WorkoutController extends Controller
        DB::table('client_workouts')->where('client_id',$request->client_id)->delete();
        foreach($request->days as $key => $value){
         foreach($value['exercises'] as $newkey => $exercise){
-            ClientWorkout::updateOrCreate(
-                ['client_id' => $request->client_id, 'day' => $value['day'], 'exercise' =>$exercise],
-                ['exercise' => $exercise , 'day' => $value['day']]
-            );
+            ClientWorkout::Create(
+                    ['client_id' => $request->client_id,'category' => $request->workout, 'day' => $value['day'], 'exercise' =>$exercise],
+                    ['exercise' => $exercise , 'day' => $value['day']]
+                );
         } 
+        DB::table('nutritionist_clients')->where('client_id',$request->client_id)->update(['workout_status' => 'posted']);
     }
 
     return redirect()->route('workout-template',$request->client_id);
@@ -138,12 +139,15 @@ class WorkoutController extends Controller
         $weight = DB::table('client_answers')->where('client_id',$id)->where('question_id',9)->value('answer');
         $no_days = ClientWorkout::where('client_id',$id)->max('day');
         $client_workouts = DB::table('client_workouts')->where('client_id',$id)->get();
+        $category = DB::table('client_workouts')->where('client_id',$id)->value('category');
+        $days = ClientWorkout::where('client_id',$id)->distinct('day')->count();
+
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
 
         Session::forget('back_cunsult_team_url');
         Session::put('back_cunsult_team_url', URL::current());
         
-        return view('backend.admin.workout.table',compact('client','weight','height','workouts','answers','exercises','client_workouts','no_days'));
+        return view('backend.admin.workout.table',compact('client','weight','height','workouts','answers','exercises','client_workouts','no_days','days','category'));
     }
 
     /**
@@ -154,7 +158,7 @@ class WorkoutController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    { 
         //
     }
 
@@ -202,7 +206,7 @@ class WorkoutController extends Controller
 
     public function workouttemplate($id){
         $no_days = ClientWorkout::where('client_id',$id)->max('day');
-
+        $days = ClientWorkout::where('client_id',$id)->distinct('day')->count();
         $exercises = Exercise::all();
         $answers = DB::table('client_answers')->join('questions','questions.id','=','client_answers.question_id')->select('questions.question','client_answers.answer')->where('client_answers.client_id',$id)->get();
         $client = Client::find($id);
@@ -210,7 +214,7 @@ class WorkoutController extends Controller
 
         $height = DB::table('client_answers')->where('client_id',$id)->where('question_id',10)->value('answer');
         $workouts = DB::table('client_workouts')->join('exercises','exercises.id','=','client_workouts.exercise')->select('exercises.*','exercises.id as exercise_id','client_workouts.*')->where('client_id',$id)->get();
-        return view('backend.admin.workout.template',compact('client','weight','height','answers','exercises','no_days','workouts'));
+        return view('backend.admin.workout.template',compact('client','weight','height','answers','exercises','no_days','workouts','days'));
     }
 
     public function workoutinfo($id){
@@ -244,6 +248,9 @@ class WorkoutController extends Controller
 
         foreach($request->reps as $workout_id => $value){
             DB::table('client_workouts')->where('id',$workout_id)->update(['reps' => $value]);
+        }
+        foreach($request->category as $workout_id => $value){
+            DB::table('client_workouts')->where('id',$workout_id)->update(['category' => $value]);
         }
         DB::table('nutritionist_clients')->where('client_id',Session::get('client_id'))->update(['workout_status'=>'posted']);
         return redirect()->route('renew-workout.index')->with(['success'=>'Workout Assigned Successfully!']);

@@ -50,7 +50,7 @@
 											<h6>Select Reps and Sets</h6>
 										</div>
 										<div class="col-sm-3">
-											<a href="{{route('assign-workout.edit',$client->id)}}" class="btn btn-info has-icon"><i class="flaticon-information"></i>Add Exercises</a>
+											<a href="{{route('assign-workout.edit',$client->id)}}" class="btn btn-info has-icon">Add More Exercises</a>
 										</div>
 									</div>
 								</div>
@@ -93,7 +93,7 @@
 																<tr>
 																	<td><a href="{{route('workout-info',$workout->exercise)}}" disabled class="btn btn-pill btn-light" style="margin: auto">{{$workout->name}}</a></td>
 																	<td><input type="number" name="sets[{{$workout->id}}]" class="form-control" required value="{{$workout->sets}}"></td>
-																	<td><input type="number" name="reps[{{$workout->id}}]" class="form-control" required value="{{$workout->reps}}"></td>
+																	<td><input type="number" name="reps[{{$workout->id}}]" class="form-control" required value="{{$workout->reps}}"><input type="hidden" name="category[{{$workout->id}}]" value="{{$workout->category}}"></td>
 																	<td><a href="javascript:" onclick="submitform(2);"><i class="far fa-trash-alt ms-text-danger"></i></a><form type="hidden" id="delete-form2" action="{{route('assign-workout.destroy',$workout->id)}}" method="POST"><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='POST'></form></td>
 																</tr>
 																@endif

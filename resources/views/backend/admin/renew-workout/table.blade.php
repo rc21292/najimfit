@@ -54,26 +54,27 @@
 				</div>
 			</div>
 			<div class="ms-panel-body">
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="table-responsive">
-							<h6>Select Workout Category</h6>
-							<div class="btn-group-toggle radiogrp" data-toggle="buttons">
-								@foreach($workouts as $workout)
-								@if(Session::get('workout_id') == $workout->id)
-								<label class="btn btn-primary focus active">
-									<input type="radio" name="workout" class="dietworkout" value="{{ $workout->id }}" checked="checked"> {{$workout->name}}
-									@else
-									<label class="btn btn-primary">
-										<input type="radio" name="workout" class="dietworkout" value="{{ $workout->id }}"> {{$workout->name}}
-										@endif
-									</label>
-									@endforeach
+				<form method="post" action="{{route('renew-workout.store')}}">
+					@csrf
+					<div class="row">
+						<div class="col-sm-9">
+							<div class="table-responsive">
+								<h6>Select Workout Category</h6>
+								<div class="btn-group-toggle radiogrp" data-toggle="buttons">
+									@foreach($workouts as $workout)
+									@if($category == $workout->id)
+									<label class="btn btn-primary focus active">
+										<input type="radio" name="workout" class="dietworkout" value="{{ $workout->id }}" checked="checked"> {{$workout->name}}
+										@else
+										<label class="btn btn-primary">
+											<input type="radio" name="workout" class="dietworkout" value="{{ $workout->id }}"> {{$workout->name}}
+											@endif
+										</label>
+										@endforeach
+									</div>
 								</div>
-							</div>
-							<div class="pt-5 workoutdiv" style="display: none;">
-								<form method="post" action="{{route('renew-workout.store')}}">
-									@csrf
+								<div class="pt-5 workoutdiv" style="display: none;">
+
 									<input type="hidden" name="client_id" value="{{ $client->id }}">
 									<div class="col-xl-12 col-md-12">
 										<div class="ms-panel ms-panel-fh">
@@ -88,137 +89,139 @@
 																<th scope="col">Day :ex(1,2)</th>
 																<th scope="col">Select Exrecises</th>
 																<th scope="col">Add Days</th>
-
 															</tr>
 														</thead>
 														@php
-
-														$days_row = 0;
-
-														$day_wise_exercises = DB::table('client_workouts')
-														->join('exercises','exercises.id','=','client_workouts.exercise')
-														->select('exercises.id as exercise_id','exercises.name','client_workouts.day','client_workouts.exercise')
-														->where('client_workouts.client_id',$client->id)
-														->orderBy('day')
-														->groupBy('day')
-														->get();
-
+														$days_row = 1;
 														@endphp
 
 														<tbody>
-															@foreach($day_wise_exercises as $day_wise_exercise)
+															@for ($i = 0; $i < $days; $i++)
 															<tr id="day-row{{ $days_row }}">
-																<td class="text-right"><input type="text" name="days[{{$day_wise_exercise->day}}][day]" placeholder="" class="form-control" value="{{ $day_wise_exercise->day }}"/></td>
+																<td class="text-right"><input type="text" name="days[{{$days_row}}][day]" placeholder="" class="form-control" value="{{ $days_row }}"/></td>
 																<td class="text-right" >
-																	<select name="days[{{$day_wise_exercise->day}}][exercises][]" value="" placeholder="Exercise Name" class="exercises form-control" required multiple="multiple">
+																	<select name="days[{{$days_row}}][exercises][]" value="" placeholder="Exercise Name" class="exercises form-control" required multiple="multiple">
 																		@foreach($exercises as $exercise)
-																		@if($day_wise_exercise->exercise == $exercise->id)
-																		<option value="{{$exercise->id}}" selected>{{$exercise->name}}</option>
-																		@else
-																		<option value="{{$exercise->id}}">{{$exercise->name}}</option>
-																		@endif
-																		@endforeach
-																	</select>
-																</td>
-																<td class="text-center"><button type="button" onclick="$('#day-row{{ $days_row  }}').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
-															</tr>
-															@php
-															$days_row ++;
-															@endphp
-															@endforeach
-														</tbody>
-														<tfoot>
-															<tr>
-																<th scope="row"></th>
-																<td></td>
-																<td class="text-center"><button type="button" onclick="adddays();" data-toggle="tooltip" title="Add Option Value" class="btn btn-danger"><i class="fa fa-plus"></i></button></td></td>
-															</tr>
-														</tfoot>
-													</table>
+
+																		<option value="{{$exercise->id}}" @foreach($client_workouts as $client_workout)
+																			@if($client_workout->exercise == $exercise->id && $days_row == $client_workout->day)
+																			selected
+																			@else
+																			@endif
+																			@endforeach>{{$exercise->name}}</option>
+
+																			@endforeach
+																		</select>
+																	</td>
+																	<td class="text-center"><button type="button" onclick="$('#day-row{{ $days_row  }}').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+																</tr>
+																@php
+																$days_row ++;
+																@endphp
+																@endfor
+															</tbody>
+															<tfoot>
+																<tr>
+																	<th scope="row"></th>
+																	<td></td>
+																	<td class="text-center"><button type="button" onclick="adddays();" data-toggle="tooltip" title="Add Option Value" class="btn btn-danger"><i class="fa fa-plus"></i></button></td></td>
+																</tr>
+															</tfoot>
+														</table>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-12">
-											<button class="btn btn-primary float-right" type="submit">Save</button>
+										<div class="row">
+											<div class="col-sm-12">
+												<button class="btn btn-primary float-right" type="submit">Save</button>
+											</div>
+
 										</div>
 
 									</div>
-								</form>
-							</div>
 
-							<div class="ms-panel-body float-right">
-								@role('Admin')
-								<button type="button" onclick="window.location.href='{{ route('client-chats.show',$client->id) }}' " class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
-								@endrole
-								@role('Nutritionist')
-								<button type="button" onclick="window.location.href='{{ route('chat.show',$client->id) }}' " class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
-								@endrole
-								<button type="button" class="btn btn-square btn-danger has-icon" onclick="window.location.href='{{route('group-chat.index')}}'"><i class="flaticon-alert-1"></i> Consult Team</button>
+									<div class="ms-panel-body float-right">
+										@role('Admin')
+										<button type="button" onclick="window.location.href='{{ route('client-chats.show',$client->id) }}' " class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
+										@endrole
+										@role('Nutritionist')
+										<button type="button" onclick="window.location.href='{{ route('chat.show',$client->id) }}' " class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
+										@endrole
+										<button type="button" class="btn btn-square btn-danger has-icon" onclick="window.location.href='{{route('group-chat.index')}}'"><i class="flaticon-alert-1"></i> Consult Team</button>
+									</div>
+								</div>
+
+								<div class="col-sm-3" style="border: 1px dotted #00ff08;">
+									<h5 class="text-center pb-3">Questionnaire</h5>
+									@forelse($answers as $answer)
+									<p>Q: {{ $answer->question }} </p>
+									<p>A: {{ $answer->answer }} </p>
+									@empty
+									<p class="text-center"><strong>Not Answered</strong></p>
+
+									@endforelse
+								</div>
 							</div>
 						</div>
-
-						<div class="col-sm-3" style="border: 1px dotted #00ff08;">
-							<h5 class="text-center pb-3">Questionnaire</h5>
-							@forelse($answers as $answer)
-							<p>Q: {{ $answer->question }} </p>
-							<p>A: {{ $answer->answer }} </p>
-							@empty
-							<p class="text-center"><strong>Not Answered</strong></p>
-
-							@endforelse
-						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
-	</div>
-	@endsection
-	@push('scripts')
-	<script type="text/javascript">
-		$( document ).ready(function() {
-			$('.dietworkout').change(function(e){
-				e.preventDefault();
-				var workout = $(this).val()
-				var client_id = {{ $client->id }}
+		@endsection
+		@push('scripts')
+		<script type="text/javascript">
+			$( document ).ready(function() {
+				@if($client_workouts->count() >= 1)
 				$('.workoutdiv').show();
+				@else
+				$('.workoutdiv').hide();
+				@endif
 			});
-		});
-	</script>
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+		</script>
+		<script type="text/javascript">
+			$( document ).ready(function() {
+				$('.dietworkout').change(function(e){
+					e.preventDefault();
+					var workout = $(this).val()
+					var client_id = {{ $client->id }}
+					$('.workoutdiv').show();
+				});
+			});
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
-	<script type="text/javascript">
-		var days_row = 0;
-		function adddays() {
-			html = '<tr id="day-row' + days_row + '">';
-			html += '  <th scope="row"><input type="text" name="days[' + days_row + '][day]" value="" placeholder="Day" class="form-control col-sm-3" required/></td>';
-			html += '  <td class="text-right"><select name="days[' + days_row + '][exercises][]" value="" placeholder="Exercise Name" class="exercises form-control" required multiple="multiple">@foreach($exercises as $exercise)<option value="{{$exercise->id}}">{{$exercise->name}}</option>@endforeach</select></td>';
-			html += '  <td class="text-center"><button type="button" onclick="$(\'#day-row' + days_row + '\').remove();" data-toggle="tooltip" title="remove" class="ms-btn-icon btn-square btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
-			html += '</tr>';
+		<script type="text/javascript">
+			var days_row = 0;
+			function adddays() {
+				html = '<tr id="day-row' + days_row + '">';
+				html += '  <th scope="row"><input type="text" name="days[' + days_row + '][day]" value="" placeholder="Day" class="form-control col-sm-3" required/></td>';
+				html += '  <td class="text-right"><select name="days[' + days_row + '][exercises][]" value="" placeholder="Exercise Name" class="exercises form-control" required multiple="multiple">@foreach($exercises as $exercise)<option value="{{$exercise->id}}">{{$exercise->name}}</option>@endforeach</select></td>';
+				html += '  <td class="text-center"><button type="button" onclick="$(\'#day-row' + days_row + '\').remove();" data-toggle="tooltip" title="remove" class="ms-btn-icon btn-square btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+				html += '</tr>';
 
-			$('#days tbody').append(html);
-			$('.exercises').select2();
-			days_row++;
-		}           
+				$('#days tbody').append(html);
+				$('.exercises').select2();
+				days_row++;
+			}           
 
-	</script>
-	<script type="text/javascript"><!--
-		var facility_row = 0;
+		</script>
+		<script type="text/javascript"><!--
+			var facility_row = 0;
 
-		function addImage() {
-			html = '<tr id="facility-row' + facility_row + '">';
-			html += '  <td class="text-right"><input type="text" name="facility[' + facility_row + '][facility_val]" value="" placeholder="Sub value" class="form-control" /></td>';
-			html += '  <td class="text-center"><button type="button" onclick="$(\'#facility-row' + facility_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
-			html += '</tr>';
+			function addImage() {
+				html = '<tr id="facility-row' + facility_row + '">';
+				html += '  <td class="text-right"><input type="text" name="facility[' + facility_row + '][facility_val]" value="" placeholder="Sub value" class="form-control" /></td>';
+				html += '  <td class="text-center"><button type="button" onclick="$(\'#facility-row' + facility_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+				html += '</tr>';
 
-			$('#facilities tbody').append(html);
+				$('#facilities tbody').append(html);
 
-			facility_row++;
-		}
+				facility_row++;
+			}
 
-		//--></script>
-		<script type="text/javascript">$('.exercises').select2();</script>
+			//--></script>
+			<script type="text/javascript">$('.exercises').select2();</script>
 
 
-		@endpush
+			@endpush

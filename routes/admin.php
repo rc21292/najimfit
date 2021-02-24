@@ -157,6 +157,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'],'namespace'=>'Ad
 
 // Renew Table Nutritionist-wise
 	Route::resource('renew-table','RenewTableController');
+
 	Route::get('all-renew-clients','RenewTableController@allclients')->name('all-renew-clients');
 	Route::post('renew-table/set-session','RenewTableController@setsession')->name('set-renewtable-session');
 	Route::get('diet-template-renew/{id}','RenewTableController@diettemplate')->name('edit-diet-template');
@@ -172,6 +173,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth'],'namespace'=>'Ad
 
 // Renew Workout Nutritionist-wise
 	Route::resource('renew-workout','RenewWorkoutController');
+	Route::post('renew-workout/delete/exercise','RenewWorkoutController@deleteExercise')->name('delete-exercise');
 	Route::get('all-renew-workout-clients','RenewWorkoutController@allclients')->name('all-renew-workout-clients');
 	Route::post('renew-workout-template','RenewWorkoutController@renewtemplate')->name('reassign-workout-template');
 	Route::get('renew-workout-template/{id}','RenewWorkoutController@workouttemplate')->name('renew-workout-template');

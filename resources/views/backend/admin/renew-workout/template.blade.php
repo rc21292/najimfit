@@ -50,67 +50,69 @@
 											<h6>Select Reps and Sets</h6>
 										</div>
 										<div class="col-sm-3">
-											<a href="{{route('renew-workout.edit',$client->id)}}" class="btn btn-info has-icon"><i class="flaticon-information"></i>Add Exercises</a>
+											<a href="{{route('renew-workout.edit',$client->id)}}" class="btn btn-info has-icon">Add More Exercises</a>
 										</div>
-									</div>
-								</div>
-								<div class="ms-panel-body">
-									<ul class="nav nav-tabs tabs-bordered d-flex nav-justified mb-4" role="tablist">
-										@php
-										$no_control=1;
-										@endphp
-										@for ($i = 0; $i < $no_days; $i++)
-										<li role="presentation"><a href="#tab{{$no_control}}" @if($no_control==1)class="active show" @endif aria-controls="tab1"  role="tab" data-toggle="tab" aria-selected="false"> Day {{$no_control}} </a></li>
-										@php
-										$no_control++;
-										@endphp
-										@endfor
-									</ul>
-									<div class="tab-content">
-										@php
-										$no_tab=1;
-										@endphp
-										@for ($i = 0; $i < $no_days; $i++)
-										<div role="tabpanel" @if($no_tab == 1) class="tab-pane active show fade in" @else class="tab-pane fade in" @endif  id="tab{{$no_tab}}">
-											<div class="ms-panel">
-												<div class="ms-panel-header">
-													<h6>Day {{$no_tab}}</h6>
-												</div>
-												<div class="ms-panel-body">
-													<div class="table-responsive">
-														<table class="table table-hover thead-primary">
-															<thead>
-																<tr>
-																	<th scope="col">Exercise</th>
-																	<th scope="col">Sets</th>
-																	<th scope="col">Reps</th>
-																	<th scope="col">Action</th>
-																</tr>
-															</thead>
-															<tbody>
-																@foreach($workouts as $workout)
-																@if($workout->day == $no_tab)
-																<tr>
-																	<td><a href="{{route('workout-info',$workout->exercise)}}" disabled class="btn btn-pill btn-light" style="margin: auto">{{$workout->name}}</a></td>
-																	<td><input type="number" name="sets[{{$workout->id}}]" class="form-control" required value="{{$workout->sets}}"></td>
-																	<td><input type="number" name="reps[{{$workout->id}}]" class="form-control" required value="{{$workout->reps}}"></td>
-																	<td><a href="javascript:" onclick="submitform(2);"><i class="far fa-trash-alt ms-text-danger"></i></a><form type="hidden" id="delete-form2" action="{{route('assign-workout.destroy',$workout->id)}}" method="POST"><input type='hidden' name='_token' value='{{ csrf_token()}}'><input type='hidden' name='_method' value='POST'></form></td>
-																</tr>
-																@endif
-																@endforeach
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-										</div>
-										@php
-										$no_tab++;
-										@endphp
-										@endfor
 									</div>
 								</div>
 							</div>
+							<div class="ms-panel-body">
+								<ul class="nav nav-tabs tabs-bordered d-flex nav-justified mb-4" role="tablist">
+									@php
+									$no_control=1;
+									@endphp
+									@for ($i = 0; $i < $no_days; $i++)
+									<li role="presentation"><a href="#tab{{$no_control}}" @if($no_control==1)class="active show" @endif aria-controls="tab1"  role="tab" data-toggle="tab" aria-selected="false"> Day {{$no_control}} </a></li>
+									@php
+									$no_control++;
+									@endphp
+									@endfor
+								</ul>
+								<div class="tab-content">
+									@php
+									$no_tab=1;
+									@endphp
+									@for ($i = 0; $i < $days; $i++)
+									<div role="tabpanel" @if($no_tab == 1) class="tab-pane active show fade in" @else class="tab-pane fade in" @endif  id="tab{{$no_tab}}">
+										<div class="ms-panel">
+											<div class="ms-panel-header">
+												<h6>Day {{$no_tab}}</h6>
+											</div>
+											<div class="ms-panel-body">
+												<div class="table-responsive">
+													<table class="table table-hover thead-primary">
+														<thead>
+															<tr>
+																<th scope="col">Exercise</th>
+																<th scope="col">Sets</th>
+																<th scope="col">Reps</th>
+																<th scope="col">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															@foreach($workouts as $workout)
+															@if($workout->day == $no_tab)
+
+															<tr>
+																<td><a href="{{route('workout-info',$workout->exercise)}}" disabled class="btn btn-pill btn-light" style="margin: auto">{{$workout->name}}</a></td>
+																<td><input type="number" name="sets[{{$workout->id}}]" class="form-control" required value="{{$workout->sets}}"></td>
+																<td><input type="number" name="reps[{{$workout->id}}]" class="form-control" required value="{{$workout->reps}}"><input type="hidden" name="category[{{$workout->id}}]" value="{{$workout->category}}"></td>
+																																	<td><a href="{{route('renew-workout.edit',$client->id)}}" class="ms-btn-icon btn-square btn-danger"><i class="fas fa-pen"></i></a></td>
+															</tr>
+															@endif
+															@endforeach
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									@php
+									$no_tab++;
+									@endphp
+									@endfor
+								</div>
+							</div>
+
 							<div class="ms-panel-body float-right">
 								<button type="button" class="btn btn-square btn-success has-icon"><i class="flaticon-tick-inside-circle"></i> Go to Chat</button>
 								<button type="button" class="btn btn-square btn-danger has-icon" onclick="window.location.href='{{route('group-chat.index')}}'"><i class="flaticon-alert-1"></i> Consult Team</button>
