@@ -211,7 +211,7 @@
                           <div class="modal-heading2">مميزات الباقة:</div>
                           <p>{{ $package->target_arabic }}</p>
                           <div class="item-name">سعر الباقة:</div>
-                          <div class="price">دينار بحريني <span>{{ $package->price}}</span>
+                          <div class="price">SAR <span>{{ $package->price}}</span>
                           </div>
                           <div class="modalbtn"> <a href="#" class="btn btn-light">   تواصل الدفع   </a>
                           </div>
