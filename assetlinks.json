@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.tegdar",
+    "sha256_cert_fingerprints":
+    ["FA:6A:CF:81:17:BB:62:6D:90:6E:04:B1:00:68:09:1B:B3:84:18:9C:BF:E2:71:99:9A:63:5B:E8:E6:08:AE:7D"]
+  }
+}]
