@@ -699,6 +699,37 @@ class AuthController extends Controller
 
 	}
 
+	public function getpackage(Request $request){
+		$package = Package::where('status','on')->where('id',$request->package_id)->first();
+
+
+			if ($request->currency) {
+				$amount=$package->price;
+				$from='SAR';
+				$to=$request->currency;
+				$amount_re = $this->currency_converter($from,$to,$amount);				
+			}else{
+				$amount_re = $package->price;
+			}
+
+			$allpackages[] = array(
+				'id'  => $package->id,
+				'name'  => $request->language == "arabic" ? $package->name_arabic : $package->name,
+				'price'  => $amount_re,
+				'validity'  => $package->validity.' days',
+				'workout_days'  => $package->workout_days,
+				'off_days'  => $package->off_days,
+				'target'  => $request->language == "arabic" ? $package->target_arabic : $package->target,
+				'description' => $request->language == "arabic" ? $package->description_arabic : $package->description,
+				'image' =>'https://tegdarco.com/uploads/packages/'.$package->image,
+			);            
+
+		
+		$response = ['success' => $allpackages];
+		return response($response, 200);
+
+	}
+
 	public function selectpackage(Request $request){
 		$user_id = Auth::Client()->id;
 		// echo "<pre>";print_r($user_id);"</pre>";exit;
