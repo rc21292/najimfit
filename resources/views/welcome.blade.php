@@ -138,7 +138,7 @@
         <div class="appstore">
           <ul class="list-inline d-flex">
             <li>
-              <a href="#">
+              <a href="https://apps.apple.com/us/app/tegdar/id1546045276">
                 <svg width="130" height="130" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <image xlink:href="{{asset('front_end/image/app_store_button_1.svg')}}" height="130" width="130"></image>
                 </svg>

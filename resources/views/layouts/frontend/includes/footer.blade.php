@@ -5,7 +5,7 @@
           <div class="appicon">
             <ul class="list-unstyled">
               <li>
-                <a href="#">
+                <a href="https://apps.apple.com/us/app/tegdar/id1546045276">
                   <svg width="150" height="50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <image xlink:href="{{asset('front_end/image/app_store_button_2.svg')}}" height="50" width="150"></image>
                   </svg>
