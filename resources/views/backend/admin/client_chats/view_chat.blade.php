@@ -5,6 +5,16 @@
 @role('Admin')
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" />
+<style type="text/css">
+.circle-icon {
+    background-color: #45e345 !important; 
+    color: white !important;
+    background: #ffc0c0;
+    padding:10px;
+    border-radius: 50%;
+    font-size: 18px;
+}
+</style>
 <div id="app" class="ui main container" >
     <div class="ui grid">
         <div class="row">           
@@ -59,11 +69,20 @@
                                         <form id="chat-form">
                                             <ul class="ms-list-flex mb-0">
                                                 <li class="ms-chat-input">
-                                                    <textarea id="content" name="content" placeholder="Enter Message" ></textarea>
+                                                    <textarea rows="-3" id="content" name="content" placeholder="Enter Message" ></textarea>
+                                                    <div id="pbar_outerdiv" style="width: 94%; display: none;  width: 195; height: 15px; border: 1px solid grey; z-index: 1; position: relative; border-radius: 5px; -moz-border-radius: 5px;">
+                                                        <div id="pbar_innerdiv" style="background-color: lightblue; z-index: 2; height: 100%; width: 0%;"></div>
+                                                        <div id="pbar_innertext" style="z-index: 3; position: absolute; top: -4px; left: 0; height: 100%; color: black; font-weight: bold; text-align: center;">0&nbsp;s</div>
+                                                        <p>Recording in progress....</p>
+                                                    </div>
                                                 </li>
-                                                <li style="margin-top: -16px; margin-left: 3px;">
-                                                    <button type="submit" class="btn btn-primary">Send</button>
+                                                <li style=" margin-left: 3px;">
+                                                    <a title="Record a voice message" class="RecordButton" href="javascript:void(0);"><i class="fa fa-microphone circle-icon" aria-hidden="true"></i></a>
+                                                    <a style="display: none;" title="Send audio message" class=" sendRecordingButton"><i class="fa fa-paper-plane circle-icon" aria-hidden="true"></i> </a>
+                                                    <a title="Cancel Recording" style="display: none;" class=" cancelRecordingButton"><i class="fa fa-times circle-icon" aria-hidden="true"></i></a>
+                                                    <button type="submit" class="sendMessage btn btn-primary">Send</button>
                                                 </li>
+                                                <input type="hidden" value="0" id="cancelRecording" name="cancelRecording">
                                             </ul>
                                         </form>
                                     </div>
@@ -176,8 +195,6 @@
             var chat_element = "";
             if(snapshot.val() != null) {
                 snapshot.forEach(function(childSnapshot) {
-                    // console.log('dd',childSnapshot.val().id);
-                    // firebase.database().ref('/chats').child(childSnapshot.val().id).update({'is_read' : 1});
                     var childData = childSnapshot.val();
                     var sender_receiver = childData.sender_receiver;
                     if (sender_receiver.trim() == id3.trim()) {
@@ -202,8 +219,13 @@
                         }
                         chat_element += '<div class="media-body">';
 
-                        chat_element += '<div class="ms-chat-text"><p>';                
+                        if (chat_content != ' ') {                
+                        chat_element += '<div class="ms-chat-text"><p>';
                         chat_element += chat_content;
+                    }else{
+                        chat_element += '<div class="ms-chat-text"><p>';
+                         chat_element += '<audio id="audio" controls><source src="'+ childData.recording +'" type="audio/mp3"></audio>';
+                    }
 
                         chat_element += '</p></div>';
 
@@ -214,7 +236,7 @@
                         ];
 
 
-                        console.log(current_datetime.getMinutes());
+
                         let formatted_date = (monthShortNames[current_datetime.getMonth()])+ " " + current_datetime.getDate() + ", " + current_datetime.getFullYear() + " " +  current_datetime.getHours() + ":" + current_datetime.getMinutes() + " " + (current_datetime.getHours() >= 12 ? 'pm' : 'am');
                         var date1 = new Date(childData.timestamp);
                         var date2 = new Date();
@@ -358,7 +380,7 @@
                 };
 
                 storageRef.child('images/' + file.name).put(file, metadata).then(function (snapshot) {
-                    console.log(snapshot);
+
                     snapshot.ref.getDownloadURL().then(function (url) {
                         document.getElementById('file_path').value = url;
                         document.getElementById('file_name').value = file.name;
@@ -386,4 +408,164 @@
                 });
             });
         </script>
-        @endpush
+
+     <script type="text/javascript" src="https://unpkg.com/mic-recorder-to-mp3@2.2.2/dist/index.js"></script>
+    <script type="text/javascript">
+
+        var timer = 0,
+        timeTotal = 61800,
+        timeCount = 20,
+        timeStart = 0,
+        cFlag;
+
+        const button = document.querySelector('.RecordButton');
+        const stopbutton = document.querySelector('.sendRecordingButton');
+        const cancelbutton = document.querySelector('.cancelRecordingButton');
+        const recorder = new MicRecorder({
+            bitRate: 128
+        });
+
+        button.addEventListener('click', startRecording);
+
+        function startRecording() {
+
+            clearTimeout(timer);
+            cFlag = true;
+
+            timeStart = new Date().getTime();
+                $('#error-message').html('');
+
+            recorder.start().then(() => {
+                animateUpdate();
+                $("#cancelRecording").val(0);
+                $(".cancelRecordingButton").show();
+                $(".emojionearea").hide();
+                $(".sendMessage").hide();
+                $("#pbar_outerdiv").show();
+                $("#pbar_outerdiv").trigger('click');
+                $('.sendRecordingButton').show();
+                $('.RecordButton').hide();
+                stopbutton.removeEventListener('click', startRecording);
+                stopbutton.addEventListener('click', stopRecording);
+            }).catch((e) => {
+                $('#error-message').html('Microphone access denied...');
+                console.error(e);
+            });
+        }
+
+        function stopRecording() {
+            recorder.stop().getMp3().then(([buffer, blob]) => {
+                const file = new File(buffer, 'music.mp3', {
+                    type: blob.type,
+                    lastModified: Date.now()
+                });
+
+                var fd=new FormData();
+                fd.append("receiver_id", "{{@$receptorUser->id}}");
+                fd.append("sender_id", "{{@$senderUser->id}}");
+                fd.append("audio_data",blob, "voice-recording");
+                var  cancelRecording = $("#cancelRecording").val();
+                if ((cancelRecording != '1')) {
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $("meta[name=csrf-token]").attr('content')
+                        },
+                        url: "{{ route('save-recording') }}",
+                        data: fd,
+                        method: 'POST',
+                        contentType: false,
+                        processData: false,
+                        success: function(data) {
+                        }
+                    });
+                }
+
+                $(".sendRecordingButton").hide();
+                $(".cancelRecordingButton").hide();
+                $(".RecordButton").show();
+                $(".emojionearea").show();
+                $(".sendMessage").show();
+                $("#pbar_outerdiv").hide();
+                $(".cancelRecordingButton ").hide();
+
+                button.removeEventListener('click', stopRecording);
+                button.addEventListener('click', startRecording);    
+            }).catch((e) => {
+                console.error(e);
+            });
+        }
+
+        function sendRecording() {
+            recorder.stop().getMp3().then(([buffer, blob]) => {
+                const file = new File(buffer, 'music.mp3', {
+                    type: blob.type,
+                    lastModified: Date.now()
+                });
+            }).catch((e) => {
+                console.error(e);
+            });
+        }
+
+
+        function updateProgress(percentage) {
+
+            var x = (percentage/timeTotal)*100,
+            y = x.toFixed(3);
+            var totalSec= (percentage / 1000);
+            var min = parseInt(totalSec/60);
+            var sec = parseInt(totalSec%60);
+            var hr= parseInt(min/60);
+            min = parseInt(min % 60);
+            var  cancelRecording = $("#cancelRecording").val();
+
+            if ((percentage == 61800) && (cancelRecording != '1')) {
+                stopRecording();
+            }
+
+            $('#pbar_innerdiv').css("width", x + "%");
+            $('#pbar_innertext').css("left", x + "%").text(min+":"+sec + "");
+        }
+
+        function animateUpdate() {
+            var perc = new Date().getTime() - timeStart;
+            if(perc < timeTotal) {
+                updateProgress(perc);
+                timer = setTimeout(animateUpdate, timeCount);
+            } else {
+                updateProgress(timeTotal);
+            }
+        }
+
+        $(document).ready(function() {
+            $('#pbar_outerdiv').click(function() {
+                var  cancelRecording = $("#cancelRecording").val();
+                if (cancelRecording) {
+                }else{
+                    if (cFlag == undefined) {
+                        clearTimeout(timer);
+                        cFlag = true;
+                        timeStart = new Date().getTime();
+                        animateUpdate();
+                    }
+                }
+            });
+        }); 
+
+        $(".cancelRecordingButton").click(function () 
+        {
+            $("#cancelRecording").val(1);
+            stopRecording();
+            $(".emojionearea").show();
+            $(".sendMessage").show();
+            $(".sendRecordingButton").hide();
+            $(".RecordButton").show();
+            $("#pbar_outerdiv").hide();
+            $(".cancelRecordingButton ").hide();
+            
+            stopbutton.removeEventListener('click', stopRecording);
+            stopbutton.addEventListener('click', startRecording);    
+        });
+    </script>
+
+    @endpush
