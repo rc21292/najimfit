@@ -123,6 +123,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 	Route::post('reset-mobile', 'Api\PasswordResetController@resetByMobile');
 
+	Route::post('/send-otp', 'Api\AuthController@sendOtp')->name('sendotp.api');
+	Route::post('/resend-otp', 'Api\AuthController@resendOtp')->name('resendotp.api');
+	Route::post('/verify-otp', 'Api\AuthController@verifyOtp')->name('verifyotp.api');
+
 	Route::get('getcountryflags','Api\AuthController@getcountryflags');
 	Route::post('convert-currency','Api\AuthController@currencyConverter');
 	Route::get('terms','Api\AuthController@terms');
