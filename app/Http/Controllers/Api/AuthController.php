@@ -109,6 +109,131 @@ class AuthController extends Controller
 		return response($response, 200);
 	}
 
+	public function sendOtp(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'phone' => 'required|numeric|min:11'
+		]);
+		if ($validator->fails())
+		{
+			$array = implode(',', $validator->errors()->all());
+			return response(["success"=> 0,'message'=>$array], 422);
+		}
+
+		$validator = Validator::make($request->all(), [
+			'phone' => 'unique:clients',
+		]);
+		if ($validator->fails())
+		{
+			$array = implode(',', $validator->errors()->all());
+			if ($request->language == "arabic") {
+				return response(["success"=> 2,"message"=>"رقم الهاتف المحمول مأخوذ بالفعل"], 422);
+			}
+			return response(["success"=> 2,"message"=>"Mobile number is already taken"], 422);
+		}
+
+		$id = config('services.twilio.account_sid');
+		$token = config('services.twilio.auth_token');
+		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
+		$from = "+12283356343";
+		$to = $request->phone;
+		$code = $this->setOTP();
+		$body = 'Your otp is '.$code;
+		$data = array (
+			'From' => $from,
+			'To' => $to,
+			'Body' => $body,
+		);
+		$post = http_build_query($data);
+		$x = curl_init($url );
+		curl_setopt($x, CURLOPT_POST, true);
+		curl_setopt($x, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($x, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($x, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($x, CURLOPT_USERPWD, "$id:$token");
+		curl_setopt($x, CURLOPT_POSTFIELDS, $post);
+		$y = curl_exec($x);
+		$xml = simplexml_load_string($y);
+		$json = json_encode($xml);
+		$array = json_decode($json,TRUE);
+		if (isset($array['SMSMessage']) && !empty($array['SMSMessage'])) {
+
+			$check = DB::table('user_otps')->where('phone',$request->phone)->exists();
+			if($check == true){   
+				$res = DB::table('user_otps')->where('phone',$request->phone)->update([ 
+					'otp' => $code, 
+				]);         
+
+			}else{
+				$res = DB::table('user_otps')->updateOrInsert([ 
+					'otp' => $code, 'phone'=> $request->phone, 'created_at' => now(), 'is_verified' => 0]);
+			}
+
+			return $response = ['success' => true,'message' => 'Otp sended successfully'];
+		}
+		if (isset($array['RestException']) && $array['RestException']['Status'] == 400) {
+			return $response = ['success' => false,'message' => $array['RestException']['Message']];
+		}
+
+		curl_close($x);
+	}
+
+	public function setOTP(){
+		$a = mt_rand(1000, 9999); 
+		$this->otp = $a;
+		return $this->otp;
+	}
+
+
+	public function resendOtp(Request $request)
+	{
+		$phone = $request->phone;
+
+		$id = config('services.twilio.account_sid');
+		$token = config('services.twilio.auth_token');
+		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
+		$from = "+12283356343";
+		$to = $request->phone;
+		$code = $this->setOTP();
+		$body = 'Your otp is '.$code;
+		$data = array (
+			'From' => $from,
+			'To' => $to,
+			'Body' => $body,
+		);
+		$post = http_build_query($data);
+		$x = curl_init($url );
+		curl_setopt($x, CURLOPT_POST, true);
+		curl_setopt($x, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($x, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($x, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($x, CURLOPT_USERPWD, "$id:$token");
+		curl_setopt($x, CURLOPT_POSTFIELDS, $post);
+		$y = curl_exec($x);
+		$xml = simplexml_load_string($y);
+		$json = json_encode($xml);
+		$array = json_decode($json,TRUE);
+		if (isset($array['SMSMessage']) && !empty($array['SMSMessage'])) {
+
+			$check = DB::table('user_otps')->where('phone',$phone)->exists();
+			if($check == true){
+				$res = DB::table('user_otps')->where('phone',$request->phone)->update([ 
+					'otp' => $code, 
+				]);         
+
+			}else{
+				$res = DB::table('user_otps')->updateOrInsert([ 
+					'otp' => $code, 'phone'=> $request->phone, 'created_at' => now(), 'is_verified' => 0]);
+			} 
+			return $response = ['success' => true,'message' => 'Otp sended successfully'];
+		}
+		if (isset($array['RestException']) && $array['RestException']['Status'] == 400) {
+			return $response = ['success' => false,'message' => $array['RestException']['Message']];
+		}
+
+		curl_close($x);   
+	}
+
 	public function forgetPasswordSms(Request $request)
 	{
 		$mobile_no = preg_replace(
@@ -153,6 +278,21 @@ class AuthController extends Controller
 		}
 
 		curl_close($x);
+	}
+
+
+
+	public function verifyOtp(Request $request) 
+	{
+		$phone = DB::table('user_otps')->where('otp',$request->otp)->value('phone');
+		$otp = DB::table('user_otps')->where('phone',$request->phone)->value('otp');
+		if($request->otp == $otp && $request->phone == $phone){
+
+			return response()->json(["message" => "success", "response" => "Otp Verified Successfully"],200);
+		} else {
+
+			return response()->json(["message" => "error", "errors" => "Otp not Verified"],422);
+		}
 	}
 
 	public function inAppPurchase()
