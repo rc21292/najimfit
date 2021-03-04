@@ -268,7 +268,7 @@ class AuthController extends Controller
 			$json = json_encode($xml);
 			$array = json_decode($json,TRUE);
 			if (isset($array['SMSMessage']) && !empty($array['SMSMessage'])) {
-				return $response = ['success' => true,'message' => 'Message sended successfully'];
+				return $response = ['success' => true,'message' => 'Message sent successfully'];
 			}
 			if (isset($array['RestException']) && $array['RestException']['Status'] == 400) {
 				return $response = ['success' => false,'message' => $array['RestException']['Message']];
@@ -288,10 +288,10 @@ class AuthController extends Controller
 		$otp = DB::table('user_otps')->where('phone',$request->phone)->value('otp');
 		if($request->otp == $otp && $request->phone == $phone){
 
-			return response()->json(["message" => "success", "response" => "Otp Verified Successfully"],200);
+			return response()->json(["success" => true, "message" => "Otp Verified Successfully"],200);
 		} else {
 
-			return response()->json(["message" => "error", "errors" => "Otp not Verified"],422);
+			return response()->json(["success" => false, "message" => "Otp not Verified"],422);
 		}
 	}
 
@@ -332,7 +332,7 @@ class AuthController extends Controller
 		$json = json_encode($xml);
 		$array = json_decode($json,TRUE);
 		if (isset($array['SMSMessage']) && !empty($array['SMSMessage'])) {
-			return $response = ['success' => true,'message' => 'Message sended successfully'];
+			return $response = ['success' => true,'message' => 'Message sent successfully'];
 		}
 		if (isset($array['RestException']) && $array['RestException']['Status'] == 400) {
 			return $response = ['success' => false,'message' => $array['RestException']['Message']];
