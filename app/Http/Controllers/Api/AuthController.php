@@ -127,9 +127,9 @@ class AuthController extends Controller
 		{
 			$array = implode(',', $validator->errors()->all());
 			if ($request->language == "arabic") {
-				return response(["success"=> 2,"message"=>"رقم الهاتف المحمول مأخوذ بالفعل"], 422);
+				return response(["success"=> false,"message"=>"رقم الهاتف المحمول مأخوذ بالفعل"], 422);
 			}
-			return response(["success"=> 2,"message"=>"Mobile number is already taken"], 422);
+			return response(["success"=> false,"message"=>"Mobile number is already taken"], 422);
 		}
 
 		$id = config('services.twilio.account_sid');
