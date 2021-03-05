@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\About;
 use DB;
+use App\Models\User;
 class AboutController extends Controller
 {
     /**
@@ -27,7 +28,8 @@ class AboutController extends Controller
     public function create()
     {
         $about = About::first();
-        return view('about_us',compact('about'));
+        $staffs = User::role('Staff')->latest()->get();
+        return view('about_us',compact('about','staffs'));
     }
 
     /**

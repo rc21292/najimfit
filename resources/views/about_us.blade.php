@@ -23,119 +23,63 @@
   </section>
 {!!$about->content!!}
   <!--Section-Three-End-->
-  <!--Section-Four-Start-->
-  <section class="section4">
-    <div class="container-fluid">
-      <div class="clienttitle">
-        <h4>  (فريق تقدر)     عائلتك الثانية</h4>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 col-xs-12">
-          <div id="carouselExampleControls" class="carousel slide carousel-fade" data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="row">
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="fancybox">
-                      <div class="fancytitle">نجم بن زياد</div>
-                      <div class="disc2">مؤسس الشركة ومدرب نمط الحياة الصحية</div>
-                      <p>حب نفسك وشخصك بكل ما لديك وبكل ما تملك، حب عيوبك وسلبياتك وإيجابياتك.. فالتغيير الإيجابي لا ينتج عن كره ومشاعر سلبية، حب الذات هو أول خطوة في طريق التغيير.. غير نفسك للأفضل لأنك تريد الأفضل لنفسك لأنك تحب نفسك.. وأعدك أنك ستنجح وستتغير</p>
-                      <div class="socialmedia">
-                        <ul class="list-inline d-flex">
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/facebook_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/twitter_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/instagram_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/youtube_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/fancycarousel1.png')}}" class="img-fluid">
-                      </div>
+<!--Section-Four-Start-->
+<section class="section4">
+  <div class="container-fluid">
+    <div class="clienttitle">
+      <h4>  (فريق تقدر)     عائلتك الثانية</h4>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-xs-12">
+        <div id="carouselExampleControls" class="carousel slide carousel-fade" data-ride="carousel">
+          <div class="carousel-inner">
+            @php $i = 0; @endphp
+            @foreach($staffs as $staff)
+            <div class="carousel-item @if($i == 0) active @endif">
+              <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                  <div class="fancybox">
+                    <div class="fancytitle">{{ $staff->name }}</div>
+                    <div class="disc2">{{ $staff->tagline_arabic }}</div>
+                    <p>{{ $staff->description_arabic }}</p>
+                    <div class="socialmedia">
+                      <ul class="list-inline d-flex">
+                        <li> <a href="{{ $staff->facebook_link }}"><span><img src="{{asset('front_end/image/facebook_icon_1.png')}}" alt="icon"></span></a>
+                        </li>
+                        <li> <a href="{{ $staff->twitter_link }}"><span><img src="{{asset('front_end/image/twitter_icon_1.png')}}" alt="icon"></span></a>
+                        </li>
+                        <li> <a href="{{ $staff->instagarm_link }}"><span><img src="{{asset('front_end/image/instagram_icon_1.png')}}" alt="icon"></span></a>
+                        </li>
+                        <li> <a href="{{ $staff->youtube_link }}"><span><img src="{{asset('front_end/image/youtube_icon_1.png')}}" alt="icon"></span></a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="carousel-item">
-                <div class="row">
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="fancybox">
-                      <div class="fancytitle">نجم بن زياد</div>
-                      <div class="disc2">مؤسس الشركة ومدرب نمط الحياة الصحية</div>
-                      <p>حب نفسك وشخصك بكل ما لديك وبكل ما تملك، حب عيوبك وسلبياتك وإيجابياتك.. فالتغيير الإيجابي لا ينتج عن كره ومشاعر سلبية، حب الذات هو أول خطوة في طريق التغيير.. غير نفسك للأفضل لأنك تريد الأفضل لنفسك لأنك تحب نفسك.. وأعدك أنك ستنجح وستتغير</p>
-                      <div class="socialmedia">
-                        <ul class="list-inline d-flex">
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/facebook_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/twitter_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/instagram_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/youtube_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/fancycarousel2.png')}}" class="img-fluid">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="row">
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="fancybox">
-                      <div class="fancytitle">نجم بن زياد</div>
-                      <div class="disc2">مؤسس الشركة ومدرب نمط الحياة الصحية</div>
-                      <p>حب نفسك وشخصك بكل ما لديك وبكل ما تملك، حب عيوبك وسلبياتك وإيجابياتك.. فالتغيير الإيجابي لا ينتج عن كره ومشاعر سلبية، حب الذات هو أول خطوة في طريق التغيير.. غير نفسك للأفضل لأنك تريد الأفضل لنفسك لأنك تحب نفسك.. وأعدك أنك ستنجح وستتغير</p>
-                      <div class="socialmedia">
-                        <ul class="list-inline d-flex">
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/facebook_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/twitter_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/instagram_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                          <li> <a href="#"><span><img src="{{asset('front_end/image/youtube_icon_1.png')}}" alt="icon"></span></a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xs-12">
-                    <div class="item-box-blog">
-                      <div class="item-box-blog-body">
-                        <img alt="" src="{{asset('front_end/image/fancycarousel3.png')}}" class="img-fluid">
-                      </div>
+                <div class="col-sm-6 col-xs-12">
+                  <div class="item-box-blog">
+                    <div class="item-box-blog-body">
+                      <img alt="" src="{{asset('uploads/user/dashboard/'.$staff->image)}}" class="img-fluid">
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <img src="{{asset('front_end/image/Play-video-left.png')}}" alt="left">
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <img src="{{asset('front_end/image/Play-video-right.png')}}" alt="right">
-            </a>
+            @php $i++; @endphp
+            @endforeach              
           </div>
+          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <img src="{{asset('front_end/image/Play-video-left.png')}}" alt="left">
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <img src="{{asset('front_end/image/Play-video-right.png')}}" alt="right">
+          </a>
         </div>
       </div>
     </div>
-  </section>
-  <!--Section-Four-End-->
+  </div>
+</section>
+<!--Section-Four-End-->
   <!--Footer-Start-->
 @endsection
 @push('scripts')
