@@ -213,7 +213,7 @@
                           <div class="item-name">سعر الباقة:</div>
                           <div class="price">SAR <span>{{ $package->price}}</span>
                           </div>
-                          <div class="modalbtn"> <a href="#" class="btn btn-light">   تواصل الدفع   </a>
+                          <div class="modalbtn"> <a href="https://tegdarco.com/packages?package_id={{$package->id}}&currency=SAR" class="btn btn-light">   تواصل الدفع   </a>
                           </div>
                         </div>
                       </div>
