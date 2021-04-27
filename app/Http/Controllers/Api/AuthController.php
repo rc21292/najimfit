@@ -1199,7 +1199,15 @@ class AuthController extends Controller
 		->select('users.id','users.nutritionist_id as reffernce_number','users.name','users.email','users.avater')
 		->where('client_id', Auth::user()->id)
 		->first();
-		$nutritionists->avater = 'https://tegdarco.com/uploads/user/'.@$nutritionists->avater;
+
+
+		if(isset($nutritionists->avater) && !empty($nutritionists->avater)){
+			$nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
+		}else{
+			$nutritionists->avater = 'https://tegdarco.com/uploads/user/avatar.png';
+		}
+		
+		// $nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
 		return response(['success'=> true,'message'=>'nutritionist detail','data' => $nutritionists], 200);
 	}
 
