@@ -1194,6 +1194,7 @@ class AuthController extends Controller
 	
 	public function nutritionistDetail(Request $request)
 	{
+		echo Auth::user()->id;
 		$nutritionists = DB::table('nutritionist_clients')
 		->join('users','users.id','nutritionist_clients.nutritionist_id')
 		->select('users.id','users.nutritionist_id as reffernce_number','users.name','users.email','users.avater')
