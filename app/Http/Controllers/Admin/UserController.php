@@ -63,6 +63,7 @@ public function index(Request $request)
       $input = $request->all();
       $input['password'] = Hash::make($input['password']);
       $user = User::create($input);
+      DB::table('users')->where('id',$user->id)->update(['nutritionist_id'=>'NJMF'.$user->id]);
       $user->assignRole($request->input('roles'));
       return redirect()->route('users.index')
       ->with('success','User created successfully');
