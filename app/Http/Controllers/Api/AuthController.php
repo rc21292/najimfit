@@ -1200,6 +1200,8 @@ class AuthController extends Controller
 		->where('client_id', Auth::user()->id)
 		->first();
 
+		echo "<pre>";print_r($nutritionists);exit;
+
 
 		if(isset($nutritionists->avater) && !empty($nutritionists->avater)){
 			$nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
