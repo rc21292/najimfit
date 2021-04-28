@@ -1194,21 +1194,21 @@ class AuthController extends Controller
 	
 	public function nutritionistDetail(Request $request)
 	{
-		echo Auth::user()->id;
 		$nutritionists = DB::table('nutritionist_clients')
 		->join('users','users.id','nutritionist_clients.nutritionist_id')
 		->select('users.id','users.nutritionist_id as reffernce_number','users.name','users.email','users.avater')
 		->where('client_id', Auth::user()->id)
 		->first();
 
-		echo "<pre>";print_r($nutritionists);exit;
-
-
-		if(isset($nutritionists->avater) && !empty($nutritionists->avater)){
-			$nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
+		if ($nutritionists) {
+			if(isset($nutritionists->avater) && !empty($nutritionists->avater)){
+				$nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
+			}else{
+				$nutritionists->avater = 'https://tegdarco.com/uploads/user/avatar.png';
+			}
 		}else{
-			$nutritionists->avater = 'https://tegdarco.com/uploads/user/avatar.png';
-		}
+			$nutritionists = array();
+		}		
 		
 		// $nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
 		return response(['success'=> true,'message'=>'nutritionist detail','data' => $nutritionists], 200);
