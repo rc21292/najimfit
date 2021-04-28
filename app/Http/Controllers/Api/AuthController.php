@@ -1207,7 +1207,7 @@ class AuthController extends Controller
 				$nutritionists->avater = 'https://tegdarco.com/uploads/user/avatar.png';
 			}
 		}else{
-			return response(["success"=> false,"message"=>"No nutritionist assign"], 422);
+			return response(["success"=> false,"message"=>"No nutritionist assign",'data' => array()], 422);
 		}		
 		
 		// $nutritionists->avater = 'https://tegdarco.com/uploads/user/'.$nutritionists->avater;
