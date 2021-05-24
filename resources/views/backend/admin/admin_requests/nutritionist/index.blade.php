@@ -31,7 +31,7 @@
 <script>
 	var dataSet18 = [
 	@foreach($requests as $request)
-	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->reason }}","{{ $request->created_at }}"],
+	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->reason }}","<a href='{{route('client-full-profile.show',$request->client_id)}}' class='btn btn-primary btnpro'>Profile</a><a class='btn btn-info btnpro' href='{{route('chat.show',$request->client_id)}}'>Chat</a>","{{ $request->created_at }}"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
@@ -41,6 +41,7 @@
 		{ title: "Nutritionist Name" },
 		{ title: "Client" },
 		{ title: "Description" },
+		{ title: "Action" },
 		{ title: "Created At" },
 		],
 
