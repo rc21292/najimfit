@@ -32,7 +32,7 @@
 <script>
 	var dataSet18 = [
 	@foreach($requests as $request)
-	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," {{ $request->client_name}}<br>ID: {{ $request->client_id}}","{{ $request->note }}"],
+	[ "{{ $no++ }}" ,"{{ $request->nutritionist_name }}"," <a href='{{route('client-full-profile.show',$client->id)}}' >{{ $request->client_name}}</a><br>ID: {{ $request->client_id}}","{{ $request->note }}"],
 	@endforeach
 	];
 	var tablepackage = $('#data-table-18').DataTable( {
