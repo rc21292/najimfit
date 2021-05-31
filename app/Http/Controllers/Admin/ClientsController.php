@@ -174,7 +174,9 @@ class ClientsController extends Controller
                 if (@$user_data->is_blocked && $client_data->nutri_blocked) {
                     $clients[$key]->is_nutri_blocked = 1;
                 }
+            $clients[$key]->nutri_name = @$user_data->name;
             }
+
 
             Session::forget('back_notes_url');
             Session::put('back_notes_url', route('clients.index'));
@@ -184,6 +186,8 @@ class ClientsController extends Controller
             Session::put('back_defer_client_url', URL::current());
             Session::forget('back_profiles_url');
             Session::put('back_profiles_url', URL::current());
+
+            // echo "<pre>";print_r($clients);exit;
 
             return view('backend.admin.clients.index',compact('clients','filter'))->with('no', 1);
         }
