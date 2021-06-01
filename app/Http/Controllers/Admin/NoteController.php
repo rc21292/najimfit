@@ -33,6 +33,9 @@ class NoteController extends Controller
         if($role_name == 'Nutritionist')
         {
             $requests = Note::where('nutritionist_id',$user->id)->latest()->get();
+
+            Note::where('nutritionist_id',$user->id)->update(['status' => 1]);
+
             return view('backend.admin.notes.nutritionist.index',compact('requests'))->with('no', 1);
         }else{
             $requests = Note::latest()->get();

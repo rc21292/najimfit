@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Schema;
 use Request;
 use App\Models\AdminRequest;
+use App\Models\Note;
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
@@ -36,6 +37,13 @@ class Helper extends Model
       $user_id = Auth::user()->id;
       return $request_count = AdminRequest::where('status',0)->where('nutritionist_id',$user_id)->count();
   }
+
+    public static function getAdminNotesCount()
+    {
+      $user_id = Auth::user()->id;
+      return $request_count = Note::where('status',0)->where('nutritionist_id',$user_id)->count();
+  }
+
   public static function getMeetingnotificationCount()
   {
     $notification_count = DB::table('meeting_notifications')->where('user_id',Auth::User()->id)->where('seen',0)->count();

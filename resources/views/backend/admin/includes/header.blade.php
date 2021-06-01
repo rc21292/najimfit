@@ -17,17 +17,21 @@
         $user = Auth::User();
         $roles = $user->getRoleNames();
         $role_name =  $roles->implode('', ' ');
-$notification_count = DB::table('meeting_notifications')->where('user_id',Auth::User()->id)->where('seen',0)->count();
+        $notification_count = DB::table('meeting_notifications')->where('user_id',Auth::User()->id)->where('seen',0)->count();
         if($role_name == 'Nutritionist'){
         @endphp
         <li class="ms-nav-item ms-nav-user dropdown">
           <a href="/dashboard/chat" title="Chats" class="text-disabled ms-has-notification get-notifications">0 <i class="flaticon-chat"></i></a>
         </li>
         <li class="ms-nav-item ms-nav-user dropdown">
-          <a href="/dashboard/admin-requests" title="Admin Requests" class="text-disabled ms-has-notification">{{{ App\Helper::getAdminRequestsCount()}}} <i class="fa fa-envelope" aria-hidden="true"></i></a>
+          <a href="/dashboard/notes" title="Notes" class="text-disabled ms-has-notification notes">{{{ App\Helper::getAdminNotesCount()}}} <i class="fa fa-sticky-note" aria-hidden="true"></i>
+         </a>
+       </li>
+        <li class="ms-nav-item ms-nav-user dropdown">
+          <a href="/dashboard/admin-requests" title="Admin Requests" class="text-disabled ms-has-notification requests">{{{ App\Helper::getAdminRequestsCount()}}} <i class="fa fa-envelope" aria-hidden="true"></i></a>
         </li>
         <li class="ms-nav-item ms-nav-user dropdown">
-          <a href="{{url('dashboard/meeting-notifications')}}" title="Notifications" class="text-disabled ms-has-notification">{{ $notification_count}}<i class="flaticon-bell"></i></a>
+          <a href="{{url('dashboard/meeting-notifications')}}" title="Notifications" class="text-disabled ms-has-notification notification_count">{{ $notification_count}}<i class="flaticon-bell"></i></a>
         </li>
         
         @php
@@ -99,4 +103,33 @@ $notification_count = DB::table('meeting_notifications')->where('user_id',Auth::
           }
         });
         </script>
+
+
+        <script>
+  function executeQuery() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    jQuery.ajax({
+      url: "{{route('get-notification-data')}}",
+      method: 'get',
+      data: {
+        count: $('#menu ul').length,
+      },
+      success: function(result){
+        $(".notes").html(result.notes+' <i class="fa fa-sticky-note" aria-hidden="true"></i>');
+        $(".requests").html(result.requests+' <i class="fa fa-envelope" aria-hidden="true"></i>');
+        $(".notification_count").html(result.notification_count+' <i class="flaticon-bell"></i>');
+      }
+    });
+    
+  };
+
+  $(document).ready(function(){
+    setInterval(executeQuery,3000);
+  });
+ </script>
+
     @endpush

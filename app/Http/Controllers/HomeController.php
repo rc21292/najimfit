@@ -33,6 +33,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    public function getNotificationData($value='')
+    { 
+      $user_id = Auth::user()->id;
+      $request_count = AdminRequest::where('status',0)->where('nutritionist_id',$user_id)->count();
+
+      $notes = Note::where('status',0)->where('nutritionist_id',$user_id)->count();
+
+      $notification_count = DB::table('meeting_notifications')->where('user_id',Auth::User()->id)->where('seen',0)->count();
+
+      return response()->json(['notes' => $notes, 'requests' => $request_count, 'notification_count' => $notification_count]);
+
+    }
+
     public function index()
     {
         $user = Auth::User();

@@ -61,3 +61,4 @@ Route::resource('dashboard/group-chat','ChatController');
 Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('home');
+Route::get('/dashboard/getData', 'HomeController@getNotificationData')->name('get-notification-data');
