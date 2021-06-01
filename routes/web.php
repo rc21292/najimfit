@@ -60,5 +60,8 @@ Route::resource('dashboard/group-chat','ChatController');
 
 Auth::routes();
 
+Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
+Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
+
 Route::get('/dashboard', 'HomeController@index')->name('home');
 Route::get('/dashboard/getData', 'HomeController@getNotificationData')->name('get-notification-data');

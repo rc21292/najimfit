@@ -241,6 +241,11 @@
           @can('faqs')
           <li> <a href="{{route('faqs.index')}}">Faqs</a> </li>
           @endcan
+          <li class="menu-item">
+            <a href="{{route('auth.change_password')}}">
+              <span><i class="fa fa-calendar"></i>Chnage password</span>
+            </a>
+          </li>
           {{-- <li> <a href="#">My Profile</a> </li>
           <li> <a href="#">Social Media Links</a> </li>
           <li> <a href="#">Contact Details</a> </li> --}}
@@ -331,6 +336,12 @@
       <li class="menu-item">
         <a href="{{url('dashboard/fullcalendar')}}">
           <span><i class="fa fa-calendar"></i>Calender</span>
+        </a>
+      </li>
+
+      <li class="menu-item">
+        <a href="{{route('auth.change_password')}}">
+          <span><i class="fa fa-calendar"></i>Chnage password</span>
         </a>
       </li>
 
