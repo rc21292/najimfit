@@ -317,14 +317,20 @@ li.active{
 				},
 				success: function(response){
 					if(response.success == false){
-						console.log('no');
+
 						 return false;
 					}else{
-						console.log('yes');
+
 						let date = "few seconds ago"; 
 						
-						$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-outgoing media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p><span class="username">You</span></br>'+response.success.message+'</p></div><p class="ms-chat-time">'+date+'</p></div></div>');
+						if(response.success.user_id == {{Auth::User()->id}}){
+													$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-outgoing media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p><span class="username">You</span></br>'+response.success.message+'</p></div><p class="ms-chat-time">'+date+'</p></div></div>');
 						$('#message_count').val(response.new_count);
+						}else{
+													$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-incoming media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p><span class="username">'+response.success.username+'</span></br>'+response.success.message+'</p></div><p class="ms-chat-time">'+date+'</p></div></div>');
+						$('#message_count').val(response.new_count);
+						}
+
 
 					}
    // Perform operation on the return value
@@ -333,7 +339,7 @@ li.active{
 		}
 
 		$(document).ready(function(){
-			setInterval(fetchdata,5000);
+			setInterval(fetchdata,4000);
 		});
 	</script>
 	@endpush

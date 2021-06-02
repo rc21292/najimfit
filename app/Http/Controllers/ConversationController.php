@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Conversation;
-
+use App\Models\User;
 class ConversationController extends Controller
 {
     /**
@@ -27,6 +27,7 @@ class ConversationController extends Controller
         $new_count =Conversation::where('group_id',$request->group_id)->count();
         if ($new_count > $request->message_count){
             $new_message = Conversation::where('group_id',$request->group_id)->latest()->first();
+            $new_message->username = User::where('id', $new_message->user_id)->value('name');
         }else{
             $new_message = false;
         }
