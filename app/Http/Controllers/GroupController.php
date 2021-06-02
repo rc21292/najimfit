@@ -80,10 +80,14 @@ class GroupController extends Controller
         $user = auth()->user();
 
         $conversations = Conversation::where('group_id',$id)->with('User')->orderBy('id','asc')->take(100)->get();
+        foreach($conversations as $conversation){
+            $conversation->username = User::where('id', $conversation->user_id)->value('name');
+        }
 
         $count = Conversation::where('group_id',$id)->count();
         $group_name = Group::where('id',$id)->value('name');
         $participants = DB::table('group_user')->join('users','users.id','=','group_user.user_id')->select('users.*')->where('group_user.group_id',$id)->get();
+        
         
         return view('backend.admin.chat.new_groupchat', ['groups' => $groups, 'users' => $users, 'user' => $user,'conversations' => $conversations,'group_id'=>$id,'count'=> $count, 'group_name'=>$group_name,'participants'=>$participants]);
     }

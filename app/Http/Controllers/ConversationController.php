@@ -28,7 +28,7 @@ class ConversationController extends Controller
         if ($new_count > $request->message_count){
             $new_message = Conversation::where('group_id',$request->group_id)->latest()->first();
         }else{
-            $new_message = 0;
+            $new_message = false;
         }
         return response(['success' => $new_message, 'new_count' => $new_count]);
     }
