@@ -4,14 +4,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <style type="text/css">
-	li.active{
-		background-color: #e0e0e2;
-	}
+li.active{
+	background-color: #e0e0e2;
+}
 </style>
 <style type="text/css">
-	.hidden{
-		display: none;
-	}
+.hidden{
+	display: none;
+}
 </style>
 @endsection
 @section('content')
@@ -55,6 +55,7 @@
 					</div>
 				</div>
 			</div>
+			@if($groups->count() > 0)
 			<!-- Chat Widget -->
 			@if(isset($group_id))
 			<div class="col-xl-8 col-md-12">
@@ -84,7 +85,9 @@
 							</div>
 							<div class="media-body">
 								<div class="ms-chat-text">
+									
 									<p>
+										<span class="username">You</span></br>
 										{{ $conversation->message}}
 									</p>
 								</div>
@@ -99,6 +102,7 @@
 							<div class="media-body">
 								<div class="ms-chat-text">
 									<p>
+										<span class="username">{{ $conversation->username}}</span></br>
 										{{ $conversation->message}}
 									</p>
 								</div>
@@ -132,6 +136,27 @@
 			@else
 			<div class="col-xl-8 col-md-12">
 				<div class="d-flex justify-content-center" style="margin-top:150px;">Please Select Group to Start Chatting</div>
+			</div>
+			@endif
+			@else
+			<div class="col-xl-8 col-md-12">
+				<div class="ms-panel ms-panel-fh ms-widget ms-chat-conversations">
+					<div class="ms-panel-header">
+						<div class="ms-chat-header justify-content-between">
+							<div class="ms-chat-user-container media clearfix">
+								<div class="media-body ms-chat-user-info mt-1">
+									<span class="text-disabled fs-12">
+										You are not added in any group
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ms-panel-body ms-scrollable" id="message_body">
+						
+					</div>
+					
+				</div>
 			</div>
 			@endif
 		</div>
@@ -260,7 +285,7 @@
 					$( ".error" ).addClass( "hidden" );
 					$('.emojionearea-editor').empty();
 					$('#content').val('');
-					console.log(result);
+
 					message = '';
 					group_id ='';
 					// window.setTimeout(function () {
@@ -272,8 +297,10 @@
 
 	</script>
 	<script>
+		var message_count = $('#message_count').val();
 		function fetchdata(){
 			let message_count = $('#message_count').val();
+			console.log(message_count);
 			let group_id = $('#group_id').val();
 			$.ajaxSetup({
 				headers: {
@@ -289,12 +316,15 @@
 					group_id:group_id,
 				},
 				success: function(response){
-					if(response.success != 0){
+					if(response.success == false){
+						console.log('no');
+						 return false;
+					}else{
+						console.log('yes');
 						let date = "few seconds ago"; 
 						
-						$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-incoming media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p>'+response.success.message+'</p></div><p class="ms-chat-time">'+date+'</p></div></div>');
+						$("#message_body .ps__rail-x:last").before('<div class="ms-chat-bubble ms-chat-message ms-chat-outgoing media clearfix"><div class="ms-chat-status ms-status-online ms-chat-img"><img src="{{asset('backend/assets/img/avater.png')}}" alt="people"></div><div class="media-body"><div class="ms-chat-text"><p><span class="username">You</span></br>'+response.success.message+'</p></div><p class="ms-chat-time">'+date+'</p></div></div>');
 						$('#message_count').val(response.new_count);
-					}else{
 
 					}
    // Perform operation on the return value
@@ -303,7 +333,7 @@
 		}
 
 		$(document).ready(function(){
-			setInterval(fetchdata,2000);
+			setInterval(fetchdata,5000);
 		});
 	</script>
 	@endpush
