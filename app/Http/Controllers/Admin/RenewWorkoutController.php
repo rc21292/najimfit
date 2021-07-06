@@ -46,7 +46,7 @@ class RenewWorkoutController extends Controller
         $users = User::role('Nutritionist')
         ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
-        ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','posted')
+        ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','posted')->whereNotNull('clients.package_id')
         ->get();
         return view('backend.admin.renew-workout.index',compact('users','total_clients'));
       }

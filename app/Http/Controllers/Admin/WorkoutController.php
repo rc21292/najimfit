@@ -47,7 +47,7 @@ class WorkoutController extends Controller
             $users = User::role('Nutritionist')
             ->join('nutritionist_clients','nutritionist_clients.nutritionist_id','=','users.id')
             ->join('clients','clients.id','=','nutritionist_clients.client_id')
-            ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','due')
+            ->select('users.name','users.id','users.created_at', DB::raw("COUNT(clients.id) as clients_count"))->groupBy("nutritionist_clients.nutritionist_id",'users.name','users.id','users.created_at')->where('workout_status','due')->whereNotNull('clients.package_id')
             ->get();
 
             return view('backend.admin.workout.index',compact('users','total_clients'));
