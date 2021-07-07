@@ -39,6 +39,7 @@
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12">
 			<strong>Permission:</strong>
+			<input type="checkbox" id="select-all" /> Select All<br/>
 			<br/>
 			<br/>
 		<div class="form-group boxes">
@@ -55,3 +56,20 @@
 	</div>
 	{!! Form::close() !!}
 	@endsection
+	@push('scripts')
+<script>
+// Listen for click on toggle checkbox
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    } else {
+        $(':checkbox').each(function() {
+            this.checked = false;                       
+        });
+    }
+});
+</script>
+@endpush
