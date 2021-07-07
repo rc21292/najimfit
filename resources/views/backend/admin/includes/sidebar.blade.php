@@ -375,6 +375,45 @@
       </a>
     </li>
 
+        @can('settings')
+    <li class="menu-item">
+      <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements-settings" aria-expanded="false" aria-controls="form-elements-settings">
+        <span><i class="material-icons fs-16">settings</i>Settings</span>
+      </a>
+      <ul id="form-elements-settings" class="collapse" aria-labelledby="form-elements-settings" data-parent="#side-nav-accordion">
+        @can('diet-informations')
+        <li> <a href="{{route('diet-informations.index')}}">Diet Informations</a> </li>
+        @endcan
+        @can('diet-informations')
+        <li> <a href="{{route('settings.index')}}">Settings</a> </li>
+        @endcan
+        @can('terms-&-conditions')
+        <li> <a href="{{route('terms-and-conditions.index')}}">Terms & Conditions</a> </li>
+        @endcan
+        @can('privacy-policy')
+        <li> <a href="{{route('privacy-policy.index')}}">Privacy Policy</a> </li>
+        @endcan
+        @can('gdpr')
+        <li> <a href="{{route('gdpr.index')}}">GDPR</a> </li>
+        @endcan
+        @can('about')
+        <li> <a href="{{route('about.index')}}">About</a> </li>
+        @endcan
+        @can('faqs')
+        <li> <a href="{{route('faqs.index')}}">Faqs</a> </li>
+        @endcan
+        <li class="menu-item">
+          <a href="{{route('auth.change_password')}}">
+            <span><i class="fa fa-calendar"></i>Chnage password</span>
+          </a>
+        </li>
+          {{-- <li> <a href="#">My Profile</a> </li>
+          <li> <a href="#">Social Media Links</a> </li>
+          <li> <a href="#">Contact Details</a> </li> --}}
+        </ul>
+      </li>
+      @endcan
+
     <!-- Form Elements -->
       {{-- 
       <li class="menu-item">
