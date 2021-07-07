@@ -265,7 +265,27 @@
 
     <!-- Navigation -->
     <ul class="accordion ms-main-aside fs-14" id="side-nav-accordion">
-
+      @can('add-features')
+      <li class="menu-item">
+        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements" aria-expanded="false" aria-controls="form-elements">
+          <span><i class="fas fa-plus"></i>Add Features</span>
+        </a>
+        <ul id="form-elements" class="collapse" aria-labelledby="form-elements" data-parent="#side-nav-accordion">
+          @can('new-tables')
+          <li> <a href="{{ route('tables.index') }}">New Tables</a> </li>
+          @endcan
+          @can('new-workouts')
+          <li> <a href="{{ route('exercise.index') }}">New Workouts</a> </li>
+          @endcan
+          @can('new-packages')
+          <li> <a href="{{ route('package.index') }}">New Packages</a> </li>
+          @endcan
+          @can('new-questionnaire')
+          <li> <a href="{{ route('question.index') }}">New Questionnaire</a> </li>
+          @endcan
+        </ul>
+      </li>
+      @endcan
       <li class="menu-item">
         <a href="{{route('intake-substances.index')}}">
           <span><i class="far fa-user-circle"></i>Intake Substances</span>
@@ -375,7 +395,7 @@
       </a>
     </li>
 
-        @can('settings')
+    @can('settings')
     <li class="menu-item">
       <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements-settings" aria-expanded="false" aria-controls="form-elements-settings">
         <span><i class="material-icons fs-16">settings</i>Settings</span>
@@ -414,7 +434,7 @@
       </li>
       @endcan
 
-    <!-- Form Elements -->
+      <!-- Form Elements -->
       {{-- 
       <li class="menu-item">
         <a href="#" class="has-chevron" data-toggle="collapse" data-target="#form-elements" aria-expanded="false" aria-controls="form-elements">
