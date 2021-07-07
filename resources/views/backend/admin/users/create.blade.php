@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('head')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
 <div class="row">
 	<div class="col-lg-12 margin-tb">
@@ -49,7 +52,17 @@
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<div class="form-group">
 			<strong>Role:</strong>
-			{!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+			{!! Form::select('roles[]', $roles,[], array('class' => 'form-control', 'id' => 'role')) !!}
+		</div>
+	</div>
+	<div class="col-xs-6 col-sm-12 col-md-12" id="nutritionist" style="display:none;">
+		<div class="form-group">
+			<strong>Nutritionist:</strong>
+			<select class="form-control js-example-basic-multiple" name="nutritionists[]" multiple style="width: 100%">
+				@foreach($nutritionists as $nutritionist)
+				<option value="{{$nutritionist->id}}">{{ $nutritionist->name }}</option>
+				@endforeach
+			</select>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -59,3 +72,30 @@
 {!! Form::close() !!}
 
 @endsection
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+			tags: true,
+			tokenSeparators: [',', ' ']
+		});
+	});
+</script>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		var selectVal = $("#role option:selected").val();
+		if(selectVal == 'Admin'){
+			$('#nutritionist').css('display', 'block');
+		}
+	});
+	$('#role').on('change', function () {
+		var selectVal = $("#role option:selected").val();
+		if(selectVal == 'Admin'){
+			$('#nutritionist').css('display', 'block');
+		}else{
+			$('#nutritionist').css('display', 'none');
+		}
+	});
+</script>
+@endpush

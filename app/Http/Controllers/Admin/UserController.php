@@ -39,8 +39,9 @@ public function index(Request $request)
     public function create()
     {
       $roles = Role::pluck('name','name')->all();
+      $nutritionists = User::role('Nutritionist')->get(['id','name']);
 
-      return view('backend.admin.users.create',compact('roles'));
+      return view('backend.admin.users.create',compact('roles', 'nutritionists'));
     }
 
     /**
@@ -65,6 +66,14 @@ public function index(Request $request)
       $user = User::create($input);
       DB::table('users')->where('id',$user->id)->update(['nutritionist_id'=>'NJMF'.$user->id]);
       $user->assignRole($request->input('roles'));
+      if($request->has('nutritionists') && !empty($request->nutritionists)){
+        foreach($request->nutritionists as $nutritionist){
+          DB::table('admin_nutritionist')->insert([
+            'admin_id' => $user->id,
+            'nutritionist_id' => $nutritionist
+          ]);
+        }
+      }
       return redirect()->route('users.index')
       ->with('success','User created successfully');
     }
@@ -95,7 +104,9 @@ public function index(Request $request)
       $user = User::find($id);
       $roles = Role::pluck('name','name')->all();
       $userRole = $user->roles->pluck('name','name')->all();
-      return view('backend.admin.users.edit',compact('user','roles','userRole'));
+      $nutritionists = User::role('Nutritionist')->get(['id','name']);
+      $selected_nutritionist = DB::table('admin_nutritionist')->where('admin_id', $id)->pluck('nutritionist_id')->toArray();
+      return view('backend.admin.users.edit',compact('user','roles','userRole','nutritionists','selected_nutritionist'));
     }
 
     /**
@@ -108,6 +119,7 @@ public function index(Request $request)
 
     public function update(Request $request, $id)
     {
+
       $this->validate($request, [
        'name' => 'required',
        'email' => 'required|email|unique:users,email,'.$id,
@@ -125,16 +137,25 @@ public function index(Request $request)
       $input = $request->except('password','confirm-password');
        // $input = @array_except($input,array('password'));
 
-     }
 
-     $user = User::find($id);
-     $user->update($input);
-     DB::table('model_has_roles')->where('model_id',$id)->delete();
-     $user->assignRole($request->input('roles'));
+    }
 
-     return redirect()->route('users.index')
-     ->with('success','User updated successfully');
-   }
+    $user = User::find($id);
+    $user->update($input);
+    DB::table('model_has_roles')->where('model_id',$id)->delete();
+    $user->assignRole($request->input('roles'));
+    if($request->has('nutritionists') && !empty($request->nutritionists)){
+       DB::table('admin_nutritionist')->where('admin_id', $id)->delete();
+      foreach($request->nutritionists as $nutritionist){
+        DB::table('admin_nutritionist')->insert([
+          'admin_id' => $id,
+          'nutritionist_id' => $nutritionist
+        ]);
+      }
+    }
+    return redirect()->route('users.index')
+    ->with('success','User updated successfully');
+  }
 
     /**
     * Remove the specified resource from storage.

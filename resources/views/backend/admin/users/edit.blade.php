@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('head')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
 <div class="row">
 	<div class="col-lg-12 margin-tb">
@@ -49,13 +52,51 @@
 	<div class="col-xs-6 col-sm-12 col-md-12">
 		<div class="form-group">
 			<strong>Role:</strong>
-			{!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+			{!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control', 'id' => 'role')) !!}
 		</div>
 	</div>
-	<div class="col-xs-6 col-sm-12 col-md-12 text-center">
-		<button type="submit" class="btn btn-primary">Submit</button>
+	<div class="col-xs-6 col-sm-12 col-md-12" id="nutritionist" style="display:none;">
+		<div class="form-group">
+			<strong>Nutritionist:</strong>
+			<select class="form-control js-example-basic-multiple" name="nutritionists[]" multiple style="width: 100%">
+				@foreach($nutritionists as $nutritionist)
+				<option value="{{$nutritionist->id}}" @if (in_array($nutritionist->id, $selected_nutritionist))
+					selected @endif>{{ $nutritionist->name }}</option>
+					@endforeach
+				</select>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-12 col-md-12 text-center">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
 	</div>
-</div>
-{!! Form::close() !!}
+	{!! Form::close() !!}
 
-@endsection
+	@endsection
+	@push('scripts')
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.js-example-basic-multiple').select2({
+				tags: true,
+				tokenSeparators: [',', ' ']
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		$( document ).ready(function() {
+			var selectVal = $("#role option:selected").val();
+			if(selectVal == 'Admin'){
+				$('#nutritionist').css('display', 'block');
+			}
+		});
+		$('#role').on('change', function () {
+			var selectVal = $("#role option:selected").val();
+			if(selectVal == 'Admin'){
+				$('#nutritionist').css('display', 'block');
+			}else{
+				$('#nutritionist').css('display', 'none');
+			}
+		});
+	</script>
+	@endpush
