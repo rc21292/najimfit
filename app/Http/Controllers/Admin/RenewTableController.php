@@ -194,9 +194,11 @@ class RenewTableController extends Controller
     public function allclients(){
         $clients = DB::table('nutritionist_clients')
         ->join('users','users.id','=','nutritionist_clients.nutritionist_id')
+        ->join('admin_nutritionist','admin_nutritionist.nutritionist_id','=','users.id')
         ->join('clients','clients.id','=','nutritionist_clients.client_id')
         ->select('clients.*','users.*','nutritionist_clients.created_at as assigned_on','nutritionist_clients.client_id')
         ->where('nutritionist_clients.table_status','posted')
+        ->where('admin_nutritionist.admin_id', Auth::User()->id)
         ->get();
 
         foreach ($clients as $key => $client) {
