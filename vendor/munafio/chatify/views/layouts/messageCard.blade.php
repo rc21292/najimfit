@@ -9,6 +9,8 @@
       <div class="media-body">
         <div class="ms-chat-text">
           <p>
+
+             <span style="font-size: 12px;  text-decoration: underline; color: black;">{{App\Models\User::where('id',$from_id)->value('name')}}</span></br>
             {!! ($message == null && $attachment != null && @$attachment[2] != 'file') ? $attachment[1] : nl2br($message) !!}
           </p>
         </div>
@@ -40,6 +42,7 @@
         
         <div class="ms-chat-text">
           <p>
+            <span style="font-size: 12px;  text-decoration: underline;">You</span></br>
             {!! ($message == null && $attachment != null && @$attachment[2] != 'file') ? $attachment[1] : nl2br($message) !!}
           </p>
         </div>
