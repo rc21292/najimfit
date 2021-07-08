@@ -95,12 +95,12 @@ class ClientsController extends Controller
                     $clients[$key]->is_complaint = 0;
                 }
 
-                 $client_lables = DB::table('client_labels')
-                         ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
-                         ->where('client_id', $client->id)
-                         ->groupBy('client_id')
-                         ->first();
-             $clients[$key]->lables = @$client_lables->lables;
+                $client_lables = DB::table('client_labels')
+                ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+                ->where('client_id', $client->id)
+                ->groupBy('client_id')
+                ->first();
+                $clients[$key]->lables = @$client_lables->lables;
             }
 
             Session::forget('back_complaints_url');
@@ -113,7 +113,7 @@ class ClientsController extends Controller
             Session::put('back_lables_url', URL::current());
 
             Session::forget('back_profiles_url');
-        Session::put('back_profiles_url', URL::current());
+            Session::put('back_profiles_url', URL::current());
 
 
             return view('backend.admin.clients.nutri_index',compact('clients','filter'))->with('no', 1);
@@ -131,7 +131,7 @@ class ClientsController extends Controller
                 if ($request->input('filter') == 'block') {
                     $clients->where('clients.blocked_from_app',1);
                 }
-                 if ($request->input('filter') == 'unblock') {
+                if ($request->input('filter') == 'unblock') {
                     $clients->where('clients.blocked_from_app',0);
                 }
             }        
@@ -141,57 +141,57 @@ class ClientsController extends Controller
 
             foreach ($clients as $key => $client) {
 
-             $client_lables = DB::table('client_labels')
-                         ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
-                         ->where('client_id', $client->id)
-                         ->groupBy('client_id')
-                         ->first();
-             $clients[$key]->lables = @$client_lables->lables;
+               $client_lables = DB::table('client_labels')
+               ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+               ->where('client_id', $client->id)
+               ->groupBy('client_id')
+               ->first();
+               $clients[$key]->lables = @$client_lables->lables;
 
-                $nutritionist_id = DB::table('nutritionist_clients')
-                ->where('client_id', $client->id)
-                ->value('nutritionist_id');
+               $nutritionist_id = DB::table('nutritionist_clients')
+               ->where('client_id', $client->id)
+               ->value('nutritionist_id');
 
-                $clients[$key]->is_requested = '';
-                $clients[$key]->client_id = $client->id;
-                $is_exists = AdminRequest::where('client_id',$client->id)->exists();
-                if ($is_exists) {
-                    $request_data = AdminRequest::where('client_id',$client->id)->latest()->first();
-                    $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
-                }
-
-                $client_data = Client::find($client->id);
-                $user_data = User::find($nutritionist_id);
-                $clients[$key]->is_client_blocked = 0;
-                $clients[$key]->is_nutri_blocked = 0;
-                $clients[$key]->is_client_in_wating = 0;
-                if ($client_data->is_blocked) {
-                    $clients[$key]->is_client_blocked = 1;
-                }
-                if ($client_data->is_subscription_in_wating) {
-                    $clients[$key]->is_client_in_wating = 1;
-                }
-                if (@$user_data->is_blocked && $client_data->nutri_blocked) {
-                    $clients[$key]->is_nutri_blocked = 1;
-                }
-            $clients[$key]->nutri_name = @$user_data->name;
+               $clients[$key]->is_requested = '';
+               $clients[$key]->client_id = $client->id;
+               $is_exists = AdminRequest::where('client_id',$client->id)->exists();
+               if ($is_exists) {
+                $request_data = AdminRequest::where('client_id',$client->id)->latest()->first();
+                $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
             }
 
+            $client_data = Client::find($client->id);
+            $user_data = User::find($nutritionist_id);
+            $clients[$key]->is_client_blocked = 0;
+            $clients[$key]->is_nutri_blocked = 0;
+            $clients[$key]->is_client_in_wating = 0;
+            if ($client_data->is_blocked) {
+                $clients[$key]->is_client_blocked = 1;
+            }
+            if ($client_data->is_subscription_in_wating) {
+                $clients[$key]->is_client_in_wating = 1;
+            }
+            if (@$user_data->is_blocked && $client_data->nutri_blocked) {
+                $clients[$key]->is_nutri_blocked = 1;
+            }
+            $clients[$key]->nutri_name = @$user_data->name;
+        }
 
-            Session::forget('back_notes_url');
-            Session::put('back_notes_url', route('clients.index'));
-            Session::forget('back_lables_url');
-            Session::put('back_lables_url', URL::current());
-            Session::forget('back_defer_client_url');
-            Session::put('back_defer_client_url', URL::current());
-            Session::forget('back_profiles_url');
-            Session::put('back_profiles_url', URL::current());
+
+        Session::forget('back_notes_url');
+        Session::put('back_notes_url', route('clients.index'));
+        Session::forget('back_lables_url');
+        Session::put('back_lables_url', URL::current());
+        Session::forget('back_defer_client_url');
+        Session::put('back_defer_client_url', URL::current());
+        Session::forget('back_profiles_url');
+        Session::put('back_profiles_url', URL::current());
 
             // echo "<pre>";print_r($clients);exit;
 
-            return view('backend.admin.clients.index',compact('clients','filter'))->with('no', 1);
-        }
+        return view('backend.admin.clients.index',compact('clients','filter'))->with('no', 1);
     }
+}
 
     /**
      * Show the form for creating a new resource.
@@ -301,7 +301,29 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
+        $tokens = CLient::where('id',$id)->with('tokens')->first();
+        foreach($tokens['tokens'] as $token) {
+            $token->revoke();
+        }
+        
         $client = CLient::where('id',$id)->delete();
+        DB::table('nutritionist_clients')->where('client_id', $id)->delete();
+        DB::table('requests')->where('client_id', $id)->delete();
+        DB::table('notes')->where('client_id', $id)->delete();
+        DB::table('admin_requests')->where('client_id', $id)->delete();
+        DB::table('admin_requests')->where('client_id', $id)->delete();
+        DB::table('cart')->where('client_id', $id)->delete();
+        DB::table('client_tables')->where('client_id', $id)->delete();
+        DB::table('client_workouts')->where('client_id', $id)->delete();
+        DB::table('complaints')->where('client_id', $id)->delete();
+        DB::table('diet_postings')->where('client_id', $id)->delete();
+        DB::table('diet_posting_comments')->where('client_id', $id)->delete();
+        DB::table('notification_histories')->where('client_id', $id)->delete();
+        DB::table('transactions')->where('client_id', $id)->delete();
+        DB::table('intake_substances')->where('client_id', $id)->delete();
+        DB::table('intake_substance_comments')->where('client_id', $id)->delete();
+        DB::table('client_labels')->where('client_id', $id)->delete();
+        
         return redirect()->route('clients.index')
         ->with('warning','Client Deleted successfully');
     }
