@@ -144,21 +144,21 @@ class ClientsController extends Controller
 
             foreach ($clients as $key => $client) {
 
-             $client_lables = DB::table('client_labels')
-             ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
-             ->where('client_id', $client->id)
-             ->groupBy('client_id')
-             ->first();
-             $clients[$key]->lables = @$client_lables->lables;
+               $client_lables = DB::table('client_labels')
+               ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+               ->where('client_id', $client->id)
+               ->groupBy('client_id')
+               ->first();
+               $clients[$key]->lables = @$client_lables->lables;
 
-             $nutritionist_id = DB::table('nutritionist_clients')
-             ->where('client_id', $client->id)
-             ->value('nutritionist_id');
+               $nutritionist_id = DB::table('nutritionist_clients')
+               ->where('client_id', $client->id)
+               ->value('nutritionist_id');
 
-             $clients[$key]->is_requested = '';
-             $clients[$key]->client_id = $client->id;
-             $is_exists = AdminRequest::where('client_id',$client->id)->exists();
-             if ($is_exists) {
+               $clients[$key]->is_requested = '';
+               $clients[$key]->client_id = $client->id;
+               $is_exists = AdminRequest::where('client_id',$client->id)->exists();
+               if ($is_exists) {
                 $request_data = AdminRequest::where('client_id',$client->id)->latest()->first();
                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
             }
@@ -216,10 +216,10 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-         'firstname' => 'required',
-         'email' => 'required|email|unique:clients,email',
-         'password' => 'required',
-     ]);
+           'firstname' => 'required',
+           'email' => 'required|email|unique:clients,email',
+           'password' => 'required',
+       ]);
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
@@ -327,8 +327,35 @@ class ClientsController extends Controller
             $client->status = "off";
         }
         $client->save();
-        return redirect()->route('clients.index')
-        ->with('success','Client Updated successfully');
+
+        $validity = Package::where('id', $request->package)->value('validity');
+        $valid_upto = Carbon::now()->addDays($validity);
+        $today_date = date('Y-m-d');
+
+        $subscription_settings = DB::table('subscription_settings')->first();
+
+        $is_subscription_in_wating = 0;
+
+        if ($subscription_settings->subscriptions_reached >= $subscription_settings->subscriptions_limit) 
+        {
+            if ($subscription_settings->subscriptions_wating_list_reached >= $subscription_settings->subscriptions_watinglist_limit) 
+            {
+                DB::table('subscription_settings')->update(['accept_subscriptions' => 0]);
+                DB::table('subscription_settings')->update(['close_subscriptions' => 1]);
+            }
+            else
+            {
+                DB::table('subscription_settings')->update(['subscriptions_wating_list_reached'=> DB::raw('subscriptions_wating_list_reached+1')]);
+                $is_subscription_in_wating = 1;
+            }
+        }
+        else
+        {
+            DB::table('subscription_settings')->update(['subscriptions_reached' => DB::raw('subscriptions_reached+1')]);
+        }
+
+        Client::where('id', $id)->update(['package_id' => $request->package, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
+        return redirect()->route('clients.index')->with('success','Client Updated successfully');
     }
 
     /**
