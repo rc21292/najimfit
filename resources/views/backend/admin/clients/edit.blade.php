@@ -70,6 +70,16 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-xl-12 col-md-12 mb-3">
+							<label for="package">Package</label>
+							<div class="input-group">
+								<select id="package" name="package" class="form-control" required>
+									@foreach($packages as $package)
+									<option id="{{$package->id}}" @if($client->package_id == $package->id) selected @endif>{{$package->name}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
 						<div class="col-md-12 pt-4">
 							<label class="ms-switch">
 								<input type="checkbox" @if($client->status == "on") checked="" @endif name="status">

@@ -11,6 +11,16 @@
 		</nav>
 	</div>
 	<div class="col-xl-8 col-md-12">
+		@if (count($errors) > 0)
+		<div class="alert alert-danger">
+			<strong>Whoops!</strong> There were some problems with your input.<br><br>
+			<ul>
+				@foreach ($errors->all() as $error)
+				<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+		</div>
+		@endif
 		<div class="ms-panel ms-panel-fh">
 			<div class="ms-panel-header">
 				<h6>Client Form</h6>
@@ -75,6 +85,16 @@
 								<div class="invalid-feedback">
 									Please Enter Password.
 								</div>
+							</div>
+						</div>
+						<div class="col-xl-12 col-md-12 mb-3">
+							<label for="package">Package</label>
+							<div class="input-group">
+								<select id="package" name="package" class="form-control" required>
+									@foreach($packages as $package)
+									<option id="{{$package->id}}">{{$package->name}}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 						<div class="col-md-12 pt-4">

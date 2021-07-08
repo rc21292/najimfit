@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\DeferRequest;
 use App\Models\Complaint;
 use App\Models\AdminRequest;
+use App\Models\Package;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use DB;
@@ -15,6 +16,7 @@ use Auth;
 use Session;
 use URL;
 use Spatie\Permission\Traits\HasRoles;
+use Carbon\Carbon;
 
 class ClientsController extends Controller
 {
@@ -32,6 +34,7 @@ class ClientsController extends Controller
 
     public function index(Request $request)
     {
+
         $user = Auth::User();
         $roles = $user->getRoleNames();
         $role_name =  $roles->implode('', ' ');
@@ -141,21 +144,21 @@ class ClientsController extends Controller
 
             foreach ($clients as $key => $client) {
 
-               $client_lables = DB::table('client_labels')
-               ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
-               ->where('client_id', $client->id)
-               ->groupBy('client_id')
-               ->first();
-               $clients[$key]->lables = @$client_lables->lables;
+             $client_lables = DB::table('client_labels')
+             ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+             ->where('client_id', $client->id)
+             ->groupBy('client_id')
+             ->first();
+             $clients[$key]->lables = @$client_lables->lables;
 
-               $nutritionist_id = DB::table('nutritionist_clients')
-               ->where('client_id', $client->id)
-               ->value('nutritionist_id');
+             $nutritionist_id = DB::table('nutritionist_clients')
+             ->where('client_id', $client->id)
+             ->value('nutritionist_id');
 
-               $clients[$key]->is_requested = '';
-               $clients[$key]->client_id = $client->id;
-               $is_exists = AdminRequest::where('client_id',$client->id)->exists();
-               if ($is_exists) {
+             $clients[$key]->is_requested = '';
+             $clients[$key]->client_id = $client->id;
+             $is_exists = AdminRequest::where('client_id',$client->id)->exists();
+             if ($is_exists) {
                 $request_data = AdminRequest::where('client_id',$client->id)->latest()->first();
                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
             }
@@ -200,7 +203,8 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.clients.create');
+        $packages = Package::get(['id','name']);
+        return view('backend.admin.clients.create',compact('packages'));
     }
 
     /**
@@ -211,6 +215,12 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+         'firstname' => 'required',
+         'email' => 'required|email|unique:clients,email',
+         'password' => 'required',
+     ]);
+
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         if ($request->has('status')) {
@@ -224,20 +234,47 @@ class ClientsController extends Controller
 
         $user = Client::create($input);
 
-        // $nutritionists = DB::table('nutritionist_clients')
-        // ->select('nutritionist_id', DB::raw('count(*) as client_total'))
-        // ->groupBy('nutritionist_id')
-        // ->inRandomOrder()
-        // ->get();
+        $validity = Package::where('id', $request->package)->value('validity');
+        $valid_upto = Carbon::now()->addDays($validity);
+        $today_date = date('Y-m-d');
+        $subscription_settings = DB::table('subscription_settings')->first();
 
-        // $no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+        $is_subscription_in_wating = 0;
 
-        // foreach($nutritionists as $nutritionist){
-        //     if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
-        //         DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
-        //         break;
-        //     }
-        // }
+        if ($subscription_settings->subscriptions_reached >= $subscription_settings->subscriptions_limit) 
+        {
+            if ($subscription_settings->subscriptions_wating_list_reached >= $subscription_settings->subscriptions_watinglist_limit) 
+            {
+                DB::table('subscription_settings')->update(['accept_subscriptions' => 0]);
+                DB::table('subscription_settings')->update(['close_subscriptions' => 1]);
+            }
+            else
+            {
+                DB::table('subscription_settings')->update(['subscriptions_wating_list_reached'=> DB::raw('subscriptions_wating_list_reached+1')]);
+                $is_subscription_in_wating = 1;
+            }
+        }
+        else
+        {
+            DB::table('subscription_settings')->update(['subscriptions_reached' => DB::raw('subscriptions_reached+1')]);
+        }
+
+        Client::where('id', $user->id)->update(['package_id' => $request->package, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
+
+        $nutritionists = DB::table('nutritionist_clients')
+        ->select('nutritionist_id', DB::raw('count(*) as client_total'))
+        ->groupBy('nutritionist_id')
+        ->inRandomOrder()
+        ->get();
+
+        $no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+
+        foreach($nutritionists as $nutritionist){
+            if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
+                DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
+                break;
+            }
+        }
 
         return redirect()->route('clients.index')->with('success','Client Created successfully');
     }
@@ -261,8 +298,9 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
+        $packages = Package::get(['id','name']);
         $client = Client::find($id);
-        return view('backend.admin.clients.edit',compact('client'));
+        return view('backend.admin.clients.edit',compact('client','packages'));
     }
 
     /**
