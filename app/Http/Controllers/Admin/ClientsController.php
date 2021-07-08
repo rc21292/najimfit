@@ -266,12 +266,12 @@ class ClientsController extends Controller
         ->groupBy('nutritionist_id')
         ->inRandomOrder()
         ->get();
-
-        $no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
-
+        $max_clients = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+        $nutritionists = User::role('Nutritionist')->inRandomOrder()->get(['id', 'name']);
         foreach($nutritionists as $nutritionist){
-            if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
-                DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
+            $nutritionist->count = DB::table('nutritionist_clients')->where('nutritionist_id', $nutritionist->id)->count();
+            if($nutritionist->count < $max_clients){
+                DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->id]);
                 break;
             }
         }

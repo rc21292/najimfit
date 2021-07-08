@@ -75,7 +75,7 @@
 							<div class="input-group">
 								<select id="package" name="package" class="form-control" required>
 									@foreach($packages as $package)
-									<option id="{{$package->id}}" @if($client->package_id == $package->id) selected @endif>{{$package->name}}</option>
+									<option value="{{$package->id}}" @if($client->package_id == $package->id) selected @endif>{{$package->name}}</option>
 									@endforeach
 								</select>
 							</div>

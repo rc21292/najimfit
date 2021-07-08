@@ -940,19 +940,15 @@ class AuthController extends Controller
 			$response = ['success' => 'This package has been assigned to you..!'];
 		}
 
-		$nutritionists = DB::table('nutritionist_clients')
-		->select('nutritionist_id', DB::raw('count(*) as client_total'))
-		->groupBy('nutritionist_id')
-		->inRandomOrder()
-		->get();
-
-		$no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
-		foreach($nutritionists as $nutritionist){
-			if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
-				DB::table('nutritionist_clients')->insert(['client_id'=>$user_id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
-				break;
-			}
-		}
+        $max_clients = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+        $nutritionists = User::role('Nutritionist')->inRandomOrder()->get(['id', 'name']);
+        foreach($nutritionists as $nutritionist){
+            $nutritionist->count = DB::table('nutritionist_clients')->where('nutritionist_id', $nutritionist->id)->count();
+            if($nutritionist->count < $max_clients){
+                DB::table('nutritionist_clients')->insert(['client_id'=>$user_id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->id]);
+                break;
+            }
+        }
 
 		return response($response, 200);
 	}
