@@ -15,7 +15,7 @@
 		<div class="ms-panel ms-panel-fh">
 			<div class="ms-panel-header">
 				<h6>Note</h6>
-				<a href='javascript:' onclick='submitform();' class='btn btn-danger btnpro'>Delete</a>
+				<a href='javascript:' onclick='submitform();' class='btn btn-danger btnpro float-right mb-2'>Delete</a>
 				<form id='delete-form' action='{{route('notes.destroy',$note->id)}}' method='POST'>
 					<input type='hidden' name='_token' value='{{ csrf_token()}}'>
 					<input type='hidden' name='_method' value='DELETE'>
@@ -24,7 +24,7 @@
 			<div class="ms-panel-body">
 				<div class="form-row">
 					<div class="col-xl-12 col-md-12 mb-1">
-						<label>Enter Note</label>
+						<label>Note</label>
 						<p>{{$note->note}}</p>
 					</div>	
 					<div class="col-xl-12 col-md-12 mb-1">
@@ -33,7 +33,7 @@
 					</div>	
 					<div class="col-xl-12 col-md-12 mb-1">
 						<label>Nutritionist:</label>
-						<b>{{$note->nutritionist_name}}</b>
+						<b>{!!$note->nutritionist_name!!}</b>
 						<p></p>
 					</div>	
 					<div class="col-xl-12 col-md-12 mb-1">
