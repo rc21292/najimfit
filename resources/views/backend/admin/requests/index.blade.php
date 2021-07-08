@@ -44,7 +44,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
-		</div>
+		</div> 
 	</div>
 </div>
 @endsection
@@ -98,8 +98,8 @@
 		var request_id = button.data('id');
 		var modal = $(this)
 		modal.find('.modal-body #view_profile').attr('href', '/dashboard/client-full-profile/'+client_id);
-		modal.find('.modal-body #defer_client').attr('href', '/dashboard/defer-client/'+request_id);
-		modal.find('.modal-body #view_chat').attr('href', '/dashboard/view-chat/'+request_id);
+		modal.find('.modal-body #defer_client').attr('href', '/dashboard/defer-client/'+client_id);
+		modal.find('.modal-body #view_chat').attr('href', '/dashboard/view-chat/'+client_id);
 		modal.find('.modal-body #view_table').attr('href', '/dashboard/assign-table/'+client_id+'/edit');
 		modal.find('.modal-body #view_workout').attr('href', '/dashboard/assign-workout/'+client_id+'/edit');
 		modal.find('.modal-body #client').val(client_id);
