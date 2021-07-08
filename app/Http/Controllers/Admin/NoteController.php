@@ -87,7 +87,8 @@ class NoteController extends Controller
      */
     public function show($id)
     {
-        //
+        $note = Note::find($id);
+        return view('backend.admin.notes.show',compact('note'));
     }
 
     /**
@@ -121,6 +122,8 @@ class NoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Note::find($id)->delete();
+        return redirect()->route('notes.index');
+        
     }
 }
