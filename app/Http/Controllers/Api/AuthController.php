@@ -88,22 +88,22 @@ class AuthController extends Controller
 		$request['password']=Hash::make($request['password']);
 		$request['remember_token'] = Str::random(10);
 		$user = Client::create($request->toArray());
-		$nutritionists = DB::table('nutritionist_clients')
-		->select('nutritionist_id', DB::raw('count(*) as client_total'))
-		->groupBy('nutritionist_id')
-		->inRandomOrder()
-		->get();
+		// $nutritionists = DB::table('nutritionist_clients')
+		// ->select('nutritionist_id', DB::raw('count(*) as client_total'))
+		// ->groupBy('nutritionist_id')
+		// ->inRandomOrder()
+		// ->get();
 
-		$no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+		// $no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
 
 		DB::table('clients')->where('id',$user->id)->update(['device_token' => $request['device_token']]);   
 
-		foreach($nutritionists as $nutritionist){
-			if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
-				DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
-				break;
-			}
-		}
+		// foreach($nutritionists as $nutritionist){
+		// 	if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
+		// 		DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
+		// 		break;
+		// 	}
+		// }
 		$token = $user->createToken('Laravel Password Grant Client')->accessToken;
 		$response = ["success"=> 1,"message" => "User registred successfully",'token' => $token];
 		return response($response, 200);
@@ -237,10 +237,10 @@ class AuthController extends Controller
 	public function forgetPasswordSms(Request $request)
 	{
 		$mobile_no = preg_replace(
-	 '/\+(?:998|996|995|994|993|992|977|976|975|974|973|972|971|970|968|967|966|965|964|963|962|961|960|886|880|856|855|853|852|850|692|691|690|689|688|687|686|685|683|682|681|680|679|678|677|676|675|674|673|672|670|599|598|597|595|593|592|591|590|509|508|507|506|505|504|503|502|501|500|423|421|420|389|387|386|385|383|382|381|380|379|378|377|376|375|374|373|372|371|370|359|358|357|356|355|354|353|352|351|350|299|298|297|291|290|269|268|267|266|265|264|263|262|261|260|258|257|256|255|254|253|252|251|250|249|248|246|245|244|243|242|241|240|239|238|237|236|235|234|233|232|231|230|229|228|227|226|225|224|223|222|221|220|218|216|213|212|211|98|95|94|93|92|91|90|86|84|82|81|66|65|64|63|62|61|60|58|57|56|55|54|53|52|51|49|48|47|46|45|44\D?1624|44\D?1534|44\D?1481|44|43|41|40|39|36|34|33|32|31|30|27|20|7|1\D?939|1\D?876|1\D?869|1\D?868|1\D?849|1\D?829|1\D?809|1\D?787|1\D?784|1\D?767|1\D?758|1\D?721|1\D?684|1\D?671|1\D?670|1\D?664|1\D?649|1\D?473|1\D?441|1\D?345|1\D?340|1\D?284|1\D?268|1\D?264|1\D?246|1\D?242|1)\D?/'
-	, ''
-	, $request->mobile
-	);
+			'/\+(?:998|996|995|994|993|992|977|976|975|974|973|972|971|970|968|967|966|965|964|963|962|961|960|886|880|856|855|853|852|850|692|691|690|689|688|687|686|685|683|682|681|680|679|678|677|676|675|674|673|672|670|599|598|597|595|593|592|591|590|509|508|507|506|505|504|503|502|501|500|423|421|420|389|387|386|385|383|382|381|380|379|378|377|376|375|374|373|372|371|370|359|358|357|356|355|354|353|352|351|350|299|298|297|291|290|269|268|267|266|265|264|263|262|261|260|258|257|256|255|254|253|252|251|250|249|248|246|245|244|243|242|241|240|239|238|237|236|235|234|233|232|231|230|229|228|227|226|225|224|223|222|221|220|218|216|213|212|211|98|95|94|93|92|91|90|86|84|82|81|66|65|64|63|62|61|60|58|57|56|55|54|53|52|51|49|48|47|46|45|44\D?1624|44\D?1534|44\D?1481|44|43|41|40|39|36|34|33|32|31|30|27|20|7|1\D?939|1\D?876|1\D?869|1\D?868|1\D?849|1\D?829|1\D?809|1\D?787|1\D?784|1\D?767|1\D?758|1\D?721|1\D?684|1\D?671|1\D?670|1\D?664|1\D?649|1\D?473|1\D?441|1\D?345|1\D?340|1\D?284|1\D?268|1\D?264|1\D?246|1\D?242|1)\D?/'
+			, ''
+			, $request->mobile
+		);
 		$no_exists = Client::where('phone',$mobile_no)->exists();
 		if ($no_exists) 
 		{
@@ -752,14 +752,14 @@ class AuthController extends Controller
 
 			$table_data_dinner_max = max(array_column($table_data_dinner,'dinner_calories'));
 			$table_data_dinner_min = min(array_column($table_data_dinner,'dinner_calories'));
-	
+			
 			$i= 1;
 			$cal_max = 0;
 			$cal_min = 0;
 
 			$cal_max = $table_data_dinner_max+$table_data_lunch_max+$table_data_snacks1_max+$table_data_breakfast_max;
 			$cal_min = $table_data_dinner_min+$table_data_lunch_min+$table_data_snacks1_min+$table_data_breakfast_min;
-		
+			
 
 			return $cal_min.'-'.$cal_max;
 
@@ -843,26 +843,26 @@ class AuthController extends Controller
 		$package = Package::where('status','on')->where('id',$request->package_id)->first();
 
 
-			if ($request->currency) {
-				$amount=$package->price;
-				$from='SAR';
-				$to=$request->currency;
-				$amount_re = $this->currency_converter($from,$to,$amount);				
-			}else{
-				$amount_re = $package->price;
-			}
+		if ($request->currency) {
+			$amount=$package->price;
+			$from='SAR';
+			$to=$request->currency;
+			$amount_re = $this->currency_converter($from,$to,$amount);				
+		}else{
+			$amount_re = $package->price;
+		}
 
-			$allpackages[] = array(
-				'id'  => $package->id,
-				'name'  => $request->language == "arabic" ? $package->name_arabic : $package->name,
-				'price'  => $amount_re,
-				'validity'  => $package->validity.' days',
-				'workout_days'  => $package->workout_days,
-				'off_days'  => $package->off_days,
-				'target'  => $request->language == "arabic" ? $package->target_arabic : $package->target,
-				'description' => $request->language == "arabic" ? $package->description_arabic : $package->description,
-				'image' =>'https://tegdarco.com/uploads/packages/'.$package->image,
-			);            
+		$allpackages[] = array(
+			'id'  => $package->id,
+			'name'  => $request->language == "arabic" ? $package->name_arabic : $package->name,
+			'price'  => $amount_re,
+			'validity'  => $package->validity.' days',
+			'workout_days'  => $package->workout_days,
+			'off_days'  => $package->off_days,
+			'target'  => $request->language == "arabic" ? $package->target_arabic : $package->target,
+			'description' => $request->language == "arabic" ? $package->description_arabic : $package->description,
+			'image' =>'https://tegdarco.com/uploads/packages/'.$package->image,
+		);            
 
 		
 		$response = ['success' => $allpackages];
@@ -933,6 +933,20 @@ class AuthController extends Controller
 
 			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
 			$response = ['success' => 'This package has been assigned to you..!'];
+		}
+
+		$nutritionists = DB::table('nutritionist_clients')
+		->select('nutritionist_id', DB::raw('count(*) as client_total'))
+		->groupBy('nutritionist_id')
+		->inRandomOrder()
+		->get();
+
+		$no_of_clients_assign_to_nutritionist = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+		foreach($nutritionists as $nutritionist){
+			if($nutritionist->client_total < $no_of_clients_assign_to_nutritionist){
+				DB::table('nutritionist_clients')->insert(['client_id'=>$user_id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->nutritionist_id]);
+				break;
+			}
 		}
 
 		return response($response, 200);
@@ -1133,47 +1147,47 @@ class AuthController extends Controller
         return $val->question_category;
     });
 
-		}*/
+}*/
 
-		return response([
-			'success'=> 'true',
-			'body_size'=> $questions_body_size,
-			'health'=> $questions_health,
-			'medicine'=> $questions_medicine,
-		], 200);
+return response([
+	'success'=> 'true',
+	'body_size'=> $questions_body_size,
+	'health'=> $questions_health,
+	'medicine'=> $questions_medicine,
+], 200);
 
-		return response(['success'=> $questions], 200);
+return response(['success'=> $questions], 200);
+}
+
+public function currencyConverter(Request $request)
+{
+	$packages = Package::all();
+	$amount=$request->amount;
+	$from=$request->from;
+	$to=$request->to;
+	$amount_re = $this->currency_converter($from,$to,$amount);
+	return response(['success'=> true,'amount'=>$amount_re], 200);
+}
+
+public function currency_converter($from,$to,$amount)
+{
+	$symbol_left = $this->currencies[$to]['symbol_left'];
+	$symbol_right = $this->currencies[$to]['symbol_right'];
+
+	$decimal_place = $this->currencies[$to]['decimal_place'];
+	if (isset($this->currencies[$from])) {
+		$from = $this->currencies[$from]['value'];
+	} else {
+		$from = 1;
 	}
 
-	public function currencyConverter(Request $request)
-	{
-		$packages = Package::all();
-		$amount=$request->amount;
-		$from=$request->from;
-		$to=$request->to;
-		$amount_re = $this->currency_converter($from,$to,$amount);
-		return response(['success'=> true,'amount'=>$amount_re], 200);
+	if (isset($this->currencies[$to])) {
+		$to = $this->currencies[$to]['value'];
+	} else {
+		$to = 1;
 	}
 
-	public function currency_converter($from,$to,$amount)
-	{
-		$symbol_left = $this->currencies[$to]['symbol_left'];
-		$symbol_right = $this->currencies[$to]['symbol_right'];
-
-		$decimal_place = $this->currencies[$to]['decimal_place'];
-		if (isset($this->currencies[$from])) {
-			$from = $this->currencies[$from]['value'];
-		} else {
-			$from = 1;
-		}
-
-		if (isset($this->currencies[$to])) {
-			$to = $this->currencies[$to]['value'];
-		} else {
-			$to = 1;
-		}
-
-		return number_format($amount * ($to / $from), (int)$decimal_place);
+	return number_format($amount * ($to / $from), (int)$decimal_place);
 
 		/*$string = '';
 
