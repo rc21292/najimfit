@@ -752,14 +752,14 @@ class AuthController extends Controller
 
 			$table_data_dinner_max = max(array_column($table_data_dinner,'dinner_calories'));
 			$table_data_dinner_min = min(array_column($table_data_dinner,'dinner_calories'));
-			
+
 			$i= 1;
 			$cal_max = 0;
 			$cal_min = 0;
 
 			$cal_max = $table_data_dinner_max+$table_data_lunch_max+$table_data_snacks1_max+$table_data_breakfast_max;
 			$cal_min = $table_data_dinner_min+$table_data_lunch_min+$table_data_snacks1_min+$table_data_breakfast_min;
-			
+
 
 			return $cal_min.'-'.$cal_max;
 
@@ -910,16 +910,20 @@ class AuthController extends Controller
 				$today_date = date('Y-m-d');
 
 				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
+				if($request->has('transaction_id')){
 
 				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
+				}
 				$response = ['success' => 'This package has been assigned to you..!'];
 			}else{
 				$valid_upto = Carbon::now()->addDays($validity);
 				$today_date = date('Y-m-d');
 
 				Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
+				if($request->has('transaction_id')){
 
 				DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
+				}
 				$response = ['success' => 'This package has been assigned to you..!'];
 			}
 
@@ -930,8 +934,9 @@ class AuthController extends Controller
 			$today_date = date('Y-m-d');
 
 			Client::where('id',$user_id)->update(['package_id' => $request->package_id, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
-
+			if($request->has('transaction_id')){
 			DB::table('transactions')->insert(['client_id' => $user_id, 'package_id' => $request->package_id, 'transaction_id' =>$request->transaction_id, 'amount' => $request->amount ]);
+		}
 			$response = ['success' => 'This package has been assigned to you..!'];
 		}
 
