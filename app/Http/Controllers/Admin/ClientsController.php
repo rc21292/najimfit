@@ -261,6 +261,16 @@ class ClientsController extends Controller
 
         Client::where('id', $user->id)->update(['package_id' => $request->package, 'validity' => $valid_upto, 'subscription_date' => $today_date,'is_subscription_in_wating' => $is_subscription_in_wating,'subscription_wating_datetime'=>now()]);
 
+
+        $loged_in_user = Auth::User();
+        $roles = $loged_in_user->getRoleNames();
+        $role_name =  $roles->implode('', ' ');
+
+        if($role_name == 'Nutritionist'){
+            DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=> Auth::User()->id]);
+
+        }else{
+
         $nutritionists = DB::table('nutritionist_clients')
         ->select('nutritionist_id', DB::raw('count(*) as client_total'))
         ->groupBy('nutritionist_id')
@@ -274,6 +284,7 @@ class ClientsController extends Controller
                 DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->id]);
                 break;
             }
+        }
         }
 
         return redirect()->route('clients.index')->with('success','Client Created successfully');
