@@ -10,6 +10,7 @@ use App\Models\Complaint;
 use App\Models\AdminRequest;
 use App\Models\Package;
 use App\Models\User;
+use App\Models\Note;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use Auth;
@@ -104,6 +105,14 @@ class ClientsController extends Controller
                 ->groupBy('client_id')
                 ->first();
                 $clients[$key]->lables = @$client_lables->lables;
+                $new_notes = Note::where('client_id', $client->id)->where('status', 0)->exists();
+                if($new_notes){
+                    $clients[$key]->is_new_notes = 1;
+                    $clients[$key]->notes_count = Note::where('client_id', $client->id)->where('status', 0)->count();
+                }else{
+                    $clients[$key]->is_new_notes = 0;
+                    $clients[$key]->notes_count = '';
+                }
             }
 
             Session::forget('back_complaints_url');
@@ -144,21 +153,21 @@ class ClientsController extends Controller
 
             foreach ($clients as $key => $client) {
 
-               $client_lables = DB::table('client_labels')
-               ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
-               ->where('client_id', $client->id)
-               ->groupBy('client_id')
-               ->first();
-               $clients[$key]->lables = @$client_lables->lables;
+             $client_lables = DB::table('client_labels')
+             ->select(DB::raw('group_concat(DISTINCT  label) as lables'))
+             ->where('client_id', $client->id)
+             ->groupBy('client_id')
+             ->first();
+             $clients[$key]->lables = @$client_lables->lables;
 
-               $nutritionist_id = DB::table('nutritionist_clients')
-               ->where('client_id', $client->id)
-               ->value('nutritionist_id');
+             $nutritionist_id = DB::table('nutritionist_clients')
+             ->where('client_id', $client->id)
+             ->value('nutritionist_id');
 
-               $clients[$key]->is_requested = '';
-               $clients[$key]->client_id = $client->id;
-               $is_exists = AdminRequest::where('client_id',$client->id)->exists();
-               if ($is_exists) {
+             $clients[$key]->is_requested = '';
+             $clients[$key]->client_id = $client->id;
+             $is_exists = AdminRequest::where('client_id',$client->id)->exists();
+             if ($is_exists) {
                 $request_data = AdminRequest::where('client_id',$client->id)->latest()->first();
                 $clients[$key]->is_requested = date('d-m-Y h:i:s A',strtotime($request_data->created_at));
             }
@@ -176,6 +185,14 @@ class ClientsController extends Controller
             }
             if (@$user_data->is_blocked && $client_data->nutri_blocked) {
                 $clients[$key]->is_nutri_blocked = 1;
+            }
+            $new_notes = Note::where('client_id', $client->id)->where('status', 0)->exists();
+            if($new_notes){
+                $clients[$key]->is_new_notes = 1;
+                $clients[$key]->notes_count = Note::where('client_id', $client->id)->where('status', 0)->count();
+            }else{
+                $clients[$key]->is_new_notes = 0;
+                $clients[$key]->notes_count = '';
             }
             $clients[$key]->nutri_name = @$user_data->name;
         }
@@ -216,10 +233,10 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-           'firstname' => 'required',
-           'email' => 'required|email|unique:clients,email',
-           'password' => 'required',
-       ]);
+         'firstname' => 'required',
+         'email' => 'required|email|unique:clients,email',
+         'password' => 'required',
+     ]);
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
@@ -271,20 +288,20 @@ class ClientsController extends Controller
 
         }else{
 
-        $nutritionists = DB::table('nutritionist_clients')
-        ->select('nutritionist_id', DB::raw('count(*) as client_total'))
-        ->groupBy('nutritionist_id')
-        ->inRandomOrder()
-        ->get();
-        $max_clients = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
-        $nutritionists = User::role('Nutritionist')->inRandomOrder()->get(['id', 'name']);
-        foreach($nutritionists as $nutritionist){
-            $nutritionist->count = DB::table('nutritionist_clients')->where('nutritionist_id', $nutritionist->id)->count();
-            if($nutritionist->count < $max_clients){
-                DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->id]);
-                break;
+            $nutritionists = DB::table('nutritionist_clients')
+            ->select('nutritionist_id', DB::raw('count(*) as client_total'))
+            ->groupBy('nutritionist_id')
+            ->inRandomOrder()
+            ->get();
+            $max_clients = DB::table('settings')->where('name','no_of_clients_assign_to_nutritionist')->value('value');
+            $nutritionists = User::role('Nutritionist')->inRandomOrder()->get(['id', 'name']);
+            foreach($nutritionists as $nutritionist){
+                $nutritionist->count = DB::table('nutritionist_clients')->where('nutritionist_id', $nutritionist->id)->count();
+                if($nutritionist->count < $max_clients){
+                    DB::table('nutritionist_clients')->insert(['client_id'=>$user->id,'table_status'=>'due','workout_status'=>'due','nutritionist_id'=>$nutritionist->id]);
+                    break;
+                }
             }
-        }
         }
 
         return redirect()->route('clients.index')->with('success','Client Created successfully');

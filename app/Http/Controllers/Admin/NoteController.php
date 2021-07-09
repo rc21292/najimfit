@@ -24,22 +24,41 @@ class NoteController extends Controller
         $this->middleware(['permission:notes']);
     }
     
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::User();
         $roles = $user->getRoleNames();
         $role_name =  $roles->implode('', ' ');
+        if(isset($request->id)){
 
-        if($role_name == 'Nutritionist')
-        {
-            $requests = Note::where('nutritionist_id',$user->id)->latest()->get();
+             if($role_name == 'Nutritionist')
+            {
+                $requests = Note::where('nutritionist_id',$user->id)->where('client_id',$request->id)->latest()->get();
 
-            Note::where('nutritionist_id',$user->id)->update(['status' => 1]);
+                Note::where('nutritionist_id',$user->id)->where('client_id',$request->id)->update(['status' => 1]);
 
-            return view('backend.admin.notes.nutritionist.index',compact('requests'))->with('no', 1);
+                return view('backend.admin.notes.nutritionist.index',compact('requests'))->with('no', 1);
+            }else{
+                $requests = Note::where('client_id',$request->id)->latest()->get();
+                Note::where('client_id',$request->id)->update(['status' => 1]);
+                return view('backend.admin.notes.index',compact('requests'))->with('no', 1);
+            }
+
         }else{
-            $requests = Note::latest()->get();
-            return view('backend.admin.notes.index',compact('requests'))->with('no', 1);
+
+
+
+            if($role_name == 'Nutritionist')
+            {
+                $requests = Note::where('nutritionist_id',$user->id)->latest()->get();
+
+                Note::where('nutritionist_id',$user->id)->update(['status' => 1]);
+
+                return view('backend.admin.notes.nutritionist.index',compact('requests'))->with('no', 1);
+            }else{
+                $requests = Note::latest()->get();
+                return view('backend.admin.notes.index',compact('requests'))->with('no', 1);
+            }
         }
     }
 
@@ -88,6 +107,8 @@ class NoteController extends Controller
     public function show($id)
     {
         $note = Note::find($id);
+        $note->status = 1;
+        $note->save();
         return view('backend.admin.notes.show',compact('note'));
     }
 
